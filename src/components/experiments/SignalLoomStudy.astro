@@ -1,0 +1,30 @@
+---
+import HeroLoom from '../site/HeroLoom.astro';
+---
+<div class="signal-loom-study">
+  <div class="study-intro">
+    <div><p class="eyebrow muted">01 / Aggregation</p><h3 class="augur-type-heading-1">Signal Loom</h3></div>
+    <p class="study-rationale muted augur-type-body">Each line carries a distinct mix of experiences, ideas, beliefs, and principles. Moving left, the lines share more information, bringing different perspectives toward a clearer understanding of what happened. Their gradual convergence represents consensus taking shape: separate views finding common ground through what becomes known. This is an abstract representation; the horizontal and vertical axes do not measure time or truth.</p>
+  </div>
+  <div class="study-stage"><HeroLoom /></div>
+  <p class="study-instructions muted augur-type-metadata">Move to bend. Drag to tilt. Click to gently redirect the strands. With the animation focused, press Escape to pause and clear your trace; move or use the arrow keys to resume.</p>
+  <p class="study-note muted augur-type-metadata">Interactive motion proposal. An illustrative metaphor for a decision taking shape; no live data is shown.</p>
+</div>
+<style>
+  .study-intro { display: flex; justify-content: space-between; align-items: start; gap: 40px; margin-bottom: 32px; }
+  .study-intro h3 { margin-top: 12px; }
+  .study-rationale { max-width: 54ch; flex-basis: 54%; }
+  .study-stage {
+    position: relative; height: clamp(460px, 42vw, 580px); border-block: 1px solid var(--border-quiet);
+    background: radial-gradient(ellipse 56% 72% at 80% 48%,
+      color-mix(in srgb, var(--foreground) 9%, var(--background)),
+      color-mix(in srgb, var(--foreground) 4%, var(--background)) 38%,
+      var(--background) 78%);
+  }
+  .study-stage :global(.hero-loom-fallback), .study-stage :global(.hero-loom-canvas) {
+    mask-image: linear-gradient(90deg, transparent 22%, #000 42%, #000 94%, transparent 100%);
+  }
+  .study-instructions, .study-note { margin-top: 24px; }
+  @media (forced-colors: active) { .study-stage { background: var(--background); } }
+  @media (max-width: 800px) { .study-intro { flex-wrap: wrap; } .study-rationale { flex-basis: 100%; } }
+</style>

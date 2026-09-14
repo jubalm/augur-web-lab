@@ -1,0 +1,45 @@
+---
+import Icon from './Icon.astro';
+interface Props { floating?: boolean; }
+const { floating = false } = Astro.props;
+---
+<button type="button" class:list={['theme-toggle', 'utility-control', { floating }]} aria-label="Toggle color theme" disabled>
+  <span class="moon"><Icon name="moon" /></span><span class="sun"><Icon name="sun" /></span>
+  <script is:inline>
+    (() => {
+      // Initialise this control while its markup is parsed, before deferred modules.
+      const control = document.currentScript.closest('button');
+      const preference = matchMedia('(prefers-color-scheme: dark)');
+      const isDark = () => document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && preference.matches);
+      const sync = () => {
+        const label = `Switch to ${isDark() ? 'light' : 'dark'} theme`;
+        control.setAttribute('aria-label', label);
+        control.title = label;
+        control.disabled = false;
+      };
+      control.addEventListener('click', () => {
+        const next = isDark() ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem('augur-web-lab:theme', next); } catch { /* Optional storage. */ }
+        sync();
+      });
+      sync();
+      preference.addEventListener('change', sync);
+      window.addEventListener('pageshow', sync);
+    })();
+  </script>
+</button>
+<style>
+  .floating { position: fixed; z-index: 70; right: 12px; top: 40px; }
+  /* Keep its footprint even without JavaScript; no late header layout shift. */
+  .theme-toggle:disabled { visibility: hidden; }
+  .moon, .sun { display: flex; align-items: center; justify-content: center; }
+  /* The first icon follows the same root theme and system fallback as the logo. */
+  .sun { display: none; }
+  :global(html[data-theme="dark"]) .moon { display: none; }
+  :global(html[data-theme="dark"]) .sun { display: flex; }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme="light"])) .moon { display: none; }
+    :global(html:not([data-theme="light"])) .sun { display: flex; }
+  }
+</style>

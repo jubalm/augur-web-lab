@@ -1,0 +1,128 @@
+---
+import Website from '../layouts/Website.astro';
+import HomepageHeader from '../components/site/HomepageHeader.astro';
+import HeroLoom from '../components/site/HeroLoom.astro';
+import Icon from '../components/site/Icon.astro';
+import { buttonVariants } from '../components/ui/button-variants';
+import heroArrival from '../motion/hero-arrival.js?raw';
+---
+<Website title="Augur | The frontier of decentralized truth">
+  <HomepageHeader slot="header" />
+  <section class="home-hero" aria-labelledby="hero-title" data-home-hero>
+    <script is:inline set:html={heroArrival}></script>
+    <div class="hero-content">
+      <h1 class="augur-type-display" id="hero-title" data-hero-heading>
+        <span data-hero-line>The frontier of</span>
+        <span data-hero-line><span class="hero-emphasis" data-hero-emphasis>decentralized</span></span>
+        <span data-hero-line>truth<span class="hero-dot">.</span></span>
+      </h1>
+      <div class="hero-support augur-type-body" data-hero-support>
+        <p class="hero-introduction">Permissionless resolution for real-world outcomes.</p>
+        <p class="hero-context">Augur Lituus is decentralized infrastructure in development for prediction markets and other applications.</p>
+      </div>
+      <div class="hero-actions" data-hero-actions>
+        <a href="https://www.augur.net/blog/the-augur-lituus-whitepaper/" class:list={[buttonVariants({ size: 'lg' }), 'configured-button']}>Explore the protocol</a>
+        <a href="https://github.com/AugurProject/whitepaper/blob/master/Lituus/English/Augur_Lituus_Whitepaper.pdf" class:list={[buttonVariants({ variant: 'ghost', size: 'lg' }), 'configured-button']}>Read the whitepaper <Icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+    <div class="hero-artwork" data-hero-artwork><HeroLoom /></div>
+  </section>
+</Website>
+<style>
+  .home-hero {
+    position: relative; isolation: isolate; display: flex; align-items: center; width: 100%;
+    min-height: max(610px, calc(100svh - 96px)); overflow: clip;
+    background: radial-gradient(ellipse 56% 72% at 80% 48%,
+      color-mix(in srgb, var(--foreground) 9%, var(--background)),
+      color-mix(in srgb, var(--foreground) 4%, var(--background)) 38%,
+      var(--background) 78%);
+  }
+  .hero-content {
+    position: relative; z-index: 2; width: min(1472px, calc(100% - 112px)); margin-inline: auto;
+    padding-block: 64px 96px; pointer-events: none;
+  }
+  h1 { width: fit-content; font-size: clamp(60px, 5.6vw, 88px); line-height: 1.08; letter-spacing: -.045em; }
+  h1 > span { display: block; }
+  .hero-emphasis { position: relative; display: inline-block; }
+  .hero-emphasis::after {
+    content: ''; position: absolute; inset-inline: 0; bottom: .015em; height: .055em;
+    background: var(--primary); opacity: 0; transform: scaleX(0); transform-origin: left;
+    pointer-events: none;
+  }
+  .hero-dot { color: var(--primary); }
+  .hero-support { max-width: 480px; margin-top: 32px; font-size: 18px; line-height: 1.6; }
+  .hero-introduction { color: var(--foreground); }
+  .hero-context { max-width: 440px; margin-top: 10px; color: var(--muted-foreground); font-size: 17px; }
+  h1, .hero-support, .hero-actions { pointer-events: auto; }
+  .hero-actions { display: flex; align-items: center; gap: 12px; width: fit-content; margin-top: 36px; }
+  .hero-artwork { position: absolute; z-index: 1; inset: 0 -1% 0 27%; }
+  .hero-artwork :global(.hero-loom-fallback), .hero-artwork :global(.hero-loom-canvas) {
+    mask-image: linear-gradient(90deg, transparent 22%, #000 42%, #000 94%, transparent 100%);
+  }
+  @keyframes hero-line-arrival {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-support-arrival {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hero-actions-arrival {
+    0% { opacity: 0; pointer-events: none; }
+    1% { pointer-events: auto; }
+    100% { opacity: 1; pointer-events: auto; }
+  }
+  @keyframes hero-artwork-arrival {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes hero-emphasis-sweep {
+    0% { opacity: 1; transform: scaleX(0); }
+    38%, 70% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* Enabled before these nodes are parsed; no visible-then-hidden flash. */
+    [data-hero-arrival="entering"] [data-hero-line] {
+      animation: hero-line-arrival 700ms cubic-bezier(.22, .7, .22, 1) backwards;
+    }
+    [data-hero-arrival="entering"] [data-hero-line]:nth-child(2) { animation-delay: 100ms; }
+    [data-hero-arrival="entering"] [data-hero-line]:nth-child(3) { animation-delay: 200ms; }
+    [data-hero-arrival="entering"] [data-hero-support] {
+      animation: hero-support-arrival 500ms cubic-bezier(.22, .7, .22, 1) 400ms backwards;
+    }
+    [data-hero-arrival="entering"] [data-hero-actions] {
+      animation: hero-actions-arrival 300ms ease-out 650ms backwards;
+    }
+    [data-hero-arrival="entering"] [data-hero-artwork] {
+      animation: hero-artwork-arrival 1200ms ease-out 300ms backwards;
+    }
+    [data-hero-arrival="entering"] .hero-emphasis::after {
+      animation: hero-emphasis-sweep 1500ms cubic-bezier(.22, .7, .22, 1) 750ms backwards;
+    }
+  }
+  @media (forced-colors: active) { .home-hero { background: var(--background); } }
+  @media (max-width: 1100px) {
+    .home-hero { min-height: max(580px, calc(100svh - 96px)); }
+    .hero-content { width: calc(100% - 80px); padding-block: 56px 80px; }
+    h1 { font-size: 60px; }
+    .hero-support { max-width: 450px; font-size: 17px; }
+  }
+  @media (min-width: 1101px) and (max-height: 780px) {
+    .home-hero { min-height: calc(100svh - 96px); }
+    .hero-content { padding-block: 36px 64px; }
+    h1 { font-size: clamp(60px, 5.2vw, 76px); }
+    .hero-support { margin-top: 24px; font-size: 17px; line-height: 1.55; }
+    .hero-context { font-size: 16px; }
+    .hero-actions { margin-top: 28px; }
+  }
+  @media (max-width: 700px) {
+    .home-hero { min-height: 700px; align-items: start; }
+    .hero-content { width: calc(100% - 40px); padding-block: 48px 220px; }
+    h1 { font-size: clamp(38px, 8.4vw, 58px); }
+    .hero-support { max-width: 440px; font-size: 16px; }
+    .hero-context { font-size: 16px; }
+    .hero-actions { flex-wrap: wrap; }
+    .hero-artwork { inset: 42% -20% -8% 0; }
+  }
+</style>

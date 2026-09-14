@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import ControlsShowcase from '../../components/experiments/ControlsShowcase.astro';
+import AnimationShowcase from '../../components/experiments/AnimationShowcase.astro';
+import { buttonVariants } from '../../components/ui/button-variants';
+import registry from '../../../vendor/augur/registry/augur-theme.json';
+const raw = registry.css[':root'] as Record<string, string>;
+const colors = [ ['Augur Navy', 'primary'], ['Augur Green', 'accent'], ['Augur Paper', 'neutral'], ['Raised', 'surface-dark-3'], ['Augur Pewter', 'secondary-dark'] ];
+const roles = [ ['Canvas', '--background', '--foreground'], ['Panel', '--card', '--card-foreground'], ['Primary action', '--primary', '--primary-foreground'], ['Quiet region', '--muted', '--muted-foreground'] ];
+const typeRoles = [ ['Display · Sora 600 · 40/44', 'display', 'Make what matters clear.'], ['Heading 1 · Sora 600 · 28/34', 'heading-1', 'A shared way to ask questions'], ['Heading 2 · Sora 600 · 20/26', 'heading-2', 'Available outcomes'], ['Body · Schibsted Grotesk 400 · 16/24', 'body', 'A prediction market needs an outcome before it can settle.'], ['Control · Sora 600 · 14/20', 'control', 'Explore the process'], ['Metadata · Schibsted Grotesk 400 · 12/16', 'metadata', 'Proposed design · In development'] ];
+const sections = [['User flow', 'user-flow'], ['Identity', 'identity'], ['Color', 'colors'], ['Typography', 'typography'], ['Controls & feedback', 'core-ui'], ['Animation', 'motion']];
+---
+<Base title="Lab" description="Augur website user flows, identity, color, typography, components, and motion in one place.">
+  <div class="frame">
+    <header class="lab-intro">
+      <h1 class="augur-type-display">The lab</h1>
+      <p class="muted reading">User journeys and the details that shape the website.</p>
+    </header>
+    <div class="lab-layout">
+      <aside class="lab-index"><nav aria-label="Lab sections" data-section-nav>{sections.map(([label, id], index) => <a href={`#${id}`}><span class="augur-type-metadata muted">{String(index + 1).padStart(2, '0')}</span><span>{label}</span></a>)}</nav></aside>
+      <div class="lab-content">
+  <section class="section" id="user-flow" aria-labelledby="user-flow-title">
+    <div class="section-heading flow-heading"><h2 class="augur-type-editorial-section" id="user-flow-title">User flow</h2></div>
+    <p class="flow-description muted">Who arrives, what they need, and where they go next. Explore the website’s pages and the three product sections in one Products page.</p>
+    <a class:list={[buttonVariants({size: 'sm'}), 'configured-button', 'flow-explore']} href="/lab/user-flow" aria-label="Explore user flow">Explore</a>
+  </section>
+  <section class="section" id="identity">
+    <div class="section-heading"><h2 class="augur-type-editorial-section">Identity</h2></div>
+    <div class="two-columns">
+      <figure class="logo-specimen" data-theme="light"><img src="/brand/horizontal-color.svg" width="360" height="121" alt="Augur horizontal logo, Color variant" /><figcaption>Color on Paper</figcaption></figure>
+      <figure class="logo-specimen" data-theme="dark"><img src="/brand/horizontal-reversed.svg" width="360" height="121" alt="Augur horizontal logo, Reversed variant" /><figcaption>Reversed on Navy</figcaption></figure>
+    </div>
+    <p class="specimen-note muted">Horizontal lockup first. Preserve the original geometry and 1a clearspace. Minimum horizontal placement: 150 × 50 px.</p>
+  </section>
+  <section class="section" id="colors">
+    <div class="section-heading"><h2 class="augur-type-editorial-section">Color</h2></div>
+    <div class="palette">{colors.map(([name, token]) => <figure><div class="color-field" style={`background: var(--augur-color-${token})`}></div><figcaption>{name}<code>{raw[`--augur-color-${token}`]?.toUpperCase()}</code></figcaption></figure>)}</div>
+    <p class="specimen-note muted">Current website direction: green for action fills; neutral dark or light text throughout. The five core brand colors remain available. Deep is not used in this website trial.</p>
+    <h3 class="augur-type-heading-2 semantic-title">Colors in use</h3>
+    <div class="roles">{roles.map(([name, bg, fg]) => <div style={`background: var(${bg}); color: var(${fg});`}><span>{name}</span><code>{bg}</code></div>)}</div>
+    <p class="specimen-note muted">Augur Green buttons use dark labels in both themes. Headlines, body copy, links, and status text stay neutral.</p>
+  </section>
+  <section class="section" id="typography">
+    <div class="section-heading"><h2 class="augur-type-editorial-section">Typography</h2></div>
+    <div class="type-specimens">{typeRoles.map(([label, role, content]) => <div><span class="muted">{label}</span><p class={`augur-type-${role}`}>{content}</p></div>)}</div>
+    <div class="two-columns editorial-types"><div><p class="eyebrow muted">Editorial title · Sora 400</p><p class="augur-type-editorial-title">Space to think.</p></div><div><p class="eyebrow muted">Body · Schibsted Grotesk 400</p><p class="augur-type-body">A prediction market needs an outcome before it can settle. Its contracts can apply settlement rules, but they need an answer about what happened outside the blockchain.</p></div></div>
+  </section>
+  <section class="section" id="core-ui">
+    <div class="section-heading"><h2 class="augur-type-editorial-section">Controls, icons & feedback</h2></div>
+    <ControlsShowcase />
+  </section>
+  <section class="section" id="motion">
+    <div class="section-heading"><h2 class="augur-type-editorial-section">Animation</h2></div>
+    <AnimationShowcase />
+  </section>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .lab-intro { padding-block: 32px; display: grid; gap: 16px; }
+  .lab-intro > p { max-width: 63ch; }
+  .lab-layout { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 32px; border-top: 1px solid var(--border-quiet); }
+  .lab-content { min-width: 0; }
+  .lab-content > .section:first-child { border-top: 0; padding-top: 32px; }
+  .lab-index { position: sticky; top: 96px; align-self: start; padding-block: 32px; }
+  .lab-index nav { display: grid; gap: 8px; }
+  .lab-index a { display: grid; grid-template-columns: 16px 1fr; gap: 12px; align-items: center; min-height: 48px; padding: 8px; border-left: 2px solid transparent; text-decoration: none; font: 400 12px/18px var(--augur-font-primary); }
+  .lab-index a:hover { background: var(--muted); }
+  .lab-index a[aria-current="location"] { background: var(--muted); border-left-color: var(--foreground); font-weight: 600; }
+  .flow-heading { align-items: center; margin-bottom: 16px; }
+  .flow-description { max-width: 50ch; }
+  .flow-explore.configured-button { --web-height: 44px; width: fit-content; padding-inline: 16px; margin-top: 40px; }
+  @media (max-width: 1050px) { .lab-layout { grid-template-columns: 1fr; } .lab-index { position: static; padding-bottom: 0; } .lab-index nav { display: flex; flex-wrap: wrap; } }
+  .logo-specimen { background: var(--background); color: var(--foreground); padding: 48px 32px 24px; display: grid; gap: 40px; justify-items: center; border: 1px solid var(--border-quiet); }
+  .logo-specimen img { width: 240px; }
+  figcaption { font-size: 14px; }
+  .specimen-note { margin-top: 24px; font-size: 14px; max-width: 80ch; }
+  .palette { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .color-field { height: 144px; border: 1px solid var(--border-quiet); }
+  .palette figcaption { padding-top: 16px; }
+  code { font-family: var(--augur-font-secondary); font-size: 12px; display: block; margin-top: 4px; }
+  .semantic-title { margin-block: 40px 24px; }
+  .roles { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .roles > div { display: grid; gap: 24px; padding: 24px; border: 1px solid var(--border-quiet); }
+  .type-specimens > div { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding-block: 24px; border-top: 1px solid var(--border-quiet); align-items: baseline; }
+  .type-specimens > div > span { font-size: 12px; }
+  .editorial-types { margin-top: 32px; padding: 32px; background: var(--muted); }
+  .editorial-types > div { display: grid; gap: 24px; align-content: start; }
+  @media (max-width: 700px) { .palette { grid-template-columns: repeat(2, 1fr); } .roles { grid-template-columns: 1fr 1fr; } .roles > div { padding: 16px; } .type-specimens > div { grid-template-columns: 1fr; gap: 16px; } .editorial-types { padding: 24px; } }
+</style>

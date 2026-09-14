@@ -1,0 +1,173 @@
+---
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { buttonVariants } from '../ui/button-variants';
+import Icon from '../site/Icon.astro';
+---
+<div class="control-showcase" data-control-showcase>
+  <p class="specimen-direction augur-type-ui muted">Square · 48 px · Semibold labels · Bold outlined icons · Filled fields</p>
+  <div class="specimen-panel">
+    <div class="example-heading"><h3 class="augur-type-heading-2">Actions</h3><p class="muted">Primary, outline, ghost, loading, and disabled states.</p></div>
+    <div class="preview-actions" aria-label="Button examples">
+      <Button className="configured-button">Primary</Button>
+      <Button className="configured-button" variant="outline">Outline</Button>
+      <Button className="configured-button" variant="ghost">Ghost</Button>
+      <button type="button" class:list={[buttonVariants({variant:'outline'}),'configured-button','button-loading-example']} data-action-loading hidden><span class="button-spinner" aria-hidden="true"><Icon name="loader-circle" /></span><span data-action-loading-label>Try loading</span></button>
+      <Button className="configured-button" disabled>Unavailable</Button>
+    </div>
+    <p class="example-note muted">Local examples only. Try loading runs a two-second preview.</p>
+  </div>
+
+  <div class="specimen-panel">
+    <div class="example-heading"><h3 class="augur-type-heading-2">Fields</h3><p class="muted">Visible labels, soft filled surfaces, and a quiet focus treatment.</p></div>
+    <div class="preview-fields">
+      <div><label class="augur-type-ui" for="sample-search">Search</label><div class="search-field"><Input id="sample-search" aria-describedby="search-note" className="configured-field" type="search" placeholder="Search the research…" /><Icon name="search" /></div><p class="example-note muted" id="search-note">Field example. Try typing or keyboard focus.</p></div>
+      <div><label class="augur-type-ui" for="sample-readonly">Read-only</label><Input id="sample-readonly" className="configured-field" readOnly value="Augur Lituus" aria-describedby="readonly-note" /><p class="example-note muted" id="readonly-note">The value can be selected and copied.</p></div>
+    </div>
+    <form class="email-example negative-sample" data-email-example novalidate>
+      <div><label class="augur-type-ui" for="sample-invalid">Email address</label><Input id="sample-invalid" className="configured-field" type="email" defaultValue="name@" required invalid aria-describedby="sample-error" /><p class="field-feedback augur-type-metadata" id="sample-error"><Icon name="circle-alert" /><span data-email-message>Enter a complete email address, such as name@example.com.</span></p></div>
+      <span class="visually-hidden" role="status" data-email-status></span>
+    </form>
+  </div>
+
+  <div class="specimen-panel feedback-panel" id="loading">
+    <div class="example-heading"><h3 class="augur-type-heading-2">Loading & feedback</h3><p class="muted">Show what is happening, then make the result clear.</p></div>
+    <div class="feedback-grid">
+      <div class="loading-example">
+        <div class="feedback-heading"><p class="eyebrow muted">Loading → ready</p><div class="load-state" role="status"><span class="load-ring" aria-hidden="true"></span><span data-load-message>Ready to preview</span></div></div>
+        <div class="loading-demo">
+          <div class="loading-preview" data-loading-preview aria-busy="false">
+            <div class="loaded-content"><p class="eyebrow muted">Example content</p><h4 class="augur-type-heading-2">From a question<br />to an outcome.</h4><p class="muted augur-type-ui">An Augur Lituus reading card.</p></div>
+            <div class="skeleton" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="loading-action"><p class="augur-type-ui">Preview the transition from loading to ready.</p><p class="example-note muted">A two-second preview with a soft light sweep while content loads.</p><button type="button" hidden data-load-preview class:list={[buttonVariants({variant:'outline'}),'configured-button']}>Preview loading</button></div>
+        </div>
+      </div>
+      <div class="result-examples">
+        <div class="success-example"><p class="eyebrow muted">Success</p><div class="result-heading"><Icon name="check" /><p class="augur-type-ui">Changes saved</p></div><p class="muted augur-type-ui">Your update is ready to view.</p></div>
+        <div class="negative-sample removal-example"><p class="eyebrow muted">Remove → undo</p><div class="result-heading"><span class="crimson-chip" aria-hidden="true"></span><p class="augur-type-ui" role="status" data-remove-message>Example item is present.</p></div><p class="muted augur-type-ui">Remove the example, then undo it.</p><button type="button" hidden data-remove-example class:list={[buttonVariants({variant:'destructive'}),'configured-button']}><span data-remove-label>Remove item</span><Icon name="x" /></button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-control-showcase]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('[data-email-example]')!;
+    const email = form.querySelector<HTMLInputElement>('input')!;
+    const emailMessage = form.querySelector<HTMLElement>('[data-email-message]')!;
+    const emailStatus = form.querySelector<HTMLElement>('[data-email-status]')!;
+    const validate = () => {
+      const valid = email.validity.valid;
+      email.setAttribute('aria-invalid', String(!valid));
+      form.dataset.valid = String(valid);
+      emailMessage.textContent = valid ? '' : 'Enter a complete email address, such as name@example.com.';
+      return valid;
+    };
+    email.addEventListener('input', () => { validate(); emailStatus.textContent = ''; });
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!validate()) email.focus();
+      emailStatus.textContent = [emailMessage.textContent, 'Nothing was sent.'].filter(Boolean).join(' ');
+    });
+
+    const loading = root.querySelector<HTMLElement>('[data-loading-preview]')!;
+    const trigger = root.querySelector<HTMLButtonElement>('[data-load-preview]')!;
+    const message = root.querySelector<HTMLElement>('[data-load-message]')!;
+    const loadingExample = loading.closest<HTMLElement>('.loading-example')!;
+    trigger.hidden = false;
+    const actionTrigger = root.querySelector<HTMLButtonElement>('[data-action-loading]')!;
+    const actionLabel = root.querySelector<HTMLElement>('[data-action-loading-label]')!;
+    actionTrigger.hidden = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const finish = () => {
+      delete loadingExample.dataset.busy;
+      loading.setAttribute('aria-busy', 'false');
+      trigger.removeAttribute('aria-disabled');
+      actionTrigger.removeAttribute('aria-disabled');
+      actionTrigger.removeAttribute('aria-busy');
+      actionLabel.textContent = 'Try loading';
+      message.textContent = 'Preview complete. Content is ready.';
+    };
+    const startLoading = () => {
+      if (loadingExample.dataset.busy) return;
+      loadingExample.dataset.busy = 'true';
+      loading.setAttribute('aria-busy', 'true');
+      trigger.setAttribute('aria-disabled', 'true');
+      actionTrigger.setAttribute('aria-disabled', 'true');
+      actionTrigger.setAttribute('aria-busy', 'true');
+      actionLabel.textContent = 'Loading…';
+      message.textContent = 'Loading preview…';
+      timer = setTimeout(finish, 2000);
+    };
+    trigger.addEventListener('click', startLoading);
+    actionTrigger.addEventListener('click', startLoading);
+    window.addEventListener('pagehide', () => { clearTimeout(timer); finish(); });
+
+    const removeButton = root.querySelector<HTMLButtonElement>('[data-remove-example]')!;
+    removeButton.hidden = false;
+    let removed = false;
+    removeButton.addEventListener('click', () => {
+      removed = !removed;
+      root.querySelector<HTMLElement>('[data-remove-message]')!.textContent = removed ? 'Example item removed. You can undo this.' : 'Example item restored.';
+      root.querySelector<HTMLElement>('[data-remove-label]')!.textContent = removed ? 'Undo removal' : 'Remove item';
+      removeButton.querySelector<HTMLElement>('.web-icon')!.hidden = removed;
+      removeButton.classList.toggle('aug-button--destructive', !removed);
+      removeButton.classList.toggle('aug-button--outline', removed);
+    });
+  }
+</script>
+<style>
+  .control-showcase { display: grid; gap: 24px; }
+  .specimen-direction { line-height: 1.8; }
+  .specimen-panel { padding: 32px; background: var(--card); color: var(--card-foreground); border: 1px solid var(--border-quiet); }
+  .example-heading { display: grid; gap: 8px; margin-bottom: 24px; }
+  .example-heading > p { font-size: 14px; }
+  .preview-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+  .example-note { font-size: 12px; line-height: 1.6; margin-top: 12px; }
+  .button-loading-example { min-width: 176px; }
+  .button-spinner { display: none; }
+  [aria-busy="true"] .button-spinner { display: inline-flex; }
+  @media (prefers-reduced-motion: no-preference) { [aria-busy="true"] .button-spinner { animation: spin 650ms linear 4; } }
+  .preview-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  label { display: block; margin-bottom: 12px; }
+  .search-field { position: relative; }
+  .search-field > :global(.web-icon) { position: absolute; top: 14px; right: 14px; pointer-events: none; }
+  .search-field :global(input) { padding-right: 44px; }
+  .email-example { margin-top: 32px; }
+  .field-feedback { display: flex; gap: 8px; align-items: center; min-height: 24px; margin-top: 8px; }
+  .field-feedback :global(.web-icon) { width: 16px; height: 16px; }
+  [data-valid="true"] .field-feedback :global(.web-icon) { display: none; }
+  .feedback-grid { display: grid; gap: 24px; }
+  .loading-example { display: grid; gap: 24px; padding: 24px; border: 1px solid var(--border-quiet); }
+  .feedback-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 24px; }
+  .loading-demo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 32px; }
+  .loading-action { display: grid; justify-items: start; gap: 16px; }
+  .loading-action > .example-note { margin: 0; max-width: 34ch; }
+  .loading-action > button { margin-top: 8px; }
+  .load-state { display: flex; align-items: center; gap: 12px; min-height: 24px; font-size: 12px; }
+  .loading-preview { width: 100%; display: grid; background: var(--muted); padding: 24px; min-height: 228px; }
+  .loading-preview > div { grid-area: 1 / 1; align-content: start; }
+  .loaded-content { display: grid; gap: 20px; }
+  .loaded-content h4 { margin: 0; }
+  .skeleton, .load-ring { display: none; }
+  [data-busy] .loaded-content { visibility: hidden; }
+  [data-busy] .skeleton { display: grid; gap: 20px; }
+  .skeleton span { position: relative; overflow: hidden; height: 16px; border-radius: 3px; background: color-mix(in srgb, var(--foreground) 10%, var(--muted)); width: 70%; }
+  .skeleton span::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 10%, color-mix(in srgb, var(--background) 80%, transparent) 50%, transparent 90%); transform: translateX(-100%); }
+  .skeleton span:nth-child(2) { height: 26px; width: 90%; }
+  .skeleton span:nth-child(3) { height: 26px; width: 60%; }
+  .skeleton span:nth-child(4) { width: 80%; }
+  [data-busy] .load-ring { display: block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 650ms linear 4; }
+  .result-examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 24px; }
+  .success-example, .removal-example { padding: 24px; border: 1px solid var(--border-quiet); display: grid; grid-template-rows: auto auto auto 1fr; gap: 16px; justify-items: start; }
+  .result-heading { display: flex; gap: 12px; align-items: center; }
+  .result-examples button { margin-top: 8px; align-self: end; }
+  .crimson-chip { width: 20px; height: 20px; background: var(--web-error); }
+  @keyframes skeleton-sweep { to { transform: translateX(100%); } }
+  @media (prefers-reduced-motion: no-preference) { [data-busy] .skeleton span::after { animation: skeleton-sweep 1000ms ease-in-out 2; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .load-ring { animation: none !important; } }
+  @media (max-width: 1050px) { .preview-fields { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .specimen-panel { padding: 24px; } }
+</style>

@@ -1,0 +1,18 @@
+{
+  "public/brand/glyph-color.svg": {
+    "source": "media/Augur Logo/Glyph/Color.svg",
+    "sha256": "31858f078d021309e01d7a60a0b5ceb348e8f6fa4e958e99d40c13aa422d63f5"
+  },
+  "public/brand/glyph-reversed.svg": {
+    "source": "media/Augur Logo/Glyph/Reversed.svg",
+    "sha256": "1fbaa11af83224924962ac4232cc835730f3911ef254ad910496220a5c00dbc7"
+  },
+  "public/brand/horizontal-color.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Color.svg",
+    "sha256": "71e4cf91243a7d61ebd71f27765efcb81cfdcfe7ecb6548cbfddb388df02bea8"
+  },
+  "public/brand/horizontal-reversed.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Reversed.svg",
+    "sha256": "2083d9a60c1b3989bafaa9a9a3309d8d9c717e04902b2a704cc110d89ff807d8"
+  }
+}

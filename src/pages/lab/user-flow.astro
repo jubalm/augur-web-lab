@@ -1,0 +1,185 @@
+---
+import Base from '../../layouts/Base.astro';
+import FlowBrief from '../../components/experiments/FlowBrief.astro';
+import FlowDisclosureIcon from '../../components/experiments/FlowDisclosureIcon.astro';
+import { blueprintPremise, websiteScope, journeys, websiteReading, futureChange } from '../../lib/user-flow';
+import { homeSections, flowPages } from '../../lib/user-flow-pages';
+const chapters = [ ['01', 'Journeys', 'journeys'], ['02', 'Homepage sequence', 'homepage'], ['03', 'Pages & destinations', 'pages'], ['04', 'Future changes', 'iterations'] ];
+const siteMap = [
+  { title: 'Arrive', question: 'Where am I?', links: [['Homepage', 'page-home'], ['Blog / shared article', 'page-blog']] },
+  { title: 'Understand', question: 'What does this mean?', links: [['About', 'page-about'], ['The problem', 'home-why'], ['Products', 'page-products'], ['Learn', 'page-learn'], ['FAQ', 'page-faq']] },
+  { title: 'Evaluate', question: 'Is it relevant and credible?', links: [['Product explanations', 'page-products'], ['Research + sources', 'home-research'], ['R&D status', 'home-roadmap'], ['REP', 'page-rep']] },
+  { title: 'Continue', question: 'What is my next step?', links: [['Blog', 'page-blog'], ['Community', 'page-community'], ['Contact', 'page-contact']] },
+];
+---
+<Base saveBrief title="User flow" description="Augur website journeys, page purposes and content.">
+  <div class="frame flow-workshop">
+    <header class="flow-intro">
+      <h1 class="augur-type-display">User flow</h1>
+      <div class="intro-bottom"><p class="muted">Follow a visitor’s question through the website. Open a brief for the purpose and content at each stop.</p></div>
+    </header>
+
+    <div class="flow-layout">
+      <aside class="flow-index">
+        <nav aria-label="User flow chapters" data-section-nav>{chapters.map(([number, label, id]) => <a href={`#${id}`}><span class="augur-type-metadata muted">{number}</span><span>{label}</span></a>)}</nav>
+      </aside>
+      <div class="flow-content">
+        <section class="flow-chapter first-chapter" id="journeys" aria-labelledby="journeys-title">
+          <div class="chapter-heading"><p class="eyebrow muted">01 · The journey map</p><h2 class="augur-type-editorial-section" id="journeys-title">Different questions. Different paths.</h2><p class="muted">Visitors can arrive anywhere, skip ahead, or return. These paths describe possible needs; the links open planning briefs.</p></div>
+          <figure class="site-map" aria-label="Website journey map">
+            <div class="site-map-stages">{siteMap.map((stage, index) => <div class="map-stage" id={`map-${stage.title.toLowerCase()}`} tabindex="-1"><span class="eyebrow muted">0{index + 1}</span><h3 class="augur-type-heading-2">{stage.title}</h3><p class="augur-type-metadata muted">{stage.question}</p><ul>{stage.links.map(([title,id]) => <li><a href={`#${id}`}>{title}</a></li>)}</ul></div>)}</div>
+          </figure>
+          <div class="journey-picker" role="group" aria-label="Choose a visitor journey" hidden data-journey-picker>{journeys.map((journey, index) => <button class="utility-control" type="button" data-journey-choice={journey.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls={`journey-${journey.id}`}>{journey.label}</button>)} </div>
+          <p class="journey-status visually-hidden" role="status" aria-live="polite" data-journey-status></p>
+          <div class="journey-list">{journeys.map(journey => <article class="journey" id={`journey-${journey.id}`} data-journey={journey.id} aria-labelledby={`journey-title-${journey.id}`}>
+            <div class="journey-heading"><h3 class="augur-type-heading-2" id={`journey-title-${journey.id}`}>{journey.title}</h3><p class="muted">{journey.entry}</p></div>
+            <ol class="journey-path" aria-label={`${journey.label} possible path`}>{journey.steps.map((step, index) => <li><a href={`#${step.target}`}><span class="step-meta"><span class="step-number augur-type-control">{String(index + 1).padStart(2, '0')}</span><span class="augur-type-metadata muted">{step.label}</span></span><span class="step-title augur-type-control">{step.title}</span><span class="step-detail augur-type-metadata muted">{step.detail}</span></a>{index < journey.steps.length - 1 && <svg class="step-connector" width="32" height="20" viewBox="0 0 32 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M0 10h30m-6-6 6 6-6 6" /></svg>}</li>)}</ol>
+            <details class="supporting-brief"><summary>Alternatives & how to test <FlowDisclosureIcon /></summary><div class="supporting-body">
+            <div class="journey-branches" aria-label="Alternate routes">{journey.branches.map(branch => <a href={`#${branch.target}`}><span class="augur-type-metadata muted">{branch.condition}</span><span class="augur-type-ui">{branch.label}</span></a>)}</div>
+            <p><strong>Useful outcome.</strong> {journey.success}</p><p><strong>Proposed test.</strong> {journey.test}</p></div></details>
+          </article>)}</div>
+        </section>
+
+        <section class="flow-chapter" id="homepage" aria-labelledby="homepage-title">
+          <div class="chapter-heading"><p class="eyebrow muted">02 · The homepage sequence</p><h2 class="augur-type-editorial-section" id="homepage-title">From introduction to next step.</h2><p class="muted">The header and hero are built. These section ideas connect the introduction to Products, Learn, FAQ, REP and the other planned pages.</p></div>
+          <div class="brief-list">{homeSections.map((brief, index) => <FlowBrief brief={brief} index={index} />)}</div>
+        </section>
+
+        <section class="flow-chapter" id="pages" aria-labelledby="pages-title">
+          <div class="chapter-heading"><p class="eyebrow muted">03 · Pages & destinations</p><h2 class="augur-type-editorial-section" id="pages-title">Give each topic the right home.</h2><p class="muted">{websiteScope}</p></div>
+          <p class="principle-note">{blueprintPremise}</p>
+          <div class="brief-list">{flowPages.map((brief, index) => <FlowBrief brief={brief} index={index} />)}</div>
+          <details class="supporting-brief reading-note" id="website-reading" tabindex="-1"><summary>{websiteReading.title}<FlowDisclosureIcon /></summary><div class="supporting-body">{websiteReading.points.map(point => <p>{point}</p>)}</div></details>
+        </section>
+
+        <section class="flow-chapter" id="iterations" aria-labelledby="iterations-title" tabindex="-1">
+          <div class="chapter-heading"><p class="eyebrow muted">04 · Review</p><h2 class="augur-type-editorial-section" id="iterations-title">{futureChange.title}</h2></div>
+          <div class="review-loop"><p class="augur-type-heading-2">{futureChange.sequence}</p><p class="muted">{futureChange.method}</p><p class="augur-type-ui">{futureChange.measure}</p></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  document.querySelector('.flow-workshop')?.setAttribute('data-motion', 'ready');
+  const picker = document.querySelector<HTMLElement>('[data-journey-picker]');
+  const choices = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-journey-choice]'));
+  const journeyPanels = Array.from(document.querySelectorAll<HTMLElement>('[data-journey]'));
+  const status = document.querySelector<HTMLElement>('[data-journey-status]');
+  function showJourney(id: string, announce = true) {
+    journeyPanels.forEach(panel => { panel.hidden = id !== 'all' && panel.dataset.journey !== id; });
+    choices.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.journeyChoice === id)));
+    if (announce && status) status.textContent = id === 'all' ? 'All visitor journeys are shown.' : `${choices.find(button => button.dataset.journeyChoice === id)?.textContent} journey shown.`;
+  }
+  if (picker) { picker.hidden = false; showJourney('decision', false); }
+  choices.forEach(button => button.addEventListener('click', () => showJourney(button.dataset.journeyChoice!)));
+  const allBriefs = Array.from(document.querySelectorAll<HTMLDetailsElement>('.flow-content details'));
+  let printState: { briefs: boolean[]; journey: string } | undefined;
+  function preparePrint() {
+    if (printState) return;
+    printState = { briefs: allBriefs.map(brief => brief.open), journey: choices.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.journeyChoice || 'all' };
+    allBriefs.forEach(brief => brief.open = true); showJourney('all', false);
+  }
+  function restorePrint() {
+    if (!printState) return;
+    allBriefs.forEach((brief, index) => brief.open = printState!.briefs[index]);
+    showJourney(printState.journey, false); printState = undefined;
+  }
+  window.addEventListener('beforeprint', preparePrint);
+  window.addEventListener('afterprint', restorePrint);
+  function exposeTarget(hash: string, focus = false) {
+    let target: HTMLElement | null;
+    try { target = document.getElementById(decodeURIComponent(hash.replace(/^#/, ''))); } catch { return; }
+    if (!target) return;
+    if (target instanceof HTMLDetailsElement) target.open = true;
+    const journey = target.closest<HTMLElement>('[data-journey]');
+    if (journey) showJourney(journey.dataset.journey!, false);
+    if (focus) {
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+  }
+  document.querySelectorAll<HTMLAnchorElement>('.flow-workshop a[href^="#"]').forEach(link => link.addEventListener('click', () => exposeTarget(link.hash, true)));
+  // Focus is moved before native link navigation. Re-focusing on hashchange
+  // can interrupt the browser's smooth scroll to the newly opened brief.
+  window.addEventListener('hashchange', () => exposeTarget(location.hash));
+  exposeTarget(location.hash);
+</script>
+
+<style>
+  :global(html:has(.flow-workshop)) { scroll-behavior: auto; }
+  .flow-intro { display: grid; gap: 20px; padding-block: 32px; }
+  .intro-bottom { display: flex; justify-content: space-between; gap: 32px; align-items: center; }
+  .intro-bottom > p { max-width: 68ch; }
+  code { font: inherit; overflow-wrap: anywhere; }
+  .flow-layout { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 32px; border-top: 1px solid var(--border-quiet); }
+  .flow-index { position: sticky; top: 96px; align-self: start; padding-block: 32px; display: grid; gap: 32px; }
+  .flow-index nav { display: grid; gap: 8px; }
+  .flow-index nav a { display: grid; grid-template-columns: 16px 1fr; gap: 12px; align-items: center; min-height: 48px; padding: 8px; border-left: 2px solid transparent; text-decoration: none; font: 400 12px/18px var(--augur-font-primary); }
+  .flow-index nav a:hover { background: var(--muted); }
+  .flow-index nav a[aria-current="location"] { background: var(--muted); border-left-color: var(--foreground); font-weight: 600; }
+  .flow-content { min-width: 0; }
+  .flow-chapter { padding-block: 56px; border-top: 1px solid var(--border-quiet); scroll-margin-top: 24px; }
+  .first-chapter { border-top: 0; padding-top: 32px; }
+  .chapter-heading { display: grid; gap: 16px; margin-bottom: 32px; }
+  .chapter-heading > p:last-child { max-width: 74ch; }
+  .site-map { margin-bottom: 32px; }
+  .site-map-stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .map-stage { padding: 24px 16px; background: var(--muted); position: relative; transition: background-color 160ms, box-shadow 160ms; scroll-margin-top: 24px; }
+  /* Mouse focus and URL fragments are not persistent selection states. */
+  .map-stage:hover, .map-stage:focus-visible, .map-stage:has(:focus-visible) { background: var(--background); box-shadow: inset 0 3px var(--primary); }
+  .map-stage:not(:last-child)::after { content: '→'; position: absolute; top: 22px; right: -22px; z-index: 1; background: var(--background); width: 20px; text-align: center; }
+  .map-stage h3 { margin-block: 16px 8px; }
+  .map-stage ul { padding: 0; margin: 24px 0 0; list-style: none; display: grid; gap: 4px; }
+  .map-stage a { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; text-decoration: none; min-height: 32px; align-items: center; }
+  .map-stage a:hover, .map-stage a:focus-visible { background: var(--muted); color: var(--foreground); }
+  .journey-picker { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 8px 24px; }
+  .journey-picker button { min-height: 48px; height: auto; padding: 10px 12px; font: 400 12px/18px var(--augur-font-primary); }
+  .journey-picker button[aria-pressed="true"] { font-weight: 600; }
+  .journey { padding: 24px; border: 1px solid var(--border); }
+  .journey + .journey { margin-top: 24px; }
+  .journey-heading { display: grid; gap: 16px; }
+  .journey-heading > p:last-child { font-size: 14px; max-width: 74ch; }
+  .journey-path { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); padding: 0; margin: 28px 0; gap: 32px; }
+  .journey-path li { min-width: 0; position: relative; }
+  .journey-path a { display: grid; grid-template-rows: minmax(40px, auto) minmax(44px, auto) 1fr; gap: 12px; height: 100%; padding: 20px; background: var(--muted); border: 1px solid transparent; border-radius: 0; text-decoration: none; }
+  .journey-path a:hover, .journey-path a:focus-visible { border-color: var(--border-quiet); background: color-mix(in srgb, var(--foreground) 5%, var(--muted)); }
+  .step-meta { display: grid; grid-template-columns: 24px minmax(0, 1fr); align-items: start; gap: 12px; }
+  .step-number { color: var(--foreground); font-variant-numeric: tabular-nums; }
+  .step-connector { position: absolute; width: 32px; height: 20px; top: 50%; left: 100%; transform: translateY(-50%); color: var(--muted-foreground); pointer-events: none; }
+  .step-title { align-self: start; }
+  .step-detail { line-height: 1.6; }
+  .journey-branches { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; border-block: 1px solid var(--border-quiet); padding-block: 20px; }
+  .journey-branches a { display: grid; gap: 8px; text-decoration: none; }
+  .journey-branches a { align-content: start; }
+  .journey-branches a:hover { background: var(--muted); }
+  .supporting-brief { border-top: 1px solid var(--border-quiet); }
+  .supporting-brief summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; list-style: none; padding-block: 20px; cursor: pointer; font-size: 14px; }
+  .supporting-brief summary::-webkit-details-marker { display: none; }
+  .supporting-brief summary:hover { background: var(--muted); }
+  .supporting-body { padding-bottom: 24px; display: grid; gap: 24px; font-size: 14px; line-height: 1.7; }
+  strong { font-weight: 600; color: var(--foreground); }
+  .principle-note { background: var(--muted); padding: 24px; margin-bottom: 32px; max-width: 74ch; }
+  .reading-note { margin-top: 32px; }
+  .review-loop { padding: 32px; background: var(--muted); display: grid; gap: 16px; margin-bottom: 32px; }
+  @media (max-width: 1050px) { .flow-layout { grid-template-columns: 1fr; } .flow-index { position: static; display: block; padding-bottom: 0; } .flow-index nav { display: flex; flex-wrap: wrap; gap: 8px 24px; } .flow-index > p { display: none; } .intro-bottom { align-items: start; } }
+  @media (max-width: 750px) { .intro-bottom { flex-direction: column; align-items: start; } .site-map-stages, .journey-path { grid-template-columns: 1fr 1fr; } .map-stage::after, .step-connector { display: none; } .journey { padding: 16px; } }
+  @keyframes flow-arrive {
+    from { opacity: .35; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html:has(.flow-workshop[data-motion])) { scroll-behavior: smooth; }
+    .flow-workshop[data-motion] .flow-chapter:target > .chapter-heading { animation: flow-arrive 320ms ease-out; }
+    .flow-workshop[data-motion] .supporting-brief[open] > .supporting-body { animation: flow-arrive 220ms ease-out; }
+    .flow-workshop[data-motion] .journey-picker button { transition: background-color 160ms, border-color 160ms; }
+    .flow-workshop[data-motion] .journey-path a { transition: background-color 160ms, border-color 160ms; }
+  }
+  @media print {
+    .flow-workshop[data-motion] .flow-chapter:target > .chapter-heading,
+    .flow-workshop[data-motion] .supporting-brief[open] > .supporting-body { animation: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .map-stage { transition: none; } }
+  @media print { :global(.lab-header), :global(.lab-footer), :global(.preview-dialog), :global(.shortcut-trigger), :global(.skip-link), .flow-index, .journey-picker { display: none !important; } .flow-workshop { width: 100%; } .flow-layout { display: block; } .flow-chapter { padding-block: 24px; } .flow-intro { padding-top: 0; gap: 16px; } .flow-workshop { color: #111; background: #fff; --foreground: #111; --muted-foreground: #444; --background: #fff; --muted: #f4f4f4; --border: #aaa; --border-quiet: #ccc; --primary: #eee; --primary-foreground: #111; } .journey-list > .journey[hidden] { display: block !important; } .chapter-heading, .journey-heading, h3 { break-after: avoid; } .journey-path { break-inside: avoid; } }
+</style>

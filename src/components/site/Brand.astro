@@ -1,0 +1,26 @@
+---
+import { readFileSync } from 'node:fs';
+interface Props { glyph?: boolean; }
+const { glyph = false } = Astro.props;
+const name = glyph ? 'glyph' : 'horizontal';
+// Embed the unchanged source assets at build time so the first paint needs no image fetch.
+const color = readFileSync(`public/brand/${name}-color.svg`, 'utf8');
+const reversed = readFileSync(`public/brand/${name}-reversed.svg`, 'utf8');
+---
+<span class:list={['brand', { glyph }]} role="img" aria-label="Augur">
+  <span class="light-mark" aria-hidden="true" set:html={color} />
+  <span class="dark-mark" aria-hidden="true" set:html={reversed} />
+</span>
+<style>
+  .brand { display: block; width: 150px; flex: none; }
+  .glyph { width: 108px; }
+  .light-mark { display: block; }
+  .brand :global(svg) { display: block; width: 100%; height: auto; }
+  .dark-mark { display: none; }
+  :global(html[data-theme="dark"]) .light-mark { display: none; }
+  :global(html[data-theme="dark"]) .dark-mark { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme="light"])) .light-mark { display: none; }
+    :global(html:not([data-theme="light"])) .dark-mark { display: block; }
+  }
+</style>

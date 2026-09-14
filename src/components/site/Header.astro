@@ -1,0 +1,23 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+interface Props { saveBrief?: boolean; }
+const { saveBrief = false } = Astro.props;
+const isLab = Astro.url.pathname.replace(/\/$/, '') === '/lab';
+---
+<header class="lab-header">
+  <a class="lab-brand" href={isLab ? '#main' : '/lab'} aria-label="Augur lab" title="Augur lab"><Brand glyph /></a>
+  <div class="header-actions">
+    {saveBrief && <><a class="utility-control back-link" href="/lab#user-flow" aria-label="Back to the lab" title="Back to the lab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7" /></svg></a><a class="utility-control save-brief" href="/lab/user-flow.md" download="augur-website-user-flow.md" aria-label="Save user flow brief" title="Save brief as Markdown"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg></a></>}
+    <a class="utility-control open-homepage" href="/" aria-label="Open homepage" title="Open homepage"><Icon name="house" /></a><ThemeToggle />
+  </div>
+</header>
+<style>
+  header { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 32px; height: 72px; padding-inline: 32px; border-bottom: 1px solid var(--border-quiet); background: var(--background); font: 400 14px/20px var(--augur-font-primary); }
+  a { text-decoration: none; } header > div { display: flex; align-items: center; gap: 8px; }
+  .lab-brand { display: grid; place-items: center; }
+  .lab-brand :global(.brand.glyph) { width: 45px; }
+  .open-homepage, .back-link, .save-brief { width: 44px; flex: none; }
+  .lab-brand:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+</style>

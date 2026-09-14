@@ -1,0 +1,70 @@
+---
+import SignalLoomStudy from './SignalLoomStudy.astro';
+import { buttonVariants } from '../ui/button-variants';
+
+const animations = [
+  { id: 'signal-loom', number: '01', title: 'Signal Loom', status: 'Interactive study' },
+  { id: 'animation-02', number: '02', title: 'Animation 02', status: 'Placeholder' },
+  { id: 'animation-03', number: '03', title: 'Animation 03', status: 'Placeholder' },
+];
+---
+<div class="animation-showcase">
+  <fieldset class="animation-options">
+    <legend class="augur-type-body muted">Choose an animation to preview.</legend>
+    <div class="animation-choices">
+      {animations.map(animation => (
+        <label class:list={[buttonVariants({ variant: 'outline' }), 'configured-button', 'animation-option']}>
+          <input class="visually-hidden" type="radio" name="lab-animation" value={animation.id} checked={animation.id === 'signal-loom'} aria-controls={`${animation.id}-preview`} />
+          <span class="option-number augur-type-metadata" aria-hidden="true">{animation.number}</span>
+          <span class="option-copy"><span>{animation.title}</span><span class="option-status augur-type-metadata">{animation.status}</span></span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <div class="animation-panel" id="signal-loom-preview">
+    <SignalLoomStudy />
+  </div>
+  {animations.slice(1).map(animation => (
+    <div class="animation-panel animation-placeholder" id={`${animation.id}-preview`}>
+      <div class="placeholder-intro">
+        <p class="eyebrow muted">{animation.number} / Placeholder</p>
+        <h3 class="augur-type-heading-1">{animation.title}</h3>
+      </div>
+      <div class="placeholder-stage">
+        <div>
+          <p class="augur-type-heading-2">Room for another idea.</p>
+          <p class="augur-type-body muted">This animation hasn’t been designed yet.</p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .animation-options { min-width: 0; margin: 0 0 40px; padding: 0; border: 0; }
+  .animation-options legend { padding: 0; margin-bottom: 16px; }
+  .animation-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .animation-choices .animation-option { height: auto; min-height: 88px; justify-content: start; padding: 16px; white-space: normal; }
+  .option-number { align-self: start; padding-top: 2px; }
+  .option-copy { display: grid; gap: 8px; text-align: left; }
+  .option-status { color: var(--muted-foreground); }
+  .animation-choices .animation-option:has(:checked) {
+    --control-bg: var(--primary); --control-fg: var(--primary-foreground); --control-border: transparent;
+    --control-hover: color-mix(in srgb, var(--primary) 90%, var(--primary-foreground));
+    --control-hover-border: transparent;
+    --control-active: color-mix(in srgb, var(--primary) 80%, var(--primary-foreground));
+  }
+  .animation-option:has(:checked) .option-status { color: inherit; }
+  .animation-option:has(:focus-visible) { outline: 2px solid var(--muted-foreground); outline-offset: 3px; }
+  .animation-option:has(:checked) .option-number { text-decoration: underline; text-underline-offset: 4px; }
+  .animation-panel { display: none; }
+  .animation-showcase:has([value="signal-loom"]:checked) #signal-loom-preview,
+  .animation-showcase:has([value="animation-02"]:checked) #animation-02-preview,
+  .animation-showcase:has([value="animation-03"]:checked) #animation-03-preview { display: block; }
+  .placeholder-intro { margin-bottom: 32px; }
+  .placeholder-intro h3 { margin-top: 12px; }
+  .placeholder-stage { display: grid; place-items: center; min-height: clamp(460px, 42vw, 580px); padding: 32px; border: 1px dashed var(--border-quiet); background: var(--background); text-align: center; }
+  .placeholder-stage > div { display: grid; gap: 12px; }
+  @media (forced-colors: active) { .animation-option:has(:checked) { outline: 2px solid Highlight; outline-offset: -4px; } }
+</style>

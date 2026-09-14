@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/melodrd/augur-design-system",
+  "documentedUpstream": "https://github.com/jubalm/augur-design-system",
+  "commit": "fb354701afe182613f58c61b1c7dca21818cff86",
+  "retrieved": "2026-09-12",
+  "sha256": {
+    "vendor/augur/registry/augur-theme.json": "5ce1d60de950f08d187fd08df883d9e47454214e154f08834b09fadf0af84c24",
+    "vendor/augur/registry/utils.json": "b4370ffeb916ad438f9c89a22ac1378466e898b57e02d4dec19cd6a141fc3faf",
+    "vendor/augur/registry/button.json": "5bec76b6fa3b10f037f1de2ecf75a8f2b289c300448d75083d2c406ac9efd5d0",
+    "vendor/augur/registry/card.json": "c865ce3f1cfb245662591188ad83bf3c01156feefaac8d46c38d3f4876619bab",
+    "vendor/augur/registry/input.json": "80fb63aebd0f66d74e96cfacf8727ecd1064e9b19c6acc66ccf078c976748d2f"
+  }
+}

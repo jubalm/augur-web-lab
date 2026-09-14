@@ -1,0 +1,9 @@
+---
+import Document from './Document.astro';
+interface Props { title: string; description?: string; scaffold?: boolean; }
+const {title,description,scaffold=false}=Astro.props;
+---
+<Document title={title} description={description} scaffold={scaffold} previewChooser={false}>
+  <slot name="header" />
+  <main id="main"><slot /></main>
+</Document>
