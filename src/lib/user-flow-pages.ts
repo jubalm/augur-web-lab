@@ -17,190 +17,143 @@ export interface FlowBrief {
 export const homeSections: FlowBrief[] = [
   {
     "id": "home-hero",
-    "title": "01 · Arrive and orient",
+    "title": "01 · Introduction",
     "route": "/",
     "status": "Built",
     "question": "What is Augur, is it relevant to me, and where can I begin?",
-    "purpose": "Give the reader a product category, an honest development stage, and two useful choices before asking for technical attention.",
+    "purpose": "Orient visitors in the first viewport: header and hero. Introduce Augur as decentralized oracle infrastructure for establishing truth onchain, explain open participation, and offer two useful choices. The plan has six main sections followed by a compact footer; development status belongs in Current stage.",
     "contains": [
       "Headline: “The frontier of decentralized truth.” It establishes the theme; the support sentence must do the concrete explaining.",
-      "Support: “Permissionless resolution for real-world outcomes.” Followed by “Augur Lituus is decentralized infrastructure in development for prediction markets and other applications.”",
-      "Primary action: Explore the protocol → the published Augur Lituus overview. Secondary action: Read the whitepaper → the public PDF on GitHub.",
-      "Header: Products / Developers / Resources / Community, plus Talk to us at /contact/. Products opens Augur Lituus / Zoltar / Augur Stratoblast. Resources opens Blog / FAQ / Learn / REP; these destinations and Developers remain placeholders. Community links to Discord / Telegram / X / GitHub with a trailing external arrow on each link. The logo, Talk to us and light/dark switch work.",
-      "The desktop header is 96 px tall with a 150 px logo and 16 px navigation. The theme control sits immediately before Talk to us.",
-      "The hero retains its staged text and action arrival. The artwork area is empty after removal of the rejected animation; reduced motion shows the text immediately."
+      "Support: “Permissionless resolution. No central authority.” Followed by “Augur is decentralized oracle infrastructure for establishing truth onchain. Anyone can submit a question, propose an answer, or challenge an outcome.”",
+      "Primary action: Explore Augur Lituus, still an inert placeholder until its page exists. Secondary action: Read the whitepaper, which opens the published January 2026 paper in a new tab (the same link as the citation below the walkthrough). Both buttons use 16 px labels, like every 48 px button.",
+      "Header: About / Products / Resources / Community, plus Talk to us at /contact/. About is a standalone placeholder for the planned page. Products opens Augur Lituus / Zoltar / Augur Stratoblast. Resources opens Blog / FAQ / Learn / REP / Whitepaper. Products and Resources show names only, with no descriptions. All resource and product destinations remain placeholders, including Whitepaper. Community displays Discord / Telegram / X / GitHub as inert placeholders, retaining the proposed external arrows. The logo, Talk to us and light/dark switch work.",
+      "The desktop header is 96 px tall with a 150 px logo and 16 px navigation; below 940 px wide the menus move to a second row under the logo instead of overflowing. All dropdowns use a 240 px panel with 48 px rows, names only, no per-item descriptions or dividers, and centered icons/arrows. The theme control sits immediately before Talk to us.",
+      "The hero fills the first screen below the header, so Why + how always starts below the fold. Both support lines use the shared 18 px lead (20 px above 1600 px wide). Staged text and action arrival pair with Signal Loom and a brief green underline beneath ‘decentralized’ that plays once; there is no hover underline, because the word is not a link. Signal Loom stays focusable, since Escape there pauses its motion, and is announced as “Animation: scattered strands gathering into one pattern”. Sparse 3 px heritage squares around the edges recall the old augur.net background, with independent scintillation and a soft cursor radius that brightens nearby squares. Motion pauses offscreen or in a hidden tab; disabled JavaScript leaves decoration static."
     ],
-    "next": "Use the built overview and paper links, Community or Talk to us. Planned destinations include the combined Products page, About, Learn, Blog, FAQ and REP.",
+    "next": "Review the overview, paper and community action placements, or use Talk to us to open the local Contact page. Planned destinations include the combined Products page, About, Learn, Blog, FAQ and REP.",
     "reason": "One proposition and two actions give different levels of prior knowledge a starting point. These are intended paths, not observed CEO or CTO behavior.",
-    "gap": "The header remains the existing experiment, with unwired product and resource destinations. The product links are planned to reach three sections on one Products page. Lower homepage sections are not built.",
-    "test": "At the reviewed desktop heights, can a first-time reader find the support sentence and primary action, describe the product, and say that it is in development?",
-    "source": "src/pages/index.astro; src/components/site/HomepageHeader.astro; docs/website-strategy.md (first viewport, September 13, 2026)"
-  },
-  {
-    "id": "home-why",
-    "title": "02 · Make the problem concrete",
-    "route": "/#why",
-    "status": "Proposed",
-    "question": "Why does an application need a resolution process?",
-    "purpose": "Connect an abstract oracle category to an understandable dependency: settlement rules still need an answer about the world.",
-    "contains": [
-      "A prediction market needs an external outcome before it can settle.",
-      "The tension: what happens when participants disagree about the answer?",
-      "One scientific milestone question about independently demonstrated room-temperature superconductivity at ambient pressure.",
-      "The distinction between a breakthrough claim and an independently reproduced result."
-    ],
-    "next": "Follow the question → #protocol.",
-    "reason": "The example provides something concrete to carry into the process. Each later step should advance the same question instead of introducing another metaphor.",
-    "gap": "The example is still an incomplete question: precise criteria and a deadline are not supplied here. It must remain illustrative, not a submission-ready query.",
-    "test": "Can a reader explain why a contract needs an outside answer and why disagreement matters without repeating the headline?",
-    "source": "docs/website-strategy.md (previous composition)"
+    "gap": "The header remains the existing experiment, with unwired About, product, resource and community destinations. Hero actions also remain on the page. The product links are planned to reach three sections on one Products page. All six homepage sections and the footer are built for structure review.",
+    "test": "At the reviewed desktop heights, can a first-time reader find the support sentence and primary action, identify Augur as oracle infrastructure, and name a way to participate?",
+    "source": "src/pages/index.astro; src/components/site/HomepageHeader.astro; docs/website-strategy.md (hero copy, September 14, 2026)"
   },
   {
     "id": "home-protocol",
-    "title": "03 · Follow the mechanism",
+    "title": "02 · Why + how",
     "route": "/#protocol",
-    "status": "Proposed",
-    "question": "How could Augur Lituus take a question to an outcome?",
-    "purpose": "Provide a short mental model before the reader confronts detailed rules, fees, assumptions, and exceptional paths.",
+    "status": "Built",
+    "question": "Why is resolution needed, and how does REP support the proposed Augur Lituus process?",
+    "purpose": "Give beginners a short visual explanation of why real-world answers matter, what distinguishes Augur Lituus and how an ordinary query resolves. Builders can inspect the question criteria, timing and fees beside the example.",
     "contains": [
-      "Proposed sequence: Question → Report → Challenge, if needed → Outcome.",
-      "Each step could pair a short explanation with an illustrative document. The display explicitly says Proposed design and not a live resolution.",
-      "The final step states that applications use the result under their own settlement rules.",
-      "If progressive controls are added, preserve readable explanations without JavaScript and support keyboard navigation."
+      "“Built for high-stakes questions” replaces “Who decides what happened?”. The lead: when money rides on an answer, someone will try to fake it, and Augur Lituus, the next generation of Augur’s oracle, is designed to hold up anyway. The heading and lead use the shared HomeSection component, like every other homepage section. Three cells in one outlined strip, with a 5 px square on every line crossing, each give a title and a 15 px technical description: Resolve any question (elections, sports results, flight delays and scientific claims; any multiple-choice question, including ones no data feed can answer), Question every answer (no committee, multisig or veto; a challenge that holds wins almost all of the losing bonds; secured by incentives, not authority) and Bribery-resistant by design (escalating bonds, a last-resort fork and supply restoration; forcing a false answer is designed to cost more than the oracle’s entire market cap; built for the day someone tries to buy the answer). The copy pattern follows the user’s DIA reference; the frame is Augur’s own. The walkthrough heading below is a 36 px subsection heading.",
+      "Ask, Report, Challenge and Finalize remain readable together; Finalize explains the appeal period. An optional question card first follows an unchallenged No report in an expressly illustrative scenario with no qualifying independent replication. See a challenge shows an initial Yes, the missing evidence, a 30 REP challenge to No, a new appeal period and then finality. Direct steps, Previous, Next and restart are local demonstrations. Scrolling never advances or locks the example.",
+      "REP is defined in the resolution steps. The user removed the What makes dishonesty costly section for now, including its bond, fork and supply-restoration diagrams and details.",
+      "Native disclosures retain the full question criteria, timing, dynamic fees and Invalid outcomes. The working January 2026 whitepaper citation now sits below the walkthrough.",
+      "The user selected the January 2026 whitepaper as the main reference; main-1.pdf is supporting research only. The new source citation opens the published paper. Other existing hero, navigation and external-action placeholders remain unchanged. No new website route is introduced."
     ],
-    "next": "Read the design and assumptions → whitepaper; continue to Application fit.",
-    "reason": "Progressive disclosure can reduce the amount being compared at once. Its value is comprehension of the sequence, not completion of an animation.",
-    "gap": "There is no local process section or #protocol anchor. The hero currently links to the public Augur Lituus overview. Any future mechanism illustration should explain the proposed sequence; detailed delays, invalid outcomes and fork paths remain in the paper.",
-    "test": "Can readers recount the sequence, recognize that challenges are conditional, and distinguish a final outcome from application settlement?",
-    "source": "docs/website-strategy.md (previous composition and current first-viewport destination)"
+    "next": "Explore the optional challenge, expand a relevant technical note or inspect the January paper. Possible applications follows.",
+    "reason": "One reading path supplies the essentials without requiring interaction. Optional detail lets builders inspect the mechanism without adding a wall of text for beginners.",
+    "gap": "This is a local explanatory prototype, not an available oracle interface. The three card animations are briefed in source but not built, so the cards show no stage yet. Comprehension has not been tested with visitors; mobile remains deferred. Current verification is recorded in docs/why-how.md.",
+    "test": "Can a beginner say what makes Augur Lituus different, then follow the ordinary path and optional challenge?",
+    "source": "User-approved simplification, September 18, 2026; principles and copy rewrite requested September 19, 2026; high-stakes cards approved from the user’s DIA reference (diadata.org), September 19, 2026; Website Strategy PDF p.7 (permissionless, open work and economic security); src/components/site/WhyHow.astro; docs/why-how.md; January 2026 Augur Lituus whitepaper abstract, §§2, 4–7 and Appendix 2; Generalized Augur article, May 13, 2025 (direction only)."
   },
   {
     "id": "home-applications",
-    "title": "04 · Recognize application fit",
+    "title": "03 · Possible applications",
     "route": "/#applications",
-    "status": "Proposed",
+    "status": "Built",
     "question": "Does this relate to the problem my team is solving?",
-    "purpose": "Translate the mechanism into three possible application needs and invite a technical fit assessment.",
+    "purpose": "Offer three concise, illustrative Augur Lituus applications, one at a time, so a visitor can recognize a relevant use without reading every example.",
     "contains": [
-      "Prediction markets: resolve an event question so an application can settle.",
-      "Event-dependent payments: use an external outcome as a payment condition.",
-      "Custom oracle designs: share REP through Zoltar while defining local resolution rules.",
-      "A qualification identifies these as possibilities under investigation requiring technical review."
+      "Label “Possible applications”; heading “Different applications. A shared need for an answer.” The aside explains shared resolution infrastructure and states that the uses are illustrative, with no integrations established.",
+      "Tabs show one example at a time: Prediction markets, Insurance and payments, DAOs and grants. The panel gives the example question and a one-line application action beside a wide animation placeholder aligned under the aside. Native radios drive the tabs without a script, and switching never moves the page.",
+      "Prediction markets: “Was the milestone demonstrated by the deadline?” The application settles the market, applying the outcome to positions.",
+      "Insurance and payments: “Was flight AB123 delayed by more than two hours?” The application determines a payout, applying the policy rules.",
+      "DAOs and grants: “Was the agreed deliverable published by the deadline?” The application decides grant funding, applying the agreed release condition.",
+      "The section covers Augur Lituus only. The user removed the Zoltar custom-oracle example and the Before you build checklist."
     ],
-    "next": "Give each application a relevant source or evaluation next step; the previous cards all opened the same paper.",
+    "next": "Continue to Current stage. Augur Lituus is reachable from the header’s Products menu once its page is built.",
     "reason": "A CEO or product lead may use these examples to recognize relevance; a CTO or builder may then investigate feasibility. This is a planning hypothesis.",
-    "gap": "The three cards do not yet offer distinct next steps. There is no maintained integration guide or fit checklist for question clarity, timing, costs, invalid outcomes and fork handling.",
-    "test": "Can a reader choose a relevant example and identify at least one unanswered operating requirement before committing engineering work?",
-    "source": "docs/source-material.md; docs/website-strategy.md (retired website and proposed content)"
-  },
-  {
-    "id": "home-research",
-    "title": "05 · Inspect the evidence",
-    "route": "/#research",
-    "status": "Proposed",
-    "question": "What can I inspect beyond the website explanation?",
-    "purpose": "Make the difference between a published design and implementation evidence visible and actionable.",
-    "contains": [
-      "Keep the direct Augur Lituus paper link alongside its explanation.",
-      "Put additional papers and technical sources in their relevant Products sections, identifying edition, version and development status.",
-      "Research code can link to an exact revision with its limitations; a source link is not a supported integration tutorial."
-    ],
-    "next": "Read the relevant source or Products section, then check the current R&D context.",
-    "reason": "Inspectable sources are a concrete credibility basis when reviewed adoption figures and customer proof are unavailable.",
-    "gap": "Only the hero’s direct whitepaper action is built. A source link does not establish operational readiness, documentation, integration support or a production launch.",
-    "test": "Can a technical reader distinguish the paper’s proposed design from any linked implementation evidence and open the exact source without searching?",
-    "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs."
+    "gap": "The section has no link of its own since the user removed Explore Augur Lituus to save height. The three animations are unbuilt placeholders. Timing, costs, Invalid outcomes and integration requirements still need maintained documentation elsewhere.",
+    "test": "Can a reader pick the example closest to their need and say what their application would ask and do with the answer?",
+    "source": "Website Strategy PDF, September 2026, p.10 Figure F5 (examples, questions and application actions) and p.8 (use cases); The Augur Lituus Whitepaper post, January 29, 2026 (shared resolution rationale); src/components/site/Applications.astro."
   },
   {
     "id": "home-roadmap",
-    "title": "06 · Establish the current stage",
+    "title": "04 · Current stage",
     "route": "/#roadmap",
-    "status": "Proposed",
+    "status": "Built",
     "question": "What is complete, what is being built, and what remains open?",
-    "purpose": "Give evaluation a time and version context without converting open work into a release promise.",
+    "purpose": "Give a brief, dated account of completed work, current development and what comes next, with evidence beside each item.",
     "contains": [
-      "A short R&D status summary with a review date and a route to the maintained context in About.",
-      "Separate completed research, implementation work and open questions only after source review.",
-      "The user estimates launch in roughly six months as of September 13, 2026. Treat this as uncertain planning context, not a public date or countdown.",
-      "Development updates and quarterly reports belong in Blog; no standalone Updates or Roadmap page is required."
+      "Label “Current stage”; heading “From research to implementation.” The aside says Augur Lituus has moved from research into development and the work is open source, followed by “Status reviewed September 19, 2026”.",
+      "Completed: Augur Lituus whitepaper (January 29, 2026; Whitepaper ↗) and Moon Fork (August 3, 2026: Augur v2’s fork mechanism completed its first live run on Ethereum mainnet; Moon Fork report).",
+      "In progress: Augur Lituus implementation (ChainSafe engineering, Lituus Foundation review; Lituus-CS ↗) and Augur Stratoblast (Dark Florist building prediction markets on Zoltar with Lituus Foundation funding; July 21 update).",
+      "Next: testing, audits and documentation before applications can depend on Augur Lituus; REP-holder guidance will follow in a future post. “No date announced.” The user’s roughly six-month estimate stays internal and is not shown.",
+      "A green-to-neutral line with filled, half-filled and open square markers distinguishes the three states. Evidence links are inert placeholders; intended URLs stay in the component source."
     ],
-    "next": "Read current context in About or a dated update / quarterly report in Blog.",
+    "next": "Inspect an evidence link once destinations are enabled, or continue to From the blog. About will later hold maintained context.",
     "reason": "A decision maker needs the difference between interest and readiness; a returning contributor needs an identifiable work item.",
-    "gap": "The earlier roadmap used a September 12 source snapshot. It is not a current status feed. Review facts before implementation; do not infer milestones, audits or launch readiness from the estimate.",
-    "test": "Can readers identify the review date, distinguish completed work from ongoing research and recognize that the launch estimate is provisional?",
-    "source": "User direction, September 13, 2026: R&D, roughly six months to launch; docs are not available; consolidate History, Whitepapers and Updates. docs/website-strategy.md"
+    "gap": "Status reflects public sources on September 19, 2026 and needs maintainer confirmation before release, especially Augur Stratoblast and the Next item. It is not a live status feed; update the review date whenever facts change. About, Blog and article routes are planned.",
+    "test": "Can readers identify the review date, distinguish completed work from ongoing development and see that no launch date has been announced?",
+    "source": "augur.net blog reviewed September 19, 2026: The Augur Lituus Whitepaper (January 29, 2026), Q1 2026: The Migration Window is Open (July 2, 2026), Augur Is Testing Its Past and Building Its Future (July 21, 2026) and The Augur Moon Fork Is Complete (August 5, 2026); public AugurProject/Lituus-CS repository; Website Strategy PDF F2 (Augur Stratoblast on Zoltar); src/components/site/CurrentStage.astro."
   },
   {
     "id": "home-journal",
-    "title": "07 · Offer dated context",
+    "title": "05 · From the blog",
     "route": "/#journal",
-    "status": "Proposed",
-    "question": "What has Augur published or changed recently?",
-    "purpose": "Offer a small doorway into research, development, and protocol history after the maintained explanation.",
+    "status": "Built",
+    "question": "What is worth reading to explore Augur or catch up on its work?",
+    "purpose": "Offer a compact selection of useful reading after the current-stage summary, giving newcomers a way to explore and returning members a way to catch up.",
     "contains": [
-      "A small selection of real Blog articles, development updates or quarterly reports.",
-      "Original publication date and author, with a reporting period for quarterly reports.",
-      "One link to the full Blog archive; no competing Updates feed."
+      "Heading “From the blog” with “View all posts” leading to the planned Blog archive.",
+      "Augur Is Testing Its Past and Building Its Future — July 21, 2026 · Lituus Foundation. Why resolution is the weak point of prediction markets, and how the Moon Fork and Augur Lituus respond to it.",
+      "The Augur Lituus Whitepaper — January 29, 2026 · Lituus Foundation. The announcement of Augur Lituus: a proposed resolution layer for other protocols, with a comparative analysis of oracle security.",
+      "Selected for usefulness, not recency. Titles, dates and authors are original; descriptions are summaries. Article and archive links are inert placeholders for planned local pages.",
+      "A specific Learn guide may later join the selected reading with a clear “Guide” label, once reviewed content exists."
     ],
-    "next": "Open a relevant article or browse /blog/.",
-    "reason": "Dated writing gives returning readers context and gives new readers a route to depth. Publication recency must not stand in for implementation status.",
-    "gap": "Neither the homepage journal nor the local Blog is built. Use real reviewed writing; do not fabricate fresh posts or promise a quarterly schedule.",
-    "test": "Can readers tell a current maintained status from a dated article, and does at least one selected article answer a useful follow-up question?",
-    "source": "User direction, September 13, 2026: R&D, roughly six months to launch; docs are not available; consolidate History, Whitepapers and Updates. docs/website-strategy.md"
+    "next": "Read a selected article or browse Blog once those pages exist; a future featured guide would lead directly to Learn.",
+    "reason": "A small editorial selection offers useful depth without turning the homepage into an archive. Current stage remains responsible for maintained development status.",
+    "gap": "Local Blog and article routes are planned, so links are inert. The July 21 post includes historical migration instructions under a “Migration closed” notice; its article page must keep that notice.",
+    "test": "Can readers find a useful next read, distinguish an article date from current development status and reach the full archive?",
+    "source": "augur.net blog, reviewed September 19, 2026; src/components/site/FromTheBlog.astro."
   },
   {
-    "id": "home-learn-faq",
-    "title": "08 · Answer early questions",
-    "route": "/ → short answers (planned section)",
-    "status": "Proposed",
-    "question": "Where do I learn the basics or get a short answer?",
-    "purpose": "Offer a clear route into Learn for foundational understanding and FAQ for a specific answer.",
+    "id": "home-faq",
+    "title": "06 · FAQ",
+    "route": "/#faq",
+    "status": "Built",
+    "question": "Can I get a quick answer to a remaining question?",
+    "purpose": "Resolve a few remaining doubts after Blog and before Footer / contact, with short expandable answers and a route to the full FAQ.",
     "contains": [
-      "A short invitation to the dedicated Learn page and its starting guide.",
-      "A few reviewed FAQ answers with a link to the full FAQ page.",
-      "Relevant links to Products or REP when an answer needs that context."
+      "Heading “Common questions” with “View all FAQs” leading to the planned FAQ page.",
+      "How does today’s Augur relate to its earlier prediction markets? Augur launched on Ethereum in 2018; Augur v2 still runs, and its fork mechanism completed its first live run in August 2026; Augur Lituus, the next generation of Augur’s oracle, is designed to resolve questions for other prediction markets and applications.",
+      "What role does REP play? REP secures the oracle through bonds and fork migration; Augur Lituus is being built around REPv2_Yes_1.",
+      "Can I build with Augur today? Not yet: ChainSafe is implementing Augur Lituus in the public Lituus-CS repository, and it still needs testing, audits and documentation. The answer ends with a working Talk to us link.",
+      "Native expandable answers, closed by default, keyboard accessible and readable without JavaScript."
     ],
-    "next": "Open Learn for a guided explanation, FAQ for a direct answer or Contact for an unresolved question.",
-    "reason": "A knowledgeable developer may still be new to oracles. Help should depend on the question being asked, not a job title.",
-    "gap": "The homepage section and the dedicated Learn and FAQ pages are planned but not built. All are in scope during R&D.",
-    "test": "After reviewed content exists, can a reader find and understand one answer without needing the full paper?",
-    "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs."
-  },
-  {
-    "id": "home-contact",
-    "title": "09 · Make room for a conversation",
-    "route": "/#contact",
-    "status": "Proposed",
-    "question": "How do I discuss a product, requirement or unresolved question?",
-    "purpose": "Offer a closing invitation that leads to the same Contact page available from the header.",
-    "contains": [
-      "A proposed invitation to discuss Augur products or a project, linked to the built /contact/ page.",
-      "The Contact page offers Discord, Telegram, GitHub, X and contact@augur.net.",
-      "Its form requires Name, Email and Message, with optional Company / project and Website. Send message composes email for the visitor to finish in an email app."
-    ],
-    "next": "Talk to us already opens /contact/ from the header. A future closing section would offer the same route.",
-    "reason": "Readers can ask a question on arrival or after reviewing the work. A closing invitation should reuse the existing contact route and channel choices.",
-    "gap": "The homepage closing section is not built. The Contact page is built, but inbox provisioning or confirmation remains with the domain owner; website-native delivery needs an endpoint.",
-    "test": "Can readers reach Contact, choose a suitable channel and recover from invalid form fields without mistaking email composition for delivery?",
-    "source": "src/pages/contact.astro; src/components/site/HomepageHeader.astro; docs/website-strategy.md"
+    "next": "Read a short answer, open the full FAQ once built or use the Talk to us invitation.",
+    "reason": "A small FAQ gives readers a quick route to a specific answer without repeating the homepage introduction or requiring contact.",
+    "gap": "Answers are drafted from public sources and need maintainer review. “Not yet” refers to building on Augur Lituus; live Augur v2 contracts are not presented as an integration path. The dedicated FAQ page is planned.",
+    "test": "Can a reader locate a remaining question, expand its answer with a keyboard and find the full FAQ without rereading the main explanation?",
+    "source": "July 21, 2026 post; Q1 2026 report (July 2, 2026); Moon Fork report (August 5, 2026); January 2026 Augur Lituus whitepaper; src/components/site/HomeFaq.astro."
   },
   {
     "id": "home-footer",
-    "title": "10 · Provide a dependable directory",
+    "title": "07 · Footer / contact",
     "route": "/#footer",
-    "status": "Proposed",
-    "question": "Where can I go if my next step is different from the main story?",
-    "purpose": "Expose persistent recovery and resource paths after the narrative, including less common but important destinations.",
+    "status": "Built",
+    "question": "How can I start a conversation or find another useful destination?",
+    "purpose": "Close the homepage with a brief Talk to us invitation and a compact directory in one closing area.",
     "contains": [
-      "Home, About, Products, Learn, Blog, FAQ, REP and Contact once those destinations are built.",
-      "Product links reach the Augur Lituus, Zoltar and Augur Stratoblast sections on one Products page.",
-      "Direct community and relevant paper / source links."
+      "Invitation: “Have a project in mind?” with one short line and a primary Talk to us button opening /contact/.",
+      "Directory mirroring the header: Augur (About, Contact), Products (Augur Lituus, Zoltar, Augur Stratoblast), Resources (Blog, FAQ, Learn, REP, Whitepaper ↗) and Community (Discord, Telegram, X, GitHub ↗). Only Contact and the logo navigate; the rest are inert placeholders.",
+      "Base row: the Augur logo returns home, beside “Augur’s work is funded and coordinated by the Lituus Foundation.”"
     ],
-    "next": "Choose the source, community, version-specific reference or page relevant to the unresolved question.",
-    "reason": "A compact directory helps readers recover without advertising content the R&D project does not have.",
-    "gap": "No footer is built. Use the actual planned pages and product sections when wiring it.",
-    "test": "Can a reader find Contact, the current paper, REP version context and the source repository from a deep reading page?",
-    "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs."
+    "next": "Open Contact for a conversation or choose the relevant page, source or community destination once enabled.",
+    "reason": "A shared closing area offers conversation and recovery paths without another large homepage section.",
+    "gap": "Destinations other than Home and Contact remain placeholders. No legal policy, copyright notice or newsletter is added; those need review before release. The footer appears on the homepage only.",
+    "test": "Can a reader find Contact, Learn, FAQ and REP context from the same compact closing area?",
+    "source": "User-approved homepage consolidation, September 14, 2026; Website Strategy PDF p.5 (identify the operator in the footer); July 21, 2026 post (the Lituus Foundation funds and coordinates the work); src/components/site/SiteFooter.astro."
   }
 ];
 
@@ -220,27 +173,29 @@ export const flowPages: FlowBrief[] = [
     ],
     "next": "Explore Products, read a Blog article or Talk to us.",
     "reason": "About answers what Augur is now as well as where it came from. History alone would frame the project around its past.",
-    "gap": "About is planned and not built. Current development facts and historical copy need review before implementation.",
+    "gap": "About is the first standalone item in the shared website navigation, replacing Developers. It remains a placeholder until the page is built. Current development facts and historical copy need review before implementation.",
     "test": "Can a new reader explain Augur’s direction, identify that it is in R&D and find the source behind one product description?",
     "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs."
   },
   {
     "id": "page-home",
-    "title": "Home",
+    "title": "Homepage",
     "route": "/",
     "status": "Built",
     "question": "What is Augur and why should I investigate it?",
-    "purpose": "Connect the proposition, problem, mechanism, application fit and evidence into one readable introduction, with exits at each useful depth.",
+    "purpose": "Keep the homepage concise: Introduction → Why + how → Possible applications → Current stage → From the blog → FAQ, followed by Footer / contact. All six sections and the footer are built for structure review. Size each section around its content, remove repeated explanations and offer deeper reading where it is useful.",
     "contains": [
-      "First header and hero experiment with the original proposed headline and support.",
-      "Products / Developers / Resources / Community reflects the current navigation. Products opens Augur Lituus / Zoltar / Augur Stratoblast; Resources opens Blog / FAQ / Learn / REP. Product, Developers and resource links remain placeholders. Community opens working external links to Discord / Telegram / X / GitHub. The logo, theme switch, Talk to us and two public-source hero actions work.",
-      "The hero pairs its headline, supporting copy and actions with Signal Loom. On arrival or refresh, a brief green underline draws beneath ‘decentralized’ and fades; reduced motion keeps the composition static."
+      "Scroll motion: section headings, columns, lists and footer content fade and rise into view in order; Current stage draws its timeline; page disclosures open smoothly. CSS-only and scroll-linked; static in unsupported browsers and with reduced motion.",
+      "Why + how combines the problem and proposed mechanism, with nearby paper references and a small Learn invitation. Current stage keeps evidence beside status claims; From the blog offers two useful reads. A compact FAQ resolves remaining doubts through three or four short expandable answers. Essential explanations stay with their topics, and the footer includes Talk to us.",
+      "The hero retains “The frontier of decentralized truth.” Its approved support introduces Augur as decentralized oracle infrastructure for establishing truth onchain, then explains the ability to submit questions, propose answers and challenge outcomes. Development status belongs in the planned roadmap.",
+      "About / Products / Resources / Community reflects the current navigation. About is a standalone placeholder for the planned page. Products opens Augur Lituus / Zoltar / Augur Stratoblast; Resources opens Blog / FAQ / Learn / REP / Whitepaper. Products and Resources show names only, with no descriptions. All resource and product destinations remain placeholders, including the header’s Whitepaper item. Community displays Discord / Telegram / X / GitHub as inert placeholders. The logo, theme switch, internal Talk to us route and the hero’s Read the whitepaper action work; Explore Augur Lituus stays a placeholder.",
+      "The hero pairs its headline, supporting copy and actions with Signal Loom and fills the first screen below the header, so the next section starts below the fold. On arrival or refresh, a brief green underline draws beneath ‘decentralized’ and fades; there is no hover state. Sparse heritage squares scintillate independently around the outer edges and brighten within a soft cursor radius, pausing offscreen or in a hidden tab. Reduced motion removes the draw/fade transitions and cursor illumination; disabled JavaScript leaves decoration static."
     ],
-    "next": "The built hero opens the published overview and paper; Community and Talk to us work. Planned destinations include About, Products, Learn, Blog, FAQ and REP.",
+    "next": "Explore Augur Lituus, Resources and Community show inert destinations for structure review. Read the whitepaper opens the published paper; Talk to us opens the local Contact page. Planned destinations include About, Products, Learn, Blog, FAQ and REP.",
     "reason": "The homepage should make the next choice easier. It does not need to contain every rule or force every visitor through the complete story.",
-    "gap": "Only the header and hero are built on /. Contact is built; the other planned website pages and lower homepage sections still need implementation. The current header destinations remain placeholders.",
-    "test": "Can a first-time evaluator explain the category and stage, while a returning reader reaches a known destination without scrolling the full page?",
-    "source": "src/pages/index.astro; src/components/site/HomepageHeader.astro; docs/website-strategy.md (first viewport, September 13, 2026)"
+    "gap": "All homepage sections and the footer are built on /. Contact is built; other website pages still need implementation. About, products, all resources and external actions remain placeholders, except the hero’s whitepaper action and the walkthrough citation.",
+    "test": "Can a first-time evaluator explain the oracle’s purpose and open participation, while a returning reader reaches a known destination without scrolling the full page?",
+    "source": "src/pages/index.astro; src/components/site/HomepageHeader.astro; docs/website-strategy.md (hero copy, September 14, 2026)"
   },
   {
     "id": "page-products",
@@ -259,7 +214,7 @@ export const flowPages: FlowBrief[] = [
     "reason": "Products matches the existing navigation and describes the page directly. One page makes the relationships visible; a separate Developers overview would repeat its technical explanation.",
     "gap": "The header dropdown is built, but the combined Products page is planned. Its three menu destinations can eventually point to sections on this page. There are no developer docs or supported integration instructions; a future Developers destination needs a distinct purpose. Preserve the requested Augur Stratoblast spelling; the source spells it Augur Statoblast.",
     "test": "Can a visitor reach a named product directly, explain how it relates to the other two, and distinguish its proposed design from available implementation?",
-    "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs. Product role descriptions: existing HomepageHeader.astro and docs/source-material.md."
+    "source": "User correction, September 13, 2026; docs/website-strategy.md: one Products page; Learn, REP and FAQ remain in scope; remove redundant briefs. Product roles: docs/website-strategy.md (September 13 product descriptions) and docs/source-material.md; the current menu shows names only."
   },
   {
     "id": "page-community",
@@ -267,16 +222,16 @@ export const flowPages: FlowBrief[] = [
     "route": "Header dropdown on / and /contact/",
     "status": "Built",
     "question": "Where can I join the conversation or follow Augur?",
-    "purpose": "Make community destinations directly reachable from the main navigation.",
+    "purpose": "Show the proposed community destinations in the main navigation for structure review.",
     "contains": [
       "Discord, Telegram, X and GitHub in that order, each with its existing service icon and a trailing external arrow.",
-      "Shared destination URLs with the Contact page, sourced from the public augur.net footer.",
+      "Channel labels and icons are shared with Contact. URLs sourced from augur.net remain in repository notes, with no external hrefs in the review site.",
       "Native disclosure with pointer, keyboard and Escape behavior; only one header dropdown opens at a time."
     ],
-    "next": "Choose a community destination, or use Talk to us to compose an email.",
-    "reason": "Community is a set of direct external destinations. It does not need a local landing page.",
-    "gap": "This is a navigation change; community participation and destination availability have not been measured.",
-    "test": "Can a visitor find Discord directly, recognize an external link, and open and dismiss the menu with a keyboard?",
+    "next": "Review the community options or use Talk to us to inspect the local Contact page.",
+    "reason": "Community groups proposed external destinations without a local landing page. The review menu keeps them as placeholders.",
+    "gap": "All community links are inert during structure review; no joining or external navigation is implemented.",
+    "test": "Can a reviewer find Discord, recognize the intended external destination and open and dismiss the menu while staying on the site?",
     "source": "User approval, September 13, 2026; src/components/site/HomepageHeader.astro; src/lib/community.ts; docs/website-strategy.md"
   },
   {
@@ -361,13 +316,13 @@ export const flowPages: FlowBrief[] = [
     "purpose": "Let a reader move from general information to an appropriately routed conversation.",
     "contains": [
       "A top-right Talk to us action and a contact page welcoming questions about Augur products, designed to fit a standard desktop viewport.",
-      "Required Name, Email and Message; optional Company / project and Website; a Send message action with an email-app handoff.",
+      "Required Name, Email and Message; optional Company / project and Website; Send message demonstrates local validation only.",
       "A prominent Ask on Discord invitation, Telegram / GitHub / X icons, and only contact@augur.net. No topic selector or preview panel."
     ],
-    "next": "Ask on Discord, choose a social destination, email contact@augur.net, or compose a message and finish sending in an email app.",
+    "next": "Review Ask on Discord, socials, the email address and message fields. All external actions are placeholders; valid form input remains on this page.",
     "reason": "Contact should be reachable on arrival as well as after reading. Clear labels help visitors choose a channel for their question or level of involvement.",
-    "gap": "The contact@augur.net inbox needs provisioning or confirmation by the domain owner. The form hands off to an email app; website-native delivery needs an endpoint. No stored inquiries or response-time promise exists.",
-    "test": "Can a visitor see the contact options without scrolling at standard desktop sizes, choose Discord, recover from invalid fields and continue with all supplied context in an email app?",
+    "gap": "The form does not submit, store data or launch an email app. Social and direct-email links have no destinations during structure review. Inbox provisioning or confirmation remains a future release concern.",
+    "test": "Can a reviewer see the contact options at standard desktop sizes, recover from invalid fields and confirm that valid submission and external placeholders keep them on the page?",
     "source": "User request, September 13, 2026; docs/source-material.md; docs/website-strategy.md; src/pages/contact.astro"
   },
   {

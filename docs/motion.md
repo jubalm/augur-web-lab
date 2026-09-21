@@ -1,3 +1,55 @@
+# Homepage redesign arrival and scroll — September 21, 2026
+
+The requested richer motion applies to `/lab/homepage-redesign/`. The hero now
+arrives in a finite sequence: three headline beats, definition and actions, then
+the question sheet, answer choices and assembling REP stack. A single downward
+cue closes the sequence at about two seconds. An inline opt-in runs before the
+hero is painted; default styles remain fully visible. Focus, pointerdown, a key
+inside the hero, leaving view, reduced motion, hiding the document and pagehide
+settle the entrance immediately. Refresh replays it; cached history does not.
+
+`product-page.ts` gives headings, control strips, application output, roadmap
+panels, article images/copy, FAQ rows and footer columns their own entrances.
+Groups stagger by 110ms (capped at 330ms), with 850ms text/panel, 950ms heading and
+1050ms image motion. Images settle from a small scale/offset without cropping their
+artwork. Only opacity and transforms animate. Each region plays once; there is no
+idle loop or scroll interception. Focus and pointer interaction settle the relevant
+region immediately. Pending page and roadmap regions resume after cached history
+navigation, without replaying regions already seen.
+
+The sticky mechanism and native application transitions retain their existing
+controllers. The new effects do not transform the sticky container or its active
+scenes. Reduced motion and disabled JavaScript keep the static reading path.
+This is website-local motion; copy, identity, pinned foundations and dependencies
+are unchanged. Verification is recorded in `docs/verification.md`.
+
+# Planned animation placeholders — September 19, 2026
+
+Three static frames on `/` mark the spot animations still to be designed: the three Possible applications examples. The three Why + how cards (Resolve any question, Question every answer, Bribery-resistant by design) also have planned animations, briefed in `WhyHow.astro`, but since the September 19 design review they show no stage until one is built. The Why + how cards form one outlined strip, which reveals as a single piece rather than card by card. Each frame states in one line what its animation should show; the briefs live in the component source. When an animation is built, replace the whole `AnimationPlaceholder`. Keep the finished piece decorative, because the neighbouring copy carries the meaning. Following the rules below and in `AGENTS.md`, it should be finite rather than an idle loop and static with reduced motion or without JavaScript.
+
+The Possible applications tabs have their own small motion: the outgoing panel fades in 160ms, the new one rises 8px and fades in over 320ms, and the green underline slides to the chosen tab over 320ms where anchor positioning is supported. All of it is CSS and switches instantly with reduced motion.
+
+# Scroll motion system — September 19, 2026
+
+The user asked for motion while scrolling and within the page to be established now, so later work can focus on copy, wording and structure. Website pages load `src/styles/motion.css`, a CSS-only vocabulary applied with attributes:
+
+| Attribute | Effect |
+| --- | --- |
+| `data-reveal` | Fade and rise 20px as the element enters the viewport |
+| `data-reveal="fade"` | Fade only, for large visuals |
+| `data-reveal="draw"` | Draw from the inline start, for lines and rules |
+| `data-reveal="pop"` | Scale up from a point, for small marks |
+| `data-reveal-children` | Reveal each direct child in turn: columns, lists, cards |
+| `--reveal-order`, `--reveal-step`, `--reveal-length` | Optional custom properties: delay by whole steps (48px each by default), or change the scroll distance |
+
+Native scroll-driven animations (`animation-timeline: view()`) tie progress to each element’s entry into the viewport. An element settles over 120–240px of scrolling, depending on its height. Staggered children start 48px apart. Because progress follows scroll position, anchors, find-in-page, restored scroll and the end of the page always show the correct state; there is no script, observer or hidden state to clean up. Following the modern-web-guidance recommendation for decorative effects, unsupported browsers get no fallback: Firefox, reduced motion and print show the static, fully visible page.
+
+`HomeSection.astro` applies `data-reveal-children` to every section heading, so new sections built with it animate automatically. Lists and columns opt in with one attribute; new children in those lists inherit the stagger. Current stage draws its timeline one segment at a time (100px of scroll each), pops each status marker as its segment starts and then reveals its text. Disclosures inside `main` (FAQ answers, Why + how notes and question criteria) open and close over 320ms with `interpolate-size` and `::details-content`; unsupported browsers open instantly. Header menus keep their own panels.
+
+Why + how now uses the same vocabulary. Its scripted 240ms reading reveal in `resolution-explainer.ts` is removed; the example controls and their own finite scene transitions are unchanged. The hero arrival and Signal Loom are unchanged.
+
+When editing copy or structure, keep the attributes on the containers. Only transform and opacity animate, so text changes cannot cause layout shifts. Individual timings are one-line changes in `motion.css`. Avoid attaching reveals to elements taller than the viewport or to the final rows of a page; the footer uses a 24px step so its directory is fully revealed at the bottom.
+
 # Homepage restoration and underline — September 14, 2026
 
 Signal Loom is restored on `/` using the retained `HeroLoom` component and controller, with the prior 27% / -1% desktop placement, tonal backdrop and masked artwork edges. Its visible continuous motion remains the explicitly requested exception described below. No scene or foundation changes are included.

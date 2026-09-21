@@ -5,41 +5,38 @@ import Icon from './Icon.astro';
 import { buttonVariants } from '../ui/button-variants';
 import { communityLinks } from '../../lib/community';
 const onContactPage = Astro.url.pathname.replace(/\/$/, '') === '/contact';
-const products = [
-  { label: 'Augur Lituus', description: 'Resolution for real-world outcomes' },
-  { label: 'Zoltar', description: 'Shared foundation for oracles' },
-  { label: 'Augur Stratoblast', description: 'Prediction markets on Zoltar' },
-];
-const resources = [
-  { label: 'Blog', description: 'Updates and articles' },
-  { label: 'FAQ', description: 'Common questions' },
-  { label: 'Learn', description: 'Concepts and guides' },
-  { label: 'REP', description: 'Participation and responsibilities' },
+const products = ['Augur Lituus', 'Zoltar', 'Augur Stratoblast'];
+const resources: { label: string; external?: boolean }[] = [
+  { label: 'Blog' },
+  { label: 'FAQ' },
+  { label: 'Learn' },
+  { label: 'REP' },
+  { label: 'Whitepaper', external: true },
 ];
 ---
 <header class="homepage-header">
   <a class="homepage-brand" href="/" aria-label="Augur home"><Brand /></a>
-  <nav aria-label="Main navigation">
-    <!-- Product and resource destinations remain unwired placeholders. -->
+  <nav aria-label="Main navigation" data-header-navigation>
+    <div class="nav-surface" aria-hidden="true" data-menu-surface></div>
+    <!-- Structure review: all menu destinations remain unwired placeholders. -->
+    <a class="nav-item augur-type-ui" role="link" aria-disabled="true" tabindex="0">About</a>
     <details class="nav-menu" name="homepage-navigation" data-header-menu>
       <summary class="nav-item augur-type-ui">Products <Icon name="chevron-down" /></summary>
       <div class="nav-panel">
         {products.map(product => (
           <a class="nav-panel-item" role="link" aria-disabled="true" tabindex="0">
-            <span class="augur-type-ui">{product.label}</span>
-            <span class="augur-type-metadata">{product.description}</span>
+            <span class="augur-type-ui">{product}</span>
           </a>
         ))}
       </div>
     </details>
-    <a class="nav-item augur-type-ui" role="link" aria-disabled="true" tabindex="0">Developers</a>
     <details class="nav-menu" name="homepage-navigation" data-header-menu>
       <summary class="nav-item augur-type-ui">Resources <Icon name="chevron-down" /></summary>
       <div class="nav-panel">
         {resources.map(resource => (
           <a class="nav-panel-item" role="link" aria-disabled="true" tabindex="0">
             <span class="augur-type-ui">{resource.label}</span>
-            <span class="augur-type-metadata">{resource.description}</span>
+            {resource.external && <Icon name="arrow-up-right" />}
           </a>
         ))}
       </div>
@@ -48,7 +45,7 @@ const resources = [
       <summary class="nav-item augur-type-ui">Community <Icon name="chevron-down" /></summary>
       <div class="nav-panel">
         {Object.values(communityLinks).map(social => (
-          <a class="nav-panel-item community-link" href={social.href}>
+          <a class="nav-panel-item" role="link" aria-disabled="true" tabindex="0">
             <Icon name={social.icon} />
             <span class="augur-type-ui">{social.name}</span>
             <Icon name="arrow-up-right" />
@@ -63,38 +60,120 @@ const resources = [
   </div>
 </header>
 <script>
-  document.querySelectorAll<HTMLDetailsElement>('[data-header-menu]').forEach(menu => {
-    const summary = menu.querySelector<HTMLElement>('summary')!;
+  document.querySelectorAll<HTMLElement>('[data-header-navigation]').forEach(nav => {
+    const menus = [...nav.querySelectorAll<HTMLDetailsElement>('[data-header-menu]')];
+    const surface = nav.querySelector<HTMLElement>('[data-menu-surface]')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     const abort = new AbortController();
+    const options = { signal: abort.signal };
+    const timing = { duration: 300, easing: 'cubic-bezier(.22, 1, .36, 1)' };
+    let active: HTMLDetailsElement | undefined;
+    let surfaceMotion: Animation | undefined;
+    let contentMotion: Animation | undefined;
     let openTimer: ReturnType<typeof setTimeout> | undefined;
     let closeTimer: ReturnType<typeof setTimeout> | undefined;
     const cancel = () => { clearTimeout(openTimer); clearTimeout(closeTimer); };
-    const close = () => { cancel(); menu.open = false; };
-    menu.addEventListener('pointerenter', event => {
-      if (event.pointerType !== 'mouse') return;
-      cancel(); openTimer = setTimeout(() => { menu.open = true; }, 100);
-    }, { signal: abort.signal });
-    menu.addEventListener('pointerleave', event => {
-      if (event.pointerType !== 'mouse') return;
-      cancel(); closeTimer = setTimeout(() => {
-        if (!menu.contains(document.activeElement)) menu.open = false;
-      }, 180);
-    }, { signal: abort.signal });
-    summary.addEventListener('click', cancel, { signal: abort.signal });
-    menu.addEventListener('focusout', () => {
-      queueMicrotask(() => { if (!menu.contains(document.activeElement)) close(); });
-    }, { signal: abort.signal });
+    const stopMotion = () => { surfaceMotion?.cancel(); contentMotion?.cancel(); };
+
+    const show = (menu: HTMLDetailsElement, animate = true) => {
+      cancel();
+      if (active === menu && animate) return;
+      // Read the moving box before cancelling: quick reversals continue from here.
+      const previous = active ? surface.getBoundingClientRect() : undefined;
+      stopMotion();
+      active = menu;
+      menus.forEach(other => { other.open = other === menu; });
+      const panel = menu.querySelector<HTMLElement>('.nav-panel')!;
+      const target = panel.getBoundingClientRect();
+      const origin = nav.getBoundingClientRect();
+      const x = target.left - origin.left;
+      const y = target.top - origin.top;
+      const transform = `translate(${x}px, ${y}px)`;
+      Object.assign(surface.style, {
+        width: `${target.width}px`, height: `${target.height}px`, transform, opacity: '1',
+      });
+      if (reduced.matches || !animate) return;
+
+      const dx = previous ? previous.left - target.left : 0;
+      const dy = previous ? previous.top - target.top : -6;
+      const motionTiming = previous ? timing : { duration: 180, easing: 'ease-out' };
+      surfaceMotion = surface.animate([
+        {
+          transform: `translate(${x + dx}px, ${y + dy}px)`,
+          width: `${previous?.width ?? target.width}px`,
+          height: `${previous?.height ?? target.height}px`, opacity: previous ? 1 : 0,
+        },
+        { transform, width: `${target.width}px`, height: `${target.height}px`, opacity: 1 },
+      ], motionTiming);
+      // Labels travel with the box, revealing extra rows as its height grows.
+      contentMotion = panel.animate([
+        {
+          transform: `translate(${dx}px, ${dy}px)`, opacity: 0,
+          clipPath: `inset(0 0 ${Math.max(0, target.height - (previous?.height ?? target.height))}px)`,
+        },
+        { transform: 'translate(0, 0)', opacity: 1, clipPath: 'inset(0)' },
+      ], motionTiming);
+    };
+    const close = () => {
+      cancel();
+      stopMotion();
+      active = undefined;
+      menus.forEach(menu => { menu.open = false; });
+      surface.style.opacity = '0';
+    };
+
+    nav.dataset.menuEnhanced = '';
+    menus.forEach(menu => {
+      const summary = menu.querySelector<HTMLElement>('summary')!;
+      menu.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'mouse') return;
+        cancel();
+        // Once open, move directly to the next trigger without an exit/entry cycle.
+        if (active) show(menu);
+        else openTimer = setTimeout(() => show(menu), 100);
+      }, options);
+      menu.addEventListener('pointerleave', event => {
+        if (event.pointerType !== 'mouse') return;
+        cancel();
+        closeTimer = setTimeout(() => {
+          if (!active?.querySelector(':focus-visible')) close();
+        }, 180);
+      }, options);
+      summary.addEventListener('click', event => {
+        event.preventDefault();
+        if (active === menu) close();
+        else show(menu);
+      }, options);
+      menu.addEventListener('toggle', () => {
+        if (menu.open && active !== menu) show(menu);
+        else if (!menu.open && active === menu) close();
+      }, options);
+    });
+    nav.addEventListener('focusout', event => {
+      const previous = active;
+      if (!previous?.contains(event.target as Node)) return;
+      queueMicrotask(() => {
+        if (active !== previous || previous.contains(document.activeElement)) return;
+        // Keep the surface available while the next trigger receives focus;
+        // its click/Enter activation decides whether to switch or close.
+        if (!menus.some(menu => menu.querySelector('summary') === document.activeElement)) close();
+      });
+    }, options);
     document.addEventListener('pointerdown', event => {
-      if (!menu.contains(event.target as Node)) close();
-    }, { signal: abort.signal });
+      if (!menus.some(menu => menu.contains(event.target as Node))) close();
+    }, options);
     document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && menu.open) {
+      if (event.key === 'Escape' && active) {
+        const summary = active.querySelector<HTMLElement>('summary')!;
         event.preventDefault(); close(); summary.focus({ preventScroll: true });
       }
-    }, { signal: abort.signal });
+    }, options);
+    const settle = () => { stopMotion(); if (active) show(active, false); };
+    reduced.addEventListener('change', settle, options);
+    window.addEventListener('resize', settle, options);
     window.addEventListener('pagehide', event => {
       close(); if (!event.persisted) abort.abort();
-    }, { signal: abort.signal });
+    }, options);
   });
 </script>
 <style>
@@ -107,8 +186,9 @@ const resources = [
   /* Brand Foundation pp.11–12: 150px minimum, with one a-height of clearspace above and below. */
   .homepage-brand :global(.brand) { width: 150px; }
   .header-actions, nav { display: flex; align-items: center; gap: 32px; }
+  nav { position: relative; isolation: isolate; }
   .header-actions { justify-self: end; gap: 16px; }
-  .contact-link { flex: none; font-size: 16px; }
+  .contact-link { flex: none; }
   .contact-link[aria-current="page"] { --control-border: var(--foreground); }
   .nav-item {
     position: relative; display: inline-flex; align-items: center; gap: 8px;
@@ -120,38 +200,39 @@ const resources = [
   }
   .nav-item:hover::after, .nav-menu[open] > summary::after { transform: scaleX(1); }
   a[aria-disabled] { cursor: pointer; }
-  .nav-menu { position: relative; }
+  .nav-menu { position: relative; z-index: 1; }
   summary { list-style: none; cursor: pointer; }
   summary::-webkit-details-marker { display: none; }
   summary :global(.web-icon) { width: 14px; height: 14px; transition: transform 180ms ease-out; }
   .nav-menu[open] summary :global(.web-icon) { transform: rotate(180deg); }
   .nav-panel {
-    position: absolute; left: -24px; top: calc(100% + 16px); width: 280px; padding: 8px;
+    /* Align item labels with their trigger: border + panel inset + item inset. */
+    position: absolute; left: -21px; top: calc(100% + 16px); width: 240px; padding: 8px;
     border: 1px solid var(--border-quiet); background: var(--background);
   }
   .nav-panel::before { content: ''; position: absolute; top: -17px; left: 0; right: 0; height: 17px; }
-  /* Keep native disclosure behavior; supporting browsers also retain the panel for its exit. */
-  @supports selector(details::details-content) and (transition-behavior: allow-discrete) {
-    .nav-menu::details-content { transition: content-visibility 180ms allow-discrete; }
-    .nav-panel { opacity: 0; transform: translateY(-6px); transition: opacity 180ms ease-out, transform 180ms ease-out; }
-    .nav-menu[open] > .nav-panel { opacity: 1; transform: translateY(0); }
-    .nav-menu:not([open]) > .nav-panel { pointer-events: none; }
-    @starting-style {
-      .nav-menu[open] > .nav-panel { opacity: 0; transform: translateY(-6px); }
-    }
-  }
-  .nav-panel-item { display: grid; gap: 5px; padding: 16px; text-decoration: none; transition: background-color 180ms ease-out; }
-  .nav-panel-item > .augur-type-ui { font-size: 16px; line-height: 24px; }
-  .nav-panel-item + .nav-panel-item { border-top: 1px solid var(--border-quiet); }
-  .nav-panel-item > .augur-type-metadata { color: var(--muted-foreground); }
+  /* Native details stay usable without JS; enhancement supplies one shared box. */
+  .nav-surface { display: none; position: absolute; top: 0; left: 0; z-index: 0; pointer-events: none; opacity: 0; border: 1px solid var(--border-quiet); background: var(--background); }
+  nav[data-menu-enhanced] .nav-surface { display: block; }
+  nav[data-menu-enhanced] .nav-panel { border-color: transparent; background: transparent; }
+  .nav-panel-item { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px; text-decoration: none; transition: background-color 180ms ease-out; }
+  .nav-panel-item > .augur-type-ui { flex: 1; min-width: 0; font-size: 16px; line-height: 24px; }
+  .nav-panel-item :global(svg) { display: block; }
   .nav-panel-item:hover, .nav-panel-item:focus-visible { background: var(--muted); }
-  .community-link { grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
   .header-actions :global(.theme-toggle) { --control-border: transparent; }
   a:focus-visible, summary:focus-visible { outline: 2px solid var(--muted-foreground); outline-offset: 6px; }
   .nav-panel-item:focus-visible { outline-offset: -2px; }
   @media (max-width: 1100px) {
     .homepage-header { width: calc(100% - 80px); gap: 24px; }
     nav { gap: 24px; }
+  }
+  /* Below this width one row no longer fits (brand + menus + actions ≈ 830px), so the menus take
+     a second row under the brand instead of pushing the page sideways. */
+  @media (max-width: 940px) {
+    .homepage-header { grid-template-columns: 1fr auto; grid-template-areas: "brand actions" "nav nav"; row-gap: 4px; height: auto; padding-block: 20px 6px; }
+    .homepage-brand { grid-area: brand; }
+    nav { grid-area: nav; justify-self: start; }
+    .header-actions { grid-area: actions; }
   }
   @media (max-width: 700px) {
     .homepage-header { display: flex; justify-content: space-between; width: calc(100% - 40px); height: auto; min-height: 100px; flex-wrap: wrap; padding-block: 20px; gap: 16px; }
@@ -160,6 +241,5 @@ const resources = [
   }
   @media (prefers-reduced-motion: reduce) {
     .nav-item::after, summary :global(.web-icon), .nav-panel, .nav-panel-item { transition: none; }
-    .nav-menu::details-content { transition: none; }
   }
 </style>

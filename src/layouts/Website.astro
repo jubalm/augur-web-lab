@@ -1,9 +1,11 @@
 ---
 import Document from './Document.astro';
-interface Props { title: string; description?: string; scaffold?: boolean; }
-const {title,description,scaffold=false}=Astro.props;
+import '../styles/motion.css';
+interface Props { title: string; description?: string; scaffold?: boolean; fixedTheme?: 'light' | 'dark'; }
+const {title,description,scaffold=false,fixedTheme}=Astro.props;
 ---
-<Document title={title} description={description} scaffold={scaffold} previewChooser={false}>
+<Document title={title} description={description} scaffold={scaffold} fixedTheme={fixedTheme} previewChooser={false}>
   <slot name="header" />
   <main id="main"><slot /></main>
+  <slot name="footer" />
 </Document>

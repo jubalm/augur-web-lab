@@ -11,7 +11,16 @@
 7. Record meaningful differences: unavailable assets/fonts, token conflicts, content changes, mobile reflow, unimplemented interaction, or a deliberate accessibility adjustment. Do not claim pixel parity if only an export or written brief was available.
 8. Iterate alongside prior variants. Promote to `src/components/site/` or normal site routes only when explicitly approved. Shared Augur-wide primitives remain upstream.
 
-## Available starting reference
+## Current working file
+
+[Augur Website — Two Directions](https://www.figma.com/design/AjR6tba4Nuj0FFwaSYTOrE/Augur-Website----Two-Directions?node-id=2-2) (file key `AjR6tba4Nuj0FFwaSYTOrE`).
+
+- Page `2:2`, “01 — Direction A: Editorial Explanation”: 1440 homepage frame `3:49`, application section `13:44`.
+- Page `2:3`, “02 — Direction B: Interactive Product Story”: 1440 homepage frame `3:43`, application section `13:167`.
+
+Each homepage has nine numbered sections (header, hero, principles, mechanism, applications, roadmap, blog, FAQ, contact/footer). Both were last edited September 21, 2026 (see `docs/website-strategy.md`). Recorded September 30, 2026 as the file to use for new Figma-driven work.
+
+## Earlier reference
 
 The local `figma-revision-03.json` (September 10, 2026) identifies [homepage frame 4:35](https://www.figma.com/design/4RZThfojvu7ikRF5H9gJ4A?node-id=4-35) and mobile node `4:36`. It also records motion alternatives at nodes `63:3`, `64:2`, `65:2`, `66:2`, `67:2`, with notes at `71:40`.
 

@@ -1,8 +1,8 @@
-// Official destinations linked by augur.net, reviewed September 13, 2026.
-// Shared by the website header and Contact page.
+// Channel labels shared by the header and Contact for structure review.
+// External URLs remain in docs/source-material.md until navigation is authorized.
 export const communityLinks = {
-  discord: { name: 'Discord', icon: 'discord-logo', href: 'https://discord.gg/Y3tCZsSmz3' },
-  telegram: { name: 'Telegram', icon: 'telegram-logo', href: 'https://t.me/augurlituus' },
-  x: { name: 'X', icon: 'x-logo', href: 'https://x.com/AugurProject' },
-  github: { name: 'GitHub', icon: 'github-logo', href: 'https://github.com/AugurProject/' },
+  discord: { name: 'Discord', icon: 'discord-logo' },
+  telegram: { name: 'Telegram', icon: 'telegram-logo' },
+  x: { name: 'X', icon: 'x-logo' },
+  github: { name: 'GitHub', icon: 'github-logo' },
 } as const;

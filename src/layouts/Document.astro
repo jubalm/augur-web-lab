@@ -3,24 +3,25 @@ import '../styles/augur.css';
 import '../styles/site.css';
 import '../styles/website-options.css';
 import PreviewSwitcher from '../components/site/PreviewSwitcher.astro';
-interface Props { title: string; description?: string; scaffold?: boolean; previewChooser?: boolean; }
-const {title,description='Augur Lituus. Permissionless, decentralized resolution infrastructure in development.',scaffold=false,previewChooser=true}=Astro.props;
+import { labOnly } from '../lib/deployment';
+interface Props { title: string; description?: string; scaffold?: boolean; previewChooser?: boolean; fixedTheme?: 'light' | 'dark'; }
+const {title,description='Augur is decentralized oracle infrastructure. Augur Lituus, the next generation of Augur’s oracle, is in development.',scaffold=false,previewChooser=true,fixedTheme}=Astro.props;
 ---
 <!doctype html>
-<html lang="en" data-theme={scaffold ? 'light' : undefined} data-icon-weight="bold" data-icon-style="outline" data-field="filled">
+<html lang="en" data-theme={scaffold ? 'light' : fixedTheme} data-icon-weight="bold" data-icon-style="outline" data-field="filled">
   <head>
     <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} /><meta name="robots" content="noindex, nofollow" /><title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/brand/glyph-color.svg" />
     <link rel="icon" type="image/svg+xml" href="/brand/glyph-reversed.svg" media="(prefers-color-scheme: dark)" />
-    {!scaffold && <script is:inline>
+    {!scaffold && !fixedTheme && <script is:inline>
       try { const theme=localStorage.getItem('augur-web-lab:theme'); if(theme==='light'||theme==='dark') document.documentElement.dataset.theme=theme; } catch {}
     </script>}
   </head>
   <body class:list={[scaffold ? 'homepage-scaffold' : 'website-direction']}>
     {!scaffold && <a class="skip-link" href="#main">Skip to content</a>}
     <slot />
-    {!scaffold && previewChooser && <PreviewSwitcher />}
+    {!scaffold && previewChooser && !labOnly && <PreviewSwitcher />}
   </body>
 </html>
 

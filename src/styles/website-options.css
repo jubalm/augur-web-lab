@@ -1,9 +1,13 @@
 /* User-requested website trials. The pinned Augur foundations are unchanged. */
-:root { --web-radius: 0px; --web-height: 48px; --web-label-weight: 600; }
-.website-direction, .website-direction [data-theme] { --primary: var(--augur-color-accent); --primary-foreground: var(--augur-color-primary); --ring: var(--foreground); --web-error: #cf294e; --destructive: var(--web-error); --destructive-foreground: #fff; }
+:root { --web-radius: 0px; --web-height: 48px; --web-label-size: 16px; --web-label-weight: 600; }
+/* --web-outline: the one line for containers and outline buttons; --border-quiet stays for rules. */
+.website-direction, .website-direction [data-theme] { --primary: var(--augur-color-accent); --primary-foreground: var(--augur-color-primary); --ring: var(--foreground); --web-error: #cf294e; --destructive: var(--web-error); --destructive-foreground: #fff; --web-outline: color-mix(in srgb, var(--foreground) 18%, var(--background)); }
 .web-icon { display: inline-flex; flex: none; width: 20px; height: 20px; align-items: center; justify-content: center; }
 .web-icon svg { width: 100%; height: 100%; fill: currentColor; }
 .web-icon > [data-glyph] { width: 100%; height: 100%; display: block; }
+/* Shared text roles: one lead for hero and section introductions, one small body size. */
+.website-direction .web-lead { font-size: 18px; line-height: 1.6; text-wrap: pretty; }
+.website-direction .web-body-small { font-size: 15px; line-height: 1.6; }
 /* Shared website control states. Registry styles stay untouched. */
 .website-direction :is(.configured-button, .utility-control) {
   --control-bg: transparent;
@@ -20,7 +24,7 @@
   cursor: pointer; transform: none;
   transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out;
 }
-.website-direction .configured-button { height: var(--web-height); padding-inline: 24px; font-weight: var(--web-label-weight); }
+.website-direction .configured-button { height: var(--web-height); padding-inline: 24px; font-size: var(--web-label-size); font-weight: var(--web-label-weight); }
 .website-direction .utility-control { height: 44px; padding: 0; }
 .website-direction .theme-toggle { width: 44px; }
 .website-direction :is(.configured-button.aug-button--default, .utility-control[aria-pressed="true"]) {
@@ -37,6 +41,7 @@
 .website-direction .configured-button.aug-button--secondary { --control-bg: var(--muted); }
 /* Distinct hover cues, keeping the square control and label stationary. */
 .website-direction .configured-button.aug-button--outline {
+  --control-border: var(--web-outline);
   --control-hover: color-mix(in srgb, var(--foreground) 6%, transparent);
   --control-hover-border: color-mix(in srgb, var(--foreground) 25%, var(--border-quiet));
   --control-active: color-mix(in srgb, var(--foreground) 10%, transparent);
@@ -50,23 +55,25 @@
   transform: scaleX(0); transform-origin: right;
   transition: transform 180ms ease-out;
 }
+/* Structure-review placeholders retain the proposed button appearance and hover.
+   They have no href; actual disabled/loading controls keep their disabled styling. */
 @media (hover: hover) and (pointer: fine) {
-  .website-direction :is(.configured-button, .utility-control):hover:not(:disabled):not([aria-disabled="true"]) {
+  .website-direction :is(.configured-button, .utility-control):hover:not(:disabled):not([aria-disabled="true"]:not([data-review-placeholder])) {
     background: var(--control-hover); color: var(--control-hover-fg);
     border-color: var(--control-hover-border); box-shadow: var(--control-hover-shadow);
   }
-  .website-direction .configured-button.aug-button--ghost:hover:not(:disabled):not([aria-disabled="true"])::after {
+  .website-direction .configured-button.aug-button--ghost:hover:not(:disabled):not([aria-disabled="true"]:not([data-review-placeholder]))::after {
     transform: scaleX(1); transform-origin: left;
   }
 }
-.website-direction :is(.configured-button, .utility-control):active:not(:disabled):not([aria-disabled="true"]) {
+.website-direction :is(.configured-button, .utility-control):active:not(:disabled):not([aria-disabled="true"]:not([data-review-placeholder])) {
   background: var(--control-active); color: var(--control-hover-fg); border-color: var(--control-hover-border);
   box-shadow: inset 0 2px color-mix(in srgb, currentColor 20%, transparent); transform: none;
 }
 .website-direction :is(.configured-button, .utility-control):focus-visible { outline: 2px solid var(--muted-foreground); outline-offset: 3px; }
 .website-direction :is(.configured-button, .utility-control):disabled,
-.website-direction :is(.configured-button, .utility-control)[aria-disabled="true"] { background: var(--muted); color: var(--muted-foreground); border-color: var(--border-quiet); box-shadow: none; cursor: not-allowed; opacity: 1; transform: none; }
-.website-direction .configured-button[aria-disabled="true"] { cursor: wait; }
+.website-direction :is(.configured-button, .utility-control)[aria-disabled="true"]:not([data-review-placeholder]) { background: var(--muted); color: var(--muted-foreground); border-color: var(--border-quiet); box-shadow: none; cursor: not-allowed; opacity: 1; transform: none; }
+.website-direction .configured-button[aria-disabled="true"]:not([data-review-placeholder]) { cursor: wait; }
 .website-direction .configured-button .web-icon { margin: 0; }
 .website-direction .configured-field { border-radius: var(--web-radius); height: var(--web-height); background: var(--muted); border-color: transparent; transition: background-color 160ms, box-shadow 160ms; }
 .website-direction .configured-field:focus { border-color: transparent; background: color-mix(in srgb, var(--foreground) 5%, var(--muted)); outline: none; box-shadow: inset 0 -1px color-mix(in srgb, var(--foreground) 35%, transparent); }

@@ -7,7 +7,7 @@ import { Button } from '../components/ui/button';
 import { buttonVariants } from '../components/ui/button-variants';
 import { communityLinks } from '../lib/community';
 
-const { discord, telegram, github, x } = communityLinks;
+const { telegram, github, x } = communityLinks;
 const socials = [telegram, github, x];
 // User-selected address; the domain owner must provision the inbox before release.
 const contactEmail = 'contact@augur.net';
@@ -25,7 +25,7 @@ const contactEmail = 'contact@augur.net';
           <h2 class="augur-type-heading-2" id="discord-title">A quick question? Start on Discord.</h2>
         </div>
         <p class="augur-type-body">Skip the email back-and-forth. Ask the community and keep the conversation moving in one place.</p>
-        <a href={discord.href} class:list={[buttonVariants(), 'configured-button']}>Ask on Discord <Icon name="arrow-up-right" /></a>
+        <a role="link" aria-disabled="true" tabindex="0" data-review-placeholder class:list={[buttonVariants(), 'configured-button']}>Ask on Discord <Icon name="arrow-up-right" /></a>
       </section>
 
       <section class="community" aria-labelledby="community-title">
@@ -33,7 +33,7 @@ const contactEmail = 'contact@augur.net';
         <ul class="social-links">
           {socials.map(social => (
             <li>
-              <a href={social.href}>
+              <a role="link" aria-disabled="true" tabindex="0">
                 <Icon name={social.icon} class="social-icon" />
                 <span class="augur-type-control">{social.name}</span>
                 <Icon name="arrow-up-right" />
@@ -43,16 +43,16 @@ const contactEmail = 'contact@augur.net';
         </ul>
       </section>
 
-      <p class="direct-contact augur-type-body">Prefer email? <a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+      <p class="direct-contact augur-type-body">Prefer email? <a role="link" aria-disabled="true" tabindex="0">{contactEmail}</a></p>
     </section>
 
     <section class="contact-message" aria-labelledby="message-title">
       <h2 class="augur-type-heading-2" id="message-title">Send us a message</h2>
       <p class="form-introduction augur-type-body">Tell us what you’re working on or what you’d like to know.</p>
 
-      <form method="post" data-contact-form data-contact-email={contactEmail} aria-labelledby="message-title">
-        <!-- Enable after installing the email handoff. Direct email and community
-             links remain available without JavaScript. -->
+      <form method="post" data-contact-form aria-labelledby="message-title">
+        <!-- Enable only after installing local validation and blocking submission.
+             Structure review never submits data or launches an email app. -->
         <fieldset disabled data-contact-fields>
           <legend class="visually-hidden">Your message</legend>
           <div class="form-field">
@@ -84,8 +84,6 @@ const contactEmail = 'contact@augur.net';
             <Button type="submit" className="configured-button">Send message</Button>
           </div>
         </fieldset>
-        <noscript><p class="form-note augur-type-body">Email us at <a href={`mailto:${contactEmail}`}>{contactEmail}</a>, or join us on Discord.</p></noscript>
-        <p class="form-note contact-status augur-type-body" role="status" data-contact-status></p>
       </form>
     </section>
   </div>
@@ -99,9 +97,7 @@ const contactEmail = 'contact@augur.net';
     const email = form.querySelector<HTMLInputElement>('#contact-email')!;
     const company = form.querySelector<HTMLInputElement>('#contact-company')!;
     const website = form.querySelector<HTMLInputElement>('#contact-website')!;
-    const recipient = form.dataset.contactEmail!;
     const message = form.querySelector<HTMLTextAreaElement>('#contact-message')!;
-    const status = form.querySelector<HTMLElement>('[data-contact-status]')!;
     const validatedFields = [name, email, company, website, message];
 
     const validate = (field: HTMLInputElement | HTMLTextAreaElement) => {
@@ -128,29 +124,17 @@ const contactEmail = 'contact@augur.net';
       const invalidFields = validatedFields.filter(field => !validate(field));
       if (invalidFields.length) {
         // Each error is attached to its field; focus announces the first one.
-        status.textContent = '';
         invalidFields[0].focus();
         return;
       }
-      const subject = `Augur inquiry — ${company.value.trim() || name.value.trim()}`;
-      const body = [
-        `Name: ${name.value.trim()}`,
-        `Email: ${email.value.trim()}`,
-        ...(company.value.trim() ? [`Company / project: ${company.value.trim()}`] : []),
-        ...(website.value.trim() ? [`Website: ${website.value.trim()}`] : []),
-        '', message.value.trim(),
-      ].join('\r\n');
-      const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
-      status.textContent = `Finish sending in your email app. If it didn’t open, you can email ${recipient} directly. Your text is still here to copy.`;
+      // Valid input remains on this page; sending is a placeholder during review.
     });
 
     form.addEventListener('input', event => {
-      status.textContent = '';
       const field = event.target;
       if ((field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) && field.hasAttribute('aria-invalid')) validate(field);
     });
-    // No sending claim or draft storage: the visitor sends from their email app.
+    // Local field review only; no submission, email handoff or draft storage.
     form.noValidate = true;
     fields.disabled = false;
   }
@@ -177,7 +161,7 @@ const contactEmail = 'contact@augur.net';
   .social-links a:hover .augur-type-control { text-decoration: underline; text-underline-offset: 4px; }
   .social-links a:focus-visible, .direct-contact a:focus-visible { outline: 2px solid var(--muted-foreground); outline-offset: 4px; }
   .direct-contact { margin-top: 16px; color: var(--muted-foreground); }
-  .direct-contact a { color: var(--foreground); text-decoration-thickness: 1px; text-underline-offset: 4px; overflow-wrap: anywhere; }
+  .direct-contact a { color: var(--foreground); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; overflow-wrap: anywhere; }
   .direct-contact a:hover { text-decoration-thickness: 2px; }
   .contact-message { border-left: 1px solid var(--border-quiet); padding-left: clamp(32px, 3.75vw, 56px); padding-top: 8px; }
   .form-introduction { margin-top: 8px; color: var(--muted-foreground); }
@@ -191,9 +175,6 @@ const contactEmail = 'contact@augur.net';
   .field-error { font-size: 14px; }
   .form-actions { display: flex; align-items: center; gap: 16px; }
   .form-actions :global(button) { flex-shrink: 0; }
-  .form-note { font-size: 14px; line-height: 1.5; color: var(--muted-foreground); }
-  noscript p { margin-top: 16px; }
-  .contact-status:not(:empty) { margin-top: 16px; }
   @media (max-width: 1100px) { .contact-page { width: calc(100% - 80px); gap: 32px; } .contact-message { padding-left: 32px; } .optional { font-size: 12px; } }
   @media (max-width: 800px) {
     .contact-page { grid-template-columns: 1fr; width: calc(100% - 40px); }

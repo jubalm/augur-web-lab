@@ -1,306 +1,208 @@
+import { homeSections, flowPages } from './user-flow-pages';
+
 // Website-specific design hypotheses. The current preview is evidence of behavior,
 // not evidence that a visitor will take a particular path.
-export const blueprintDate = '2026-09-13';
+export const blueprintDate = '2026-09-14';
 export const websiteScope = "Home, About, Products, Learn, Blog, FAQ, REP and Contact. Products combines Augur Lituus, Zoltar and Augur Stratoblast in three sections on one page. Home and Contact are built; the other pages are planned.";
 export const blueprintPremise = 'Every element should help someone understand, decide, act, or feel something intentional. Name that job, then test whether the element does it.';
 
-export const journeys = [
+// Map stops use the titles of existing website briefs. Community is a header
+// dropdown, so it is not a page or section destination.
+const journeyBriefs = new Map(
+  [...homeSections, ...flowPages.filter(brief => brief.id !== 'page-community')]
+    .map(brief => [brief.id, brief]),
+);
+
+function journeyDestination(target: string) {
+  const brief = journeyBriefs.get(target);
+  if (!brief) throw new Error(`Journey destination has no page or section brief: ${target}`);
+  return { target, title: brief.title.replace(/^\d{2} · /, '') };
+}
+
+export const homepageJourney = {
+  ...journeyDestination('page-home'),
+  detail: 'Six main sections, from the first viewport to selected reading and a compact FAQ, followed by a footer with an invitation to talk.',
+};
+
+export const homepageSequence = 'Six main sections and a compact footer, all built for structure review. Related questions share an explanation, with sources and deeper reading nearby. A short FAQ follows Blog to resolve remaining doubts. Size sections around their content and remove repetition to keep scrolling purposeful.';
+
+export const journeyMethod = {
+  premise: 'Give each homepage section a clear purpose. Related questions can share one explanation, and the same answer can help several audiences. Each visitor chooses the depth they need.',
+};
+
+const journeyPlans = [
   {
-    "id": "decision",
-    "label": "CEO / product",
-    "title": "Is this relevant to what we are building?",
-    "entry": "A founder, product lead, or CEO opens the homepage from a recommendation. They need a plain-language category, a possible application, and an honest account of readiness.",
-    "steps": [
+    id: 'returning',
+    label: 'OG Member',
+    title: 'What changed since I last checked?',
+    entry: 'A returning community member wants current direction, dated changes and the underlying work. They can skip introductory explanations they already know.',
+    questions: [
       {
-        "label": "Orient",
-        "title": "Homepage",
-        "detail": "What it is + in R&D",
-        "target": "home-hero"
+        question: 'Where does Augur stand now?',
+        answer: 'Summarize current work and open questions with a review date.',
+        target: 'home-roadmap',
+        continuation: { condition: 'For project direction and history', target: 'page-about' },
       },
       {
-        "label": "Find relevance",
-        "title": "Products",
-        "detail": "Three products, one explanation",
-        "target": "page-products"
+        question: 'What changed, and when?',
+        answer: 'Surface a real dated update or report with links to its evidence.',
+        target: 'home-journal',
+        continuation: { condition: 'To read the complete update', target: 'page-blog' },
       },
       {
-        "label": "Check context",
-        "title": "About",
-        "detail": "Direction and current work",
-        "target": "page-about"
+        question: 'Where can I reconnect?',
+        answer: 'Make discussion channels easy to find after catching up.',
+        target: 'home-footer',
+        continuation: { condition: 'To choose a conversation channel', target: 'page-contact' },
       },
-      {
-        "label": "Continue",
-        "title": "Contact",
-        "detail": "Discuss a possible fit",
-        "target": "page-contact"
-      }
     ],
-    "branches": [
-      {
-        "condition": "Need the problem first?",
-        "label": "Read Why",
-        "target": "home-why"
-      },
-      {
-        "condition": "Looking for a specific product?",
-        "label": "Products → choose a section",
-        "target": "page-products"
-      }
-    ],
-    "choice": "Home introduces Augur; Products explains Augur Lituus, Zoltar and Augur Stratoblast in three sections on one page. About gives project direction and history; Contact supports a specific conversation.",
-    "friction": "Only Home and Contact are built. Products and About are planned; the R&D stage and approximate launch estimate do not establish product availability.",
-    "success": "They can explain the product category, name a plausible fit, and distinguish proposed design from available implementation. A qualified “not for us yet” is useful too.",
-    "test": "Ask a product decision-maker to assess fit and readiness without guidance. Record which words they use, where they hesitate, and what evidence they seek before contacting anyone."
+    success: 'They can name a concrete dated change, inspect its evidence and find a way to reconnect. Recent publishing alone does not establish implementation progress.',
+    test: 'Ask a returning member what changed since their last visit. Observe where they start, which evidence they use and whether they can stop once their question is answered.',
   },
   {
-    "id": "technical",
-    "label": "CTO / builder",
-    "title": "Can I evaluate how this would work?",
-    "entry": "A CTO or engineer may arrive on the homepage, a technical article, or a shared repository link. They need mechanism, assumptions, source code, and version context.",
-    "steps": [
+    id: 'decision',
+    label: 'CEO / decision-maker',
+    title: 'Is this relevant to what we are building?',
+    entry: 'A CEO, founder or product lead needs a clear application, an honest account of readiness and a way to discuss a possible fit.',
+    questions: [
       {
-        "label": "Understand scope",
-        "title": "Products",
-        "detail": "Choose Lituus, Zoltar or Stratoblast",
-        "target": "page-products"
+        question: 'Could this address our problem?',
+        answer: 'Connect the mechanism to possible application needs, with their limits.',
+        target: 'home-applications',
+        continuation: { condition: 'To evaluate a relevant product', target: 'page-products' },
       },
       {
-        "label": "Inspect design",
-        "title": "Paper + code",
-        "detail": "Sources beside the explanation",
-        "target": "home-research"
+        question: 'How far along is the work?',
+        answer: 'Separate completed work, ongoing research and open questions.',
+        target: 'home-roadmap',
+        continuation: { condition: 'For maintained project context', target: 'page-about' },
       },
       {
-        "label": "Check limits",
-        "title": "Current R&D",
-        "detail": "Known work and open questions",
-        "target": "home-roadmap"
+        question: 'How do we discuss our requirements?',
+        answer: 'Offer a clear invitation to discuss a product or project.',
+        target: 'home-footer',
+        continuation: { condition: 'When ready for a conversation', target: 'page-contact' },
       },
-      {
-        "label": "Discuss",
-        "title": "Contact",
-        "detail": "Ask a specific technical question",
-        "target": "page-contact"
-      }
     ],
-    "branches": [
-      {
-        "condition": "Need foundational context?",
-        "label": "Learn",
-        "target": "page-learn"
-      },
-      {
-        "condition": "Have a specific question?",
-        "label": "FAQ",
-        "target": "page-faq"
-      }
-    ],
-    "choice": "The shared Products page owns the technical overview and direct source links. A separate Developers overview would duplicate it. Learn and FAQ offer supporting explanations.",
-    "friction": "The Products page is planned. There are no developer docs or supported integration instructions. Developers is the only possible later page and would need a distinct role beyond the product explanations.",
-    "success": "They find the design evidence, recognize the R&D stage and can name the unknowns that prevent an integration decision.",
-    "test": "Give an engineer an evaluation question: “What assumptions would our application inherit?” Watch whether the site gets them to the right source without implying production readiness."
+    success: 'They can name a plausible fit and distinguish proposed design from available implementation. Deciding that it is too early for their needs is useful too.',
+    test: 'Ask a decision-maker to assess fit and readiness. Observe what evidence they need before a conversation; do not prescribe the pages they must visit.',
   },
   {
-    "id": "learning",
-    "label": "New reader",
-    "title": "What does resolution mean, and why do we need it?",
-    "entry": "A curious reader starts at the homepage or follows an educational link. They need a concrete example before terminology, then a manageable next reading step.",
-    "steps": [
+    id: 'technical',
+    label: 'CTO / builder',
+    title: 'Can I evaluate how this would work?',
+    entry: 'A CTO or engineer needs mechanism, assumptions, inspectable sources and version context. Product explanations should put the relevant evidence together.',
+    questions: [
       {
-        "label": "Recognize the problem",
-        "title": "Homepage",
-        "detail": "A plain introduction",
-        "target": "home-why"
+        question: 'How does the proposed mechanism work?',
+        answer: 'Explain the question-to-outcome sequence and conditional challenges.',
+        target: 'home-protocol',
+        continuation: { condition: 'For product-specific design and assumptions', target: 'page-products' },
       },
       {
-        "label": "Build understanding",
-        "title": "Learn",
-        "detail": "Guides and worked examples",
-        "target": "page-learn"
+        question: 'What evidence can I inspect?',
+        answer: 'Place the relevant paper beside the mechanism, preserving edition and qualifications; status claims carry their own evidence.',
+        target: 'home-protocol',
+        continuation: { condition: 'For the relevant paper and source references', target: 'page-products' },
       },
       {
-        "label": "Resolve a question",
-        "title": "FAQ",
-        "detail": "Direct answers and sources",
-        "target": "page-faq"
+        question: 'What is still unresolved for our use case?',
+        answer: 'State known limitations and the current R&D stage before evaluation.',
+        target: 'home-roadmap',
+        continuation: { condition: 'If the sources leave a technical question open', target: 'page-contact' },
       },
-      {
-        "label": "Connect the concepts",
-        "title": "Products",
-        "detail": "How the three products fit together",
-        "target": "page-products"
-      }
     ],
-    "branches": [
-      {
-        "condition": "Need project context?",
-        "label": "About",
-        "target": "page-about"
-      },
-      {
-        "condition": "Have a REP question?",
-        "label": "REP",
-        "target": "page-rep"
-      }
-    ],
-    "choice": "Learn provides a structured explanation, FAQ answers a specific question and Products connects the concepts to the three products. Each is a planned destination during R&D.",
-    "friction": "Learn, FAQ and Products remain to be implemented, with reviewed content. They are included in the website plan rather than postponed until launch.",
-    "success": "They distinguish a prediction from an outcome, can explain why disagreement needs a process, and know where the detailed rules live.",
-    "test": "Can a new reader choose a Learn guide, explain its example and find the relevant FAQ or product section?"
+    success: 'They find the relevant design evidence and can name the unknowns preventing an integration decision. A paper or repository alone does not establish supported integration.',
+    test: 'Ask an engineer which assumptions their application would inherit. Observe whether the explanation leads directly to the right source and makes missing evidence clear.',
   },
   {
-    "id": "rep-holder",
-    "label": "REP holder",
-    "title": "Which rules and which version am I reading about?",
-    "entry": "A REP holder may follow a historical article, shared paper or old bookmark. They need protocol/version context and a distinction between historical events and proposed rules.",
-    "steps": [
+    id: 'learning',
+    label: 'Newcomer',
+    title: 'What is this, and why does it matter?',
+    entry: 'Someone new to Augur needs a concrete example before terminology. Newcomer describes familiarity with Augur, regardless of their technical background.',
+    questions: [
       {
-        "label": "Get current context",
-        "title": "REP",
-        "detail": "Role, version and responsibilities",
-        "target": "page-rep"
+        question: 'Why does an application need an outside answer?',
+        answer: 'Connect one concrete example to resolution and disagreement, with a nearby invitation to Learn.',
+        target: 'home-protocol',
+        continuation: { condition: 'For a worked example and the basics', target: 'page-learn' },
       },
       {
-        "label": "Understand the design",
-        "title": "Products",
-        "detail": "Relevant product section and paper",
-        "target": "page-products"
+        question: 'How does a question become an outcome?',
+        answer: 'Carry the same example through the proposed mechanism.',
+        target: 'home-protocol',
+        continuation: { condition: 'To connect the explanation to a product', target: 'page-products' },
       },
       {
-        "label": "Read the history",
-        "title": "Blog",
-        "detail": "Dated articles and original sources",
-        "target": "page-blog"
+        question: 'Where can I resolve a term or specific doubt?',
+        answer: 'Keep essential terms within the explanation; offer a short homepage FAQ answer for a remaining doubt.',
+        target: 'home-faq',
+        continuation: { condition: 'Only when a specific question remains', target: 'page-faq' },
       },
-      {
-        "label": "Resolve uncertainty",
-        "title": "FAQ",
-        "detail": "Direct answers and deeper references",
-        "target": "page-faq"
-      }
     ],
-    "branches": [
-      {
-        "condition": "Need the project history?",
-        "label": "About",
-        "target": "page-about"
-      },
-      {
-        "condition": "Need to discuss a specific case?",
-        "label": "Contact",
-        "target": "page-contact"
-      }
-    ],
-    "choice": "REP has its own page for role, responsibilities and version context. Products holds product-specific explanations and sources; Blog preserves dated historical accounts.",
-    "friction": "The REP page and its supporting content need implementation and source review. Historical writing must preserve its date and distinguish earlier instructions from current proposals.",
-    "success": "They can identify the version and distinguish REP responsibilities, historical events, and proposed Lituus rules without inferring an investment promise.",
-    "test": "Give a reader a historical article and ask which statements describe the current proposal. Review where version labels or source links fail to answer that question."
+    success: 'They can explain why an application needs an outcome and how disagreement is handled at a high level. They can stop there or choose a deeper explanation.',
+    test: 'Ask a newcomer to explain the example in their own words. Record the first unclear term and whether the nearby explanation resolves it without a compulsory FAQ visit.',
   },
   {
-    "id": "returning",
-    "label": "OG Member",
-    "title": "What changed since I last checked?",
-    "entry": "An OG member returns to Augur, opens Blog or follows a shared update. They need dates, a concrete change, and a link to the underlying work.",
-    "steps": [
+    id: 'rep-holder',
+    label: 'REP holder',
+    title: 'Which rules and which version am I reading about?',
+    entry: 'A REP holder needs version context and clear separation of historical events, current responsibilities and proposed rules. Their specific question should have a direct route.',
+    questions: [
       {
-        "label": "Find recent writing",
-        "title": "Blog",
-        "detail": "Articles, updates and quarterly reports",
-        "target": "page-blog"
+        question: 'Which design and version does this describe?',
+        answer: 'Identify the relevant paper edition and preserve its qualifications.',
+        target: 'home-protocol',
+        continuation: { condition: 'For REP role and version context', target: 'page-rep' },
       },
       {
-        "label": "Inspect the work",
-        "title": "Products",
-        "detail": "Relevant product and its sources",
-        "target": "page-products"
+        question: 'What is current, and what is still proposed?',
+        answer: 'Separate current project status from ongoing work and proposals.',
+        target: 'home-roadmap',
+        continuation: { condition: 'For version-specific responsibilities and sources', target: 'page-rep' },
       },
       {
-        "label": "Check project context",
-        "title": "About",
-        "detail": "Current direction and history",
-        "target": "page-about"
+        question: 'Where can I inspect the historical context?',
+        answer: 'Label dated writing clearly so earlier events do not read as current instructions.',
+        target: 'home-journal',
+        continuation: { condition: 'When a dated historical account is relevant', target: 'page-blog' },
       },
-      {
-        "label": "Continue",
-        "title": "Community",
-        "detail": "Follow or discuss the work",
-        "target": "page-community"
-      }
     ],
-    "branches": [
-      {
-        "condition": "Want a quarterly overview?",
-        "label": "Read the Blog",
-        "target": "page-blog"
-      },
-      {
-        "condition": "Want the current work status?",
-        "label": "Check R&D status",
-        "target": "home-roadmap"
-      }
-    ],
-    "choice": "Blog owns development updates and quarterly reports. About holds the current project context; Community provides direct discussion links. There is no separate Updates page.",
-    "friction": "The Blog archive and reports are not implemented. No subscription, notification system or fixed quarterly publishing commitment exists.",
-    "success": "They can name a concrete dated change and open evidence for it. Recent publishing alone should not be interpreted as recent implementation progress.",
-    "test": "Can a returning member find the latest report through Blog, identify the period it covers and open the underlying evidence?"
+    success: 'They can identify the version and distinguish historical events from proposed rules, using the supporting source rather than inferring a new participation instruction.',
+    test: 'Give a holder a historical article and ask which version it describes. Observe whether they can find the relevant REP explanation without taking a tour of unrelated pages.',
   },
-  {
-    "id": "ai-assistant",
-    "label": "AI assistant",
-    "title": "What can I answer, and which sources support it?",
-    "entry": "An AI assistant follows a shared page or retrieves material for someone asking about Augur. An LLM is the language model; an agent is a system that can use a model and tools to carry out a task. Here, the journey concerns reading and citing the website.",
-    "steps": [
-      {
-        "label": "Read the question",
-        "title": "Blog / shared article",
-        "detail": "Recover date and version",
-        "target": "page-blog"
-      },
-      {
-        "label": "Find evidence",
-        "title": "Products + sources",
-        "detail": "The relevant section and paper edition",
-        "target": "page-products"
-      },
-      {
-        "label": "Check context",
-        "title": "REP + versions",
-        "detail": "Historical and proposed rules",
-        "target": "page-rep"
-      },
-      {
-        "label": "Answer with care",
-        "title": "Cite the source",
-        "detail": "Preserve caveats and unknowns",
-        "target": "website-reading"
-      }
-    ],
-    "branches": [
-      {
-        "condition": "Need foundational context?",
-        "label": "Learn",
-        "target": "page-learn"
-      },
-      {
-        "condition": "Need implementation evidence?",
-        "label": "Sources beside the explanation",
-        "target": "home-research"
-      }
-    ],
-    "choice": "Group machine-assisted reading into one journey. Model names and agent architectures do not need separate website paths; the task is to find the right material and preserve its meaning.",
-    "friction": "Only Home and Contact are built. About, Products, Learn, Blog, FAQ and REP are planned. Missing evidence must remain unknown; the rough launch estimate is not a public release date.",
-    "success": "The answer cites the relevant source, identifies the protocol version, and preserves the difference between proposed, implemented, historical and unknown.",
-    "test": "Give a person and an assistant the same Augur question and sources. Compare accuracy, citations and caveats. This is a proposed reading test, not a claim of an agent integration."
-  }
 ];
 
+export const journeys = journeyPlans.map(journey => ({
+  ...journey,
+  questions: journey.questions.map(question => ({
+    ...question,
+    ...journeyDestination(question.target),
+    continuation: { ...question.continuation, ...journeyDestination(question.continuation.target) },
+  })),
+}));
+
+// These groups contain the complete homepage sequence, not a tour of website pages.
+export const siteMap = [
+  { title: 'Orient', question: 'First viewport', targets: ['home-hero'] },
+  { title: 'Understand', question: 'Why, how and possible uses', targets: ['home-protocol', 'home-applications'] },
+  { title: 'Evaluate', question: 'Current stage and evidence', targets: ['home-roadmap'] },
+  { title: 'Continue', question: 'Reading, answers and conversation', targets: ['home-journal', 'home-faq', 'home-footer'] },
+].map(({ targets, ...stage }) => ({
+  ...stage,
+  links: targets.map(target => ({
+    ...journeyDestination(target),
+    number: journeyBriefs.get(target)!.title.slice(0, 2),
+  })),
+}));
+
 export const websiteReading = {
-  title: 'Readable by people and AI assistants',
+  title: 'Make the website clear to agents and LLMs',
+  intro: 'A shared requirement across all five journeys: an assistant should recover the same meaning, sources and qualifications as a person.',
   points: [
-    'Keep the product name, development status, version, and source links in readable HTML. An assistant should recover the same meaning and caveats as a person, without needing to play an animation or operate a control.',
-    'Reading the website does not imply protocol execution or an agent integration. Keep the preview’s noindex policy; public discovery remains a separate launch decision.',
-    'To test a finished page, give a person and an assistant the same question. Compare their answers with the cited source, including what is proposed, implemented, historical, or unknown.',
+    'Keep product explanations, development status, dates, versions and direct source links in readable HTML, accessible without animation or interaction.',
+    'Plan a maintained /llms.txt guide and clean Markdown versions of reviewed explanations and documentation as they become available. Keep them aligned with the visible pages; this is proposed work, not an existing documentation service.',
+    'Test the same question with a person and an assistant. Check their sources and whether they distinguish proposed, implemented, historical and unknown information.',
   ],
 };
 
@@ -308,5 +210,4 @@ export const futureChange = {
   title: 'For every future change',
   sequence: 'Question → reason → change → observation → decision',
   method: 'Choose one visitor question. Write the expected improvement and removal condition before editing. Compare the result with a real task. Record what you observed, what remains uncertain, and whether to keep, revise, or remove the change.',
-  measure: 'A longer visit, more scrolling, or more clicks alone does not show better understanding. No tracking has been added.',
 };

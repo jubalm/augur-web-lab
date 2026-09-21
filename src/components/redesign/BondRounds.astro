@@ -1,0 +1,54 @@
+---
+import Icon from '../site/Icon.astro';
+const rounds = [
+  { name: 'Initial report', amount: 15, note: 'A reporter backs an answer with 15 REP, matching the query fee in this example.' },
+  { name: 'First challenge', amount: 30, note: 'A challenger backs a different answer with 30 REP. A new appeal period begins.' },
+  { name: 'Second challenge', amount: 60, note: 'Another challenge requires 60 REP and a different answer. The appeal period restarts.' },
+  { name: 'Third challenge', amount: 120, note: 'The next challenge requires 120 REP. Each new round puts more capital at stake.' },
+];
+---
+<details class="bond-detail">
+  <summary class="augur-type-heading-2">Why does a challenge need a larger bond?<Icon name="plus" /></summary>
+  <div class="bond-explanation">
+    <div><h3 class="augur-type-editorial-section">Each challenge <br />doubles the bond.</h3><p>The January design asks challengers to put more REP at stake. Almost all of the losing bonds go to the winners.</p><p class="bond-caveat">Illustrative amounts derived from the paper’s 15 REP example. Fees are dynamic. These are bonds, not guaranteed rewards.</p></div>
+    <fieldset class="bond-rounds">
+      <legend class="visually-hidden">Explore the reporting and challenge bonds</legend>
+      <div class="bond-chart">
+        {rounds.map((round, i) => <label style={`--bar-height:${round.amount * 1.2}px`}><input type="radio" name="bond-round" checked={i === 0} class="visually-hidden" /><span class="bar" aria-hidden="true"></span><strong>{round.amount} <span>REP</span></strong><span class="round-name">{round.name}</span></label>)}
+      </div>
+      <div class="bond-readouts">{rounds.map(round => <p>{round.note}</p>)}</div>
+    </fieldset>
+  </div>
+  <p class="fork-note">At the protocol’s fork threshold, escalation moves to the forking process. The four amounts above do not indicate that threshold. Forks and supply restoration are proposed economic defenses, subject to the paper’s assumptions.</p>
+</details>
+<style>
+  .bond-detail { margin-top: 56px; border-block: 1px solid var(--web-outline); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; list-style: none; min-height: 80px; cursor: pointer; font-size: 20px; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(.web-icon) { width: 20px; height: 20px; flex: none; }
+  details[open] summary :global(.web-icon) { transform: rotate(45deg); }
+  summary:focus-visible { outline: 2px solid var(--foreground); outline-offset: 4px; }
+  summary:hover { text-decoration: underline; text-underline-offset: 5px; }
+  .bond-explanation { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; padding-block: 24px; }
+  h3 { font-size: 30px; line-height: 1.2; letter-spacing: -.02em; }
+  .bond-explanation p { max-width: 44ch; margin-top: 18px; color: var(--muted-foreground); line-height: 1.6; }
+  .bond-explanation .bond-caveat { font-size: 13px; }
+  .bond-rounds { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .bond-chart { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .bond-chart label { display: grid; grid-template-rows: 160px auto auto; align-items: end; gap: 10px; cursor: pointer; }
+  .bar { display: block; height: var(--bar-height); border: 1px solid var(--muted-foreground); background: var(--muted); }
+  label:has(:checked) .bar { background: var(--primary); border-color: var(--primary); }
+  label:hover .bar { border-color: var(--foreground); }
+  label:has(:focus-visible) { outline: 2px solid var(--foreground); outline-offset: 4px; }
+  label strong { font: 400 24px var(--augur-font-primary); font-variant-numeric: tabular-nums; }
+  label strong span { font-size: 12px; }
+  .round-name { min-height: 38px; color: var(--muted-foreground); font-size: 12px; }
+  .bond-readouts { display: grid; margin-top: 12px; }
+  .bond-readouts p { grid-area: 1 / 1; visibility: hidden; margin: 0; font-size: 14px; }
+  .bond-rounds:has(label:nth-child(1) :checked) .bond-readouts p:nth-child(1),
+  .bond-rounds:has(label:nth-child(2) :checked) .bond-readouts p:nth-child(2),
+  .bond-rounds:has(label:nth-child(3) :checked) .bond-readouts p:nth-child(3),
+  .bond-rounds:has(label:nth-child(4) :checked) .bond-readouts p:nth-child(4) { visibility: visible; }
+  .fork-note { max-width: 95ch; padding-bottom: 32px; font-size: 13px; line-height: 1.6; color: var(--muted-foreground); }
+  @media(max-width:760px) { .bond-explanation { grid-template-columns: 1fr; gap: 20px; } }
+</style>

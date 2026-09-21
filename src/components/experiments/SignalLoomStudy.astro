@@ -7,8 +7,6 @@ import HeroLoom from '../site/HeroLoom.astro';
     <p class="study-rationale muted augur-type-body">Each line carries a distinct mix of experiences, ideas, beliefs, and principles. Moving left, the lines share more information, bringing different perspectives toward a clearer understanding of what happened. Their gradual convergence represents consensus taking shape: separate views finding common ground through what becomes known. This is an abstract representation; the horizontal and vertical axes do not measure time or truth.</p>
   </div>
   <div class="study-stage"><HeroLoom /></div>
-  <p class="study-instructions muted augur-type-metadata">Move to bend. Drag to tilt. Click to gently redirect the strands. With the animation focused, press Escape to pause and clear your trace; move or use the arrow keys to resume.</p>
-  <p class="study-note muted augur-type-metadata">Interactive motion proposal. An illustrative metaphor for a decision taking shape; no live data is shown.</p>
 </div>
 <style>
   .study-intro { display: flex; justify-content: space-between; align-items: start; gap: 40px; margin-bottom: 32px; }
@@ -24,7 +22,6 @@ import HeroLoom from '../site/HeroLoom.astro';
   .study-stage :global(.hero-loom-fallback), .study-stage :global(.hero-loom-canvas) {
     mask-image: linear-gradient(90deg, transparent 22%, #000 42%, #000 94%, transparent 100%);
   }
-  .study-instructions, .study-note { margin-top: 24px; }
   @media (forced-colors: active) { .study-stage { background: var(--background); } }
   @media (max-width: 800px) { .study-intro { flex-wrap: wrap; } .study-rationale { flex-basis: 100%; } }
 </style>

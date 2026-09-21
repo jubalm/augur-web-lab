@@ -51,11 +51,12 @@ async function initialize(root: HTMLElement, lifecycle: AbortSignal) {
       stage.removeAttribute('tabindex');
       stage.removeAttribute('aria-describedby');
       stage.setAttribute('role', 'img');
-      stage.setAttribute('aria-label', 'Signal Loom: scattered observations gathering into a focal pattern, while differences remain.');
+      stage.setAttribute('aria-label', 'Scattered strands gathering into one pattern');
     } else {
+      // Stays focusable: Escape here is how keyboard users pause the continuous motion.
       stage.tabIndex = 0;
       stage.setAttribute('role', 'group');
-      stage.setAttribute('aria-label', 'Interactive Signal Loom');
+      stage.setAttribute('aria-label', 'Animation: scattered strands gathering into one pattern');
       stage.setAttribute('aria-describedby', 'hero-loom-instructions');
     }
   }

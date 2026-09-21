@@ -1,0 +1,151 @@
+---
+import Icon from '../site/Icon.astro';
+import { whitepaperUrl } from '../../lib/links';
+
+// January 2026 paper §§2.1–2.2 and 4.1–4.3. The last two amounts extend
+// the paper's 15/30 REP example; none represents the protocol's fork threshold.
+const rounds = [
+  { name: 'Initial report', amount: 15, note: 'The reporter backs an answer with 15 REP, equal to the query fee in this example.' },
+  { name: 'First challenge', amount: 30, note: 'A challenger backs a different answer with 30 REP. A new appeal period begins.' },
+  { name: 'Second challenge', amount: 60, note: 'Another challenge puts 60 REP behind a different answer and restarts the appeal period.' },
+  { name: 'Third challenge', amount: 120, note: 'The next challenge requires 120 REP in this example. More capital is now at stake.' },
+];
+---
+
+<section id="stakes" class="economic-stakes rm-frame" aria-labelledby="stakes-title">
+  <div class="stakes-composition">
+    <div class="stakes-copy">
+      <h2 id="stakes-title" class="rm-section-title augur-type-display">Disagreement raises the stakes.</h2>
+      <p class="stakes-lead web-lead">Every challenge backs a different answer with twice the previous bond, up to the protocol’s fork threshold.</p>
+      <p class="rm-body-small stakes-support">REP is the protocol’s token. Putting it at risk gives participants a reason to challenge answers they believe are wrong.</p>
+      <a class="rm-link stakes-source" href={whitepaperUrl} target="_blank" rel="noopener noreferrer">Read the escalation mechanism <Icon name="arrow-up-right" /></a>
+    </div>
+
+    <fieldset class="stakes-rounds" aria-describedby="stakes-caveat">
+      <legend class="visually-hidden">Choose a reporting or challenge round</legend>
+      <div class="stakes-chart">
+        {rounds.map((round, index) => (
+          <label class="stakes-round" style={`--bond-ratio: ${round.amount / 120}`}>
+            <span class="stakes-bar-space" aria-hidden="true"><span class="stakes-bar"></span></span>
+            <strong class="stakes-amount">{round.amount}<span>REP</span></strong>
+            <span class="stakes-choice">
+              <input type="radio" name="economic-stakes-round" value={index} checked={index === 0} aria-describedby={`stakes-note-${index}`} />
+              <span>{round.name}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+      <div class="stakes-readouts">
+        {rounds.map((round, index) => <p id={`stakes-note-${index}`} class="rm-body-small">{round.note}</p>)}
+      </div>
+      <p id="stakes-caveat" class="stakes-caveat">Illustrative bonds, not live fees or guaranteed returns. 120 REP is not the fork threshold.</p>
+    </fieldset>
+  </div>
+
+  <details class="stakes-fork">
+    <summary class="augur-type-heading-2">What if disagreement continues?<Icon name="plus" /></summary>
+    <div class="fork-content">
+      <div class="fork-introduction">
+        <h3 class="augur-type-editorial-section">The protocol can fork.</h3>
+        <p class="rm-body-small">When a bond fills the fork threshold, the proposed design creates a universe for each possible outcome. REP holders choose which one to follow through one-way migration.</p>
+        <p class="rm-body-small">After migration and supply restoration, the universe with the most total migrated REP determines the original oracle’s answer. Each universe keeps its own outcome.</p>
+      </div>
+      <figure class="fork-figure" aria-labelledby="fork-caption">
+        <div class="fork-origin">REP holders</div>
+        <svg class="fork-paths" viewBox="0 0 600 72" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M300 0V24H100V65 M300 24V65 M300 24H500V65" />
+          <path class="fork-arrows" d="m94 57 6 8 6-8 m188 0 6 8 6-8 m188 0 6 8 6-8" />
+        </svg>
+        <div class="fork-outcomes" aria-label="Three possible universes">
+          <div><span class="fork-square" aria-hidden="true"></span><strong>Yes</strong></div>
+          <div><span class="fork-square" aria-hidden="true"></span><strong>No</strong></div>
+          <div><span class="fork-square" aria-hidden="true"></span><strong>Invalid</strong></div>
+        </div>
+        <figcaption id="fork-caption">One-way migration into separate universes. No winning outcome is implied here.</figcaption>
+      </figure>
+      <div class="fork-restoration">
+        <h4 class="augur-type-heading-2">Supply restoration</h4>
+        <p class="rm-body-small">New REP equal to the leading universe’s supply shortfall is minted and sold by auction. Buyers must also migrate it to a universe. The proposed process can repeat if the supply remains unrestored.</p>
+      </div>
+      <div class="fork-assumptions">
+        <h4 class="augur-type-heading-2">The assumptions matter</h4>
+        <p class="rm-body-small">These defenses are modeled, not a measured guarantee. Their strength depends on participation, auction demand and applications continuing to use the universe that reflects reality.</p>
+        <a class="rm-link" href={whitepaperUrl} target="_blank" rel="noopener noreferrer">Forking and supply restoration, §§4.2–4.3 <Icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+  </details>
+</section>
+
+<style>
+  .economic-stakes { padding-block: 104px 0; scroll-margin-top: 108px; }
+  .stakes-composition { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.3fr); align-items: start; gap: clamp(48px,7vw,112px); }
+  .stakes-copy h2 { max-width: 11ch; }
+  .stakes-lead { margin-top: 28px; max-width: 39ch; }
+  .stakes-support { max-width: 43ch; margin-top: 18px; color: var(--muted-foreground); }
+  .stakes-source { margin-top: 26px; }
+  .stakes-rounds { min-width: 0; padding: 0; margin: 0; border: 0; }
+  .stakes-chart { --chart-height: 220px; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: clamp(14px,2.2vw,32px); }
+  .stakes-round { min-width: 0; cursor: pointer; }
+  .stakes-bar-space { height: var(--chart-height); display: flex; align-items: end; border-bottom: 1px solid var(--web-outline); }
+  .stakes-bar { display: block; width: 100%; height: calc(var(--chart-height) * var(--bond-ratio)); border: 1px solid var(--muted-foreground); background: color-mix(in srgb,var(--foreground) 5%,var(--background)); }
+  .stakes-round:has(:checked) .stakes-bar { background: var(--primary); border-color: var(--rm-accent); }
+  .stakes-amount { display: flex; align-items: baseline; gap: 6px; margin-top: 16px; color: var(--foreground); font: 400 clamp(26px,2.6vw,40px)/1.2 var(--augur-font-primary); font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+  .stakes-amount > span { font: 400 12px/1.4 var(--augur-font-secondary); letter-spacing: 0; color: var(--muted-foreground); }
+  .stakes-choice { display: flex; align-items: center; gap: 8px; min-height: 52px; padding-block: 10px; color: var(--muted-foreground); font-size: 13px; line-height: 1.35; }
+  .stakes-choice input { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--foreground); cursor: pointer; }
+  .stakes-round:has(:checked) .stakes-choice { color: var(--foreground); }
+  .stakes-round:has(:checked) .stakes-choice > span { text-decoration: underline; text-underline-offset: 4px; }
+  .stakes-round:has(:focus-visible) { outline: 2px solid var(--foreground); outline-offset: 6px; }
+  .stakes-choice input:focus-visible { outline: none; }
+  .stakes-readouts { display: grid; border-top: 1px solid var(--web-outline); margin-top: 8px; padding-top: 18px; }
+  .stakes-readouts p { grid-area: 1 / 1; visibility: hidden; max-width: 58ch; margin: 0; color: var(--foreground); }
+  .stakes-rounds:has(.stakes-round:nth-child(1) :checked) .stakes-readouts p:nth-child(1),
+  .stakes-rounds:has(.stakes-round:nth-child(2) :checked) .stakes-readouts p:nth-child(2),
+  .stakes-rounds:has(.stakes-round:nth-child(3) :checked) .stakes-readouts p:nth-child(3),
+  .stakes-rounds:has(.stakes-round:nth-child(4) :checked) .stakes-readouts p:nth-child(4) { visibility: visible; }
+  .stakes-caveat { margin-top: 14px; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; max-width: 65ch; }
+  .stakes-fork { margin-top: 52px; border-block: 1px solid var(--web-outline); }
+  .stakes-fork summary { min-height: 80px; display: flex; justify-content: space-between; align-items: center; gap: 24px; list-style: none; cursor: pointer; font-size: 20px; line-height: 1.4; padding-block: 18px; }
+  .stakes-fork summary::-webkit-details-marker { display: none; }
+  .stakes-fork summary :global(.web-icon) { flex: none; width: 20px; height: 20px; }
+  .stakes-fork[open] summary :global(.web-icon) { transform: rotate(45deg); }
+  .stakes-fork summary:focus-visible { outline: 2px solid var(--foreground); outline-offset: 4px; }
+  .fork-content { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.3fr); gap: 42px clamp(48px,7vw,112px); padding-block: 24px 44px; }
+  .fork-introduction h3 { font-size: 28px; letter-spacing: -.02em; line-height: 1.2; }
+  .fork-content p { margin-top: 14px; color: var(--muted-foreground); max-width: 62ch; }
+  .fork-figure { align-self: center; margin: 0; }
+  .fork-origin { width: fit-content; margin-inline: auto; padding: 12px 18px; border: 1px solid var(--web-outline); font: 400 15px/1.4 var(--augur-font-primary); }
+  .fork-paths { display: block; width: 100%; height: 72px; overflow: visible; fill: none; stroke: var(--muted-foreground); stroke-width: 1; }
+  .fork-paths path { vector-effect: non-scaling-stroke; }
+  .fork-outcomes { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .fork-outcomes > div { display: grid; justify-items: center; gap: 12px; }
+  .fork-square { width: 10px; height: 10px; border: 1px solid var(--foreground); }
+  .fork-outcomes strong { font: 400 22px/1.3 var(--augur-font-primary); }
+  .fork-figure figcaption { max-width: 45ch; margin: 28px auto 0; color: var(--muted-foreground); text-align: center; font-size: 12px; line-height: 1.6; }
+  .fork-restoration, .fork-assumptions { border-top: 1px solid var(--border-quiet); padding-top: 24px; }
+  .fork-content h4 { font-size: 18px; line-height: 1.4; }
+  .fork-assumptions a { margin-top: 18px; }
+  @media (hover: hover) { .stakes-round:hover .stakes-bar { border-color: var(--foreground); } .stakes-fork summary:hover { text-decoration: underline; text-underline-offset: 5px; } }
+  @media (prefers-reduced-motion: no-preference) { .stakes-bar { transition: background-color 180ms ease-out, border-color 180ms ease-out; } .stakes-fork summary :global(.web-icon) { transition: transform 180ms ease-out; } }
+  @media (max-width: 900px) {
+    .economic-stakes { padding-top: 80px; }
+    .stakes-composition { grid-template-columns: 1fr; gap: 40px; }
+    .stakes-copy h2 { max-width: 17ch; }
+    .stakes-lead, .stakes-support { max-width: 60ch; }
+    .stakes-chart { --chart-height: 200px; }
+    .fork-content { grid-template-columns: 1fr; gap: 32px; }
+    .fork-figure { max-width: 600px; width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .economic-stakes { padding-top: 64px; }
+    .stakes-chart { --chart-height: 176px; gap: 14px; }
+    .stakes-amount { flex-wrap: wrap; gap: 2px 5px; font-size: 27px; }
+    .stakes-amount > span { font-size: 10px; }
+    .stakes-choice { align-items: start; flex-direction: column; gap: 9px; padding-top: 12px; min-height: 73px; font-size: 12px; }
+    .stakes-fork { margin-top: 36px; }
+    .stakes-fork summary { font-size: 18px; }
+    .fork-content { padding-bottom: 32px; }
+  }
+  @media (forced-colors: active) { .stakes-round:has(:checked) .stakes-bar { background: Highlight; border-color: Highlight; forced-color-adjust: none; } }
+  @media print { .stakes-readouts { display: block; } .stakes-readouts p { visibility: visible; margin-top: 8px; } }
+</style>

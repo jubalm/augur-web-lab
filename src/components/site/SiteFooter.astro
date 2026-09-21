@@ -1,0 +1,64 @@
+---
+import Brand from './Brand.astro';
+import TextLink from './TextLink.astro';
+import { buttonVariants } from '../ui/button-variants';
+import { communityLinks } from '../../lib/community';
+
+// Mirrors the header order: About / Products / Resources / Community. Only Home and Contact
+// are built; every other destination is an inert placeholder during structure review.
+const columns: { title: string; links: { label: string; href?: string; external?: boolean }[] }[] = [
+  { title: 'Augur', links: [{ label: 'About' }, { label: 'Contact', href: '/contact/' }] },
+  { title: 'Products', links: [{ label: 'Augur Lituus' }, { label: 'Zoltar' }, { label: 'Augur Stratoblast' }] },
+  { title: 'Resources', links: [{ label: 'Blog' }, { label: 'FAQ' }, { label: 'Learn' }, { label: 'REP' }, { label: 'Whitepaper', external: true }] },
+  { title: 'Community', links: Object.values(communityLinks).map(social => ({ label: social.name, external: true })) },
+];
+---
+<footer id="footer" class="site-footer">
+  <div class="footer-frame">
+    <div class="footer-invitation" data-reveal-children>
+      <h2 class="augur-type-display">Have a project in mind?</h2>
+      <p class="augur-type-body">Ask about our products or tell us what you’re building. We’d like to hear from you.</p>
+      <a href="/contact/" class:list={[buttonVariants(), 'configured-button']}>Talk to us</a>
+    </div>
+
+    <nav class="footer-directory" aria-label="Footer" data-reveal-children>
+      {columns.map(column => (
+        <div>
+          <h3>{column.title}</h3>
+          <ul>{column.links.map(link => <li><TextLink href={link.href} external={link.external} quiet>{link.label}</TextLink></li>)}</ul>
+        </div>
+      ))}
+    </nav>
+
+    <div class="footer-base">
+      <a class="footer-brand" href="/" aria-label="Augur home"><Brand /></a>
+      <p>Augur’s work is funded and coordinated by the Lituus Foundation.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { margin-top: 128px; border-top: 1px solid var(--border-quiet); background: var(--background); color: var(--foreground); scroll-margin-top: 24px; }
+  .footer-frame { width: min(1472px, calc(100% - 112px)); margin-inline: auto; padding-block: 96px 48px; }
+  .footer-invitation { display: grid; grid-template-columns: 1fr auto; gap: 16px 80px; align-items: end; }
+  .footer-invitation h2 { font-size: clamp(36px, 3.5vw, 50px); line-height: 1.1; letter-spacing: -.035em; }
+  .footer-invitation p { grid-row: 2; max-width: 48ch; color: var(--muted-foreground); font-size: 17px; line-height: 1.65; }
+  .footer-invitation a { grid-row: 1 / span 2; grid-column: 2; }
+  /* A shorter stagger keeps the directory fully revealed at the end of the page. */
+  .footer-directory { --reveal-step: 24px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-top: 96px; padding-top: 40px; border-top: 1px solid var(--border-quiet); }
+  .footer-directory h3 { color: var(--muted-foreground); font: 400 13px/20px var(--augur-font-primary); }
+  .footer-directory ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; }
+  .footer-directory li { font-size: 15px; line-height: 36px; }
+  .footer-base { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border-quiet); }
+  .footer-base p { color: var(--muted-foreground); font-size: 13px; }
+  .footer-brand { display: block; }
+  .footer-brand:focus-visible { outline: 2px solid var(--foreground); outline-offset: 6px; }
+  @media (max-width: 1100px) { .footer-frame { width: calc(100% - 80px); } }
+  @media (max-width: 760px) {
+    .footer-frame { width: calc(100% - 40px); padding-top: 72px; }
+    .footer-invitation { grid-template-columns: 1fr; }
+    .footer-invitation a { grid-row: auto; grid-column: 1; justify-self: start; }
+    .footer-directory { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-base { flex-direction: column; align-items: flex-start; }
+  }
+</style>

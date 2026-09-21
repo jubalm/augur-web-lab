@@ -1,4 +1,6 @@
-> Current scope: `/` contains the homepage header and hero with Products navigation, public-source hero actions, a light/dark control and interactive Signal Loom. Products lists Augur Lituus, Zoltar and Augur Stratoblast as unwired destinations. Talk to us opens `/contact/` with Discord, socials and a form that composes email to `contact@augur.net`; the visitor finishes sending in an email app. The inbox still needs domain-owner confirmation. `/lab` and `/lab/user-flow` hold the specimens and current planning briefs. See `docs/website-strategy.md` for decisions.
+> Continuing with another assistant? Start with the [current LLM handoff](docs/llm-handoff.md), updated September 18, 2026. It distinguishes the implemented design, rejected versions, recommendations and remaining work.
+>
+> Current scope: `/` contains the homepage header, hero with Signal Loom, Why + how with Built for high-stakes questions cards (Resolve any question / Question every answer / Bribery-resistant by design) and a resolution walkthrough, then Possible applications, Current stage, From the blog, FAQ and a footer. Most external actions are inert review placeholders; the hero's Read the whitepaper action and the whitepaper citation beneath the walkthrough work. Talk to us opens `/contact/`; its form validates locally without submitting data or opening an email app. `/lab` and `/lab/user-flow` hold the specimens and current planning briefs. See `docs/website-strategy.md` for decisions.
 
 # Augur Web Lab
 
@@ -27,15 +29,41 @@ The lockfile pins Astro 7.3.2 and TypeScript 6.0.3: Astro’s checker does not y
 
 ## Explore
 
+### Vercel: lab only
+
+`vercel.json` selects `bun run build:lab` and publishes only `dist-lab/`.
+Import this repository in Vercel with its root directory set to the repository
+root. The checked-in configuration supplies the Astro preset, install command,
+build command and output directory.
+
+The deployment contains `/` (the lab), `/user-flow/`, `/user-flow.md` and a
+custom 404. The current homepage, homepage redesign and contact page are excluded
+from this build, and links to them are hidden. Shared brand assets and licenses
+are explicitly copied; homepage blog imagery is not published. User flow still
+contains planning briefs about the homepage, as intended.
+
+```sh
+bun run build:lab
+bun run preview:lab
+```
+
+The small route wrappers in `src/lab-deploy/pages/` reuse the existing lab pages.
+Only those routes are built for Vercel; adding a normal website route does not
+automatically publish it. `bun run dev` and `bun run build` still include the
+entire workspace, with the homepage at `/` and the lab at `/lab`. No source pages
+are deleted or moved. These commands prepare a deployment; they do not publish it.
+
+### Local workspace routes
+
 | Route | Purpose |
 | --- | --- |
-| `/` | Homepage header, product navigation and interactive hero |
+| `/` | Homepage header, interactive hero, Why + how and the remaining homepage sections with footer |
 | `/contact/` | Contact form, Discord, socials and direct email |
 | `/lab` | Identity, colors, typography, fixed controls and Signal Loom study |
 | `/lab/user-flow` | Visitor journeys and briefs for current and proposed website content |
 | `/lab/user-flow.md` | Portable Markdown of the same website blueprint |
 
-The homepage has a compact header, static tonal background and a staged hero arrival. Products groups the three user-named offerings; product and resource destinations are placeholders. The hero links to the Augur Lituus overview and whitepaper. Contact requires Name, Email and Message, with optional Company / project and Website. Send message opens an email-app handoff and never confirms delivery.
+The homepage has a compact header, static tonal background, staged hero arrival and the current Why + how prototype. Products groups the three user-named offerings. Resources includes Whitepaper. Hero, resources, community, socials and direct email actions remain inert placeholders for structure review; the separate January whitepaper citation below the walkthrough is a working source link. Internal navigation remains usable. Contact requires Name, Email and Message, with optional Company / project and Website. Send message demonstrates local validation without submitting data or opening an email app.
 
 The lab displays fixed control examples: square 48 px buttons, semibold labels, bold Phosphor icons, filled fields, and Crimson errors. Loading, validation, success, and remove/undo are local demonstrations. Both lab pages highlight their current section in the sidebar. The animation section contains the full interactive Signal Loom study. **Ctrl/Cmd+K** opens the lab chooser; **Escape** closes it.
 

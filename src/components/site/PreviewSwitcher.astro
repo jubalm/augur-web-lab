@@ -10,6 +10,7 @@ const route = Astro.url.pathname.replace(/\/$/, '');
   <p id="preview-description" class="muted">Open the homepage or return to the lab.</p>
   <nav aria-label="Website previews">
     {homepages.map(page => <a href={page.href} aria-current={route === page.href.replace(/\/$/, '') ? 'page' : undefined}><span class="preview-number">0{page.id}</span><span><strong>Homepage</strong><small>{page.description}</small></span></a>)}
+    <a href="/lab/homepage-redesign/" class="return-lab" aria-current={route === '/lab/homepage-redesign' ? 'page' : undefined}><span>The Resolution Machine</span><small>Homepage redesign proposal</small></a>
     <a href="/lab" class="return-lab"><span>Augur Web Lab</span><small>Components & appearance</small></a>
   </nav>
   <div class="dialog-foot"><span>Ctrl K or ⌘ K to open</span><span>Esc to close</span></div>

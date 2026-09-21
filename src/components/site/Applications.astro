@@ -1,0 +1,11 @@
+---
+import HomeSection from './HomeSection.astro';
+import ApplicationExamples from './ApplicationExamples.astro';
+---
+<HomeSection id="applications" label="Possible applications">
+  <Fragment slot="title">What could you build?</Fragment>
+  <Fragment slot="aside">
+    <p>Augur Lituus answers real-world questions. Your app decides what happens next.</p>
+  </Fragment>
+  <ApplicationExamples idPrefix="home-use" />
+</HomeSection>

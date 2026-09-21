@@ -50,7 +50,7 @@ The artwork lives in the FIRST VIEWPORT of the public Augur.net website, beside 
 
 Current headline: “The frontier of decentralized truth.”
 
-Current supporting copy: “Permissionless resolution for real-world outcomes.” Then: “Augur Lituus is decentralized infrastructure in development for prediction markets and other applications.”
+Current supporting copy: “Permissionless resolution. No central authority.” Then: “Augur is decentralized oracle infrastructure for establishing truth onchain. Anyone can submit a question, propose an answer, or challenge an outcome.” The user’s September 14 copy decision leaves development status to the planned roadmap and keeps the hero general across applications.
 
 Its job is to make someone feel that Augur concerns information, uncertainty, collective intelligence, real-world outcomes, or branching, while being immediately beautiful. The visitor should enjoy it at a glance. Watching longer can reveal a meaningful behavior. Understanding a lesson must not be the price of appreciating it.
 

@@ -1,0 +1,145 @@
+---
+import Icon from '../site/Icon.astro';
+import { whitepaperUrl } from '../../lib/links';
+const steps = ['Ask', 'Report', 'Challenge', 'Resolve'];
+---
+<section class="resolution-story" id="mechanism" data-theme="dark" data-resolution-story data-stage="3" data-answer="No" aria-labelledby="mechanism-title">
+  <div class="rm-frame">
+    <div class="mechanism-intro">
+      <h2 class="rm-section-title augur-type-display" id="mechanism-title">Follow the question. <br />Keep the right to disagree.</h2>
+      <p class="web-lead">Anyone can report an answer. Anyone can challenge it.<br class="desktop-break" /> Here’s how that becomes a resolution an application can use.</p>
+    </div>
+    <div class="story-layout">
+      <div class="story-instrument">
+        <figure aria-labelledby="query-title" aria-describedby="query-caption">
+          <div class="instrument-label"><span>Illustrative query</span><span data-story-status>Final outcome</span></div>
+          <h3 class="augur-type-heading-2" id="query-title">Will room-temperature superconductivity be independently demonstrated?</h3>
+          <p class="query-context">At ambient pressure, before the evidence deadline.</p>
+          <div class="answer-network" aria-hidden="true">
+            <svg viewBox="0 0 560 254" fill="none" focusable="false">
+              <path class="network-quiet" d="M10 127H60C100 127 100 43 144 43H414C458 43 458 127 498 127H550 M10 127H550 M10 127H60C100 127 100 211 144 211H414C458 211 458 127 498 127H550"/>
+              <path class="network-active answer-yes" pathLength="1" d="M10 127H60C100 127 100 43 144 43H414C458 43 458 127 498 127H550"/>
+              <path class="network-active answer-no" pathLength="1" d="M10 127H550"/>
+              <g class="network-outcome yes"><rect x="214" y="17" width="132" height="52"/><text x="280" y="51">Yes</text></g>
+              <g class="network-outcome no"><rect x="214" y="101" width="132" height="52"/><text x="280" y="135">No</text></g>
+              <g class="network-outcome invalid"><rect x="214" y="185" width="132" height="52"/><text x="280" y="219">Invalid</text></g>
+              <rect class="network-origin" x="8" y="123" width="8" height="8"/>
+              <rect class="network-final" x="542" y="119" width="16" height="16"/>
+            </svg>
+          </div>
+          <div class="instrument-readout">
+            <div><span data-answer-label>Final answer</span><strong data-story-answer>No</strong></div>
+            <div><span data-bond-label>Final reporting bond</span><strong><span data-story-bond>30</span><small> REP</small></strong></div>
+          </div>
+          <figcaption id="query-caption" data-story-caption>The challenged answer stands after its appeal period. The application can use No.</figcaption>
+          <div class="story-controls" hidden data-story-controls>
+            <div class="stage-buttons" aria-label="Explore resolution stages">
+              {steps.map((step,i) => <button type="button" data-story-select={i} aria-pressed={i===3?'true':'false'} aria-label={`Show step ${i+1}: ${step}`}><span>0{i+1}</span><span>{step}</span></button>)}
+            </div>
+            <button type="button" class="path-toggle" data-story-path aria-pressed="true">Include a challenge <span class="toggle-indicator" aria-hidden="true"><Icon name="check" /></span></button>
+          </div>
+          <p class="sr-only" role="status" data-story-announcement></p>
+        </figure>
+        <p class="instrument-footnote">An explanation of the January 2026 design, not a live market or protocol interface.</p>
+      </div>
+      <div class="story-chapters">
+        <article class="story-chapter" data-story-chapter="0" id="step-ask">
+          <span class="chapter-number" aria-hidden="true">01 / ASK</span>
+          <h3 class="augur-type-editorial-section">Start with a question <br />that can be resolved.</h3>
+          <p>Set the possible outcomes, the evidence deadline and the criteria. For this question, an announcement alone is not enough. Independent replication is required.</p>
+          <details class="story-detail"><summary>Read the question criteria <Icon name="plus" /></summary><div>
+            <p>Zero electrical resistance and the Meissner effect at 20°C or above and 90–110 kPa. An original experiment and replication at a separate institution, with no shared authors and independently prepared samples.</p>
+            <p>Both teams must publish methods, measurements and uncertainty before 8 September 2027, 00:00 UTC. Yes if all requirements are met; otherwise No. Invalid covers malformed or unresolvable questions.</p>
+          </div></details>
+        </article>
+        <article class="story-chapter" data-story-chapter="1" id="step-report">
+          <span class="chapter-number" aria-hidden="true">02 / REPORT</span>
+          <h3 class="augur-type-editorial-section">An answer needs <br />something at stake.</h3>
+          <p>A reporter proposes an outcome and locks a bond in REP, the oracle’s token. The answer is a claim that others can contest.</p>
+          <p class="chapter-example" data-report-example>In this example, the reporter says Yes and posts 15 REP. But independent replication is missing.</p>
+        </article>
+        <article class="story-chapter" data-story-chapter="2" id="step-challenge">
+          <span class="chapter-number" aria-hidden="true">03 / APPEAL PERIOD</span>
+          <h3 class="augur-type-editorial-section">A different answer. <br />A larger commitment.</h3>
+          <p>During the appeal period, anyone can back a different outcome with a larger bond. A completed challenge starts a new appeal period.</p>
+          <p class="chapter-example" data-challenge-example>A challenger follows the criteria: No replication, so No. Their 30 REP bond replaces the proposed outcome.</p>
+          <details class="story-detail"><summary>Who receives the losing bonds? <Icon name="plus" /></summary><div><p>Under §4.3.1 of the January design, 80% goes to backers of the final outcome; 20% is burned. Backing an answer can lose money. This is an illustrative explanation, not a reward estimate.</p></div></details>
+        </article>
+        <article class="story-chapter" data-story-chapter="3" id="step-resolve">
+          <span class="chapter-number" aria-hidden="true">04 / RESOLVE</span>
+          <h3 class="augur-type-editorial-section">The answer becomes <br />an input.</h3>
+          <p>If no further challenge succeeds during the appeal period, the answer becomes final. An application can use that outcome to settle a market or apply a payment rule.</p>
+          <p class="chapter-example">Here, the final answer is No. “Final” means selected under the protocol’s rules; the code does not independently verify the experiment.</p>
+          <details class="story-detail"><summary>Timing, fees and unanswered questions <Icon name="plus" /></summary><div><p>Reporting and appeals have separate time windows. No report within the design’s three-day reporting window resolves the query as Invalid. Query fees are dynamic; a portion pays the first reporter of the final outcome and the rest is burned. This preview makes no timing promise.</p></div></details>
+        </article>
+      </div>
+    </div>
+    <div class="mechanism-source"><span>15 and 30 REP follow the paper’s worked example.</span><a class="rm-link" href={whitepaperUrl} target="_blank" rel="noopener noreferrer">Read the mechanism · §§4.1–4.5 <Icon name="arrow-up-right" /></a></div>
+  </div>
+</section>
+<script>
+  import { initResolutionStory } from '../../motion/resolution-story';
+  document.querySelectorAll<HTMLElement>('[data-resolution-story]').forEach(initResolutionStory);
+</script>
+<style>
+  .resolution-story { background:var(--background); color:var(--foreground); padding-block:96px 32px; }
+  .mechanism-intro { display:grid; grid-template-columns:1.2fr 1fr; gap:80px; align-items:end; padding-bottom:64px; }
+  .mechanism-intro > p { color:var(--muted-foreground); max-width:42ch; }
+  .story-layout { display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(48px,8vw,128px); align-items:start; }
+  .story-instrument { position:sticky; top:40px; padding-top:18px; }
+  figure { margin:0; }
+  .instrument-label { display:flex; justify-content:space-between; gap:16px; padding-block:16px; border-top:1px solid var(--web-outline); color:var(--muted-foreground); font-size:12px; }
+  .instrument-label span:last-child { color:var(--foreground); }
+  #query-title { font-size:clamp(22px,2.1vw,30px); font-weight:400; line-height:1.4; letter-spacing:-.025em; max-width:33ch; margin-top:10px; }
+  .query-context { font-size:13px; color:var(--muted-foreground); margin-top:10px; }
+  .answer-network { margin-top:20px; }
+  svg { width:100%; display:block; overflow:visible; max-height:230px; }
+  svg path { stroke-width:1.25; vector-effect:non-scaling-stroke; }
+  .network-quiet { stroke:var(--web-outline); }
+  .network-active { stroke:var(--primary); opacity:0; stroke-dasharray:1; stroke-dashoffset:1; }
+  .network-outcome rect { fill:var(--background); }
+  .network-outcome text { fill:var(--muted-foreground); text-anchor:middle; font:400 21px var(--augur-font-primary); }
+  .network-origin { fill:var(--muted-foreground); }
+  .network-final { fill:var(--background); stroke:var(--muted-foreground); stroke-width:1.5; }
+  [data-answer="Yes"] .answer-yes, [data-answer="No"] .answer-no { opacity:1; stroke-dashoffset:0; }
+  [data-answer="Yes"] .yes rect, [data-answer="No"] .no rect { fill:var(--primary); }
+  [data-answer="Yes"] .yes text, [data-answer="No"] .no text { fill:var(--primary-foreground); }
+  [data-stage="3"] .network-final { fill:var(--primary); stroke:var(--primary); }
+  .instrument-readout { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding-block:20px; border-block:1px solid var(--web-outline); }
+  .instrument-readout > div { display:grid; gap:8px; }
+  [data-stage="0"] .instrument-readout > div:first-child strong { font-size:clamp(18px,1.8vw,24px); line-height:1.8; }
+  .instrument-readout > div:last-child { text-align:right; }
+  .instrument-readout span, .instrument-readout small { font-size:12px; color:var(--muted-foreground); font-family:var(--augur-font-secondary); }
+  .instrument-readout strong, .instrument-readout strong > span { font:400 36px/1.2 var(--augur-font-primary); color:var(--foreground); letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+  figcaption { min-height:64px; padding-top:14px; font-size:13px; line-height:1.6; color:var(--muted-foreground); }
+  .story-controls { margin-top:16px; }
+  .stage-buttons { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+  .stage-buttons button { display:flex; justify-content:center; align-items:center; gap:8px; min-height:44px; background:transparent; color:var(--muted-foreground); border:1px solid var(--web-outline); font:400 12px var(--augur-font-primary); cursor:pointer; }
+  .stage-buttons button > span:first-child { font:400 11px var(--augur-font-secondary); }
+  .stage-buttons button[aria-pressed="true"] { color:var(--foreground); background:var(--muted); border-color:var(--muted-foreground); }
+  .stage-buttons button:hover { border-color:var(--foreground); color:var(--foreground); }
+  .path-toggle { display:flex; justify-content:space-between; align-items:center; width:100%; min-height:48px; padding:8px 0; border:0; background:none; color:var(--foreground); font:400 12px var(--augur-font-primary); cursor:pointer; }
+  .toggle-indicator { display:grid; place-items:center; width:22px; height:22px; border:1px solid var(--muted-foreground); }
+  .toggle-indicator :global(svg) { width:16px; height:16px; }
+  [aria-pressed="false"] .toggle-indicator :global(svg) { visibility:hidden; }
+  .instrument-footnote { color:var(--muted-foreground); font-size:11px; line-height:1.6; max-width:55ch; padding-top:12px; }
+  .story-chapter { display:flex; flex-direction:column; justify-content:center; min-height:62svh; padding-block:64px; scroll-margin-top:12vh; border-top:1px solid var(--web-outline); }
+  .chapter-number { font-size:12px; letter-spacing:.08em; color:var(--muted-foreground); margin-bottom:24px; }
+  .story-chapter h3 { font-size:clamp(27px,2.8vw,40px); line-height:1.22; letter-spacing:-.025em; }
+  .story-chapter > p { font-size:17px; line-height:1.7; max-width:42ch; margin-top:22px; }
+  .story-chapter .chapter-example { color:var(--muted-foreground); font-size:15px; }
+  .story-detail { margin-top:20px; }
+  summary { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:44px; font-size:13px; list-style:none; cursor:pointer; border-top:1px solid var(--web-outline); }
+  summary::-webkit-details-marker { display:none; }
+  summary :global(.web-icon) { flex:none; width:16px; height:16px; }
+  details[open] summary :global(.web-icon) { transform:rotate(45deg); }
+  details > div { font-size:14px; color:var(--muted-foreground); line-height:1.7; padding-block:10px; }
+  details p + p { margin-top:14px; }
+  .mechanism-source { display:flex; justify-content:space-between; gap:24px; padding-top:28px; border-top:1px solid var(--web-outline); color:var(--muted-foreground); font-size:12px; }
+  .mechanism-source :global(.rm-link) { font-size:12px; }
+  @media(prefers-reduced-motion:no-preference) { .network-active { transition:stroke-dashoffset var(--rm-motion-connect) var(--rm-ease),opacity var(--rm-motion-base); } .network-outcome rect,.network-outcome text,.network-final { transition:fill var(--rm-motion-base); } }
+  @media(max-width:1100px) { .story-layout { gap:48px; } .mechanism-intro { gap:48px; } .stage-buttons button { flex-direction:column; gap:3px; padding:5px; } }
+  @media(max-width:900px),(max-height:760px) { .story-instrument { position:static; } .story-chapter { min-height:0; padding-block:40px; } .story-chapters { display:grid; grid-template-columns:1fr 1fr; gap:0 32px; } .story-layout { grid-template-columns:1fr; gap:48px; } .story-instrument { max-width:660px; width:100%; margin-inline:auto; } .answer-network { max-width:520px; margin-inline:auto; } .mechanism-intro { grid-template-columns:1fr; gap:24px; padding-bottom:36px; } .mechanism-intro > p { max-width:60ch; } .story-chapter h3 { font-size:28px; } .story-chapter h3 br { display:none; } .stage-buttons button { flex-direction:row; } }
+  @media(max-width:540px) { .resolution-story { padding-top:56px; } .story-chapters { grid-template-columns:1fr; } .mechanism-intro .web-lead { font-size:16px; } .desktop-break { display:none; } #query-title { font-size:24px; } .answer-network { margin-block:12px 0; } .answer-network svg { max-height:200px; } .instrument-readout strong,.instrument-readout strong > span { font-size:32px; } .instrument-readout { padding-block:14px; } .chapter-number { margin-bottom:16px; } .story-chapter { padding-block:32px; } .story-chapter > p { font-size:16px; margin-top:16px; } .mechanism-source { flex-direction:column; gap:12px; } }
+  @media print { .story-instrument { position:static; } .story-controls { display:none; } .story-chapter { min-height:0; } }
+</style>

@@ -64,6 +64,16 @@ Current field refinement: website-local filled inputs use a soft focus surface a
 
 Current button refinement: website-local outline buttons use a 6% foreground tint and a slightly stronger border on hover, deepening to 10% when pressed; text and icons retain their default color, and keyboard focus keeps its separate outline. Ghost buttons reveal a 2 px underline; primary, destructive and secondary buttons gain an inset bottom edge. Transitions last 180 ms, keep geometry stationary and are removed under reduced motion. Busy/disabled controls suppress these treatments. This is a requested website experiment, not an upstream foundation change.
 
+## Website shared roles — September 19, 2026
+
+The user approved every design change from the homepage design review. These roles live in `src/styles/website-options.css` (website layer only; the pinned foundations are unchanged). Use them instead of per-component values:
+
+- **Lines:** `--border-quiet` for rules and dividers; `--web-outline` (18% foreground mixed into the background, about 1.7:1 in dark) for containers and outline buttons. It replaced a 4:1 line on the Why + how strip and the 1.25:1 outline on “Talk to us”.
+- **Buttons:** every 48 px button uses `--web-label-size` (16 px). Per-instance label sizes are removed.
+- **Text:** `.web-lead` (18 px, line height 1.6) for hero support and section introductions; `.web-body-small` (15 px, line height 1.6) for card and step text. The hero support grows to 20 px above 1600 px wide.
+- **Squares:** 3 px for texture (the hero field) and 5 px for nodes (the strip’s line crossings and the card marks). Neutral squares are muted gray; accents are green.
+- **Light-mode accents:** green elements that carry meaning in the card marks use Deep (`--augur-color-accent-deep`) in light mode so they stay visible; bright Green remains for actions and decoration. This is a narrow exception to the bright-green-only website direction, approved with the review.
+
 ## Website action arrows
 
 Internal navigation uses no arrow, including links to sections, the homepage, and the lab. Reserve ↗ (`arrow-up-right`) for destinations outside the website. The destination determines the arrow, regardless of button variant or whether a new tab opens. Direct actions such as Save, Copy, Remove, toggles, and local previews have no navigation arrow; an action-specific icon may still be used. Keep decorative arrows hidden from assistive technology and retain accessible labels on icon-only links. The homepage hero actions are an approved exception: retain the verb labels and omit both arrows. This is a website convention, not a change to the pinned upstream components.

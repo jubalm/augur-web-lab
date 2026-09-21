@@ -1,0 +1,91 @@
+---
+import HomeSection from './HomeSection.astro';
+import TextLink from './TextLink.astro';
+
+// Status reviewed against the public augur.net blog and Lituus-CS repository on September 19, 2026.
+// Sources: Augur Lituus whitepaper announcement (January 29, 2026); Q1 2026 report (July 2, 2026);
+// “Augur Is Testing Its Past and Building Its Future” (July 21, 2026); Moon Fork report (August 5, 2026).
+// Augur Stratoblast's name and Zoltar relationship follow the September 2026 Website Strategy (F2).
+// Links stay inert during structure review; the intended destinations are listed in `source`.
+const reviewed = 'September 19, 2026';
+const stages = [
+  {
+    status: 'Completed',
+    items: [
+      { title: 'Augur Lituus whitepaper', meta: 'January 29, 2026', text: 'The proposed oracle design, with a comparative analysis of oracle security.', link: 'Whitepaper', external: true, source: 'https://github.com/AugurProject/whitepaper/blob/master/Lituus/English/Augur_Lituus_Whitepaper.pdf' },
+      { title: 'Moon Fork', meta: 'August 3, 2026', text: 'Augur v2’s fork mechanism completed its first live run on Ethereum mainnet.', link: 'Moon Fork report', source: 'https://www.augur.net/blog/post-fork-announcements/' },
+    ],
+  },
+  {
+    status: 'In progress',
+    items: [
+      { title: 'Augur Lituus implementation', meta: 'Open source', text: 'ChainSafe is engineering it, and the Lituus Foundation reviews the work against the whitepaper.', link: 'Lituus-CS', external: true, source: 'https://github.com/AugurProject/Lituus-CS' },
+      { title: 'Augur Stratoblast', meta: 'Open source', text: 'Dark Florist is building prediction markets on Zoltar, funded by the Lituus Foundation.', link: 'July 21 update', source: 'https://www.augur.net/blog/augur-testing-past-building-future/' },
+    ],
+  },
+  {
+    status: 'Next',
+    items: [
+      { title: 'Testing, audits and documentation', meta: 'No date announced', text: 'Required before applications can depend on Augur Lituus. What it means for REP holders will follow in a future post.', link: 'July 21 update', source: 'https://www.augur.net/blog/augur-testing-past-building-future/' },
+    ],
+  },
+];
+---
+<HomeSection id="roadmap" label="Current stage">
+  <Fragment slot="title">From research<br />to implementation.</Fragment>
+  <Fragment slot="aside">
+    <p>Augur Lituus has moved from research into development. The work is open source, so anyone can follow its progress.</p>
+    <p class="reviewed">Status reviewed {reviewed}</p>
+  </Fragment>
+
+  <ol class="stages">
+    {stages.map((stage, index) => (
+      <li class="stage" data-status={stage.status} style={`--stage-order: ${index + 1}`}>
+        <span class="stage-line" aria-hidden="true" data-reveal="draw"></span>
+        <span class="stage-marker" aria-hidden="true" data-reveal="pop"></span>
+        <div class="stage-body" data-reveal>
+          <h3 class="stage-status">{stage.status}</h3>
+          <ul>
+            {stage.items.map(item => (
+              <li>
+                <p class="stage-meta">{item.meta}</p>
+                <h4 class="augur-type-heading-2">{item.title}</h4>
+                <p class="stage-text">{item.text}</p>
+                <p class="stage-link"><TextLink external={item.external}>{item.link}</TextLink></p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    ))}
+  </ol>
+</HomeSection>
+
+<style>
+  .reviewed { font-size: 13px; }
+  .stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stage { --stage-line: var(--border-quiet); position: relative; min-width: 0; padding: 30px 56px 0 0; }
+  .stage[data-status="Completed"] { --stage-line: var(--primary); }
+  .stage[data-status="In progress"] { --stage-line: linear-gradient(to right, var(--primary), var(--border-quiet)); }
+  /* Scroll motion draws the line left to right, one stage after another, then pops each marker. */
+  .stage-line { position: absolute; inset: 0 0 auto; height: 2px; background: var(--stage-line); }
+  .stage-line, .stage-marker { --reveal-order: var(--stage-order); --reveal-step: 100px; }
+  .stage-line { --reveal-length: 100px; }
+  .stage-body { --reveal-order: var(--stage-order); }
+  .stage-status { padding-top: 4px; font: 600 14px/20px var(--augur-font-primary); }
+  /* Filled, half-filled and open squares echo the query status marks in Why + how. */
+  .stage-marker { position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border: 2px solid var(--primary); background: var(--background); }
+  [data-status="Completed"] .stage-marker { background: var(--primary); }
+  [data-status="In progress"] .stage-marker { background: linear-gradient(to right, var(--primary) 50%, var(--background) 50%); }
+  [data-status="Next"] .stage-marker { border-color: var(--muted-foreground); }
+  .stage ul { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 32px; }
+  .stage-meta { color: var(--muted-foreground); font-size: 12px; }
+  .stage h4 { margin: 6px 0 0; font-size: 20px; line-height: 1.35; letter-spacing: -.015em; }
+  .stage-text { max-width: 38ch; margin-top: 8px; color: var(--muted-foreground); font-size: 15px; line-height: 1.6; }
+  .stage-link { margin-top: 10px; font-size: 13px; }
+  @media (max-width: 1100px) { .stage { padding-right: 32px; } }
+  @media (max-width: 760px) {
+    .stages { grid-template-columns: 1fr; gap: 40px; }
+    .stage { padding-right: 0; }
+  }
+</style>

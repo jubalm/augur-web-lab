@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { labOnly, labPath } from '../../lib/deployment';
 import ControlsShowcase from '../../components/experiments/ControlsShowcase.astro';
 import AnimationShowcase from '../../components/experiments/AnimationShowcase.astro';
 import { buttonVariants } from '../../components/ui/button-variants';
@@ -8,7 +9,7 @@ const raw = registry.css[':root'] as Record<string, string>;
 const colors = [ ['Augur Navy', 'primary'], ['Augur Green', 'accent'], ['Augur Paper', 'neutral'], ['Raised', 'surface-dark-3'], ['Augur Pewter', 'secondary-dark'] ];
 const roles = [ ['Canvas', '--background', '--foreground'], ['Panel', '--card', '--card-foreground'], ['Primary action', '--primary', '--primary-foreground'], ['Quiet region', '--muted', '--muted-foreground'] ];
 const typeRoles = [ ['Display · Sora 600 · 40/44', 'display', 'Make what matters clear.'], ['Heading 1 · Sora 600 · 28/34', 'heading-1', 'A shared way to ask questions'], ['Heading 2 · Sora 600 · 20/26', 'heading-2', 'Available outcomes'], ['Body · Schibsted Grotesk 400 · 16/24', 'body', 'A prediction market needs an outcome before it can settle.'], ['Control · Sora 600 · 14/20', 'control', 'Explore the process'], ['Metadata · Schibsted Grotesk 400 · 12/16', 'metadata', 'Proposed design · In development'] ];
-const sections = [['User flow', 'user-flow'], ['Identity', 'identity'], ['Color', 'colors'], ['Typography', 'typography'], ['Controls & feedback', 'core-ui'], ['Animation', 'motion']];
+const sections = [['User flow', 'user-flow'], ...(!labOnly ? [['Redesign', 'homepage-redesign']] : []), ['Identity', 'identity'], ['Color', 'colors'], ['Typography', 'typography'], ['Controls & feedback', 'core-ui'], ['Animation', 'motion']];
 ---
 <Base title="Lab" description="Augur website user flows, identity, color, typography, components, and motion in one place.">
   <div class="frame">
@@ -21,9 +22,14 @@ const sections = [['User flow', 'user-flow'], ['Identity', 'identity'], ['Color'
       <div class="lab-content">
   <section class="section" id="user-flow" aria-labelledby="user-flow-title">
     <div class="section-heading flow-heading"><h2 class="augur-type-editorial-section" id="user-flow-title">User flow</h2></div>
-    <p class="flow-description muted">Who arrives, what they need, and where they go next. Explore the website’s pages and the three product sections in one Products page.</p>
-    <a class:list={[buttonVariants({size: 'sm'}), 'configured-button', 'flow-explore']} href="/lab/user-flow" aria-label="Explore user flow">Explore</a>
+    <p class="flow-description muted">Who arrives, what they need, and where they go next. Explore the concise homepage plan: six main sections, including a short FAQ, and a compact footer.</p>
+    <a class:list={[buttonVariants({size: 'sm'}), 'configured-button', 'flow-explore']} href={labPath('user-flow/')} aria-label="Explore user flow">Explore</a>
   </section>
+  {!labOnly && <section class="section" id="homepage-redesign" aria-labelledby="redesign-title">
+    <div class="section-heading"><h2 class="augur-type-editorial-section" id="redesign-title">The Resolution Machine</h2></div>
+    <p class="muted reading">An alternative homepage: a resolution diagram, a hands-on example, and a clearer path through applications and development.</p>
+    <a class:list={[buttonVariants({size: 'sm'}), 'configured-button', 'flow-explore']} href="/lab/homepage-redesign/">Explore the redesign</a>
+  </section>}
   <section class="section" id="identity">
     <div class="section-heading"><h2 class="augur-type-editorial-section">Identity</h2></div>
     <div class="two-columns">

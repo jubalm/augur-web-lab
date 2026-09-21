@@ -2,15 +2,16 @@
 import ThemeToggle from './ThemeToggle.astro';
 import Brand from './Brand.astro';
 import Icon from './Icon.astro';
+import { labOnly, labPath } from '../../lib/deployment';
 interface Props { saveBrief?: boolean; }
 const { saveBrief = false } = Astro.props;
-const isLab = Astro.url.pathname.replace(/\/$/, '') === '/lab';
+const isLab = Astro.url.pathname.replace(/\/$/, '') === labPath().replace(/\/$/, '');
 ---
 <header class="lab-header">
-  <a class="lab-brand" href={isLab ? '#main' : '/lab'} aria-label="Augur lab" title="Augur lab"><Brand glyph /></a>
+  <a class="lab-brand" href={isLab ? '#main' : labPath()} aria-label="Augur lab" title="Augur lab"><Brand glyph /></a>
   <div class="header-actions">
-    {saveBrief && <><a class="utility-control back-link" href="/lab#user-flow" aria-label="Back to the lab" title="Back to the lab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7" /></svg></a><a class="utility-control save-brief" href="/lab/user-flow.md" download="augur-website-user-flow.md" aria-label="Save user flow brief" title="Save brief as Markdown"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg></a></>}
-    <a class="utility-control open-homepage" href="/" aria-label="Open homepage" title="Open homepage"><Icon name="house" /></a><ThemeToggle />
+    {saveBrief && <><a class="utility-control back-link" href={`${labPath()}#user-flow`} aria-label="Back to the lab" title="Back to the lab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7" /></svg></a><a class="utility-control save-brief" href={labPath('user-flow.md')} download="augur-website-user-flow.md" aria-label="Save user flow brief" title="Save brief as Markdown"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg></a></>}
+    {!labOnly && <a class="utility-control open-homepage" href="/" aria-label="Open homepage" title="Open homepage"><Icon name="house" /></a>}<ThemeToggle />
   </div>
 </header>
 <style>

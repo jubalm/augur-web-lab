@@ -4,7 +4,7 @@ const artwork = staticField().map((item, index) => ({ ...item, accent: index % 8
   .sort((a, b) => Number(a.accent) - Number(b.accent));
 ---
 <div class="hero-loom" data-hero-loom data-renderer="static" data-state="static">
-  <div class="hero-loom-stage" data-hero-loom-stage role="img" aria-label="Signal Loom: scattered observations gathering into a focal pattern, while differences remain.">
+  <div class="hero-loom-stage" data-hero-loom-stage role="img" aria-label="Scattered strands gathering into one pattern">
     <svg class="hero-loom-fallback" data-hero-loom-fallback viewBox="0 0 1000 620" fill="none" aria-hidden="true">
       <defs>
         <linearGradient id="hero-loom-accent" gradientUnits="userSpaceOnUse" x1="110" x2="890" y1="0" y2="0">
@@ -28,9 +28,8 @@ const artwork = staticField().map((item, index) => ({ ...item, accent: index % 8
 </script>
 <style>
   .hero-loom { position: relative; width: 100%; height: 100%; }
-  .hero-loom-stage { position: absolute; inset: 0; overflow: hidden; color: var(--foreground); pointer-events: none; }
-  [data-interactive="true"] .hero-loom-stage { pointer-events: auto; cursor: grab; touch-action: pan-y; }
-  [data-dragging="true"] .hero-loom-stage { cursor: grabbing; }
+  .hero-loom-stage { position: absolute; inset: 0; overflow: hidden; color: var(--foreground); pointer-events: none; cursor: default; }
+  [data-interactive="true"] .hero-loom-stage { pointer-events: auto; touch-action: pan-y; }
   .hero-loom-stage:focus-visible { outline: 1px solid var(--muted-foreground); outline-offset: -1px; }
   .hero-loom-fallback, .hero-loom-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .8; }
   .hero-loom-canvas[hidden] { display: none; }

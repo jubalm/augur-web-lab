@@ -7,7 +7,7 @@ import Icon from '../site/Icon.astro';
 <div class="control-showcase" data-control-showcase>
   <p class="specimen-direction augur-type-ui muted">Square · 48 px · Semibold labels · Bold outlined icons · Filled fields</p>
   <div class="specimen-panel">
-    <div class="example-heading"><h3 class="augur-type-heading-2">Actions</h3><p class="muted">Primary, outline, ghost, loading, and disabled states.</p></div>
+    <div class="example-heading"><h3 class="augur-type-heading-2">Actions</h3></div>
     <div class="preview-actions" aria-label="Button examples">
       <Button className="configured-button">Primary</Button>
       <Button className="configured-button" variant="outline">Outline</Button>
@@ -19,19 +19,19 @@ import Icon from '../site/Icon.astro';
   </div>
 
   <div class="specimen-panel">
-    <div class="example-heading"><h3 class="augur-type-heading-2">Fields</h3><p class="muted">Visible labels, soft filled surfaces, and a quiet focus treatment.</p></div>
+    <div class="example-heading"><h3 class="augur-type-heading-2">Fields</h3></div>
     <div class="preview-fields">
-      <div><label class="augur-type-ui" for="sample-search">Search</label><div class="search-field"><Input id="sample-search" aria-describedby="search-note" className="configured-field" type="search" placeholder="Search the research…" /><Icon name="search" /></div><p class="example-note muted" id="search-note">Field example. Try typing or keyboard focus.</p></div>
-      <div><label class="augur-type-ui" for="sample-readonly">Read-only</label><Input id="sample-readonly" className="configured-field" readOnly value="Augur Lituus" aria-describedby="readonly-note" /><p class="example-note muted" id="readonly-note">The value can be selected and copied.</p></div>
+      <div><label class="augur-type-ui" for="sample-search">Search</label><div class="search-field"><Input id="sample-search" className="configured-field" type="search" placeholder="Search the research…" /><Icon name="search" /></div></div>
+      <div><label class="augur-type-ui" for="sample-readonly">Read-only</label><Input id="sample-readonly" className="configured-field" readOnly value="Augur Lituus" /></div>
     </div>
     <form class="email-example negative-sample" data-email-example novalidate>
-      <div><label class="augur-type-ui" for="sample-invalid">Email address</label><Input id="sample-invalid" className="configured-field" type="email" defaultValue="name@" required invalid aria-describedby="sample-error" /><p class="field-feedback augur-type-metadata" id="sample-error"><Icon name="circle-alert" /><span data-email-message>Enter a complete email address, such as name@example.com.</span></p></div>
+      <div><label class="augur-type-ui" for="sample-invalid">Email address</label><Input id="sample-invalid" className="configured-field" type="email" defaultValue="name@" required invalid /></div>
       <span class="visually-hidden" role="status" data-email-status></span>
     </form>
   </div>
 
   <div class="specimen-panel feedback-panel" id="loading">
-    <div class="example-heading"><h3 class="augur-type-heading-2">Loading & feedback</h3><p class="muted">Show what is happening, then make the result clear.</p></div>
+    <div class="example-heading"><h3 class="augur-type-heading-2">Loading & feedback</h3></div>
     <div class="feedback-grid">
       <div class="loading-example">
         <div class="feedback-heading"><p class="eyebrow muted">Loading → ready</p><div class="load-state" role="status"><span class="load-ring" aria-hidden="true"></span><span data-load-message>Ready to preview</span></div></div>
@@ -55,20 +55,18 @@ import Icon from '../site/Icon.astro';
   if (root) {
     const form = root.querySelector<HTMLFormElement>('[data-email-example]')!;
     const email = form.querySelector<HTMLInputElement>('input')!;
-    const emailMessage = form.querySelector<HTMLElement>('[data-email-message]')!;
     const emailStatus = form.querySelector<HTMLElement>('[data-email-status]')!;
     const validate = () => {
       const valid = email.validity.valid;
       email.setAttribute('aria-invalid', String(!valid));
       form.dataset.valid = String(valid);
-      emailMessage.textContent = valid ? '' : 'Enter a complete email address, such as name@example.com.';
       return valid;
     };
     email.addEventListener('input', () => { validate(); emailStatus.textContent = ''; });
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (!validate()) email.focus();
-      emailStatus.textContent = [emailMessage.textContent, 'Nothing was sent.'].filter(Boolean).join(' ');
+      emailStatus.textContent = 'Nothing was sent.';
     });
 
     const loading = root.querySelector<HTMLElement>('[data-loading-preview]')!;
@@ -87,7 +85,7 @@ import Icon from '../site/Icon.astro';
       actionTrigger.removeAttribute('aria-disabled');
       actionTrigger.removeAttribute('aria-busy');
       actionLabel.textContent = 'Try loading';
-      message.textContent = 'Preview complete. Content is ready.';
+      message.textContent = '';
     };
     const startLoading = () => {
       if (loadingExample.dataset.busy) return;
@@ -122,7 +120,6 @@ import Icon from '../site/Icon.astro';
   .specimen-direction { line-height: 1.8; }
   .specimen-panel { padding: 32px; background: var(--card); color: var(--card-foreground); border: 1px solid var(--border-quiet); }
   .example-heading { display: grid; gap: 8px; margin-bottom: 24px; }
-  .example-heading > p { font-size: 14px; }
   .preview-actions { display: flex; flex-wrap: wrap; gap: 16px; }
   .example-note { font-size: 12px; line-height: 1.6; margin-top: 12px; }
   .button-loading-example { min-width: 176px; }
@@ -135,9 +132,6 @@ import Icon from '../site/Icon.astro';
   .search-field > :global(.web-icon) { position: absolute; top: 14px; right: 14px; pointer-events: none; }
   .search-field :global(input) { padding-right: 44px; }
   .email-example { margin-top: 32px; }
-  .field-feedback { display: flex; gap: 8px; align-items: center; min-height: 24px; margin-top: 8px; }
-  .field-feedback :global(.web-icon) { width: 16px; height: 16px; }
-  [data-valid="true"] .field-feedback :global(.web-icon) { display: none; }
   .feedback-grid { display: grid; gap: 24px; }
   .loading-example { display: grid; gap: 24px; padding: 24px; border: 1px solid var(--border-quiet); }
   .feedback-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 24px; }

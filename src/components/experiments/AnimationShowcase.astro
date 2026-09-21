@@ -9,8 +9,7 @@ const animations = [
 ];
 ---
 <div class="animation-showcase">
-  <fieldset class="animation-options">
-    <legend class="augur-type-body muted">Choose an animation to preview.</legend>
+  <fieldset class="animation-options" aria-label="Animation previews">
     <div class="animation-choices">
       {animations.map(animation => (
         <label class:list={[buttonVariants({ variant: 'outline' }), 'configured-button', 'animation-option']}>
@@ -43,7 +42,6 @@ const animations = [
 
 <style>
   .animation-options { min-width: 0; margin: 0 0 40px; padding: 0; border: 0; }
-  .animation-options legend { padding: 0; margin-bottom: 16px; }
   .animation-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .animation-choices .animation-option { height: auto; min-height: 88px; justify-content: start; padding: 16px; white-space: normal; }
   .option-number { align-self: start; padding-top: 2px; }
