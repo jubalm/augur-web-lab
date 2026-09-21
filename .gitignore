@@ -1,5 +1,7 @@
 node_modules/
 dist/
+dist-lab/
+.vercel/
 .astro/
 .DS_Store
 .env
@@ -8,3 +10,7 @@ dist/
 *.log
 .codex/
 .agents/
+.claude/
+.impeccable/
+# Accidental empty nested repository; the project root is this directory.
+/augur-web-lab/
