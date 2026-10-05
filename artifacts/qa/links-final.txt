@@ -1,0 +1,3 @@
+$ bun scripts/check-links.ts
+/lab/homepage-redesign/: external destination missing from registry: https://www.augur.net/blog/q1-2026-progress-report/
+error: script "check:links" exited with code 1

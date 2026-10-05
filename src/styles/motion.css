@@ -1,41 +1,4 @@
-/* Website scroll motion. Declarative and CSS-only: add an attribute in markup, no script.
-
-   data-reveal            fade and rise as the element enters the viewport
-   data-reveal="fade"     fade only, for large visuals
-   data-reveal="draw"     draw from the inline start, for lines and rules
-   data-reveal="pop"      scale up from a point, for small marks
-   data-reveal-children   reveal each direct child in turn (columns, lists)
-   --reveal-order         delay an element by whole steps (set automatically for children)
-
-   Progress follows the scroll position through the element's entry into the viewport, so
-   anchors, find-in-page and restored scroll positions always show the right state. Browsers
-   without scroll-driven animations (currently Firefox), reduced motion and print get the
-   static, fully visible page. See docs/motion.md. */
-
-@keyframes reveal-rise { from { opacity: 0; translate: 0 var(--reveal-distance, 20px); } }
-@keyframes reveal-fade { from { opacity: 0; } }
-@keyframes reveal-draw { from { scale: 0 1; } }
-@keyframes reveal-pop { from { opacity: 0; scale: .2; } }
-
 @media screen and (prefers-reduced-motion: no-preference) {
-  @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    :is([data-reveal], [data-reveal-children] > *) {
-      /* Each element settles over 120–240px of scrolling, or its own height between those. */
-      --reveal-start: calc(var(--reveal-order, 0) * var(--reveal-step, 48px));
-      animation: reveal-rise auto cubic-bezier(.22, .61, .36, 1) both;
-      animation-timeline: view();
-      animation-range: entry var(--reveal-start) entry calc(var(--reveal-start) + var(--reveal-length, clamp(120px, 100%, 240px)));
-    }
-    [data-reveal="fade"] { animation-name: reveal-fade; }
-    [data-reveal="draw"] { --reveal-length: 200px; animation-name: reveal-draw; animation-timing-function: cubic-bezier(.45, 0, .2, 1); transform-origin: 0 50%; }
-    [data-reveal="pop"] { --reveal-length: 80px; animation-name: reveal-pop; }
-    [data-reveal-children] > :nth-child(2) { --reveal-order: 1; }
-    [data-reveal-children] > :nth-child(3) { --reveal-order: 2; }
-    [data-reveal-children] > :nth-child(4) { --reveal-order: 3; }
-    [data-reveal-children] > :nth-child(5) { --reveal-order: 4; }
-    [data-reveal-children] > :nth-child(n + 6) { --reveal-order: 5; }
-  }
-
   /* Disclosures in page content open and close smoothly; the header menus keep their own panels. */
   @supports (interpolate-size: allow-keywords) and selector(::details-content) {
     main details { interpolate-size: allow-keywords; }
@@ -49,3 +12,9 @@
     main details:not([open]) > :not(summary) { opacity: 0; }
   }
 }
+
+/* Small native page crossfades; no router or hydration. */
+@view-transition { navigation:auto; }
+::view-transition-old(root),::view-transition-new(root) { animation-duration:180ms; }
+.site-header { view-transition-name:site-header; }
+@media(prefers-reduced-motion:reduce) { @view-transition { navigation:none; } }

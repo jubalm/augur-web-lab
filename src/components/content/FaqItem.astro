@@ -1,0 +1,23 @@
+---
+import type { FaqEntry } from '../../data/faq';
+interface Props { entry: FaqEntry; open?: boolean; name?: string; pageQuestion?: boolean; }
+const { entry, open = false, name = 'page-faq', pageQuestion = false }=Astro.props;
+---
+<details name={name} open={open} class="faq-item" id={`faq-${entry.id}`}>
+ <summary><span>{pageQuestion&&entry.pageQuestion?entry.pageQuestion:entry.question}</span><span class="faq-toggle" aria-hidden="true"></span></summary>
+ <div class="faq-answer"><p>{entry.answer}</p><a href={entry.link.href}>{entry.link.label}</a></div>
+</details>
+<script>
+ import {faqTimeline} from '../../motion/timelines';
+ import {motionTime} from '../../motion/debug';
+ document.querySelectorAll<HTMLElement>('.faq-item').forEach(item=>{
+  item.dataset.faqMotion='';
+  item.style.setProperty('--faq-answer-time',`${motionTime(faqTimeline.panel)}ms`);
+  item.style.setProperty('--faq-answer-stagger',`${motionTime(faqTimeline.stagger)}ms`);
+ });
+</script>
+<style>
+ @keyframes faq-answer-enter{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+ @media(prefers-reduced-motion:no-preference){@supports(interpolate-size:allow-keywords){.faq-item[data-faq-motion][open] .faq-answer>*{animation:faq-answer-enter var(--faq-answer-time,320ms) cubic-bezier(.22,.61,.36,1) both}.faq-item[data-faq-motion][open] .faq-answer>*+*{animation-delay:var(--faq-answer-stagger,50ms)}}}
+ .faq-item{border-left:2px solid transparent;padding:0 16px 0 22px}.faq-item[open]{background:var(--card);border-left-color:var(--primary)}summary{display:flex;justify-content:space-between;align-items:center;gap:24px;list-style:none;padding:24px 0;cursor:pointer;font:600 18px/26px var(--font-heading)}summary::-webkit-details-marker{display:none}.faq-toggle{position:relative;display:block;width:32px;height:32px;flex:none;border:1px solid var(--web-outline)}.faq-toggle::before,.faq-toggle::after{content:'';position:absolute;left:9px;top:14px;width:12px;height:1.5px;background:var(--foreground);transition:transform calc(320ms * var(--motion-factor,1))}.faq-toggle::after{transform:rotate(90deg)}details[open] .faq-toggle{background:var(--primary);border-color:var(--primary)}details[open] .faq-toggle::before,details[open] .faq-toggle::after{background:var(--primary-foreground)}details[open] .faq-toggle::after{transform:rotate(0)}.faq-answer{padding-bottom:24px;font-size:16px;line-height:26px;color:var(--muted-foreground)}.faq-answer a{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font:600 14px/20px var(--font-heading);text-decoration:none;color:var(--foreground)}.faq-answer a:hover{text-decoration:underline}@supports(interpolate-size:allow-keywords){.faq-item{interpolate-size:allow-keywords}.faq-item::details-content{height:0;opacity:0;overflow:clip;transition:height calc(320ms * var(--motion-factor,1)),opacity calc(320ms * var(--motion-factor,1)),content-visibility calc(320ms * var(--motion-factor,1)) allow-discrete}.faq-item[open]::details-content{height:auto;opacity:1}}@media(prefers-reduced-motion:reduce){.faq-item::details-content,.faq-toggle::after{transition:none}}@media(forced-colors:active){details[open]{border-color:Highlight}.faq-toggle{border-color:ButtonText}}
+</style>

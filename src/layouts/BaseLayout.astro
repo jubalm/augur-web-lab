@@ -1,0 +1,29 @@
+---
+import '../styles/base.css';
+import headlineFont from '@fontsource/sora/files/sora-latin-600-normal.woff2?url';
+import { site, indexable } from '../data/site';
+import { createHash } from 'node:crypto';
+import heroArrival from '../motion/hero-arrival.js?raw';
+interface Props { title?:string; description?:string; image?:string; article?:boolean; }
+const {title='Augur | The frontier of decentralized truth',description=site.description,image='/og.png',article=false}=Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+const structuredData = { '@context':'https://schema.org','@type':'Organization',name:'Augur',url:Astro.site?.href,logo:new URL('/brand/horizontal-reversed.svg',Astro.site).href };
+// The streamed CSP meta is emitted before body components render.
+if(Astro.url.pathname==='/')Astro.csp?.insertScriptHash(`sha256-${createHash('sha256').update(heroArrival.replace('__DEV__',String(import.meta.env.DEV))).digest('base64')}`);
+---
+<!doctype html>
+<html lang="en" dir="ltr" class="dark">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="theme-color" content="#0e0e21" />
+    <title>{title}</title><meta name="description" content={description} /><meta name="robots" content={indexable?'index, follow':'noindex, nofollow'} />
+    <link rel="canonical" href={canonical} /><link rel="icon" href="/brand/glyph-reversed.svg" type="image/svg+xml" />
+    <link rel="preload" href={headlineFont} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content={article?'article':'website'} /><meta property="og:site_name" content="Augur" /><meta property="og:title" content={title} />
+    <meta property="og:description" content={description} /><meta property="og:url" content={canonical} /><meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={imageURL} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body><a class="skip-link" href="#main">Skip to content</a><slot /></body>
+</html>

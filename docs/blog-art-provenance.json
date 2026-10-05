@@ -1,0 +1,38 @@
+{
+  "figmaFile": "3RgHvLRqEZDsAmcBQ7tvVa",
+  "sourceComponent": "154:762",
+  "extracted": "2026-10-05",
+  "method": "Read-only Figma exportAsync SVG_STRING; original 264 by 139 assets, responsive display in 1200 by 630 slots.",
+  "assets": [
+    {
+      "path": "public/images/blog/bonds.svg",
+      "sourceNode": "154:350",
+      "bytes": 6530,
+      "sha256": "05f8c098115c014faf5d8f08fab30c4e62cf79dcf99e2a8375846dc9b735289d"
+    },
+    {
+      "path": "public/images/blog/steps.svg",
+      "sourceNode": "154:441",
+      "bytes": 6878,
+      "sha256": "c71aec532fec3e97d87bb47388202cd887e26ba7f2bd0c32432d95d8ee1e2a24"
+    },
+    {
+      "path": "public/images/blog/fork.svg",
+      "sourceNode": "154:536",
+      "bytes": 6486,
+      "sha256": "c71203601170118f6f25ca3c692d6818765916720375d088ebb3cfe2536626ba"
+    },
+    {
+      "path": "public/images/blog/field.svg",
+      "sourceNode": "154:624",
+      "bytes": 7938,
+      "sha256": "0645a1db70c8aa9dc51f2a96f2adcbd30ca5d9a8c8ed9ce49158ef5faa37e86f"
+    },
+    {
+      "path": "public/images/blog/bonds-large.svg",
+      "sourceNode": "257:1908",
+      "bytes": 31230,
+      "sha256": "2d584e7e60499750f2baeb0243bc4b232cf9c6afee94526b86f0c922b6d811dc"
+    }
+  ]
+}

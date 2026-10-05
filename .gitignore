@@ -1,6 +1,5 @@
 node_modules/
 dist/
-dist-lab/
 .vercel/
 .astro/
 .DS_Store
@@ -12,5 +11,5 @@ dist-lab/
 .agents/
 .claude/
 .impeccable/
-# Accidental empty nested repository; the project root is this directory.
-/augur-web-lab/
+playwright-report/
+test-results/

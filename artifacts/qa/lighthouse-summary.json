@@ -1,0 +1,95 @@
+[
+  {
+    "route": "/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 451.27899999999994,
+    "cls": 0.008240396121883656,
+    "longTasks": [
+      74
+    ],
+    "report": "artifacts/qa/lighthouse-release-review/--desktop.json"
+  },
+  {
+    "route": "/",
+    "device": "mobile",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1858.8540000000005,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      209.0000000000001,
+      76
+    ],
+    "report": "artifacts/qa/lighthouse-release-review/--mobile.json"
+  },
+  {
+    "route": "/learn/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 326.532,
+    "cls": 0.0004015186211141889,
+    "longTasks": [],
+    "report": "artifacts/qa/lighthouse-release-review/-learn--desktop.json"
+  },
+  {
+    "route": "/learn/",
+    "device": "mobile",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1201.598,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      94
+    ],
+    "report": "artifacts/qa/lighthouse-release-review/-learn--mobile.json"
+  },
+  {
+    "route": "/blog/why-disagreement-makes-an-oracle-stronger/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 350.83,
+    "cls": 0.0004015186211141889,
+    "longTasks": [],
+    "report": "artifacts/qa/lighthouse-release-review/-blog-why-disagreement-makes-an-oracle-stronger--desktop.json"
+  },
+  {
+    "route": "/blog/why-disagreement-makes-an-oracle-stronger/",
+    "device": "mobile",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1505.0660000000003,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      102
+    ],
+    "report": "artifacts/qa/lighthouse-release-review/-blog-why-disagreement-makes-an-oracle-stronger--mobile.json"
+  }
+]

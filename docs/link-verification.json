@@ -1,0 +1,141 @@
+{
+  "whitepaper": {
+    "url": "https://github.com/AugurProject/whitepaper/blob/master/Lituus/English/Augur_Lituus_Whitepaper.pdf",
+    "status": 200,
+    "finalUrl": "https://github.com/AugurProject/whitepaper/blob/master/Lituus/English/Augur_Lituus_Whitepaper.pdf",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "lituusCode": {
+    "url": "https://github.com/AugurProject/Lituus-CS",
+    "status": 200,
+    "finalUrl": "https://github.com/AugurProject/Lituus-CS",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "zoltarCode": {
+    "url": "https://github.com/AugurProject/zoltar",
+    "status": 200,
+    "finalUrl": "https://github.com/AugurProject/zoltar",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "github": {
+    "url": "https://github.com/AugurProject/",
+    "status": 200,
+    "finalUrl": "https://github.com/AugurProject/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "mission": {
+    "url": "https://www.augur.net/mission/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/mission/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "archive": {
+    "url": "https://www.augur.net/blog/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "testingPastFuture": {
+    "url": "https://www.augur.net/blog/augur-testing-past-building-future/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/augur-testing-past-building-future/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "discord": {
+    "url": "https://discord.gg/Y3tCZsSmz3",
+    "status": 200,
+    "finalUrl": "https://discord.com/invite/Y3tCZsSmz3",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "telegram": {
+    "url": "https://t.me/augurlituus",
+    "status": 200,
+    "finalUrl": "https://t.me/augurlituus",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "x": {
+    "url": "https://x.com/AugurProject",
+    "status": 200,
+    "finalUrl": "https://x.com/AugurProject",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "foundation": {
+    "url": "https://lituus.foundation/",
+    "status": 200,
+    "finalUrl": "https://lituus.foundation/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "moonFork": {
+    "url": "https://www.augur.net/blog/post-fork-announcements/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/post-fork-announcements/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "q2Report": {
+    "url": "https://www.augur.net/blog/q2-2026-progress-report/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/q2-2026-progress-report/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "reboot": {
+    "url": "https://www.augur.net/blog/augur-reboot-2025/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/augur-reboot-2025/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "generalized": {
+    "url": "https://www.augur.net/blog/generalized-augur/",
+    "status": 200,
+    "finalUrl": "https://www.augur.net/blog/generalized-augur/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "darkFlorist": {
+    "url": "https://github.com/darkflorist",
+    "status": 200,
+    "finalUrl": "https://github.com/darkflorist",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "chainSafe": {
+    "url": "https://chainsafe.io/",
+    "status": 200,
+    "finalUrl": "https://chainsafe.io/",
+    "verified": true,
+    "checkedOn": "2026-10-05"
+  },
+  "zoltarPaper": {
+    "url": "https://github.com/AugurProject/zoltar/blob/main/docs/explanation/zoltar.html",
+    "verified": true,
+    "status": 200,
+    "checkedOn": "2026-10-05",
+    "source": "Current Zoltar system overview; successor to older local whitepaper. Exact paper destination requires maintainer confirmation."
+  },
+  "xShare": {
+    "url": "https://x.com/intent/tweet",
+    "verified": true,
+    "status": 200,
+    "checkedOn": "2026-10-05",
+    "source": "X share intent endpoint; HTTP 200."
+  },
+  "contact": {
+    "url": "mailto:contact@augur.net",
+    "verified": false,
+    "checkedOn": "2026-10-05",
+    "source": "Owner brief and Figma footer. Domain owner must confirm this inbox."
+  }
+}

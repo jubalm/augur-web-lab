@@ -1,184 +1,63 @@
 ---
-import Website from '../layouts/Website.astro';
-import HomepageHeader from '../components/site/HomepageHeader.astro';
-import Icon from '../components/site/Icon.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import Icon from '../components/primitives/Icon.astro';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
-import { buttonVariants } from '../components/ui/button-variants';
-import { communityLinks } from '../lib/community';
-
-const { telegram, github, x } = communityLinks;
-const socials = [telegram, github, x];
-// User-selected address; the domain owner must provision the inbox before release.
-const contactEmail = 'contact@augur.net';
+import { links } from '../data/links';
+const socials=[{key:'telegram',label:'Telegram',icon:'telegram-logo'},{key:'github',label:'GitHub',icon:'github-logo'},{key:'x',label:'X',icon:'x-logo'}] as const;
 ---
-<Website title="Contact Augur | Talk to us" description="Ask about Augur products, discuss an idea, or find the Augur community on Discord, Telegram, GitHub and X.">
-  <HomepageHeader slot="header" />
-  <div class="contact-page">
-    <section class="contact-introduction" aria-labelledby="contact-title">
-      <h1 class="augur-type-display" id="contact-title">Talk to us<span class="contact-dot">.</span></h1>
-      <p class="contact-lead augur-type-body">Have a question about our products, an idea to explore, or a project in mind? We’d like to hear from you.</p>
-
-      <section class="discord-invitation" aria-labelledby="discord-title">
-        <div class="discord-heading">
-          <Icon name="discord-logo" class="social-icon" />
-          <h2 class="augur-type-heading-2" id="discord-title">A quick question? Start on Discord.</h2>
-        </div>
-        <p class="augur-type-body">Skip the email back-and-forth. Ask the community and keep the conversation moving in one place.</p>
-        <a role="link" aria-disabled="true" tabindex="0" data-review-placeholder class:list={[buttonVariants(), 'configured-button']}>Ask on Discord <Icon name="arrow-up-right" /></a>
-      </section>
-
-      <section class="community" aria-labelledby="community-title">
-        <h2 class="augur-type-heading-2" id="community-title">Find us elsewhere</h2>
-        <ul class="social-links">
-          {socials.map(social => (
-            <li>
-              <a role="link" aria-disabled="true" tabindex="0">
-                <Icon name={social.icon} class="social-icon" />
-                <span class="augur-type-control">{social.name}</span>
-                <Icon name="arrow-up-right" />
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <p class="direct-contact augur-type-body">Prefer email? <a role="link" aria-disabled="true" tabindex="0">{contactEmail}</a></p>
-    </section>
-
-    <section class="contact-message" aria-labelledby="message-title">
-      <h2 class="augur-type-heading-2" id="message-title">Send us a message</h2>
-      <p class="form-introduction augur-type-body">Tell us what you’re working on or what you’d like to know.</p>
-
-      <form method="post" data-contact-form aria-labelledby="message-title">
-        <!-- Enable only after installing local validation and blocking submission.
-             Structure review never submits data or launches an email app. -->
-        <fieldset disabled data-contact-fields>
-          <legend class="visually-hidden">Your message</legend>
-          <div class="form-field">
-            <label class="augur-type-ui" for="contact-name">Name</label>
-            <Input id="contact-name" name="name" autoComplete="name" required maxLength={100} className="configured-field" placeholder="Your name" aria-describedby="name-error" />
-            <p class="field-error augur-type-body" id="name-error" hidden></p>
-          </div>
-          <div class="form-field">
-            <label class="augur-type-ui" for="contact-email">Email</label>
-            <Input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className="configured-field" placeholder="you@example.com" aria-describedby="email-error" />
-            <p class="field-error augur-type-body" id="email-error" hidden></p>
-          </div>
-          <div class="form-field">
-            <label class="augur-type-ui" for="contact-company">Company / project <span class="optional">(optional)</span></label>
-            <Input id="contact-company" name="company" autoComplete="organization" maxLength={200} className="configured-field" placeholder="Who are you building with?" aria-describedby="company-error" />
-            <p class="field-error augur-type-body" id="company-error" hidden></p>
-          </div>
-          <div class="form-field">
-            <label class="augur-type-ui" for="contact-website">Website <span class="optional">(optional)</span></label>
-            <Input id="contact-website" name="website" type="url" autoComplete="url" maxLength={2048} className="configured-field" placeholder="https://your-project.com" aria-describedby="website-error" />
-            <p class="field-error augur-type-body" id="website-error" hidden></p>
-          </div>
-          <div class="form-field message-field">
-            <label class="augur-type-ui" for="contact-message">Message</label>
-            <textarea id="contact-message" name="message" class="aug-input augur-type-ui configured-field" rows="4" required maxlength="5000" placeholder="What would you like to talk about?" aria-describedby="message-error"></textarea>
-            <p class="field-error augur-type-body" id="message-error" hidden></p>
-          </div>
-          <div class="form-actions">
-            <Button type="submit" className="configured-button">Send message</Button>
-          </div>
-        </fieldset>
-      </form>
-    </section>
-  </div>
-</Website>
-
+<PageLayout title="Contact Augur | Let’s talk" description="Share your application, the answers it depends on, and your questions with the Augur team." footer={false}>
+ <div class="container contact-layout">
+  <section class="contact-intro" aria-labelledby="contact-title">
+   <h1 id="contact-title">Let’s talk!</h1>
+   <p class="contact-lead">Tell us what your application needs to resolve. Let’s discuss how Augur could fit your requirements.</p>
+   <div class="community-invitation"><h2><Icon name="discord-logo"/>Talk with the community.</h2><p>Compare notes with builders, ask technical questions and follow the discussion on Discord.</p><a class="button outline" href={links.discord.url}>Join the conversation <Icon name="arrow-up-right"/></a></div>
+   <div class="socials"><h2>Find us elsewhere</h2><ul>{socials.map(social=><li><a href={links[social.key].url}><Icon name={social.icon}/><span>{social.label}</span><Icon name="arrow-up-right"/></a></li>)}</ul></div>
+   <p class="email-direct">Prefer email? <a href={links.contact.url}>contact@augur.net</a></p>
+  </section>
+  <section class="contact-message" aria-labelledby="message-title"><h2 id="message-title">Send us a message</h2><p>Share your application, the answers it depends on, and your questions.</p>
+   <form action={links.contact.url} method="post" enctype="text/plain" data-contact-form aria-labelledby="message-title">
+    <div class="error-summary" data-error-summary role="status" aria-live="polite" tabindex="-1"></div>
+    <div class="form-grid">
+     <div class="field"><label for="contact-name">Name</label><Input id="contact-name" name="name" autoComplete="name" required maxLength={100} placeholder="Your name" aria-describedby="contact-name-error"/><p class="field-error" id="contact-name-error" hidden></p></div>
+     <div class="field"><label for="contact-email">Email</label><Input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" aria-describedby="contact-email-error"/><p class="field-error" id="contact-email-error" hidden></p></div>
+     <div class="field"><label for="contact-company">Company / project <span>(optional)</span></label><Input id="contact-company" name="company" autoComplete="organization" maxLength={200} placeholder="Your company or project" aria-describedby="contact-company-error"/><p class="field-error" id="contact-company-error" hidden></p></div>
+     <div class="field"><label for="contact-website">Website <span>(optional)</span></label><Input id="contact-website" name="website" type="url" autoComplete="url" maxLength={2048} placeholder="https://your-project.com" aria-describedby="contact-website-error"/><p class="field-error" id="contact-website-error" hidden></p></div>
+     <div class="field message-field"><label for="contact-message">Message</label><textarea id="contact-message" name="message" required maxlength="5000" rows="4" placeholder="What does your application need to resolve?" aria-describedby="contact-message-error"></textarea><p class="field-error" id="contact-message-error" hidden></p></div>
+    </div>
+    <Button type="submit">Send message</Button>
+   </form>
+  </section>
+ </div>
+</PageLayout>
 <script>
-  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
-  if (form) {
-    const fields = form.querySelector<HTMLFieldSetElement>('[data-contact-fields]')!;
-    const name = form.querySelector<HTMLInputElement>('#contact-name')!;
-    const email = form.querySelector<HTMLInputElement>('#contact-email')!;
-    const company = form.querySelector<HTMLInputElement>('#contact-company')!;
-    const website = form.querySelector<HTMLInputElement>('#contact-website')!;
-    const message = form.querySelector<HTMLTextAreaElement>('#contact-message')!;
-    const validatedFields = [name, email, company, website, message];
-
-    const validate = (field: HTMLInputElement | HTMLTextAreaElement) => {
-      let error = '';
-      if (field.required && !field.value.trim()) {
-        error = field === name ? 'Enter your name.' : field === email ? 'Enter your email address.' : 'Write a message to continue.';
-      } else if (field === website && field.value.trim()) {
-        try {
-          const url = new URL(field.value.trim());
-          if (!['https:', 'http:'].includes(url.protocol)) throw new Error('Unsupported protocol');
-        } catch { error = 'Enter a website address starting with https:// or http://.'; }
-      } else if (field.validity.typeMismatch) error = 'Enter a valid email address, such as you@example.com.';
-      if (!error && field.value.length > field.maxLength) error = `Keep this to ${field.maxLength.toLocaleString()} characters or fewer.`;
-      const feedback = form.querySelector<HTMLElement>(`#${field.name}-error`)!;
-      feedback.textContent = error;
-      feedback.hidden = !error;
-      if (error) field.setAttribute('aria-invalid', 'true');
-      else field.removeAttribute('aria-invalid');
-      return !error;
-    };
-
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      const invalidFields = validatedFields.filter(field => !validate(field));
-      if (invalidFields.length) {
-        // Each error is attached to its field; focus announces the first one.
-        invalidFields[0].focus();
-        return;
-      }
-      // Valid input remains on this page; sending is a placeholder during review.
-    });
-
-    form.addEventListener('input', event => {
-      const field = event.target;
-      if ((field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) && field.hasAttribute('aria-invalid')) validate(field);
-    });
-    // Local field review only; no submission, email handoff or draft storage.
-    form.noValidate = true;
-    fields.disabled = false;
-  }
+ const form=document.querySelector<HTMLFormElement>('[data-contact-form]');
+ if(form){
+  form.noValidate=true;
+  const fields=Array.from(form.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('input,textarea'));
+  const summary=form.querySelector<HTMLElement>('[data-error-summary]')!;
+  const validate=(field:HTMLInputElement|HTMLTextAreaElement)=>{
+   let error='';
+   if(field.required&&!field.value.trim())error=field.name==='name'?'Enter your name.':field.name==='email'?'Enter your email address.':'Write your message.';
+   else if(field.validity.typeMismatch)error=field.name==='email'?'Enter a valid email address.':'Enter a website address starting with https:// or http://.';
+   else if(field.name==='website'&&field.value.trim()){
+    try{if(!['https:','http:'].includes(new URL(field.value.trim()).protocol))throw new Error();}catch{error='Enter a website address starting with https:// or http://.';}
+   }
+   if(!error&&field.maxLength>0&&field.value.length>field.maxLength)error=`Keep this to ${field.maxLength} characters or fewer.`;
+   const message=document.getElementById(`${field.id}-error`)!;message.textContent=error;message.hidden=!error;
+   field.setAttribute('aria-invalid',String(Boolean(error)));return !error;
+  };
+  for(const field of fields){field.addEventListener('blur',()=>validate(field));field.addEventListener('input',()=>{if(field.getAttribute('aria-invalid')==='true')validate(field);});}
+  form.addEventListener('submit',event=>{
+   event.preventDefault();const invalid=fields.filter(field=>!validate(field));
+   if(invalid.length){summary.textContent=`Please correct ${invalid.length===1?'the highlighted field':`the ${invalid.length} highlighted fields`}.`;invalid[0].focus();return;}
+   const value=(key:string)=>fields.find(field=>field.name===key)!.value.trim();
+   const body=[`Name: ${value('name')}`,`Email: ${value('email')}`,value('company')?`Company / project: ${value('company')}`:'',value('website')?`Website: ${value('website')}`:'','',value('message')].filter((line,index)=>line||index===4).join('\n');
+   summary.textContent='Opening your email app. Review the message there before sending.';
+   window.location.href=`${form.getAttribute('action')}?subject=${encodeURIComponent(`Augur inquiry from ${value('name')}`)}&body=${encodeURIComponent(body)}`;
+  });
+ }
 </script>
-
 <style>
-  .contact-page {
-    display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-content: center;
-    gap: clamp(40px, 5vw, 72px); width: min(1248px, calc(100% - 112px));
-    min-height: calc(100svh - 96px); box-sizing: border-box;
-    margin-inline: auto; padding-block: clamp(24px, 4vh, 48px);
-  }
-  h1 { font-size: clamp(48px, 4.8vw, 68px); line-height: 1.1; letter-spacing: -.035em; }
-  .contact-dot { color: var(--primary); }
-  .contact-lead { max-width: 460px; margin-top: 16px; font-size: 18px; line-height: 1.5; color: var(--muted-foreground); }
-  .discord-invitation { margin-top: 28px; padding: 20px; border: 1px solid var(--border-quiet); background: var(--muted); }
-  .discord-heading { display: flex; align-items: center; gap: 12px; }
-  .discord-invitation p { margin-block: 12px 16px; color: var(--muted-foreground); }
-  .community { margin-top: 24px; }
-  .social-links { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 8px 0 0; padding: 0; }
-  .social-links a { display: flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; }
-  .contact-page :global(.social-icon) { width: 24px; height: 24px; }
-  .social-links :global(.web-icon:last-child) { width: 16px; height: 16px; }
-  .social-links a:hover .augur-type-control { text-decoration: underline; text-underline-offset: 4px; }
-  .social-links a:focus-visible, .direct-contact a:focus-visible { outline: 2px solid var(--muted-foreground); outline-offset: 4px; }
-  .direct-contact { margin-top: 16px; color: var(--muted-foreground); }
-  .direct-contact a { color: var(--foreground); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; overflow-wrap: anywhere; }
-  .direct-contact a:hover { text-decoration-thickness: 2px; }
-  .contact-message { border-left: 1px solid var(--border-quiet); padding-left: clamp(32px, 3.75vw, 56px); padding-top: 8px; }
-  .form-introduction { margin-top: 8px; color: var(--muted-foreground); }
-  form { margin-top: 24px; }
-  fieldset { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 18px 16px; min-width: 0; border: 0; padding: 0; margin: 0; }
-  .form-field { display: grid; gap: 8px; min-width: 0; }
-  .message-field, .form-actions { grid-column: 1 / -1; }
-  .optional { color: var(--muted-foreground); }
-  textarea.configured-field { min-height: 128px; height: 128px; padding-block: 12px; resize: vertical; line-height: 1.6; }
-  .form-field :global([aria-invalid="true"]) { box-shadow: inset 0 -2px var(--destructive); }
-  .field-error { font-size: 14px; }
-  .form-actions { display: flex; align-items: center; gap: 16px; }
-  .form-actions :global(button) { flex-shrink: 0; }
-  @media (max-width: 1100px) { .contact-page { width: calc(100% - 80px); gap: 32px; } .contact-message { padding-left: 32px; } .optional { font-size: 12px; } }
-  @media (max-width: 800px) {
-    .contact-page { grid-template-columns: 1fr; width: calc(100% - 40px); }
-    .contact-message { padding: 40px 0 0; border-left: 0; border-top: 1px solid var(--border-quiet); }
-  }
-  @media (max-width: 500px) { fieldset { grid-template-columns: 1fr; } .form-actions { align-items: flex-start; flex-direction: column; } }
+ .contact-layout{display:grid;grid-template-columns:minmax(0,536fr) minmax(0,644fr);gap:68px;min-height:calc(100svh - 136px);align-items:center;padding-block:64px}.contact-intro h1{font-size:clamp(40px,4.445vw,64px);line-height:72px;letter-spacing:-.02em}.contact-lead{max-width:490px;font-size:18px;line-height:28px;color:var(--muted-foreground);margin-top:16px}.community-invitation{padding:24px;border:1px solid var(--web-outline);background:var(--web-quiet);margin-top:32px}.community-invitation h2{display:flex;align-items:center;gap:12px;font-size:20px;line-height:26px}.community-invitation p{color:var(--muted-foreground);margin:14px 0}.socials{margin-top:32px}.socials h2,.contact-message h2{font-size:20px;line-height:26px}.socials ul{display:flex;flex-wrap:wrap;gap:24px;list-style:none;margin:12px 0 0;padding:0}.socials a{display:inline-flex;align-items:center;gap:8px;min-height:44px;font:600 14px/20px var(--font-heading);text-decoration:none}.socials a :global(.web-icon:last-child){width:14px;height:14px}.email-direct{color:var(--muted-foreground);margin-top:16px}.email-direct a{text-decoration:none}.email-direct a:hover{text-decoration:underline}.contact-message{padding-left:52px;border-left:1px solid var(--border-quiet)}.contact-message>p{color:var(--muted-foreground);margin-top:12px}.contact-message form{margin-top:24px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}.message-field{grid-column:1/-1}.field label{font-weight:400}.field textarea{min-height:132px}.contact-message :global(button[type=submit]){margin-top:24px}.error-summary:empty{display:none}.error-summary{margin-bottom:16px;font-size:14px;line-height:20px}.field :global(input){background:var(--card)}.field textarea{background:var(--card)}@media(max-width:1100px){.contact-layout{gap:40px}.contact-message{padding-left:32px}}@media(max-width:900px){.contact-layout{grid-template-columns:1fr;gap:48px;padding-block:48px 64px}.contact-message{border-left:0;border-top:1px solid var(--border-quiet);padding:40px 0 0}.contact-intro h1{line-height:1.15}.contact-lead{max-width:600px}}@media(max-width:480px){.form-grid{grid-template-columns:1fr}.socials ul{gap:16px}.community-invitation{padding:20px}.community-invitation h2{align-items:start}}
 </style>

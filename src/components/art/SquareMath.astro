@@ -1,0 +1,19 @@
+---
+import Icon from '../primitives/Icon.astro';
+const rows=[
+ {title:'Report',count:1,win:24,text:'Back an answer with a REP bond. If no one challenges it, you get the bond back plus part of the query fee.'},
+ {title:'Challenge',count:2,win:43,text:'Post double the bond against a wrong answer. If yours holds, you also win most of theirs.'},
+ {title:'Risk',count:1,win:0,text:'If your answer is overturned, you lose the bond. Most of it goes to whoever was right.'},
+];
+---
+<div class="square-math">
+ {rows.map(row=><div class="square-row" data-square-row><h3>{row.title}</h3><div class="equation" aria-hidden="true"><span class="squares" data-stake>{Array.from({length:row.count},()=> <span class="bond"></span>)}</span><span class="math-arrow" data-arrow><Icon name="arrow-right"/></span>{row.win>0?<><span class="squares" data-returned>{Array.from({length:row.count},()=> <span class="bond"></span>)}</span><span class="math-plus" data-plus>+</span><span class="win" data-win style={`width:${row.win}px;height:${row.win}px`}></span></>:<span class="risk-result"><span class="lost" data-lost></span><span class="bond risk-moving" data-risk-moving></span></span>}</div><p>{row.text}</p></div>)}
+ <div class="square-footer"><p>Proposed rules for Augur Lituus, which is in development.</p><a class="button text" href="/rep/">Learn about REP</a></div>
+</div>
+<script>import {initSquareMath} from '../../motion/home-art';initSquareMath();</script>
+<style>
+ .square-row{display:grid;grid-template-columns:200px 400px minmax(0,1fr);gap:48px;padding-block:32px;border-top:1px solid var(--web-outline);align-items:center}.square-row h3{font:600 24px/32px var(--font-heading);margin:0}.equation,.squares{display:flex;align-items:center;gap:12px}.squares{gap:6px;transform-origin:left center}.equation{min-width:0}.bond,.lost{width:48px;height:48px;flex-shrink:0;background:var(--foreground);display:block}.lost{border:1.5px dashed var(--mark-participant,#71728A);background:transparent}.risk-result{position:relative}.risk-moving{position:absolute;inset:0;opacity:0}.win{background:var(--primary);flex-shrink:0}.math-arrow{width:28px;color:var(--mark-participant,#71728A);transform-origin:left}.math-arrow :global(.web-icon),.math-arrow :global(svg){width:28px;height:28px}.math-plus{color:var(--muted-foreground);font:400 24px/32px var(--font-heading)}.square-row p{color:var(--muted-foreground);font-size:18px;line-height:28px;margin:0}.square-footer{border-top:1px solid var(--web-outline);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:24px}.square-footer p{font-size:14px;line-height:20px;color:var(--muted-foreground);margin:0}
+ @media(max-width:1279px){.square-row{grid-template-columns:150px 350px minmax(0,1fr);gap:24px}}
+ @media(max-width:1023px){.square-row{grid-template-columns:140px 1fr}.square-row p{grid-column:2}.square-footer{align-items:flex-start}}
+ @media(max-width:600px){.square-row{grid-template-columns:1fr;gap:20px}.square-row p{grid-column:auto}.equation{transform:scale(.9);transform-origin:left}.square-footer{flex-direction:column;gap:12px}}
+</style>

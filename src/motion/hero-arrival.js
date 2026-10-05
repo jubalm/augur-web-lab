@@ -7,6 +7,10 @@
 
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   if (preference.matches || document.hidden || root.contains(document.activeElement)) return;
+  // The build substitutes a literal false in production, excluding debug behaviour.
+  const debug = __DEV__ ? new URLSearchParams(location.search).get('motion') : null;
+  const factor = debug === 'slow' ? 5 : 1;
+  root.style.setProperty('--hero-motion-factor', String(factor));
 
   const lifecycle = new AbortController();
   let settled = false;
@@ -19,20 +23,27 @@
   }
 
   // Backwards fill returns to visible base styles independently of this timer.
-  const cleanup = setTimeout(settle, 3000);
+  const complete = () => {
+    if (debug !== 'replay') { settle(); return; }
+    root.dataset.heroArrival = 'settled';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (settled) return;
+      root.dataset.heroArrival = 'entering';
+      cleanup = setTimeout(complete, 3000);
+    }));
+  };
+  let cleanup = setTimeout(complete, 3000 * factor);
   const inputOptions = { capture: true, passive: true, signal: lifecycle.signal };
   root.addEventListener('focusin', settle, inputOptions);
   root.addEventListener('pointerdown', settle, inputOptions);
   root.addEventListener('keydown', settle, inputOptions);
-  root.addEventListener('animationend', event => {
-    if (event.target instanceof HTMLElement && event.target.hasAttribute('data-hero-emphasis')) settle();
-  }, { signal: lifecycle.signal });
   preference.addEventListener('change', settle, { signal: lifecycle.signal });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) settle();
   }, { signal: lifecycle.signal });
   // Returning from the history cache leaves the finished composition on screen.
   window.addEventListener('pagehide', settle, { signal: lifecycle.signal });
+  window.addEventListener('beforeprint', settle, { signal: lifecycle.signal });
 
   root.dataset.heroArrival = 'entering';
 })();

@@ -1,0 +1,9 @@
+---
+import { buttonVariants } from '../ui/button-variants';
+import { Button as RegistryButton } from '../ui/button';
+import Icon from './Icon.astro';
+interface Props { href?:string; variant?:'primary'|'outline'|'text'|'destructive'; external?:boolean; disabled?:boolean; loading?:boolean; type?:'button'|'submit'|'reset'; class?:string; }
+const {href,variant='primary',external=false,disabled=false,loading=false,type='button',class:className}=Astro.props;
+const variants={primary:'default',outline:'outline',text:'ghost',destructive:'destructive'} as const;
+---
+{href ? <a href={href} class:list={[buttonVariants({variant:variants[variant],size:'lg'}),'button',variant,className]}><slot />{external&&<Icon name="arrow-up-right"/>}</a> : <RegistryButton type={type} variant={variants[variant]} size="lg" disabled={disabled} loading={loading} className={`button ${variant} ${className??''}`}><slot /></RegistryButton>}

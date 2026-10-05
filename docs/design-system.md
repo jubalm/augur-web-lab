@@ -1,79 +1,11 @@
-# Consuming the existing Augur design system
+# Pinned Augur foundation bridge
 
-## Decision
+The registry snapshots under `vendor/augur/registry` remain pinned to `fb354701afe182613f58c61b1c7dca21818cff86`; `vendor/augur/provenance.json` contains source and integrity values. The generated UI files, utilities, foundation CSS and typography CSS are immutable consumer outputs. Do not hand-edit them.
 
-The **Brand Foundation PDF controls brand decisions except for explicit user-directed experiments**. The latest review requests neutral typography, no Deep green, and Augur Green action fills with Navy labels in both themes. `src/styles/website-options.css` scopes that website direction and the selected square 48 px button geometry and the user-selected Crimson error color. Generated values are not edited or claimed to be new upstream standards.
+`scripts/design-system.ts` verifies snapshots, reproduces the existing Button/Card/Input and utility files byte-for-byte, and serializes the registry theme to plain CSS. Generated outputs are committed so normal builds need neither Figma nor the upstream network. Run `bun run design-system:check` to verify drift; generation is only for a deliberate reviewed upstream change.
 
-Input was added from the same pinned registry revision for the requested field specimens. Its snapshot and source remain byte-identical; the bridge adds only its stylesheet import.
+The website uses the existing foundation primitives and typography. `src/styles/tokens.css` maps the canonical Figma Navy roles onto those primitives without changing the shared foundation. The local composition owns its square controls, 48 px geometry, content widths, section layout and motion. See `DESIGN.md`. Registry React dependencies are retained only for server rendering; no `client:*` hydration is permitted.
 
-The inspected [repository](https://github.com/melodrd/augur-design-system/tree/fb354701afe182613f58c61b1c7dca21818cff86) contains private workspace package `@augur/design-system`, version `0.0.0`. There is no published package or bundled artifact to depend on. Its documented external distribution is a **GitHub-hosted shadcn-compatible source registry**. Do not add a guessed npm package, a machine-specific source link, or a copy of the workspace.
+Official horizontal reversed logo assets are unchanged, at least 150 px wide. Sora 400/600 and Schibsted Grotesk 400 use pinned self-hosted Fontsource Latin woff2 with swap; preload only the hero headline weight. Phosphor Bold icons are 20 px, with provenance recorded separately.
 
-Read upstream `README.md`, `ARCHITECTURE.md`, `DESIGN.md`, `AGENTS.md`, package exports, generated tokens, fonts, theme source, Button/Card components, PageHeader/EmptyState patterns, brand provenance, and the consumer/registry contracts before choosing this integration. Components and patterns are React source; the theme is plain CSS. Patterns need not be installed when the website-specific composition has a different purpose.
-
-The upstream consumer test covers **React 19 + Vite + Tailwind 4**, not plain-CSS Astro. The shadcn installer merges theme payloads into Tailwind CSS. To preserve the requested lighter stack, this repository carries the smallest bridge needed for **five committed registry items**: `augur-theme`, `utils`, `button`, `card`, `input`.
-
-## What the bridge does
-
-`vendor/augur/registry/*.json` are byte-identical snapshots from `public/r/` at commit `fb354701afe182613f58c61b1c7dca21818cff86`. `vendor/augur/provenance.json` records source and SHA-256. They are build references, not client imports.
-
-`scripts/design-system.ts`:
-
-1. Checks the pinned snapshots’ integrity.
-2. Writes the registry’s Button/Card/Input files and `utils` to their standard aliases, **without changing content**.
-3. Writes its typography file to the declared target.
-4. Serializes the existing theme payload into plain CSS, merging `cssVars.light/dark` into the same root/class scopes as the installer. All native selectors, nested themes, system fallback, fonts, focus, and reduced-motion rules survive.
-5. Omits only Tailwind-specific utility mappings and `@custom-variant`; this site uses no Tailwind utilities. Adjusts the typography import path for the host stylesheet location and imports the installed component CSS.
-
-Pinned foundation values remain unchanged. The user-requested website exception and local control display choices are documented separately. `tailwind-merge` remains a small exact dependency of the unchanged upstream `utils` item; Tailwind itself is not installed. No Radix/Dialog dependency is needed by this subset.
-
-```sh
-bun run design-system:generate
-bun run design-system:check
-```
-
-Generated outputs are checked in so normal startup/build requires no upstream network or generation step. `bun run check` also checks drift. Do not hand-edit installed outputs or snapshots. `src/styles/site.css` contains only website composition.
-
-## Usage
-
-```astro
----
-import { Button } from '@/components/ui/button';
-import { buttonVariants } from '@/components/ui/button-variants';
----
-<!-- Existing React component, rendered at build time. -->
-<Button type="submit">Try primary</Button>
-<!-- Upstream class-only API on a semantic navigation link. -->
-<a class={buttonVariants({ size: 'lg' })} href="/lab">Explore the lab</a>
-```
-
-`Base.astro` imports the generated theme. Prefer semantic `--background`, `--foreground`, `--card`, `--primary`, `--muted-foreground`, `--border-quiet`, etc. `--primary` is the action role, not raw Augur Navy. Typography uses `augur-type-*` roles. Sora 400/600 and Schibsted Grotesk 400 are delivered by the exact upstream Fontsource pins with `font-display: swap`; licenses accompany the public output.
-
-`data-theme="light|dark"` selects a theme. No attribute means system preference. The UI stores only the user’s theme preference locally; this is not a separate palette system. Nested identity specimens keep their surfaces. The website direction selects bright action fills with neutral labels. The website header places the theme icon before Talk to us; the lab has its own theme button. Blank canvases stay white. No comparison iframes are used.
-
-## Deliberate updates
-
-The snapshot is a development revision, **not a claim of a stable upstream release**. Choose and review a new full 40-character commit in the requested repository. Inspect its consumer contract and changes. Retrieve the five corresponding `public/r/*.json` artifacts, update the commit and integrity hashes, run generation, install any changed exact item dependencies, and run checks/build plus browser review in both themes. Review generated changes as an upstream update, never as independently owned design work.
-
-For a future Tailwind consumer, the upstream documented command is `bunx shadcn@4.20.1 add "jubalm/augur-design-system/button#<full-sha>"` (and the other required items). The docs name Jubal’s repository; the supplied reference is the melodrd repository. Confirm the chosen commit exists in the intended origin before using that command. Do not silently switch origins.
-
-This bridge is tested here in Astro; it does not establish upstream framework support. Once upstream provides a verified plain-CSS Astro install or a real package distribution, replace this bridge and retain the existing ownership boundary. Code/brand publication terms remain upstream decisions; no new license is asserted here.
-
-The latest lab review fixes square 48 px controls, semibold labels, bold outlined icons and filled fields. A local 1 px neutral focus outline replaces the heavier field ring. No appearance settings are persisted or read; defaults also apply without JavaScript. The unchanged registry Button/Input components still provide the underlying markup and styles.
-
-Current field refinement: website-local filled inputs use a soft focus surface and bottom indicator instead of a perimeter ring. Keyboard focus strengthens the bottom indicator; forced-colors mode retains an outline. Invalid fields keep explicit feedback and a Crimson bottom indicator. Registry output remains unchanged.
-
-Current button refinement: website-local outline buttons use a 6% foreground tint and a slightly stronger border on hover, deepening to 10% when pressed; text and icons retain their default color, and keyboard focus keeps its separate outline. Ghost buttons reveal a 2 px underline; primary, destructive and secondary buttons gain an inset bottom edge. Transitions last 180 ms, keep geometry stationary and are removed under reduced motion. Busy/disabled controls suppress these treatments. This is a requested website experiment, not an upstream foundation change.
-
-## Website shared roles — September 19, 2026
-
-The user approved every design change from the homepage design review. These roles live in `src/styles/website-options.css` (website layer only; the pinned foundations are unchanged). Use them instead of per-component values:
-
-- **Lines:** `--border-quiet` for rules and dividers; `--web-outline` (18% foreground mixed into the background, about 1.7:1 in dark) for containers and outline buttons. It replaced a 4:1 line on the Why + how strip and the 1.25:1 outline on “Talk to us”.
-- **Buttons:** every 48 px button uses `--web-label-size` (16 px). Per-instance label sizes are removed.
-- **Text:** `.web-lead` (18 px, line height 1.6) for hero support and section introductions; `.web-body-small` (15 px, line height 1.6) for card and step text. The hero support grows to 20 px above 1600 px wide.
-- **Squares:** 3 px for texture (the hero field) and 5 px for nodes (the strip’s line crossings and the card marks). Neutral squares are muted gray; accents are green.
-- **Light-mode accents:** green elements that carry meaning in the card marks use Deep (`--augur-color-accent-deep`) in light mode so they stay visible; bright Green remains for actions and decoration. This is a narrow exception to the bright-green-only website direction, approved with the review.
-
-## Website action arrows
-
-Internal navigation uses no arrow, including links to sections, the homepage, and the lab. Reserve ↗ (`arrow-up-right`) for destinations outside the website. The destination determines the arrow, regardless of button variant or whether a new tab opens. Direct actions such as Save, Copy, Remove, toggles, and local previews have no navigation arrow; an action-specific icon may still be used. Keep decorative arrows hidden from assistive technology and retain accessible labels on icon-only links. The homepage hero actions are an approved exception: retain the verb labels and omit both arrows. This is a website convention, not a change to the pinned upstream components.
+A future upstream update must use a verified full commit, review the consumer contract, replace all corresponding registry artifacts and hashes together, regenerate and verify, then run website build and visual/accessibility checks. Local website rules never become an unreviewed fork of shared foundations.

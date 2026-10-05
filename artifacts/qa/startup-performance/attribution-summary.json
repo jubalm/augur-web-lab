@@ -1,0 +1,94 @@
+[
+  {
+    "name": "learn-baseline",
+    "performance": 100,
+    "lcpMs": 1207.006,
+    "simulatedLongTasksMs": [
+      129
+    ],
+    "actualLargestTaskMs": 64.381,
+    "threadCpuMs": 26.189,
+    "children": [
+      {
+        "name": "Layout",
+        "wallMs": 48.641,
+        "threadCpuMs": 10.896
+      },
+      {
+        "name": "UpdateLayoutTree",
+        "wallMs": 10.673,
+        "threadCpuMs": 10.489
+      },
+      {
+        "name": "Layout",
+        "wallMs": 0.208,
+        "threadCpuMs": 0.069
+      }
+    ]
+  },
+  {
+    "name": "learn-attributes",
+    "performance": 100,
+    "lcpMs": 1204.01,
+    "simulatedLongTasksMs": [
+      106
+    ],
+    "actualLargestTaskMs": 53.213,
+    "threadCpuMs": 20.361,
+    "children": [
+      {
+        "name": "Layout",
+        "wallMs": 41.876,
+        "threadCpuMs": 9.316
+      },
+      {
+        "name": "UpdateLayoutTree",
+        "wallMs": 6.956,
+        "threadCpuMs": 6.813
+      },
+      {
+        "name": "Layout",
+        "wallMs": 0.034,
+        "threadCpuMs": 0.034
+      }
+    ]
+  },
+  {
+    "name": "home-before-paths",
+    "performance": 99.0,
+    "lcpMs": 1602.86,
+    "simulatedLongTasksMs": [
+      160
+    ],
+    "actualLargestTaskMs": 80.08,
+    "threadCpuMs": 38.277,
+    "children": [
+      {
+        "name": "Layout",
+        "wallMs": 52.283,
+        "threadCpuMs": 11.49
+      },
+      {
+        "name": "UpdateLayoutTree",
+        "wallMs": 16.905,
+        "threadCpuMs": 16.072
+      },
+      {
+        "name": "Layout",
+        "wallMs": 0.073,
+        "threadCpuMs": 0.073
+      }
+    ]
+  },
+  {
+    "name": "home-after-paths-rejected",
+    "performance": 100,
+    "lcpMs": 1698.4379999999999,
+    "simulatedLongTasksMs": [
+      212,
+      90
+    ],
+    "actualLargestTaskMs": 106.065,
+    "threadCpuMs": 48.816
+  }
+]

@@ -1,0 +1,13 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import type { GetStaticPaths, Page } from 'astro';
+import BlogArchive from '../../../../components/pages/BlogArchive.astro';
+import { blogCategories, blogCategory, blogPageSize, newestFirst } from '../../../../components/content/blog';
+export const getStaticPaths = (async ({ paginate })=>{
+ const posts=newestFirst(await getCollection('blog'));
+ return blogCategories.flatMap(category=>paginate(posts.filter(post=>blogCategory(post).slug===category.slug),{params:{category:category.slug},pageSize:blogPageSize}));
+}) satisfies GetStaticPaths;
+interface Props { page: Page<CollectionEntry<'blog'>>; }
+const { page }=Astro.props;
+---
+<BlogArchive page={page} category={Astro.params.category}/>

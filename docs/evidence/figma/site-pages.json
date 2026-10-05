@@ -1,0 +1,3598 @@
+{
+  "fileKey": "3RgHvLRqEZDsAmcBQ7tvVa",
+  "readAt": "2026-10-05",
+  "pages": [
+    {
+      "id": "223:281",
+      "name": "FAQ / Desktop / 1440",
+      "children": [
+        {
+          "id": "223:282",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "223:305",
+          "name": "Page hero",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 361
+        },
+        {
+          "id": "223:446",
+          "name": "01 · Questions",
+          "x": 0,
+          "y": 457,
+          "width": 1440,
+          "height": 1621
+        },
+        {
+          "id": "223:681",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 2078,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "223:444",
+          "text": "Frequently asked questions",
+          "x": 96,
+          "y": 216,
+          "w": 904,
+          "s": 64
+        },
+        {
+          "id": "223:445",
+          "text": "Short answers, each with a link to go deeper.",
+          "x": 96,
+          "y": 312,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "223:452",
+          "text": "Getting started",
+          "x": 114,
+          "y": 542,
+          "w": 127,
+          "s": 16
+        },
+        {
+          "id": "223:454",
+          "text": "How it works",
+          "x": 112,
+          "y": 594,
+          "w": 107,
+          "s": 16
+        },
+        {
+          "id": "223:456",
+          "text": "REP",
+          "x": 112,
+          "y": 646,
+          "w": 32,
+          "s": 16
+        },
+        {
+          "id": "223:458",
+          "text": "Building with Augur",
+          "x": 112,
+          "y": 698,
+          "w": 164,
+          "s": 16
+        },
+        {
+          "id": "223:461",
+          "text": "Getting started",
+          "x": 456,
+          "y": 530,
+          "w": 222,
+          "s": 28
+        },
+        {
+          "id": "223:521",
+          "text": "How it works",
+          "x": 456,
+          "y": 1046,
+          "w": 188,
+          "s": 28
+        },
+        {
+          "id": "223:581",
+          "text": "REP",
+          "x": 456,
+          "y": 1406,
+          "w": 56,
+          "s": 28
+        },
+        {
+          "id": "223:641",
+          "text": "Building with Augur",
+          "x": 456,
+          "y": 1766,
+          "w": 286,
+          "s": 28
+        },
+        {
+          "id": "223:792",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 2150,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "223:793",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 2214,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "223:797",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 2150,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "223:798",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 2188,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "223:810",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 2521,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "223:811",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 2589,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "223:813",
+          "text": "Augur",
+          "x": 496,
+          "y": 2447,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "223:815",
+          "text": "About",
+          "x": 496,
+          "y": 2497,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "223:816",
+          "text": "Contact",
+          "x": 496,
+          "y": 2535,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "223:818",
+          "text": "Products",
+          "x": 720,
+          "y": 2447,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "223:820",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 2497,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "223:821",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 2535,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "223:822",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 2573,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "223:824",
+          "text": "Resources",
+          "x": 944,
+          "y": 2447,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "223:826",
+          "text": "Blog",
+          "x": 944,
+          "y": 2497,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "223:827",
+          "text": "FAQ",
+          "x": 944,
+          "y": 2535,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "223:828",
+          "text": "Learn",
+          "x": 944,
+          "y": 2573,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "223:829",
+          "text": "REP",
+          "x": 944,
+          "y": 2611,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "223:830",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 2649,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "223:832",
+          "text": "Community",
+          "x": 1168,
+          "y": 2447,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "223:834",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 2497,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "223:835",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 2535,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "223:836",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 2573,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "223:837",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 2611,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "257:952",
+      "name": "Blog article / Desktop / 1440",
+      "children": [
+        {
+          "id": "257:953",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "257:954",
+          "name": "Article header",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 537
+        },
+        {
+          "id": "257:1644",
+          "name": "Cover",
+          "x": 0,
+          "y": 633,
+          "width": 1440,
+          "height": 655
+        },
+        {
+          "id": "257:2339",
+          "name": "Article body",
+          "x": 0,
+          "y": 1288,
+          "width": 1440,
+          "height": 2224.5
+        },
+        {
+          "id": "260:850",
+          "name": "Keep reading",
+          "x": 0,
+          "y": 3512.5,
+          "width": 1440,
+          "height": 700.7979736328125
+        },
+        {
+          "id": "257:1142",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 4213.2978515625,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "257:1635",
+          "text": "←  All posts",
+          "x": 96,
+          "y": 168,
+          "w": 86,
+          "s": 16
+        },
+        {
+          "id": "257:1637",
+          "text": "Research  ·  24 September 2026  ·  5 min read",
+          "x": 96,
+          "y": 248,
+          "w": 336,
+          "s": 16
+        },
+        {
+          "id": "257:1093",
+          "text": "Why disagreement makes an oracle stronger",
+          "x": 96,
+          "y": 296,
+          "w": 940,
+          "s": 60
+        },
+        {
+          "id": "257:1094",
+          "text": "How bonds and open challenges reward honest reporting.",
+          "x": 96,
+          "y": 456,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "257:1642",
+          "text": "By the Augur team",
+          "x": 150,
+          "y": 538,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "257:2341",
+          "text": "On this page",
+          "x": 96,
+          "y": 1376,
+          "w": 91,
+          "s": 14
+        },
+        {
+          "id": "257:2344",
+          "text": "One voice is a single point of failure",
+          "x": 114,
+          "y": 1424,
+          "w": 246,
+          "s": 15
+        },
+        {
+          "id": "257:2346",
+          "text": "Anyone can answer, anyone can challenge",
+          "x": 113,
+          "y": 1484,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "257:2348",
+          "text": "Each challenge raises the stakes",
+          "x": 113,
+          "y": 1544,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "257:2350",
+          "text": "What this means for an app",
+          "x": 113,
+          "y": 1582,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "257:2352",
+          "text": "The last resort: a fork",
+          "x": 113,
+          "y": 1620,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "257:2354",
+          "text": "Share",
+          "x": 96,
+          "y": 1691,
+          "w": 42,
+          "s": 14
+        },
+        {
+          "id": "257:2357",
+          "text": "X ↗",
+          "x": 111,
+          "y": 1740,
+          "w": 22,
+          "s": 14
+        },
+        {
+          "id": "257:2359",
+          "text": "Copy link",
+          "x": 171,
+          "y": 1740,
+          "w": 62,
+          "s": 14
+        },
+        {
+          "id": "257:2361",
+          "text": "Most systems treat disagreement as a failure. An oracle that settles real money should expect it. Augur Lituus is built so that any answer can be challenged, and so that defending a wrong answer gets more expensive with every round.",
+          "x": 480,
+          "y": 1376,
+          "w": 720,
+          "s": 22
+        },
+        {
+          "id": "257:2363",
+          "text": "One voice is a single point of failure",
+          "x": 480,
+          "y": 1560,
+          "w": 720,
+          "s": 30
+        },
+        {
+          "id": "257:2365",
+          "text": "Smart contracts can’t see the world. Something has to tell them what happened, and whoever decides controls the money that depends on the answer. If that is one company, one committee or one multisig, the contract is only as honest as they are.",
+          "x": 480,
+          "y": 1618,
+          "w": 720,
+          "s": 18
+        },
+        {
+          "id": "257:2367",
+          "text": "Anyone can answer, anyone can challenge",
+          "x": 480,
+          "y": 1756,
+          "w": 720,
+          "s": 30
+        },
+        {
+          "id": "257:2369",
+          "text": "A reporter proposes an outcome and locks REP as a bond: a stake they can lose. The first answer is tentative, with time for others to check it. Anyone who disagrees can back a different outcome with a larger bond, and a completed challenge opens another appeal period.",
+          "x": 480,
+          "y": 1814,
+          "w": 720,
+          "s": 18
+        },
+        {
+          "id": "257:2371",
+          "text": "Each challenge raises the stakes",
+          "x": 480,
+          "y": 1982,
+          "w": 720,
+          "s": 30
+        },
+        {
+          "id": "257:2373",
+          "text": "Every challenge doubles the bond. A dispute that opens at 15 REP reaches 120 REP after three challenges, so it only continues while someone is willing to put more at stake on being right.",
+          "x": 480,
+          "y": 2040,
+          "w": 720,
+          "s": 18
+        },
+        {
+          "id": "257:2387",
+          "text": "15 REP",
+          "x": 571,
+          "y": 2467,
+          "w": 59,
+          "s": 18
+        },
+        {
+          "id": "257:2388",
+          "text": "Report · YES",
+          "x": 560,
+          "y": 2495,
+          "w": 81,
+          "s": 14
+        },
+        {
+          "id": "257:2392",
+          "text": "30 REP",
+          "x": 728,
+          "y": 2467,
+          "w": 65,
+          "s": 18
+        },
+        {
+          "id": "257:2393",
+          "text": "Challenge · NO",
+          "x": 711,
+          "y": 2495,
+          "w": 98,
+          "s": 14
+        },
+        {
+          "id": "257:2397",
+          "text": "60 REP",
+          "x": 887,
+          "y": 2467,
+          "w": 66,
+          "s": 18
+        },
+        {
+          "id": "257:2398",
+          "text": "Challenge 2 · YES",
+          "x": 864,
+          "y": 2495,
+          "w": 113,
+          "s": 14
+        },
+        {
+          "id": "257:2402",
+          "text": "120 REP",
+          "x": 1044,
+          "y": 2467,
+          "w": 72,
+          "s": 18
+        },
+        {
+          "id": "257:2403",
+          "text": "Challenge 3 · NO",
+          "x": 1026,
+          "y": 2495,
+          "w": 109,
+          "s": 14
+        },
+        {
+          "id": "257:2404",
+          "text": "Figure 1. Each challenge doubles the bond: 15, 30, 60, then 120 REP.",
+          "x": 480,
+          "y": 2571,
+          "w": 720,
+          "s": 14
+        },
+        {
+          "id": "257:2406",
+          "text": "Lying is designed to cost more than it pays.",
+          "x": 515,
+          "y": 2643,
+          "w": 685,
+          "s": 32
+        },
+        {
+          "id": "257:2408",
+          "text": "What this means for an app",
+          "x": 480,
+          "y": 2779,
+          "w": 720,
+          "s": 30
+        },
+        {
+          "id": "257:2409",
+          "text": "An application that settles on an Augur Lituus answer gets three properties from this design:",
+          "x": 480,
+          "y": 2837,
+          "w": 720,
+          "s": 18
+        },
+        {
+          "id": "257:2414",
+          "text": "No committee, multisig or veto decides the answer.",
+          "x": 504,
+          "y": 2917,
+          "w": 696,
+          "s": 18
+        },
+        {
+          "id": "257:2418",
+          "text": "Every answer is checked in public, under the same rules for everyone.",
+          "x": 504,
+          "y": 2961,
+          "w": 696,
+          "s": 18
+        },
+        {
+          "id": "257:2422",
+          "text": "When an appeal period ends without a new challenge, the latest outcome becomes final.",
+          "x": 504,
+          "y": 3005,
+          "w": 696,
+          "s": 18
+        },
+        {
+          "id": "257:2424",
+          "text": "The last resort: a fork",
+          "x": 480,
+          "y": 3113,
+          "w": 720,
+          "s": 30
+        },
+        {
+          "id": "257:2425",
+          "text": "If a dispute keeps escalating past a set threshold, it leaves the ordinary rounds and goes to a fork, the protocol’s last resort for the hardest questions. Forks are slow and costly by design, so ordinary disputes are meant to end long before one begins.",
+          "x": 480,
+          "y": 3171,
+          "w": 720,
+          "s": 18
+        },
+        {
+          "id": "257:2430",
+          "text": "Filed under",
+          "x": 480,
+          "y": 3357,
+          "w": 74,
+          "s": 14
+        },
+        {
+          "id": "257:2432",
+          "text": "Research and design",
+          "x": 579,
+          "y": 3357,
+          "w": 137,
+          "s": 14
+        },
+        {
+          "id": "257:2434",
+          "text": "Share",
+          "x": 1038,
+          "y": 3357,
+          "w": 38,
+          "s": 14
+        },
+        {
+          "id": "257:2435",
+          "text": "X ↗",
+          "x": 1096,
+          "y": 3357,
+          "w": 22,
+          "s": 14
+        },
+        {
+          "id": "257:2436",
+          "text": "Copy link",
+          "x": 1138,
+          "y": 3357,
+          "w": 62,
+          "s": 14
+        },
+        {
+          "id": "260:854",
+          "text": "Keep reading",
+          "x": 96,
+          "y": 3601,
+          "w": 274,
+          "s": 40
+        },
+        {
+          "id": "260:860",
+          "text": "Guide · 10 September 2026",
+          "x": 96,
+          "y": 3925,
+          "w": 175,
+          "s": 14
+        },
+        {
+          "id": "260:861",
+          "text": "Writing questions an oracle can answer",
+          "x": 96,
+          "y": 3965,
+          "w": 394.6666564941406,
+          "s": 22
+        },
+        {
+          "id": "260:862",
+          "text": "Clear outcomes, a firm deadline and criteria that leave no room for doubt.",
+          "x": 96,
+          "y": 4045,
+          "w": 394.6666564941406,
+          "s": 16
+        },
+        {
+          "id": "260:865",
+          "text": "Explainer · 27 August 2026",
+          "x": 523,
+          "y": 3925,
+          "w": 173,
+          "s": 14
+        },
+        {
+          "id": "260:866",
+          "text": "What happens when a fork begins",
+          "x": 523,
+          "y": 3965,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "260:867",
+          "text": "A step-by-step look at the oracle’s last line of defense.",
+          "x": 523,
+          "y": 4015,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "260:870",
+          "text": "Report · 1 July 2026",
+          "x": 949,
+          "y": 3925,
+          "w": 127,
+          "s": 14
+        },
+        {
+          "id": "260:871",
+          "text": "Quarterly report: what changed",
+          "x": 949,
+          "y": 3965,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "260:872",
+          "text": "Completed work, open questions and what comes next.",
+          "x": 949,
+          "y": 4015,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "257:1253",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 4285,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "257:1254",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 4349,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "257:1258",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 4285,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "257:1259",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 4323,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "257:1271",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 4657,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "257:1272",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 4725,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "257:1274",
+          "text": "Augur",
+          "x": 496,
+          "y": 4582,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "257:1276",
+          "text": "About",
+          "x": 496,
+          "y": 4632,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "257:1277",
+          "text": "Contact",
+          "x": 496,
+          "y": 4670,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "257:1279",
+          "text": "Products",
+          "x": 720,
+          "y": 4582,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "257:1281",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 4632,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "257:1282",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 4670,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "257:1283",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 4708,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "257:1285",
+          "text": "Resources",
+          "x": 944,
+          "y": 4582,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "257:1287",
+          "text": "Blog",
+          "x": 944,
+          "y": 4632,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "257:1288",
+          "text": "FAQ",
+          "x": 944,
+          "y": 4670,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "257:1289",
+          "text": "Learn",
+          "x": 944,
+          "y": 4708,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "257:1290",
+          "text": "REP",
+          "x": 944,
+          "y": 4746,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "257:1291",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 4784,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "257:1293",
+          "text": "Community",
+          "x": 1168,
+          "y": 4582,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "257:1295",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 4632,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "257:1296",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 4670,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "257:1297",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 4708,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "257:1298",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 4746,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "222:181",
+      "name": "Blog / Desktop / 1440",
+      "children": [
+        {
+          "id": "222:182",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "222:205",
+          "name": "Page hero",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 394
+        },
+        {
+          "id": "222:346",
+          "name": "01 · All posts",
+          "x": 0,
+          "y": 490,
+          "width": 1440,
+          "height": 1195.595947265625
+        },
+        {
+          "id": "222:465",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 1685.595947265625,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "222:344",
+          "text": "Blog",
+          "x": 96,
+          "y": 216,
+          "w": 151,
+          "s": 64
+        },
+        {
+          "id": "222:345",
+          "text": "Project updates, research and quarterly reports from the Augur project, newest first.",
+          "x": 96,
+          "y": 312,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "222:351",
+          "text": "All posts",
+          "x": 96,
+          "y": 539,
+          "w": 72,
+          "s": 16
+        },
+        {
+          "id": "222:353",
+          "text": "Project updates",
+          "x": 200,
+          "y": 539,
+          "w": 131,
+          "s": 16
+        },
+        {
+          "id": "222:355",
+          "text": "Research and design",
+          "x": 363,
+          "y": 539,
+          "w": 171,
+          "s": 16
+        },
+        {
+          "id": "222:357",
+          "text": "For builders",
+          "x": 566,
+          "y": 539,
+          "w": 98,
+          "s": 16
+        },
+        {
+          "id": "222:370",
+          "text": "Research · 24 September 2026",
+          "x": 96,
+          "y": 866,
+          "w": 200,
+          "s": 14
+        },
+        {
+          "id": "222:371",
+          "text": "Why disagreement makes an oracle stronger",
+          "x": 96,
+          "y": 906,
+          "w": 394.6666564941406,
+          "s": 22
+        },
+        {
+          "id": "222:372",
+          "text": "How bonds and open challenges reward honest reporting.",
+          "x": 96,
+          "y": 986,
+          "w": 394.6666564941406,
+          "s": 16
+        },
+        {
+          "id": "222:384",
+          "text": "Guide · 10 September 2026",
+          "x": 523,
+          "y": 866,
+          "w": 175,
+          "s": 14
+        },
+        {
+          "id": "222:385",
+          "text": "Writing questions an oracle can answer",
+          "x": 523,
+          "y": 906,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "222:386",
+          "text": "Clear outcomes, a firm deadline and criteria that leave no room for doubt.",
+          "x": 523,
+          "y": 986,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "222:400",
+          "text": "Explainer · 27 August 2026",
+          "x": 949,
+          "y": 866,
+          "w": 173,
+          "s": 14
+        },
+        {
+          "id": "222:401",
+          "text": "What happens when a fork begins",
+          "x": 949,
+          "y": 906,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "222:402",
+          "text": "A step-by-step look at the oracle’s last line of defense.",
+          "x": 949,
+          "y": 956,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "222:432",
+          "text": "Community · 13 August 2026",
+          "x": 96,
+          "y": 1318,
+          "w": 185,
+          "s": 14
+        },
+        {
+          "id": "222:433",
+          "text": "Notes from the community call",
+          "x": 96,
+          "y": 1358,
+          "w": 394.6666564941406,
+          "s": 22
+        },
+        {
+          "id": "222:434",
+          "text": "Questions from REP holders and builders, and what comes next.",
+          "x": 96,
+          "y": 1408,
+          "w": 394.6666564941406,
+          "s": 16
+        },
+        {
+          "id": "222:446",
+          "text": "Update · 30 July 2026",
+          "x": 523,
+          "y": 1318,
+          "w": 142,
+          "s": 14
+        },
+        {
+          "id": "222:447",
+          "text": "Building in public: following the work",
+          "x": 523,
+          "y": 1358,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "222:448",
+          "text": "Where to watch progress, from pull requests to quarterly reports.",
+          "x": 523,
+          "y": 1438,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "222:459",
+          "text": "Report · 1 July 2026",
+          "x": 949,
+          "y": 1318,
+          "w": 127,
+          "s": 14
+        },
+        {
+          "id": "222:460",
+          "text": "Quarterly report: what changed",
+          "x": 949,
+          "y": 1358,
+          "w": 394.66668701171875,
+          "s": 22
+        },
+        {
+          "id": "222:461",
+          "text": "Completed work, open questions and what comes next.",
+          "x": 949,
+          "y": 1408,
+          "w": 394.66668701171875,
+          "s": 16
+        },
+        {
+          "id": "222:576",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 1758,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "222:577",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 1822,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "222:581",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 1758,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "222:582",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 1796,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "222:594",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 2129,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "222:595",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 2197,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "222:597",
+          "text": "Augur",
+          "x": 496,
+          "y": 2055,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "222:599",
+          "text": "About",
+          "x": 496,
+          "y": 2105,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "222:600",
+          "text": "Contact",
+          "x": 496,
+          "y": 2143,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "222:602",
+          "text": "Products",
+          "x": 720,
+          "y": 2055,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "222:604",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 2105,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "222:605",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 2143,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "222:606",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 2181,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "222:608",
+          "text": "Resources",
+          "x": 944,
+          "y": 2055,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "222:610",
+          "text": "Blog",
+          "x": 944,
+          "y": 2105,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "222:611",
+          "text": "FAQ",
+          "x": 944,
+          "y": 2143,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "222:612",
+          "text": "Learn",
+          "x": 944,
+          "y": 2181,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "222:613",
+          "text": "REP",
+          "x": 944,
+          "y": 2219,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "222:614",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 2257,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "222:616",
+          "text": "Community",
+          "x": 1168,
+          "y": 2055,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "222:618",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 2105,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "222:619",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 2143,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "222:620",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 2181,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "222:621",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 2219,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "261:1184",
+      "name": "Learn guide / Desktop / 1440",
+      "children": [
+        {
+          "id": "261:1185",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "261:1186",
+          "name": "Guide header",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 477
+        },
+        {
+          "id": "261:1742",
+          "name": "Guide body",
+          "x": 0,
+          "y": 573,
+          "width": 1440,
+          "height": 2193
+        },
+        {
+          "id": "261:1426",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 2766,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "261:1722",
+          "text": "←  Learn",
+          "x": 96,
+          "y": 168,
+          "w": 62,
+          "s": 16
+        },
+        {
+          "id": "261:1725",
+          "text": "Start here  ·  Guide 2 of 4",
+          "x": 96,
+          "y": 248,
+          "w": 184,
+          "s": 16
+        },
+        {
+          "id": "261:1325",
+          "text": "How Augur answers a question",
+          "x": 96,
+          "y": 312,
+          "w": 1120,
+          "s": 60
+        },
+        {
+          "id": "261:1326",
+          "text": "Ask, report, challenge, final answer: one example from start to finish.",
+          "x": 96,
+          "y": 404,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "261:1731",
+          "text": "6 min read",
+          "x": 96,
+          "y": 461,
+          "w": 79,
+          "s": 16
+        },
+        {
+          "id": "261:1746",
+          "text": "Start here",
+          "x": 96,
+          "y": 654,
+          "w": 71,
+          "s": 14
+        },
+        {
+          "id": "261:1750",
+          "text": "01",
+          "x": 103,
+          "y": 700,
+          "w": 15,
+          "s": 12
+        },
+        {
+          "id": "261:1751",
+          "text": "What is an oracle?",
+          "x": 136,
+          "y": 694,
+          "w": 224,
+          "s": 15
+        },
+        {
+          "id": "261:1754",
+          "text": "02",
+          "x": 102,
+          "y": 742,
+          "w": 17,
+          "s": 12
+        },
+        {
+          "id": "261:1755",
+          "text": "How Augur answers a question",
+          "x": 136,
+          "y": 736,
+          "w": 224,
+          "s": 15
+        },
+        {
+          "id": "261:1758",
+          "text": "03",
+          "x": 102,
+          "y": 784,
+          "w": 17,
+          "s": 12
+        },
+        {
+          "id": "261:1759",
+          "text": "Disputes, bonds and forks",
+          "x": 136,
+          "y": 778,
+          "w": 224,
+          "s": 15
+        },
+        {
+          "id": "261:1762",
+          "text": "04",
+          "x": 101,
+          "y": 826,
+          "w": 18,
+          "s": 12
+        },
+        {
+          "id": "261:1763",
+          "text": "What REP does",
+          "x": 136,
+          "y": 820,
+          "w": 224,
+          "s": 15
+        },
+        {
+          "id": "261:1765",
+          "text": "In this guide",
+          "x": 96,
+          "y": 889,
+          "w": 89,
+          "s": 14
+        },
+        {
+          "id": "261:1768",
+          "text": "The example question",
+          "x": 114,
+          "y": 937,
+          "w": 246,
+          "s": 15
+        },
+        {
+          "id": "261:1770",
+          "text": "1. Ask a question",
+          "x": 113,
+          "y": 975,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "261:1772",
+          "text": "2. Report an outcome",
+          "x": 113,
+          "y": 1013,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "261:1774",
+          "text": "3. Challenge if needed",
+          "x": 113,
+          "y": 1051,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "261:1776",
+          "text": "4. Use the final answer",
+          "x": 113,
+          "y": 1089,
+          "w": 247,
+          "s": 15
+        },
+        {
+          "id": "261:1875",
+          "text": "Every Augur Lituus answer follows the same four steps. This guide follows one example question from the moment it’s asked to the moment an application can use the answer.",
+          "x": 480,
+          "y": 654,
+          "w": 720,
+          "s": 22
+        },
+        {
+          "id": "261:1878",
+          "text": "Example question",
+          "x": 512,
+          "y": 840,
+          "w": 129,
+          "s": 14
+        },
+        {
+          "id": "261:1881",
+          "text": "Awaiting report",
+          "x": 1060,
+          "y": 841,
+          "w": 95,
+          "s": 13
+        },
+        {
+          "id": "261:1882",
+          "text": "Has room-temperature superconductivity been independently demonstrated at ambient pressure?",
+          "x": 512,
+          "y": 884,
+          "w": 656,
+          "s": 24
+        },
+        {
+          "id": "261:1886",
+          "text": "Evidence cutoff",
+          "x": 512,
+          "y": 989,
+          "w": 101,
+          "s": 14
+        },
+        {
+          "id": "261:1887",
+          "text": "8 Sep 2027, 00:00 UTC",
+          "x": 512,
+          "y": 1015,
+          "w": 171,
+          "s": 16
+        },
+        {
+          "id": "261:1889",
+          "text": "Possible outcomes",
+          "x": 856,
+          "y": 989,
+          "w": 123,
+          "s": 14
+        },
+        {
+          "id": "261:1892",
+          "text": "YES",
+          "x": 867,
+          "y": 1018,
+          "w": 25,
+          "s": 13
+        },
+        {
+          "id": "261:1894",
+          "text": "NO",
+          "x": 922,
+          "y": 1018,
+          "w": 23,
+          "s": 13
+        },
+        {
+          "id": "261:1896",
+          "text": "Invalid",
+          "x": 975,
+          "y": 1018,
+          "w": 46,
+          "s": 13
+        },
+        {
+          "id": "261:1952",
+          "text": "01",
+          "x": 495,
+          "y": 1135,
+          "w": 19,
+          "s": 16
+        },
+        {
+          "id": "261:1955",
+          "text": "Ask a question",
+          "x": 556,
+          "y": 1127,
+          "w": 644,
+          "s": 30
+        },
+        {
+          "id": "261:1956",
+          "text": "Define what counts, when the question can be answered, and the possible outcomes. Pay a query fee in REP to request resolution.",
+          "x": 556,
+          "y": 1181,
+          "w": 644,
+          "s": 18
+        },
+        {
+          "id": "261:1958",
+          "text": "Query opened · fee paid",
+          "x": 573,
+          "y": 1270,
+          "w": 168,
+          "s": 15
+        },
+        {
+          "id": "261:1959",
+          "text": "15 REP",
+          "x": 1134,
+          "y": 1270,
+          "w": 49,
+          "s": 15
+        },
+        {
+          "id": "261:1963",
+          "text": "02",
+          "x": 493,
+          "y": 1375,
+          "w": 23,
+          "s": 16
+        },
+        {
+          "id": "261:1966",
+          "text": "Report an outcome",
+          "x": 556,
+          "y": 1367,
+          "w": 644,
+          "s": 30
+        },
+        {
+          "id": "261:1967",
+          "text": "A reporter proposes an outcome and locks REP as a bond: a stake they can lose. The first answer is tentative, with time for others to check it.",
+          "x": 556,
+          "y": 1421,
+          "w": 644,
+          "s": 18
+        },
+        {
+          "id": "261:1969",
+          "text": "Report · YES",
+          "x": 573,
+          "y": 1510,
+          "w": 86,
+          "s": 15
+        },
+        {
+          "id": "261:1970",
+          "text": "15 REP bond",
+          "x": 1090,
+          "y": 1510,
+          "w": 93,
+          "s": 15
+        },
+        {
+          "id": "261:1974",
+          "text": "03",
+          "x": 493,
+          "y": 1615,
+          "w": 23,
+          "s": 16
+        },
+        {
+          "id": "261:1977",
+          "text": "Challenge if needed",
+          "x": 556,
+          "y": 1607,
+          "w": 644,
+          "s": 30
+        },
+        {
+          "id": "261:1978",
+          "text": "Anyone can back a different outcome with a larger REP bond. A completed challenge opens another appeal period. Disagreement follows the same public rules.",
+          "x": 556,
+          "y": 1661,
+          "w": 644,
+          "s": 18
+        },
+        {
+          "id": "261:1980",
+          "text": "Challenge · NO",
+          "x": 573,
+          "y": 1780,
+          "w": 105,
+          "s": 15
+        },
+        {
+          "id": "261:1981",
+          "text": "30 REP bond",
+          "x": 1085,
+          "y": 1780,
+          "w": 98,
+          "s": 15
+        },
+        {
+          "id": "261:1985",
+          "text": "04",
+          "x": 493,
+          "y": 1885,
+          "w": 23,
+          "s": 16
+        },
+        {
+          "id": "261:1987",
+          "text": "Use the final answer",
+          "x": 556,
+          "y": 1877,
+          "w": 644,
+          "s": 30
+        },
+        {
+          "id": "261:1988",
+          "text": "When an appeal period ends without a new challenge, the latest outcome becomes final. Applications can use that answer under their own settlement rules.",
+          "x": 556,
+          "y": 1931,
+          "w": 644,
+          "s": 18
+        },
+        {
+          "id": "261:1990",
+          "text": "Final answer",
+          "x": 573,
+          "y": 2050,
+          "w": 89,
+          "s": 15
+        },
+        {
+          "id": "261:1991",
+          "text": "NO",
+          "x": 1157,
+          "y": 2050,
+          "w": 26,
+          "s": 15
+        },
+        {
+          "id": "261:1994",
+          "text": "Terms in this guide",
+          "x": 513,
+          "y": 2162,
+          "w": 193,
+          "s": 20
+        },
+        {
+          "id": "261:1995",
+          "text": "All key terms  →",
+          "x": 1057,
+          "y": 2165,
+          "w": 110,
+          "s": 15
+        },
+        {
+          "id": "261:1997",
+          "text": "REP",
+          "x": 513,
+          "y": 2219,
+          "w": 120,
+          "s": 16
+        },
+        {
+          "id": "261:1998",
+          "text": "Reputation: the token that secures Augur’s oracle.",
+          "x": 657,
+          "y": 2219,
+          "w": 510,
+          "s": 16
+        },
+        {
+          "id": "261:2000",
+          "text": "Report",
+          "x": 513,
+          "y": 2276,
+          "w": 120,
+          "s": 16
+        },
+        {
+          "id": "261:2001",
+          "text": "A proposed answer to a question, backed by a REP bond.",
+          "x": 657,
+          "y": 2276,
+          "w": 510,
+          "s": 16
+        },
+        {
+          "id": "261:2003",
+          "text": "Bond",
+          "x": 513,
+          "y": 2333,
+          "w": 120,
+          "s": 16
+        },
+        {
+          "id": "261:2004",
+          "text": "REP put at risk behind an answer. Wrong answers lose most of their bond to the winners.",
+          "x": 657,
+          "y": 2333,
+          "w": 510,
+          "s": 16
+        },
+        {
+          "id": "261:2006",
+          "text": "Challenge",
+          "x": 513,
+          "y": 2414,
+          "w": 120,
+          "s": 16
+        },
+        {
+          "id": "261:2007",
+          "text": "A different answer posted with a larger bond. It reopens the question.",
+          "x": 657,
+          "y": 2414,
+          "w": 510,
+          "s": 16
+        },
+        {
+          "id": "261:2010",
+          "text": "Previous  ·  Guide 1",
+          "x": 505,
+          "y": 2564,
+          "w": 297.5,
+          "s": 14
+        },
+        {
+          "id": "261:2011",
+          "text": "←  What is an oracle?",
+          "x": 505,
+          "y": 2592,
+          "w": 297.5,
+          "s": 20
+        },
+        {
+          "id": "261:2013",
+          "text": "Next  ·  Guide 3",
+          "x": 877,
+          "y": 2565,
+          "w": 297.5,
+          "s": 14
+        },
+        {
+          "id": "261:2014",
+          "text": "Disputes, bonds and forks  →",
+          "x": 877,
+          "y": 2593,
+          "w": 297.5,
+          "s": 20
+        },
+        {
+          "id": "261:1537",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 2838,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "261:1538",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 2902,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "261:1542",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 2838,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "261:1543",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 2876,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "261:1555",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 3209,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "261:1556",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 3277,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "261:1558",
+          "text": "Augur",
+          "x": 496,
+          "y": 3135,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "261:1560",
+          "text": "About",
+          "x": 496,
+          "y": 3185,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "261:1561",
+          "text": "Contact",
+          "x": 496,
+          "y": 3223,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "261:1563",
+          "text": "Products",
+          "x": 720,
+          "y": 3135,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "261:1565",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 3185,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "261:1566",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 3223,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "261:1567",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 3261,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "261:1569",
+          "text": "Resources",
+          "x": 944,
+          "y": 3135,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "261:1571",
+          "text": "Blog",
+          "x": 944,
+          "y": 3185,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "261:1572",
+          "text": "FAQ",
+          "x": 944,
+          "y": 3223,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "261:1573",
+          "text": "Learn",
+          "x": 944,
+          "y": 3261,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "261:1574",
+          "text": "REP",
+          "x": 944,
+          "y": 3299,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "261:1575",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 3337,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "261:1577",
+          "text": "Community",
+          "x": 1168,
+          "y": 3135,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "261:1579",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 3185,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "261:1580",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 3223,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "261:1581",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 3261,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "261:1582",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 3299,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "220:119",
+      "name": "Learn / Desktop / 1440",
+      "children": [
+        {
+          "id": "220:120",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "220:143",
+          "name": "Page hero",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 394
+        },
+        {
+          "id": "220:284",
+          "name": "01 · Start here",
+          "x": 0,
+          "y": 490,
+          "width": 1440,
+          "height": 646
+        },
+        {
+          "id": "220:323",
+          "name": "02 · More guides",
+          "x": 0,
+          "y": 1136,
+          "width": 1440,
+          "height": 742
+        },
+        {
+          "id": "220:354",
+          "name": "03 · Key terms",
+          "x": 0,
+          "y": 1878,
+          "width": 1440,
+          "height": 738
+        },
+        {
+          "id": "220:387",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 2616,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "220:282",
+          "text": "Learn",
+          "x": 96,
+          "y": 216,
+          "w": 181,
+          "s": 64
+        },
+        {
+          "id": "220:283",
+          "text": "New to oracles? Start here. Four short guides take you from “what is an oracle?” to how REP keeps answers honest. No background needed.",
+          "x": 96,
+          "y": 312,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "220:288",
+          "text": "Start here",
+          "x": 96,
+          "y": 563,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "220:289",
+          "text": "Read these in order. Each guide builds on the one before and ends with where to go next.",
+          "x": 676,
+          "y": 563,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "220:293",
+          "text": "01",
+          "x": 136,
+          "y": 718,
+          "w": 18,
+          "s": 15
+        },
+        {
+          "id": "220:294",
+          "text": "What is an oracle?",
+          "x": 125,
+          "y": 766,
+          "w": 242,
+          "s": 22
+        },
+        {
+          "id": "220:295",
+          "text": "Why smart contracts need someone to tell them what happened, and why that someone matters.",
+          "x": 125,
+          "y": 816,
+          "w": 242,
+          "s": 16
+        },
+        {
+          "id": "220:301",
+          "text": "02",
+          "x": 451,
+          "y": 718,
+          "w": 21,
+          "s": 15
+        },
+        {
+          "id": "220:302",
+          "text": "How Augur answers a question",
+          "x": 441,
+          "y": 766,
+          "w": 242,
+          "s": 22
+        },
+        {
+          "id": "220:303",
+          "text": "Ask, report, challenge, final answer: one example from start to finish.",
+          "x": 441,
+          "y": 846,
+          "w": 242,
+          "s": 16
+        },
+        {
+          "id": "220:309",
+          "text": "03",
+          "x": 767,
+          "y": 718,
+          "w": 21,
+          "s": 15
+        },
+        {
+          "id": "220:310",
+          "text": "Disputes, bonds and forks",
+          "x": 757,
+          "y": 766,
+          "w": 242,
+          "s": 22
+        },
+        {
+          "id": "220:311",
+          "text": "Why each challenge doubles the bond, and what happens at the last resort.",
+          "x": 757,
+          "y": 846,
+          "w": 242,
+          "s": 16
+        },
+        {
+          "id": "220:317",
+          "text": "04",
+          "x": 1082,
+          "y": 718,
+          "w": 22,
+          "s": 15
+        },
+        {
+          "id": "220:318",
+          "text": "What REP does",
+          "x": 1073,
+          "y": 766,
+          "w": 242,
+          "s": 22
+        },
+        {
+          "id": "220:319",
+          "text": "How REP secures answers, and what holders are responsible for.",
+          "x": 1073,
+          "y": 816,
+          "w": 242,
+          "s": 16
+        },
+        {
+          "id": "220:327",
+          "text": "More guides",
+          "x": 96,
+          "y": 1209,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "220:328",
+          "text": "Focused explanations for when you need one specific thing.",
+          "x": 676,
+          "y": 1209,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "220:331",
+          "text": "For builders",
+          "x": 96,
+          "y": 1355,
+          "w": 200,
+          "s": 14
+        },
+        {
+          "id": "220:333",
+          "text": "Writing questions an oracle can answer",
+          "x": 336,
+          "y": 1334,
+          "w": 950,
+          "s": 22
+        },
+        {
+          "id": "220:334",
+          "text": "Clear outcomes, a firm deadline and criteria that leave no room for doubt.",
+          "x": 336,
+          "y": 1370,
+          "w": 950,
+          "s": 17
+        },
+        {
+          "id": "220:335",
+          "text": "→",
+          "x": 1326,
+          "y": 1350,
+          "w": 18,
+          "s": 24
+        },
+        {
+          "id": "220:337",
+          "text": "For builders",
+          "x": 96,
+          "y": 1474,
+          "w": 200,
+          "s": 14
+        },
+        {
+          "id": "220:339",
+          "text": "When a question can’t be answered",
+          "x": 336,
+          "y": 1453,
+          "w": 950,
+          "s": 22
+        },
+        {
+          "id": "220:340",
+          "text": "What “Invalid” means, and how to avoid it.",
+          "x": 336,
+          "y": 1489,
+          "w": 950,
+          "s": 17
+        },
+        {
+          "id": "220:341",
+          "text": "→",
+          "x": 1326,
+          "y": 1469,
+          "w": 18,
+          "s": 24
+        },
+        {
+          "id": "220:343",
+          "text": "Overview",
+          "x": 96,
+          "y": 1593,
+          "w": 200,
+          "s": 14
+        },
+        {
+          "id": "220:345",
+          "text": "How Augur Lituus, Zoltar and Augur Stratoblast fit together",
+          "x": 336,
+          "y": 1572,
+          "w": 950,
+          "s": 22
+        },
+        {
+          "id": "220:346",
+          "text": "Three products, one token, and what each one is for.",
+          "x": 336,
+          "y": 1608,
+          "w": 950,
+          "s": 17
+        },
+        {
+          "id": "220:347",
+          "text": "→",
+          "x": 1326,
+          "y": 1588,
+          "w": 18,
+          "s": 24
+        },
+        {
+          "id": "220:349",
+          "text": "Research",
+          "x": 96,
+          "y": 1712,
+          "w": 200,
+          "s": 14
+        },
+        {
+          "id": "220:351",
+          "text": "Reading the Augur Lituus whitepaper",
+          "x": 336,
+          "y": 1691,
+          "w": 950,
+          "s": 22
+        },
+        {
+          "id": "220:352",
+          "text": "A guided walk through the January 2026 paper, section by section.",
+          "x": 336,
+          "y": 1727,
+          "w": 950,
+          "s": 17
+        },
+        {
+          "id": "220:353",
+          "text": "→",
+          "x": 1326,
+          "y": 1707,
+          "w": 18,
+          "s": 24
+        },
+        {
+          "id": "220:358",
+          "text": "Key terms",
+          "x": 96,
+          "y": 1951,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "220:359",
+          "text": "The words you’ll meet most often, in plain language.",
+          "x": 676,
+          "y": 1951,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "220:363",
+          "text": "Oracle",
+          "x": 96,
+          "y": 2070,
+          "w": 69,
+          "s": 20
+        },
+        {
+          "id": "220:364",
+          "text": "A service that tells a blockchain what happened in the real world.",
+          "x": 96,
+          "y": 2104,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:366",
+          "text": "Report",
+          "x": 96,
+          "y": 2175,
+          "w": 72,
+          "s": 20
+        },
+        {
+          "id": "220:367",
+          "text": "A proposed answer to a question, backed by a REP bond.",
+          "x": 96,
+          "y": 2209,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:369",
+          "text": "Challenge",
+          "x": 96,
+          "y": 2280,
+          "w": 105,
+          "s": 20
+        },
+        {
+          "id": "220:370",
+          "text": "A different answer posted with a larger bond. It reopens the question.",
+          "x": 96,
+          "y": 2314,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:372",
+          "text": "Bond",
+          "x": 96,
+          "y": 2385,
+          "w": 55,
+          "s": 20
+        },
+        {
+          "id": "220:373",
+          "text": "REP put at risk behind an answer. Wrong answers lose most of their bond to the winners.",
+          "x": 96,
+          "y": 2419,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:376",
+          "text": "Fork",
+          "x": 744,
+          "y": 2070,
+          "w": 46,
+          "s": 20
+        },
+        {
+          "id": "220:377",
+          "text": "The last resort. REP holders move to the answer they believe; the total that moves decides the original oracle’s answer.",
+          "x": 744,
+          "y": 2104,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:379",
+          "text": "REP",
+          "x": 744,
+          "y": 2201,
+          "w": 40,
+          "s": 20
+        },
+        {
+          "id": "220:380",
+          "text": "Reputation: the token that secures Augur’s oracle.",
+          "x": 744,
+          "y": 2235,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:382",
+          "text": "Universe",
+          "x": 744,
+          "y": 2306,
+          "w": 91,
+          "s": 20
+        },
+        {
+          "id": "220:383",
+          "text": "A version of the ledger with its own REP. A fork creates one child universe per answer.",
+          "x": 744,
+          "y": 2340,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:385",
+          "text": "Invalid",
+          "x": 744,
+          "y": 2437,
+          "w": 70,
+          "s": 20
+        },
+        {
+          "id": "220:386",
+          "text": "The result for a question that’s malformed or can’t be answered.",
+          "x": 744,
+          "y": 2471,
+          "w": 600,
+          "s": 17
+        },
+        {
+          "id": "220:498",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 2688,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "220:499",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 2752,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "220:503",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 2688,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "220:504",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 2726,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "220:516",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 3059,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "220:517",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 3127,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "220:519",
+          "text": "Augur",
+          "x": 496,
+          "y": 2985,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "220:521",
+          "text": "About",
+          "x": 496,
+          "y": 3035,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "220:522",
+          "text": "Contact",
+          "x": 496,
+          "y": 3073,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "220:524",
+          "text": "Products",
+          "x": 720,
+          "y": 2985,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "220:526",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 3035,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "220:527",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 3073,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "220:528",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 3111,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "220:530",
+          "text": "Resources",
+          "x": 944,
+          "y": 2985,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "220:532",
+          "text": "Blog",
+          "x": 944,
+          "y": 3035,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "220:533",
+          "text": "FAQ",
+          "x": 944,
+          "y": 3073,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "220:534",
+          "text": "Learn",
+          "x": 944,
+          "y": 3111,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "220:535",
+          "text": "REP",
+          "x": 944,
+          "y": 3149,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "220:536",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 3187,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "220:538",
+          "text": "Community",
+          "x": 1168,
+          "y": 2985,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "220:540",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 3035,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "220:541",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 3073,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "220:542",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 3111,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "220:543",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 3149,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "28:8",
+      "name": "Contact / Desktop / 1440",
+      "children": [
+        {
+          "id": "30:53",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "39:92",
+          "name": "Contact / Main content",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 804
+        }
+      ],
+      "text": [
+        {
+          "id": "39:96",
+          "text": "Let’s talk!",
+          "x": 96,
+          "y": 233,
+          "w": 536,
+          "s": 64
+        },
+        {
+          "id": "39:97",
+          "text": "Tell us what your application needs to resolve. Let’s discuss how Augur could fit your requirements.",
+          "x": 96,
+          "y": 319,
+          "w": 490,
+          "s": 18
+        },
+        {
+          "id": "39:102",
+          "text": "Talk with the community.",
+          "x": 157,
+          "y": 426,
+          "w": 452,
+          "s": 20
+        },
+        {
+          "id": "39:103",
+          "text": "Compare notes with builders, ask technical questions and follow the discussion on Discord.",
+          "x": 121,
+          "y": 468,
+          "w": 488,
+          "s": 16
+        },
+        {
+          "id": "39:107",
+          "text": "Find us elsewhere",
+          "x": 96,
+          "y": 635,
+          "w": 536,
+          "s": 20
+        },
+        {
+          "id": "39:112",
+          "text": "Telegram",
+          "x": 128,
+          "y": 679,
+          "w": 67,
+          "s": 14
+        },
+        {
+          "id": "39:118",
+          "text": "GitHub",
+          "x": 279,
+          "y": 679,
+          "w": 53,
+          "s": 14
+        },
+        {
+          "id": "39:124",
+          "text": "X",
+          "x": 416,
+          "y": 679,
+          "w": 10,
+          "s": 14
+        },
+        {
+          "id": "39:127",
+          "text": "Prefer email? contact@augur.net",
+          "x": 96,
+          "y": 729,
+          "w": 536,
+          "s": 16
+        },
+        {
+          "id": "39:130",
+          "text": "Send us a message",
+          "x": 753,
+          "y": 233,
+          "w": 592,
+          "s": 20
+        },
+        {
+          "id": "39:131",
+          "text": "Share your application, the answers it depends on, and your questions.",
+          "x": 753,
+          "y": 271,
+          "w": 592,
+          "s": 16
+        }
+      ]
+    },
+    {
+      "id": "221:151",
+      "name": "REP / Desktop / 1440",
+      "children": [
+        {
+          "id": "221:152",
+          "name": "Wireframe / Website header",
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 96
+        },
+        {
+          "id": "221:175",
+          "name": "Page hero",
+          "x": 0,
+          "y": 96,
+          "width": 1440,
+          "height": 427
+        },
+        {
+          "id": "221:316",
+          "name": "01 · What REP does",
+          "x": 0,
+          "y": 523,
+          "width": 1440,
+          "height": 695
+        },
+        {
+          "id": "221:341",
+          "name": "02 · Which REP do you hold?",
+          "x": 0,
+          "y": 1218,
+          "width": 1440,
+          "height": 831
+        },
+        {
+          "id": "221:388",
+          "name": "03 · During a fork",
+          "x": 0,
+          "y": 2049,
+          "width": 1440,
+          "height": 685
+        },
+        {
+          "id": "221:416",
+          "name": "Footer / contact",
+          "x": 0,
+          "y": 2734,
+          "width": 1440,
+          "height": 659
+        }
+      ],
+      "text": [
+        {
+          "id": "221:314",
+          "text": "REP",
+          "x": 96,
+          "y": 216,
+          "w": 127,
+          "s": 64
+        },
+        {
+          "id": "221:315",
+          "text": "REP (Reputation) secures Augur’s oracle. Holders put it at risk to report outcomes and challenge wrong answers. It isn’t a passive asset: holding it comes with responsibilities.",
+          "x": 96,
+          "y": 312,
+          "w": 780,
+          "s": 22
+        },
+        {
+          "id": "221:320",
+          "text": "What REP does",
+          "x": 96,
+          "y": 596,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "221:321",
+          "text": "Trading a prediction isn’t the same as reporting its outcome. REP is for reporting, challenging and, as a last resort, choosing a side in a fork.",
+          "x": 676,
+          "y": 596,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "221:326",
+          "text": "Report",
+          "x": 116,
+          "y": 784,
+          "w": 86,
+          "s": 24
+        },
+        {
+          "id": "221:327",
+          "text": "Back an answer with a REP bond. If no one challenges it, it becomes final.",
+          "x": 96,
+          "y": 830,
+          "w": 362,
+          "s": 17
+        },
+        {
+          "id": "221:331",
+          "text": "Challenge",
+          "x": 559,
+          "y": 784,
+          "w": 126,
+          "s": 24
+        },
+        {
+          "id": "221:332",
+          "text": "Disagree by posting a larger bond. If your answer holds, you win almost all of the losing bond.",
+          "x": 539,
+          "y": 830,
+          "w": 362,
+          "s": 17
+        },
+        {
+          "id": "221:336",
+          "text": "Fork",
+          "x": 1002,
+          "y": 784,
+          "w": 55,
+          "s": 24
+        },
+        {
+          "id": "221:337",
+          "text": "If a dispute reaches a fork, holders move their REP to the universe they believe reflects reality.",
+          "x": 982,
+          "y": 830,
+          "w": 362,
+          "s": 17
+        },
+        {
+          "id": "221:339",
+          "text": "Holding REP comes with duties",
+          "x": 133,
+          "y": 989,
+          "w": 384,
+          "s": 24
+        },
+        {
+          "id": "221:340",
+          "text": "Watch the protocol your REP belongs to and act during a fork, or you may miss its migration window. Rewards depend on taking part under each design’s rules; holding alone isn’t income.",
+          "x": 133,
+          "y": 1033,
+          "w": 1174,
+          "s": 18
+        },
+        {
+          "id": "221:345",
+          "text": "Which REP do you hold?",
+          "x": 96,
+          "y": 1291,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "221:346",
+          "text": "A ticker alone doesn’t identify the token. Check the version and contract address before you act.",
+          "x": 676,
+          "y": 1291,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "221:349",
+          "text": "Version",
+          "x": 120,
+          "y": 1420,
+          "w": 240,
+          "s": 13
+        },
+        {
+          "id": "221:350",
+          "text": "What it is",
+          "x": 384,
+          "y": 1420,
+          "w": 264,
+          "s": 13
+        },
+        {
+          "id": "221:351",
+          "text": "Chain",
+          "x": 672,
+          "y": 1420,
+          "w": 150,
+          "s": 13
+        },
+        {
+          "id": "221:352",
+          "text": "Contract",
+          "x": 846,
+          "y": 1420,
+          "w": 230,
+          "s": 13
+        },
+        {
+          "id": "221:353",
+          "text": "Status",
+          "x": 1100,
+          "y": 1420,
+          "w": 220,
+          "s": 13
+        },
+        {
+          "id": "221:355",
+          "text": "REPv1",
+          "x": 120,
+          "y": 1490,
+          "w": 240,
+          "s": 18
+        },
+        {
+          "id": "221:356",
+          "text": "Legacy token from the original Augur.",
+          "x": 384,
+          "y": 1477,
+          "w": 264,
+          "s": 17
+        },
+        {
+          "id": "221:357",
+          "text": "Ethereum",
+          "x": 672,
+          "y": 1490,
+          "w": 150,
+          "s": 17
+        },
+        {
+          "id": "221:358",
+          "text": "0x… to verify",
+          "x": 846,
+          "y": 1490,
+          "w": 230,
+          "s": 17
+        },
+        {
+          "id": "221:361",
+          "text": "Legacy",
+          "x": 1113,
+          "y": 1494,
+          "w": 47,
+          "s": 13
+        },
+        {
+          "id": "221:363",
+          "text": "REPv2",
+          "x": 120,
+          "y": 1591,
+          "w": 240,
+          "s": 18
+        },
+        {
+          "id": "221:364",
+          "text": "The Augur v2 token in the parent universe.",
+          "x": 384,
+          "y": 1578,
+          "w": 264,
+          "s": 17
+        },
+        {
+          "id": "221:365",
+          "text": "Ethereum",
+          "x": 672,
+          "y": 1591,
+          "w": 150,
+          "s": 17
+        },
+        {
+          "id": "221:366",
+          "text": "0x… to verify",
+          "x": 846,
+          "y": 1591,
+          "w": 230,
+          "s": 17
+        },
+        {
+          "id": "221:369",
+          "text": "Parent universe",
+          "x": 1113,
+          "y": 1595,
+          "w": 104,
+          "s": 13
+        },
+        {
+          "id": "221:371",
+          "text": "REPv2_Yes_1",
+          "x": 120,
+          "y": 1705,
+          "w": 240,
+          "s": 18
+        },
+        {
+          "id": "221:372",
+          "text": "The winning side of the 2026 Moon Fork. Augur Lituus is being built around it.",
+          "x": 384,
+          "y": 1679,
+          "w": 264,
+          "s": 17
+        },
+        {
+          "id": "221:373",
+          "text": "Ethereum",
+          "x": 672,
+          "y": 1705,
+          "w": 150,
+          "s": 17
+        },
+        {
+          "id": "221:374",
+          "text": "0x… to verify",
+          "x": 846,
+          "y": 1705,
+          "w": 230,
+          "s": 17
+        },
+        {
+          "id": "221:378",
+          "text": "Current reference",
+          "x": 1127,
+          "y": 1709,
+          "w": 119,
+          "s": 13
+        },
+        {
+          "id": "221:380",
+          "text": "REPv2_No_1",
+          "x": 120,
+          "y": 1819,
+          "w": 240,
+          "s": 18
+        },
+        {
+          "id": "221:381",
+          "text": "The other side of the Moon Fork, a separate live universe.",
+          "x": 384,
+          "y": 1806,
+          "w": 264,
+          "s": 17
+        },
+        {
+          "id": "221:382",
+          "text": "Ethereum",
+          "x": 672,
+          "y": 1819,
+          "w": 150,
+          "s": 17
+        },
+        {
+          "id": "221:383",
+          "text": "0x… to verify",
+          "x": 846,
+          "y": 1819,
+          "w": 230,
+          "s": 17
+        },
+        {
+          "id": "221:386",
+          "text": "Separate universe",
+          "x": 1113,
+          "y": 1823,
+          "w": 121,
+          "s": 13
+        },
+        {
+          "id": "221:387",
+          "text": "Contract addresses and explorer links appear here once verified.",
+          "x": 96,
+          "y": 1931,
+          "w": 451,
+          "s": 15
+        },
+        {
+          "id": "221:392",
+          "text": "During a fork",
+          "x": 96,
+          "y": 2122,
+          "w": 500,
+          "s": 40
+        },
+        {
+          "id": "221:393",
+          "text": "A fork only happens when a dispute escalates all the way. Here’s what holders need to know.",
+          "x": 676,
+          "y": 2122,
+          "w": 668,
+          "s": 22
+        },
+        {
+          "id": "221:397",
+          "text": "1",
+          "x": 142,
+          "y": 2277,
+          "w": 7,
+          "s": 15
+        },
+        {
+          "id": "221:398",
+          "text": "A dispute reaches the fork",
+          "x": 125,
+          "y": 2321,
+          "w": 347.3333435058594,
+          "s": 22
+        },
+        {
+          "id": "221:399",
+          "text": "Challenges keep doubling the bond until it crosses the fork threshold.",
+          "x": 125,
+          "y": 2367,
+          "w": 347.3333435058594,
+          "s": 16
+        },
+        {
+          "id": "221:402",
+          "text": "2",
+          "x": 561,
+          "y": 2277,
+          "w": 10,
+          "s": 15
+        },
+        {
+          "id": "221:403",
+          "text": "The universe splits",
+          "x": 546,
+          "y": 2321,
+          "w": 347.33331298828125,
+          "s": 22
+        },
+        {
+          "id": "221:404",
+          "text": "One child universe is created for each possible answer, each with its own REP.",
+          "x": 546,
+          "y": 2367,
+          "w": 347.33331298828125,
+          "s": 16
+        },
+        {
+          "id": "221:407",
+          "text": "3",
+          "x": 983,
+          "y": 2277,
+          "w": 10,
+          "s": 15
+        },
+        {
+          "id": "221:408",
+          "text": "Holders choose a side",
+          "x": 968,
+          "y": 2321,
+          "w": 347.33331298828125,
+          "s": 22
+        },
+        {
+          "id": "221:409",
+          "text": "Move your REP to the answer you believe before the migration window closes.",
+          "x": 968,
+          "y": 2367,
+          "w": 347.33331298828125,
+          "s": 16
+        },
+        {
+          "id": "221:410",
+          "text": "Augur v2’s completed fork, Augur Lituus’s proposed rules and Zoltar’s model differ in their details. Each guide states which one it describes.",
+          "x": 96,
+          "y": 2494,
+          "w": 900,
+          "s": 16
+        },
+        {
+          "id": "221:527",
+          "text": "Talk to the Augur team.",
+          "x": 96,
+          "y": 2806,
+          "w": 560,
+          "s": 40
+        },
+        {
+          "id": "221:528",
+          "text": "Tell us what your application needs, ask about the protocol, or share feedback.",
+          "x": 96,
+          "y": 2870,
+          "w": 540,
+          "s": 18
+        },
+        {
+          "id": "221:532",
+          "text": "Follow Augur’s progress",
+          "x": 736,
+          "y": 2806,
+          "w": 560,
+          "s": 20
+        },
+        {
+          "id": "221:533",
+          "text": "Research, development and product updates.",
+          "x": 736,
+          "y": 2844,
+          "w": 560,
+          "s": 16
+        },
+        {
+          "id": "221:545",
+          "text": "Augur’s work is funded and coordinated by the Lituus Foundation.",
+          "x": 96,
+          "y": 3177,
+          "w": 264,
+          "s": 14
+        },
+        {
+          "id": "221:546",
+          "text": "contact@augur.net",
+          "x": 96,
+          "y": 3245,
+          "w": 139,
+          "s": 16
+        },
+        {
+          "id": "221:548",
+          "text": "Augur",
+          "x": 496,
+          "y": 3103,
+          "w": 44,
+          "s": 14
+        },
+        {
+          "id": "221:550",
+          "text": "About",
+          "x": 496,
+          "y": 3153,
+          "w": 46,
+          "s": 16
+        },
+        {
+          "id": "221:551",
+          "text": "Contact",
+          "x": 496,
+          "y": 3191,
+          "w": 59,
+          "s": 16
+        },
+        {
+          "id": "221:553",
+          "text": "Products",
+          "x": 720,
+          "y": 3103,
+          "w": 66,
+          "s": 14
+        },
+        {
+          "id": "221:555",
+          "text": "Augur Lituus",
+          "x": 720,
+          "y": 3153,
+          "w": 94,
+          "s": 16
+        },
+        {
+          "id": "221:556",
+          "text": "Zoltar",
+          "x": 720,
+          "y": 3191,
+          "w": 44,
+          "s": 16
+        },
+        {
+          "id": "221:557",
+          "text": "Augur Stratoblast",
+          "x": 720,
+          "y": 3229,
+          "w": 130,
+          "s": 16
+        },
+        {
+          "id": "221:559",
+          "text": "Resources",
+          "x": 944,
+          "y": 3103,
+          "w": 76,
+          "s": 14
+        },
+        {
+          "id": "221:561",
+          "text": "Blog",
+          "x": 944,
+          "y": 3153,
+          "w": 33,
+          "s": 16
+        },
+        {
+          "id": "221:562",
+          "text": "FAQ",
+          "x": 944,
+          "y": 3191,
+          "w": 31,
+          "s": 16
+        },
+        {
+          "id": "221:563",
+          "text": "Learn",
+          "x": 944,
+          "y": 3229,
+          "w": 42,
+          "s": 16
+        },
+        {
+          "id": "221:564",
+          "text": "REP",
+          "x": 944,
+          "y": 3267,
+          "w": 30,
+          "s": 16
+        },
+        {
+          "id": "221:565",
+          "text": "Whitepaper ↗",
+          "x": 944,
+          "y": 3305,
+          "w": 101,
+          "s": 16
+        },
+        {
+          "id": "221:567",
+          "text": "Community",
+          "x": 1168,
+          "y": 3103,
+          "w": 85,
+          "s": 14
+        },
+        {
+          "id": "221:569",
+          "text": "Discord ↗",
+          "x": 1168,
+          "y": 3153,
+          "w": 71,
+          "s": 16
+        },
+        {
+          "id": "221:570",
+          "text": "Telegram ↗",
+          "x": 1168,
+          "y": 3191,
+          "w": 83,
+          "s": 16
+        },
+        {
+          "id": "221:571",
+          "text": "X ↗",
+          "x": 1168,
+          "y": 3229,
+          "w": 25,
+          "s": 16
+        },
+        {
+          "id": "221:572",
+          "text": "GitHub ↗",
+          "x": 1168,
+          "y": 3267,
+          "w": 65,
+          "s": 16
+        }
+      ]
+    }
+  ]
+}

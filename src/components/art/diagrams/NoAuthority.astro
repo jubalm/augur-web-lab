@@ -1,0 +1,13 @@
+---
+import { noAuthority as diagram } from '../../../data/diagrams';
+---
+<svg viewBox="0 0 336 168" width="336" height="168" class="tenet-diagram" data-authority aria-hidden="true">
+ {diagram.lanes.map((y,i)=><g>
+   <path data-line d={`M28 ${y}H120`} pathLength="1" stroke="var(--mark-participant, #71728A)"/>
+   <path data-empty d={`M120 ${y}H216`} stroke="var(--mark-participant, #71728A)" stroke-width="3" stroke-dasharray="3 9" opacity=".5"/>
+   <path data-line d={`M308 ${y}H216`} pathLength="1" stroke="var(--mark-participant, #71728A)"/>
+   <rect data-participant x="8" y={y-10} width="20" height="20" fill="var(--mark-participant, #71728A)"/>
+   {i<2?<rect data-participant x="308" y={y-10} width="20" height="20" fill="var(--mark-participant, #71728A)"/>:<><rect data-result-pending x="308" y={y-10} width="20" height="20" fill="none" stroke="var(--mark-participant, #71728A)" opacity="0"/><rect data-result x="308" y={y-10} width="20" height="20" fill="var(--primary)"/></>}
+   <rect data-signal={i} x="30" y={y-4} width="8" height="8" fill="var(--primary)" opacity="0"/>
+ </g>)}
+</svg>

@@ -1,0 +1,100 @@
+[
+  {
+    "route": "/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 499.10700000000014,
+    "cls": 0.008240396121883656,
+    "longTasks": [
+      80.00000000000006,
+      50.00000000000003
+    ],
+    "report": "artifacts/qa/lighthouse/--desktop.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/",
+    "device": "mobile",
+    "scores": {
+      "performance": 90.0,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 2062.804,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      435.0000000000002,
+      119,
+      111.00000000000023,
+      109,
+      84,
+      60,
+      58,
+      54,
+      50,
+      50
+    ],
+    "report": "artifacts/qa/lighthouse/--mobile.json",
+    "budgets": {
+      "scores": true,
+      "lcp": false,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/learn/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 382.956,
+    "cls": 0.0004015186211141889,
+    "longTasks": [
+      93
+    ],
+    "report": "artifacts/qa/lighthouse/-learn--desktop.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/learn/",
+    "device": "mobile",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1356.3705,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      103
+    ],
+    "report": "artifacts/qa/lighthouse/-learn--mobile.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  }
+]

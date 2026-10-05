@@ -1,0 +1,1449 @@
+[
+  {
+    "page": "28:2",
+    "notes": [
+      {
+        "id": "215:435",
+        "name": "Note / 01 / Announcement bar",
+        "text": [
+          {
+            "id": "215:438",
+            "name": "01",
+            "text": "01"
+          },
+          {
+            "id": "215:439",
+            "name": "Title",
+            "text": "Announcement bar"
+          },
+          {
+            "id": "215:440",
+            "name": "Summary",
+            "text": "Tells people who knew Augur that the project is active again, in one line."
+          },
+          {
+            "id": "215:441",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:446",
+            "name": "Text",
+            "text": "A slim strip above the header. “Catch up” opens the latest quarterly update."
+          },
+          {
+            "id": "215:450",
+            "name": "Text",
+            "text": "Facts come from the roadmap: restarted March 2025, forked August 2026, Augur Lituus in development."
+          },
+          {
+            "id": "215:451",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:456",
+            "name": "Text",
+            "text": "Link “Catch up” to the Q2 2026 report."
+          },
+          {
+            "id": "215:460",
+            "name": "Text",
+            "text": "Decide when to retire or rotate the message."
+          }
+        ]
+      },
+      {
+        "id": "215:463",
+        "name": "Note / 02 / Header",
+        "text": [
+          {
+            "id": "215:466",
+            "name": "02",
+            "text": "02"
+          },
+          {
+            "id": "215:467",
+            "name": "Title",
+            "text": "Header"
+          },
+          {
+            "id": "215:468",
+            "name": "Summary",
+            "text": "The main navigation, the same on every page."
+          },
+          {
+            "id": "215:469",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:474",
+            "name": "Text",
+            "text": "About · Products · Resources · Community, with Talk to us on the right."
+          },
+          {
+            "id": "215:478",
+            "name": "Text",
+            "text": "Products: Augur Lituus, Zoltar, Augur Stratoblast. Resources: Blog, FAQ, Learn, REP, Whitepaper. Community: Discord, Telegram, X, GitHub."
+          },
+          {
+            "id": "215:482",
+            "name": "Text",
+            "text": "The open dropdowns are on the Section details page."
+          },
+          {
+            "id": "215:483",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:488",
+            "name": "Text",
+            "text": "Confirm the spelling: the menu says “Stratoblast”; the code and strategy say “Statoblast”."
+          }
+        ]
+      },
+      {
+        "id": "215:491",
+        "name": "Note / 03 / Hero",
+        "text": [
+          {
+            "id": "215:494",
+            "name": "03",
+            "text": "03"
+          },
+          {
+            "id": "215:495",
+            "name": "Title",
+            "text": "Hero"
+          },
+          {
+            "id": "215:496",
+            "name": "Summary",
+            "text": "Says what Augur is in the first screen, before any scrolling."
+          },
+          {
+            "id": "215:497",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:502",
+            "name": "Text",
+            "text": "Headline plus a plain definition: Augur Lituus is the next generation of Augur’s oracle; anyone can answer or challenge."
+          },
+          {
+            "id": "215:506",
+            "name": "Text",
+            "text": "Actions: See how it works (jumps to 06) and Read the whitepaper ↗."
+          },
+          {
+            "id": "215:510",
+            "name": "Text",
+            "text": "Background squares twinkle and brighten near the cursor, a nod to the old augur.net. The headline animates in on load."
+          },
+          {
+            "id": "215:514",
+            "name": "Text",
+            "text": "Bar, header and hero fill exactly one 1440 × 900 screen."
+          },
+          {
+            "id": "283:3681",
+            "name": "Text",
+            "text": "Artwork: the heritage squares gather into rings around an empty, dashed Green centre, a picture of “controlled by no one”. On load they drift in ring by ring and the centre draws last (Section details 03)."
+          },
+          {
+            "id": "215:515",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "284:533",
+            "name": "Text",
+            "text": "The hero animation is a placeholder for now. Still needs more thought before launch."
+          }
+        ]
+      },
+      {
+        "id": "215:523",
+        "name": "Note / 04 / Who decides what happened?",
+        "text": [
+          {
+            "id": "215:526",
+            "name": "04",
+            "text": "04"
+          },
+          {
+            "id": "215:527",
+            "name": "Title",
+            "text": "Who decides what happened?"
+          },
+          {
+            "id": "215:528",
+            "name": "Summary",
+            "text": "Names the problem, gives Augur’s answer, then states the three core tenets."
+          },
+          {
+            "id": "215:529",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:534",
+            "name": "Text",
+            "text": "Problem: smart contracts can’t see the world, and whoever tells them what happened controls the money. The answer, “With Augur, no party controls the answer”, sits on a full-width Green band."
+          },
+          {
+            "id": "215:538",
+            "name": "Text",
+            "text": "Each tenet tile has a diagram: an open edge anyone can cross from any side (Permissionless), a mesh with no hub (Decentralized) and participants connecting across an empty middle, with no authority in between (Trustless)."
+          },
+          {
+            "id": "215:542",
+            "name": "Text",
+            "text": "The three diagrams are animations. They play once as the section scrolls into view; see Section details 04."
+          },
+          {
+            "id": "248:1349",
+            "name": "Text",
+            "text": "Sources: Website Strategy (tenets) and the January 2026 whitepaper."
+          },
+          {
+            "id": "215:543",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:548",
+            "name": "Text",
+            "text": "“Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one."
+          }
+        ]
+      },
+      {
+        "id": "215:551",
+        "name": "Note / 05 / What could you build?",
+        "text": [
+          {
+            "id": "215:554",
+            "name": "05",
+            "text": "05"
+          },
+          {
+            "id": "215:555",
+            "name": "Title",
+            "text": "What could you build?"
+          },
+          {
+            "id": "215:556",
+            "name": "Summary",
+            "text": "Shows three concrete uses so readers can picture Augur inside a product."
+          },
+          {
+            "id": "215:557",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:562",
+            "name": "Text",
+            "text": "Pick a card: prediction markets, insurance & payments, DAOs & grants. Each shows a real-world question."
+          },
+          {
+            "id": "215:566",
+            "name": "Text",
+            "text": "Solid tiles; the answer shows as a Green tile. All three connect to one Augur Lituus backstop bar."
+          },
+          {
+            "id": "215:570",
+            "name": "Text",
+            "text": "Animation: when a card opens, a small Green square travels down its line to the backstop bar."
+          },
+          {
+            "id": "248:1353",
+            "name": "Text",
+            "text": "Examples are illustrative; there are no integrations yet."
+          },
+          {
+            "id": "283:3685",
+            "name": "Text",
+            "text": "Collapsed cards show their question under the title and a + to open them."
+          },
+          {
+            "id": "215:571",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:576",
+            "name": "Text",
+            "text": "Confirm the “own chain or L2” backstop line with the maintainers."
+          }
+        ]
+      },
+      {
+        "id": "215:579",
+        "name": "Note / 06 / How it works",
+        "text": [
+          {
+            "id": "215:582",
+            "name": "06",
+            "text": "06"
+          },
+          {
+            "id": "215:583",
+            "name": "Title",
+            "text": "How it works"
+          },
+          {
+            "id": "215:584",
+            "name": "Summary",
+            "text": "Follows one example question from report to final answer, and shows why lying gets expensive."
+          },
+          {
+            "id": "215:585",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:590",
+            "name": "Text",
+            "text": "Sits on the lighter band (#1D1D30). Click the steps to follow the question; the active step is a Green tile and ledger rows appear as each step happens. Every step keeps the same height."
+          },
+          {
+            "id": "215:594",
+            "name": "Text",
+            "text": "Bond rounds: each challenge doubles the bond (15 → 120 REP, the whitepaper’s example). The chart rests on the final round; buttons 1–4 step through the rounds."
+          },
+          {
+            "id": "215:598",
+            "name": "Text",
+            "text": "Animation: the bars rise one at a time as the chart scrolls into view, then stay."
+          },
+          {
+            "id": "248:1357",
+            "name": "Text",
+            "text": "The scenario is illustrative; nothing connects to a wallet."
+          }
+        ]
+      },
+      {
+        "id": "215:601",
+        "name": "Note / 08 / Roadmap",
+        "text": [
+          {
+            "id": "215:604",
+            "name": "08",
+            "text": "08"
+          },
+          {
+            "id": "215:605",
+            "name": "Title",
+            "text": "Roadmap"
+          },
+          {
+            "id": "215:606",
+            "name": "Summary",
+            "text": "Shows where the project stands: completed, in progress and next."
+          },
+          {
+            "id": "215:607",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:612",
+            "name": "Text",
+            "text": "Six milestones from the 2025 reboot to launch. Click a stop (marked with a +) for its story and evidence."
+          },
+          {
+            "id": "215:616",
+            "name": "Text",
+            "text": "Every number comes from a published post. No launch date is shown."
+          },
+          {
+            "id": "215:617",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:622",
+            "name": "Text",
+            "text": "Refresh after each quarterly report and confirm with the maintainers."
+          }
+        ]
+      },
+      {
+        "id": "215:625",
+        "name": "Note / 09 / From the blog",
+        "text": [
+          {
+            "id": "215:628",
+            "name": "09",
+            "text": "09"
+          },
+          {
+            "id": "215:629",
+            "name": "Title",
+            "text": "From the blog"
+          },
+          {
+            "id": "215:630",
+            "name": "Summary",
+            "text": "A quiet doorway to recent writing."
+          },
+          {
+            "id": "215:631",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:636",
+            "name": "Text",
+            "text": "A featured post with a large cover above three smaller ones (titles only), all with on-brand placeholder covers."
+          },
+          {
+            "id": "215:640",
+            "name": "Text",
+            "text": "View all posts opens the Blog page."
+          },
+          {
+            "id": "215:641",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:646",
+            "name": "Text",
+            "text": "The posts are stand-ins; choose real posts before launch."
+          }
+        ]
+      },
+      {
+        "id": "215:649",
+        "name": "Note / 10 / FAQ",
+        "text": [
+          {
+            "id": "215:652",
+            "name": "10",
+            "text": "10"
+          },
+          {
+            "id": "215:653",
+            "name": "Title",
+            "text": "FAQ"
+          },
+          {
+            "id": "215:654",
+            "name": "Summary",
+            "text": "Answers the five questions people ask most."
+          },
+          {
+            "id": "215:655",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:660",
+            "name": "Text",
+            "text": "One answer open at a time, the first open by default: history, REP, building today, unanswerable questions, honest forks."
+          },
+          {
+            "id": "215:664",
+            "name": "Text",
+            "text": "The full list lives on the FAQ page."
+          },
+          {
+            "id": "283:3689",
+            "name": "Text",
+            "text": "Sits on the lighter band (#1D1D30), like How it works."
+          },
+          {
+            "id": "215:665",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:670",
+            "name": "Text",
+            "text": "Answers 4 and 5 are whitepaper-based drafts that need review."
+          }
+        ]
+      },
+      {
+        "id": "215:673",
+        "name": "Note / 11 / Footer",
+        "text": [
+          {
+            "id": "215:676",
+            "name": "11",
+            "text": "11"
+          },
+          {
+            "id": "215:677",
+            "name": "Title",
+            "text": "Footer"
+          },
+          {
+            "id": "215:678",
+            "name": "Summary",
+            "text": "Invites a conversation and repeats the site map."
+          },
+          {
+            "id": "215:679",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "215:684",
+            "name": "Text",
+            "text": "Talk to us, a newsletter sign-up, and a directory that mirrors the header."
+          },
+          {
+            "id": "283:3693",
+            "name": "Text",
+            "text": "Heritage squares frame the contact band, echoing the hero."
+          },
+          {
+            "id": "215:685",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "215:690",
+            "name": "Text",
+            "text": "The newsletter needs a provider, consent and privacy text before it can collect emails."
+          },
+          {
+            "id": "215:694",
+            "name": "Text",
+            "text": "contact@augur.net needs the domain owner’s confirmation."
+          }
+        ]
+      },
+      {
+        "id": "305:1618",
+        "name": "Note / 07 / What can you do with REP?",
+        "text": [
+          {
+            "id": "305:1621",
+            "name": "07",
+            "text": "07"
+          },
+          {
+            "id": "305:1622",
+            "name": "Title",
+            "text": "What can you do with REP?"
+          },
+          {
+            "id": "305:1623",
+            "name": "Summary",
+            "text": "A short section for REP holders: what reporting and challenging can pay, and what they risk."
+          },
+          {
+            "id": "305:1624",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "305:1629",
+            "name": "Text",
+            "text": "Square math: a Paper square is your bond, Green is what you win and a dashed outline is what you lose. Rows instead of tiles, so it doesn’t repeat Who decides."
+          },
+          {
+            "id": "305:1643",
+            "name": "Text",
+            "text": "Reporting and challenging are framed as optional, so nothing implies that holding REP is a duty. The fork isn’t mentioned."
+          },
+          {
+            "id": "305:1647",
+            "name": "Text",
+            "text": "Payouts follow the whitepaper: an unchallenged report gets its bond back plus part of the query fee (§4.0.2). Winners get 80% of the losing bonds and 20% is burned (§4.3.1), so the copy says “most”."
+          },
+          {
+            "id": "305:1651",
+            "name": "Text",
+            "text": "Animation (to do): the returned bond slides back and the Green square pops in, once per row as it scrolls into view."
+          },
+          {
+            "id": "305:1634",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "305:1639",
+            "name": "Text",
+            "text": "Confirm the payout wording and the status line with the maintainers."
+          },
+          {
+            "id": "305:1655",
+            "name": "Text",
+            "text": "First pass, added 2 October 2026. Spacing and motion still to polish."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "214:1203",
+    "notes": [
+      {
+        "id": "216:340",
+        "name": "Note / 02 / Header dropdowns",
+        "text": [
+          {
+            "id": "216:343",
+            "name": "02",
+            "text": "02"
+          },
+          {
+            "id": "216:344",
+            "name": "Title",
+            "text": "Header dropdowns"
+          },
+          {
+            "id": "216:345",
+            "name": "Summary",
+            "text": "What opens under Products, Resources and Community."
+          },
+          {
+            "id": "216:346",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:351",
+            "name": "Text",
+            "text": "Names only, no descriptions: 240 px panels with 48 px rows."
+          },
+          {
+            "id": "216:355",
+            "name": "Text",
+            "text": "External links (Whitepaper, Discord, Telegram, X, GitHub) carry a ↗ arrow."
+          },
+          {
+            "id": "216:356",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "216:361",
+            "name": "Text",
+            "text": "Every destination is a placeholder until its page exists."
+          }
+        ]
+      },
+      {
+        "id": "216:371",
+        "name": "Note / 03 / Hero motion",
+        "text": [
+          {
+            "id": "216:374",
+            "name": "03",
+            "text": "03"
+          },
+          {
+            "id": "216:375",
+            "name": "Title",
+            "text": "Hero motion"
+          },
+          {
+            "id": "216:376",
+            "name": "Summary",
+            "text": "How the hero moves: the cursor glow and the arrival on every load."
+          },
+          {
+            "id": "216:377",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:382",
+            "name": "Text",
+            "text": "Cursor glow: squares within 200 px of the pointer brighten (in 0.12 s, out 0.45 s). Each square also twinkles on its own 2.6–5.4 s cycle."
+          },
+          {
+            "id": "216:386",
+            "name": "Text",
+            "text": "Arrival: headline lines rise in 0.1 s apart, then a Green underline sweeps under “decentralized” and fades by 2.25 s."
+          },
+          {
+            "id": "216:390",
+            "name": "Text",
+            "text": "Reduced motion: no movement and no glow. Motion pauses when the hero is off-screen."
+          },
+          {
+            "id": "283:3402",
+            "name": "Text",
+            "text": "Artwork: the heritage squares drift inward ring by ring and settle around an empty, dashed Green centre, which draws last (0–2.3 s, once). Reduced motion shows the settled frame. The arrival frame plays it with the headline."
+          },
+          {
+            "id": "216:391",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "216:396",
+            "name": "Text",
+            "text": "These frames show the hero without the announcement bar."
+          }
+        ]
+      },
+      {
+        "id": "216:405",
+        "name": "Note / 05 / Picker states",
+        "text": [
+          {
+            "id": "216:408",
+            "name": "05",
+            "text": "05"
+          },
+          {
+            "id": "216:409",
+            "name": "Title",
+            "text": "Picker states"
+          },
+          {
+            "id": "216:410",
+            "name": "Summary",
+            "text": "The three application cards. One is open at a time; the backstop bar never changes."
+          },
+          {
+            "id": "216:411",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:416",
+            "name": "Text",
+            "text": "In prototype mode, click a narrow card (marked with a +): it widens, the open one narrows (0.32 s) and its connector turns Green."
+          },
+          {
+            "id": "216:420",
+            "name": "Text",
+            "text": "Backstop line: apps could run on their own chain or L2 and turn to Augur Lituus on Ethereum when an answer is disputed."
+          },
+          {
+            "id": "216:424",
+            "name": "Text",
+            "text": "Outcomes are illustrative; each app applies its own rules."
+          },
+          {
+            "id": "216:425",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "216:430",
+            "name": "Text",
+            "text": "The backstop line is a proposed design; confirm chain and L2 support with the maintainers."
+          }
+        ]
+      },
+      {
+        "id": "216:440",
+        "name": "Note / 06 / Walkthrough and bonds",
+        "text": [
+          {
+            "id": "216:443",
+            "name": "06",
+            "text": "06"
+          },
+          {
+            "id": "216:444",
+            "name": "Title",
+            "text": "Walkthrough and bonds"
+          },
+          {
+            "id": "216:445",
+            "name": "Summary",
+            "text": "One example question followed step by step, and how the bond doubles with each challenge."
+          },
+          {
+            "id": "216:446",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:451",
+            "name": "Text",
+            "text": "Walkthrough: Ask a question → Report → Challenge if needed → Use the final answer. Click a step to see the card’s state. Every step keeps the same height, so the page doesn’t jump."
+          },
+          {
+            "id": "216:455",
+            "name": "Text",
+            "text": "Bond rounds: 15, 30, 60 and 120 REP, the whitepaper’s example. Round buttons 1–4 step through them."
+          },
+          {
+            "id": "216:459",
+            "name": "Text",
+            "text": "A later query page can expand the resolution criteria: required result, independent replication, evidence cutoff and the YES / NO / Invalid rules."
+          },
+          {
+            "id": "216:463",
+            "name": "Text",
+            "text": "No fixed number of disputes or fork threshold is implied."
+          }
+        ]
+      },
+      {
+        "id": "216:472",
+        "name": "Note / 08 / Roadmap states",
+        "text": [
+          {
+            "id": "216:475",
+            "name": "08",
+            "text": "08"
+          },
+          {
+            "id": "216:476",
+            "name": "Title",
+            "text": "Roadmap states"
+          },
+          {
+            "id": "216:477",
+            "name": "Summary",
+            "text": "Six milestones on one track. Click a stop (marked with a +) to open its story and evidence."
+          },
+          {
+            "id": "216:478",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:483",
+            "name": "Text",
+            "text": "The tab slides to the chosen stop (0.32 s) and the panel swaps. Every panel is the same height, so the page never jumps."
+          },
+          {
+            "id": "216:487",
+            "name": "Text",
+            "text": "For the build: stops behave as tabs (arrow keys move, Enter opens). The Green track draws once when it scrolls into view."
+          },
+          {
+            "id": "216:492",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "216:497",
+            "name": "Text",
+            "text": "Refresh the figures with each quarterly report."
+          }
+        ]
+      },
+      {
+        "id": "216:506",
+        "name": "Note / 09 / Cover placeholders",
+        "text": [
+          {
+            "id": "216:509",
+            "name": "09",
+            "text": "09"
+          },
+          {
+            "id": "216:510",
+            "name": "Title",
+            "text": "Cover placeholders"
+          },
+          {
+            "id": "216:511",
+            "name": "Summary",
+            "text": "On-brand stand-in art for blog posts: heritage squares with one Green motif."
+          },
+          {
+            "id": "216:512",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:517",
+            "name": "Text",
+            "text": "Four motifs: bonds, steps, fork and field."
+          },
+          {
+            "id": "216:521",
+            "name": "Text",
+            "text": "Drawn at the 1200 × 630 share-image ratio, so the same art works on social cards."
+          },
+          {
+            "id": "216:522",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "216:527",
+            "name": "Text",
+            "text": "Swap in real article art once posts are chosen."
+          }
+        ]
+      },
+      {
+        "id": "216:537",
+        "name": "Note / 10 / Accordion states",
+        "text": [
+          {
+            "id": "216:540",
+            "name": "10",
+            "text": "10"
+          },
+          {
+            "id": "216:541",
+            "name": "Title",
+            "text": "Accordion states"
+          },
+          {
+            "id": "216:542",
+            "name": "Summary",
+            "text": "All answers closed (homepage default), plus each of the five questions open."
+          },
+          {
+            "id": "216:543",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "216:548",
+            "name": "Text",
+            "text": "Click a question or its +/− to open it; clicking the open one closes it."
+          },
+          {
+            "id": "216:552",
+            "name": "Text",
+            "text": "FAQ / Row is the single building block for the homepage accordion and the FAQ page."
+          }
+        ]
+      },
+      {
+        "id": "251:709",
+        "name": "Note / 04 / Tenet animations",
+        "text": [
+          {
+            "id": "251:712",
+            "name": "04",
+            "text": "04"
+          },
+          {
+            "id": "251:713",
+            "name": "Title",
+            "text": "Tenet animations"
+          },
+          {
+            "id": "251:714",
+            "name": "Summary",
+            "text": "The three diagrams under “With Augur, no party controls the answer.” are animations. They play once as the section scrolls into view, then rest as drawn on Homepage."
+          },
+          {
+            "id": "251:715",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "251:720",
+            "name": "Text",
+            "text": "Answer line: rises 18 px and fades in (0–0.6 s)."
+          },
+          {
+            "id": "251:724",
+            "name": "Text",
+            "text": "Permissionless: the dotted edge appears and participants pop in; then squares slide in across the edge from all four sides, leaving fading trails, and the Green newcomer arrives last (0.4–2.05 s)."
+          },
+          {
+            "id": "251:728",
+            "name": "Text",
+            "text": "Decentralized: squares appear in scattered order and Green links draw between neighbours (0.45–1.6 s). Then a highlight hops across the mesh one square at a time: as one fades out the next fades in, and the link between them glows (six hops, 1.75–6.1 s)."
+          },
+          {
+            "id": "251:738",
+            "name": "Text",
+            "text": "Trustless: the squares pop in, solid lines reach from each side toward the empty middle and the dotted gaps appear; then a small square crosses each lane, and the last arrival lights the result Green (0.45–2.85 s)."
+          },
+          {
+            "id": "251:729",
+            "name": "Label",
+            "text": "FOR THE BUILD"
+          },
+          {
+            "id": "251:734",
+            "name": "Text",
+            "text": "Easing: the site’s reveal curve, cubic-bezier(.22, .61, .36, 1); a small overshoot only on the newcomer."
+          },
+          {
+            "id": "296:1438",
+            "name": "Text",
+            "text": "Mesh highlight: Green square and 2 px link with a soft Green glow (square 0 0 18 px, spread 2, 60%; link 0 0 6 px, 90%). Base links rest at 45% opacity. Crossfades ease in and out, cubic-bezier(.45, 0, .55, 1)."
+          },
+          {
+            "id": "251:742",
+            "name": "Text",
+            "text": "Plays once per visit, nothing loops; with reduced motion the end state shows immediately."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "214:1204",
+    "notes": [
+      {
+        "id": "225:412",
+        "name": "Note / P1 / About",
+        "text": [
+          {
+            "id": "225:415",
+            "name": "P1",
+            "text": "P1"
+          },
+          {
+            "id": "225:416",
+            "name": "Title",
+            "text": "About"
+          },
+          {
+            "id": "225:417",
+            "name": "Summary",
+            "text": "Explains who is behind Augur, where it came from and how the work is done."
+          },
+          {
+            "id": "225:418",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:423",
+            "name": "Text",
+            "text": "Opens with a two-line origin story, then three principles: open source, research in public, clear about status."
+          },
+          {
+            "id": "225:427",
+            "name": "Text",
+            "text": "Who’s involved: Lituus Foundation, ChainSafe and Dark Florist, each with a link."
+          },
+          {
+            "id": "225:431",
+            "name": "Text",
+            "text": "A short dated history from 2018 to now, then a route to Products."
+          }
+        ]
+      },
+      {
+        "id": "225:449",
+        "name": "Note / P2 / Products",
+        "text": [
+          {
+            "id": "225:452",
+            "name": "P2",
+            "text": "P2"
+          },
+          {
+            "id": "225:453",
+            "name": "Title",
+            "text": "Products"
+          },
+          {
+            "id": "225:454",
+            "name": "Summary",
+            "text": "One page for all three products, and how they fit together."
+          },
+          {
+            "id": "225:455",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:460",
+            "name": "Text",
+            "text": "Jump links in the hero go straight to each product. The header’s Products menu links here too."
+          },
+          {
+            "id": "225:464",
+            "name": "Text",
+            "text": "The diagram shows roles only; it doesn’t claim Augur Lituus runs on Zoltar."
+          },
+          {
+            "id": "225:468",
+            "name": "Text",
+            "text": "Augur Lituus gets the most space and Augur Stratoblast a compact entry."
+          },
+          {
+            "id": "225:472",
+            "name": "Text",
+            "text": "Each product lists its status, builder, paper and code."
+          },
+          {
+            "id": "225:473",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "225:478",
+            "name": "Text",
+            "text": "Confirm descriptions and status with the maintainers."
+          },
+          {
+            "id": "225:482",
+            "name": "Text",
+            "text": "Spelling: “Stratoblast” in the menu, “Statoblast” in the code."
+          }
+        ]
+      },
+      {
+        "id": "225:490",
+        "name": "Note / P3 / Learn",
+        "text": [
+          {
+            "id": "225:493",
+            "name": "P3",
+            "text": "P3"
+          },
+          {
+            "id": "225:494",
+            "name": "Title",
+            "text": "Learn"
+          },
+          {
+            "id": "225:495",
+            "name": "Summary",
+            "text": "A starting point for newcomers: four guides in order, more guides and key terms."
+          },
+          {
+            "id": "225:496",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:501",
+            "name": "Text",
+            "text": "Start here: what an oracle is → how Augur answers a question → disputes, bonds and forks → what REP does."
+          },
+          {
+            "id": "225:505",
+            "name": "Text",
+            "text": "Key terms explains eight words in plain language."
+          },
+          {
+            "id": "225:506",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "330:1337",
+            "name": "Text",
+            "text": "Needs full rewrite."
+          },
+          {
+            "id": "225:511",
+            "name": "Text",
+            "text": "The guides still need writing. Old Learn articles should be rewritten, not copied."
+          }
+        ]
+      },
+      {
+        "id": "225:519",
+        "name": "Note / P4 / REP",
+        "text": [
+          {
+            "id": "225:522",
+            "name": "P4",
+            "text": "P4"
+          },
+          {
+            "id": "225:523",
+            "name": "Title",
+            "text": "REP"
+          },
+          {
+            "id": "225:524",
+            "name": "Summary",
+            "text": "The maintained guide to what REP is, which version you hold and what holding it involves."
+          },
+          {
+            "id": "225:525",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:530",
+            "name": "Text",
+            "text": "Explains report, challenge and fork, and that holding REP isn’t passive income."
+          },
+          {
+            "id": "225:534",
+            "name": "Text",
+            "text": "Version table: REPv1, REPv2, REPv2_Yes_1 (current reference) and REPv2_No_1."
+          },
+          {
+            "id": "225:538",
+            "name": "Text",
+            "text": "Explains a fork in three steps and links the Moon Fork report."
+          },
+          {
+            "id": "225:539",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "330:1341",
+            "name": "Text",
+            "text": "Needs full rewrite."
+          },
+          {
+            "id": "225:544",
+            "name": "Text",
+            "text": "Add verified contract addresses and explorer links."
+          },
+          {
+            "id": "225:548",
+            "name": "Text",
+            "text": "No buying, selling or migration instructions here. Review the wording with the maintainers."
+          }
+        ]
+      },
+      {
+        "id": "225:556",
+        "name": "Note / P5 / Blog",
+        "text": [
+          {
+            "id": "225:559",
+            "name": "P5",
+            "text": "P5"
+          },
+          {
+            "id": "225:560",
+            "name": "Title",
+            "text": "Blog"
+          },
+          {
+            "id": "225:561",
+            "name": "Summary",
+            "text": "One archive for project updates, research and quarterly reports."
+          },
+          {
+            "id": "225:562",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:567",
+            "name": "Text",
+            "text": "Filter tabs: project updates, research and design, for builders."
+          },
+          {
+            "id": "225:571",
+            "name": "Text",
+            "text": "Six posts per page with placeholder covers; Show more posts loads the next set."
+          },
+          {
+            "id": "225:572",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "225:577",
+            "name": "Text",
+            "text": "Posts shown are stand-ins. The real archive (16 posts since April 2025) moves over with original dates."
+          }
+        ]
+      },
+      {
+        "id": "225:585",
+        "name": "Note / P6 / FAQ",
+        "text": [
+          {
+            "id": "225:588",
+            "name": "P6",
+            "text": "P6"
+          },
+          {
+            "id": "225:589",
+            "name": "Title",
+            "text": "FAQ"
+          },
+          {
+            "id": "225:590",
+            "name": "Summary",
+            "text": "Short answers grouped by need, each with one link to go deeper."
+          },
+          {
+            "id": "225:591",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:596",
+            "name": "Text",
+            "text": "Four groups: Getting started, How it works, REP and Building with Augur. The list on the left jumps to each group."
+          },
+          {
+            "id": "225:600",
+            "name": "Text",
+            "text": "Eleven questions: the five homepage answers plus six more."
+          }
+        ]
+      },
+      {
+        "id": "225:614",
+        "name": "Note / P7 / Contact",
+        "text": [
+          {
+            "id": "225:617",
+            "name": "P7",
+            "text": "P7"
+          },
+          {
+            "id": "225:618",
+            "name": "Title",
+            "text": "Contact"
+          },
+          {
+            "id": "225:619",
+            "name": "Summary",
+            "text": "Where Talk to us leads: a short form plus community channels."
+          },
+          {
+            "id": "225:620",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "225:625",
+            "name": "Text",
+            "text": "Required: name, email and message. Optional: company or project, and website."
+          },
+          {
+            "id": "225:629",
+            "name": "Text",
+            "text": "Discord for technical discussion; Telegram, GitHub and X below."
+          }
+        ]
+      },
+      {
+        "id": "257:1299",
+        "name": "Note / P5.1 / Blog article",
+        "text": [
+          {
+            "id": "257:1302",
+            "name": "P5.1",
+            "text": "P5.1"
+          },
+          {
+            "id": "257:1303",
+            "name": "Title",
+            "text": "Blog article"
+          },
+          {
+            "id": "257:1304",
+            "name": "Summary",
+            "text": "The reading page every post opens to, from the blog archive, the homepage’s blog section or a shared link."
+          },
+          {
+            "id": "257:1305",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "257:1310",
+            "name": "Text",
+            "text": "A 720 px reading column with a sticky “On this page” rail that tracks the current heading."
+          },
+          {
+            "id": "257:1314",
+            "name": "Text",
+            "text": "The cover reuses the post’s placeholder art at the 1200 × 630 share-image ratio, so the card, the page and the social preview match."
+          },
+          {
+            "id": "260:1038",
+            "name": "Text",
+            "text": "Body styles shown: intro, H2, paragraph, figure with caption, pull quote and square-bullet list."
+          },
+          {
+            "id": "260:1042",
+            "name": "Text",
+            "text": "The page ends with the post’s category, share links and three more posts, then the shared footer."
+          },
+          {
+            "id": "257:1315",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "257:1320",
+            "name": "Text",
+            "text": "Placeholder article. Real posts move over with their original dates."
+          },
+          {
+            "id": "260:1046",
+            "name": "Text",
+            "text": "Decide the byline (team or named authors) and whether to show reading time."
+          }
+        ]
+      },
+      {
+        "id": "261:1583",
+        "name": "Note / P3.1 / Learn guide",
+        "text": [
+          {
+            "id": "261:1586",
+            "name": "P3.1",
+            "text": "P3.1"
+          },
+          {
+            "id": "261:1587",
+            "name": "Title",
+            "text": "Learn guide"
+          },
+          {
+            "id": "261:1588",
+            "name": "Summary",
+            "text": "The page each Start here guide opens to. Readers move through the four guides in order."
+          },
+          {
+            "id": "261:1589",
+            "name": "Label",
+            "text": "DETAILS"
+          },
+          {
+            "id": "261:1594",
+            "name": "Text",
+            "text": "Series progress in the header and the Start here path in the rail show where the reader is (guide 2 of 4)."
+          },
+          {
+            "id": "261:1598",
+            "name": "Text",
+            "text": "The guide follows one example question through the homepage walkthrough’s four steps, with a ledger row for each step."
+          },
+          {
+            "id": "261:2018",
+            "name": "Text",
+            "text": "Terms in this guide reuses the Key terms definitions from the Learn page."
+          },
+          {
+            "id": "261:2022",
+            "name": "Text",
+            "text": "Previous and next tiles replace Keep reading, so the next guide is the main way forward."
+          },
+          {
+            "id": "261:1599",
+            "name": "Label",
+            "text": "OPEN BEFORE LAUNCH"
+          },
+          {
+            "id": "261:1604",
+            "name": "Text",
+            "text": "Placeholder guide copy. The four guides still need writing."
+          },
+          {
+            "id": "261:2026",
+            "name": "Text",
+            "text": "Decide whether More guides (For builders, Research) use this template without the series progress."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "page": "214:1205",
+    "notes": []
+  }
+]

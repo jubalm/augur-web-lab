@@ -1,0 +1,43 @@
+/* Website roles mirror Augur / Website (Navy); upstream primitives remain pinned. */
+:root, html.dark {
+  color-scheme: dark;
+  --background: var(--augur-color-primary);
+  --foreground: var(--augur-color-neutral);
+  --primary: var(--augur-color-accent);
+  --primary-foreground: var(--augur-color-primary);
+  --muted-foreground: var(--augur-color-secondary-dark);
+  --card: var(--augur-color-surface-dark-2);
+  --card-foreground: var(--foreground);
+  --secondary: var(--augur-color-surface-dark-1);
+  --secondary-foreground: var(--foreground);
+  --accent: var(--augur-color-surface-dark-3);
+  --accent-foreground: var(--foreground);
+  --border: var(--augur-color-surface-dark-mist);
+  --border-quiet: var(--augur-color-surface-dark-3);
+  --input: var(--augur-color-surface-dark-mist);
+  --ring: var(--augur-color-secondary-dark);
+  --destructive: #cf294e;
+  --destructive-foreground: #fff;
+  --web-band: var(--augur-color-surface-dark-2);
+  --web-tile: var(--augur-color-surface-dark-2);
+  --web-quiet: var(--augur-color-surface-dark-1);
+  --web-well: var(--background);
+  --web-raised: var(--augur-color-surface-dark-3);
+  --web-outline: #383848;
+  --web-action-hover: #27d19b;
+  --web-action-pressed: #24bc8d;
+  --web-danger-hover: #bc264a;
+  --web-danger-pressed: #a82445;
+  --mark-participant: var(--augur-color-surface-dark-mist);
+  --mark-past: var(--augur-color-secondary);
+  --mark-signal: var(--primary);
+  --font-heading: var(--augur-font-primary);
+  --font-body: var(--augur-font-secondary);
+  --page-gutter: clamp(48px, calc(100vw / 3 - 384px), 96px);
+  --ease-reveal: cubic-bezier(.22,.61,.36,1);
+  --ease-hero: cubic-bezier(.22,.7,.22,1);
+  --ease-draw: cubic-bezier(.45,0,.2,1);
+  --ease-crossfade: cubic-bezier(.45,0,.55,1);
+}
+@media(max-width:1023px) { :root,html.dark { --page-gutter:32px } }
+@media(max-width:767px) { :root,html.dark { --page-gutter:24px } }

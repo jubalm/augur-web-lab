@@ -1,0 +1,197 @@
+[
+  {
+    "time": 0,
+    "lines": [
+      {
+        "opacity": "0",
+        "transform": "matrix(1, 0, 0, 1, 0, 16)"
+      },
+      {
+        "opacity": "0",
+        "transform": "matrix(1, 0, 0, 1, 0, 16)"
+      },
+      {
+        "opacity": "0",
+        "transform": "matrix(1, 0, 0, 1, 0, 16)"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0"
+  },
+  {
+    "time": 100,
+    "lines": [
+      {
+        "opacity": "0.461718",
+        "transform": "matrix(1, 0, 0, 1, 0, 8.61251)"
+      },
+      {
+        "opacity": "0",
+        "transform": "matrix(1, 0, 0, 1, 0, 16)"
+      },
+      {
+        "opacity": "0",
+        "transform": "matrix(1, 0, 0, 1, 0, 16)"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0"
+  },
+  {
+    "time": 400,
+    "lines": [
+      {
+        "opacity": "0.950569",
+        "transform": "matrix(1, 0, 0, 1, 0, 0.790899)"
+      },
+      {
+        "opacity": "0.887807",
+        "transform": "matrix(1, 0, 0, 1, 0, 1.79509)"
+      },
+      {
+        "opacity": "0.756858",
+        "transform": "matrix(1, 0, 0, 1, 0, 3.89027)"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0"
+  },
+  {
+    "time": 750,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "0.999104",
+        "transform": "matrix(1, 0, 0, 1, 0, 0.0143422)"
+      },
+      {
+        "opacity": "0.990639",
+        "transform": "matrix(1, 0, 0, 1, 0, 0.14977)"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0"
+  },
+  {
+    "time": 1100,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0"
+  },
+  {
+    "time": 1320,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      }
+    ],
+    "centre": "0",
+    "orbit": "0.756908"
+  },
+  {
+    "time": 1750,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      }
+    ],
+    "centre": "0",
+    "orbit": "1"
+  },
+  {
+    "time": 2100,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      }
+    ],
+    "centre": "0.942341",
+    "orbit": "1"
+  },
+  {
+    "time": 2300,
+    "lines": [
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      },
+      {
+        "opacity": "1",
+        "transform": "none"
+      }
+    ],
+    "centre": "1",
+    "orbit": "1"
+  },
+  {
+    "settlesOnInteraction": "settled"
+  },
+  {
+    "reducedAnimationCount": 0
+  },
+  {
+    "idle5Seconds": {
+      "taskMs": 4.045,
+      "scriptMs": 0,
+      "layoutMs": 0,
+      "styleMs": 0,
+      "twinkleMarks": 12
+    },
+    "longTasks": [
+      {
+        "start": 28.699999999254942,
+        "duration": 61
+      }
+    ]
+  },
+  {
+    "offscreenTwinkle": null
+  }
+]

@@ -1,5 +1,7 @@
 ---
-import Base from '../layouts/Base.astro';
-import { labOnly, labPath } from '../lib/deployment';
+import PageLayout from '../layouts/PageLayout.astro';
 ---
-<Base title="Page not found"><section class="frame section stack"><p class="eyebrow muted">404 · Page not found</p><h1 class="augur-type-editorial-title">This experiment isn’t here.</h1><p class="muted">Return to the lab to find the current studies.</p><div class="actions"><a class="text-link" href={labPath()}>Explore the lab</a>{!labOnly && <a class="text-link" href="/">View homepage</a>}</div></section></Base>
+<PageLayout title="Page not found | Augur" description="This page could not be found. Explore Augur’s products, guides and latest updates.">
+ <section class="section container not-found"><h1>Page not found.</h1><p class="lead">We couldn’t find the page you’re looking for.</p><a class="button primary" href="/">Go to the homepage</a><nav aria-label="Explore Augur"><a href="/about/">About</a><a href="/products/">Products</a><a href="/learn/">Learn</a><a href="/blog/">Blog</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></nav></section>
+</PageLayout>
+<style>.not-found{min-height:60svh;padding-block:120px}.not-found h1{font-size:clamp(40px,5vw,64px);line-height:1.125}.not-found p{margin:24px 0 32px;color:var(--muted-foreground)}nav{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:48px}nav a{display:inline-flex;align-items:center;min-height:44px}</style>

@@ -1,0 +1,710 @@
+[
+  {
+    "route": "/about/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3731,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "What we’re working toward",
+          "y": 636
+        },
+        {
+          "text": "Who’s involved",
+          "y": 1091
+        },
+        {
+          "text": "A short history",
+          "y": 1674
+        },
+        {
+          "text": "Three products, one goal",
+          "y": 2635
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/products/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3699,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "How they fit together",
+          "y": 708
+        },
+        {
+          "text": "Augur Lituus",
+          "y": 1521
+        },
+        {
+          "text": "Zoltar",
+          "y": 2063
+        },
+        {
+          "text": "Augur Stratoblast",
+          "y": 2564
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/learn/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3427,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "Start here",
+          "y": 603
+        },
+        {
+          "text": "More guides",
+          "y": 1250
+        },
+        {
+          "text": "Key terms",
+          "y": 1992
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/learn/how-augur-answers-a-question/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3567,
+      "h1": {
+        "x": 96,
+        "y": 352,
+        "width": 1120,
+        "height": 67.984375,
+        "top": 352,
+        "right": 1216,
+        "bottom": 419.984375,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "Start here",
+          "y": 694
+        },
+        {
+          "text": "In this guide",
+          "y": 931
+        },
+        {
+          "text": "Example question",
+          "y": 881
+        },
+        {
+          "text": "Ask a question",
+          "y": 1166
+        },
+        {
+          "text": "Report an outcome",
+          "y": 1406
+        },
+        {
+          "text": "Challenge if needed",
+          "y": 1646
+        },
+        {
+          "text": "Use the final answer",
+          "y": 1916
+        },
+        {
+          "text": "Terms in this guide",
+          "y": 2203
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/rep/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 3568,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "What REP does",
+          "y": 636
+        },
+        {
+          "text": "Which REP do you hold?",
+          "y": 1379
+        },
+        {
+          "text": "During a fork",
+          "y": 2201
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": [
+          "TABLE.",
+          "THEAD.",
+          "TR.",
+          "TH.",
+          "TBODY."
+        ]
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/blog/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2373,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": []
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/blog/why-disagreement-makes-an-oracle-stronger/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 4995,
+      "h1": {
+        "x": 96,
+        "y": 336,
+        "width": 940,
+        "height": 135.96875,
+        "top": 336,
+        "right": 1036,
+        "bottom": 471.96875,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "On this page",
+          "y": 1416
+        },
+        {
+          "text": "Share",
+          "y": 1712
+        },
+        {
+          "text": "One voice is a single point of failure",
+          "y": 1600
+        },
+        {
+          "text": "Anyone can answer, anyone can challenge",
+          "y": 1796
+        },
+        {
+          "text": "Each challenge raises the stakes",
+          "y": 2022
+        },
+        {
+          "text": "What this means for an app",
+          "y": 2818
+        },
+        {
+          "text": "The last resort: a fork",
+          "y": 3152
+        },
+        {
+          "text": "Keep reading",
+          "y": 3657
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/faq/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 2901,
+      "h1": {
+        "x": 96,
+        "y": 256,
+        "width": 1248,
+        "height": 72,
+        "top": 256,
+        "right": 1344,
+        "bottom": 328,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "Getting started",
+          "y": 570
+        },
+        {
+          "text": "How it works",
+          "y": 1114
+        },
+        {
+          "text": "REP",
+          "y": 1474
+        },
+        {
+          "text": "Building with Augur",
+          "y": 1834
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": [
+          "g.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]",
+          "rect.[object SVGAnimatedString]"
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/contact/",
+    "status": 200,
+    "errors": [],
+    "desktop": {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "height": 900,
+      "h1": {
+        "x": 96,
+        "y": 253,
+        "width": 536,
+        "height": 72,
+        "top": 253,
+        "right": 632,
+        "bottom": 325,
+        "left": 96
+      },
+      "sectionH2": [
+        {
+          "text": "Talk with the community.",
+          "y": 454
+        },
+        {
+          "text": "Find us elsewhere",
+          "y": 661
+        },
+        {
+          "text": "Send us a message",
+          "y": 259
+        }
+      ]
+    },
+    "widths": [
+      {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "overlaps": []
+      },
+      {
+        "width": 1024,
+        "scrollWidth": 1024,
+        "overlaps": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 768,
+        "overlaps": []
+      },
+      {
+        "width": 390,
+        "scrollWidth": 390,
+        "overlaps": []
+      },
+      {
+        "width": 360,
+        "scrollWidth": 360,
+        "overlaps": []
+      }
+    ]
+  }
+]

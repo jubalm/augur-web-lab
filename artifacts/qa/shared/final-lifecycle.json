@@ -1,0 +1,79 @@
+{
+  "cacheDiagnostics": [
+    [
+      {
+        "type": "Circumstantial",
+        "reason": "BrowsingInstanceNotSwapped"
+      },
+      {
+        "type": "Circumstantial",
+        "reason": "BackForwardCacheDisabledForDelegate"
+      }
+    ],
+    [
+      {
+        "type": "Circumstantial",
+        "reason": "BrowsingInstanceNotSwapped"
+      },
+      {
+        "type": "Circumstantial",
+        "reason": "BackForwardCacheDisabledForDelegate"
+      }
+    ]
+  ],
+  "cacheFlags": "Command-line inspection unavailable",
+  "homeBack": {
+    "bfcache": false,
+    "reasons": {
+      "src": null,
+      "id": null,
+      "url": "http://127.0.0.1:4322/",
+      "name": null,
+      "reasons": [
+        {
+          "reason": "masked"
+        }
+      ],
+      "children": []
+    },
+    "hero": "entering"
+  },
+  "simulatedCacheEvents": {
+    "hero": "settled"
+  },
+  "print": {
+    "hero": "settled",
+    "running": 0,
+    "lines": [
+      "1",
+      "1",
+      "1"
+    ]
+  },
+  "articleBack": {
+    "bfcache": false,
+    "current": "anyone-can-answer-anyone-can-challenge",
+    "expected": "anyone-can-answer-anyone-can-challenge"
+  },
+  "folds": [
+    {
+      "width": 1440,
+      "height": 900,
+      "heroBottom": 900,
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "heroBottom": 720,
+      "overflow": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "heroBottom": 1080,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,733 @@
+{
+  "fileKey": "3RgHvLRqEZDsAmcBQ7tvVa",
+  "nodeId": "28:7",
+  "extractedAt": "2026-10-05",
+  "sections": [
+    {
+      "id": "208:1205",
+      "name": "01 · Announcement bar",
+      "text": [
+        [
+          "208:1207",
+          "Augur is back."
+        ],
+        [
+          "208:1208",
+          "Restarted in 2025, forked in August 2026, building Augur Lituus now."
+        ],
+        [
+          "208:1210",
+          "Catch up →"
+        ]
+      ]
+    },
+    {
+      "id": "30:28",
+      "name": "02 · Header",
+      "text": [
+        [
+          "I30:28;112:137",
+          "About"
+        ],
+        [
+          "I30:28;112:139",
+          "Products"
+        ],
+        [
+          "I30:28;112:143",
+          "Resources"
+        ],
+        [
+          "I30:28;112:147",
+          "Community"
+        ],
+        [
+          "I30:28;112:151;29:7",
+          "Talk to us"
+        ]
+      ]
+    },
+    {
+      "id": "31:51",
+      "name": "03 · Hero",
+      "text": [
+        [
+          "31:55",
+          "The frontier of\ndecentralized\ntruth."
+        ],
+        [
+          "31:57",
+          "Real-world answers for onchain apps, controlled by no one."
+        ],
+        [
+          "31:58",
+          "Augur Lituus is the next generation of Augur’s oracle. Anyone can answer, anyone can challenge, and lying is designed to cost more than it pays."
+        ],
+        [
+          "I31:60;29:4",
+          "See how it works"
+        ],
+        [
+          "I31:62;29:10",
+          "Read the whitepaper"
+        ]
+      ]
+    },
+    {
+      "id": "239:474",
+      "name": "04 · Who decides what happened",
+      "text": [
+        [
+          "239:478",
+          "Who decides\nwhat happened?"
+        ],
+        [
+          "239:480",
+          "Smart contracts can’t see the world. Whoever tells them what happened controls the money."
+        ],
+        [
+          "240:432",
+          "With Augur, no party controls the answer."
+        ],
+        [
+          "239:485",
+          "Permissionless"
+        ],
+        [
+          "239:486",
+          "Any app can ask a question. Anyone can report an answer or challenge one. No approval needed; fees and bonds apply."
+        ],
+        [
+          "239:490",
+          "Decentralized"
+        ],
+        [
+          "239:491",
+          "No committee, multisig or veto picks the answer. A fork is the last resort."
+        ],
+        [
+          "239:495",
+          "Trustless"
+        ],
+        [
+          "239:496",
+          "Every report is backed by a bond. Forcing a false answer is designed to cost more than it could gain."
+        ]
+      ]
+    },
+    {
+      "id": "135:255",
+      "name": "05 · What could you build",
+      "text": [
+        [
+          "135:258",
+          "What could you build?"
+        ],
+        [
+          "135:259",
+          "Augur Lituus answers real-world questions.\nYour app decides what happens next."
+        ],
+        [
+          "I135:261;137:221",
+          "Prediction markets"
+        ],
+        [
+          "I135:261;137:223",
+          "Settle a market."
+        ],
+        [
+          "I135:261;137:224",
+          "“Was the milestone demonstrated by the deadline?”"
+        ],
+        [
+          "I135:261;137:227",
+          "Market result"
+        ],
+        [
+          "I135:261;137:230",
+          "Yes"
+        ],
+        [
+          "I135:261;137:233",
+          "No"
+        ],
+        [
+          "I135:261;137:237",
+          "Insurance & payments"
+        ],
+        [
+          "I135:261;137:238",
+          "“Was flight AB123 more than two hours late?”"
+        ],
+        [
+          "I135:261;137:240",
+          "DAOs & grants"
+        ],
+        [
+          "I135:261;137:241",
+          "“Was the promised work published on time?”"
+        ],
+        [
+          "I135:261;137:249",
+          "Augur Lituus"
+        ],
+        [
+          "I135:261;137:254",
+          "One backstop for every app."
+        ],
+        [
+          "I135:261;137:255",
+          "Apps could run on their own chain or L2 and turn to Augur Lituus when an answer is disputed."
+        ]
+      ]
+    },
+    {
+      "id": "207:1590",
+      "name": "06 · How it works",
+      "text": [
+        [
+          "207:1594",
+          "How it works"
+        ],
+        [
+          "207:1596",
+          "Every answer is backed by a bond in REP, Augur’s token. Anyone who disagrees can challenge it by doubling the bond, so lying keeps getting more expensive."
+        ],
+        [
+          "I207:1597;145:285",
+          "Ask a question"
+        ],
+        [
+          "I207:1597;145:210",
+          "Define what counts, when the question can be answered, and the possible outcomes. Pay a query fee in REP to request resolution."
+        ],
+        [
+          "I207:1597;145:216",
+          "Report an outcome"
+        ],
+        [
+          "I207:1597;145:223",
+          "Challenge if needed"
+        ],
+        [
+          "I207:1597;145:230",
+          "Use the final answer"
+        ],
+        [
+          "I207:1597;145:236",
+          "Augur Lituus"
+        ],
+        [
+          "I207:1597;145:240",
+          "Awaiting report"
+        ],
+        [
+          "I207:1597;145:249",
+          "Has room-temperature superconductivity been independently demonstrated at ambient pressure?"
+        ],
+        [
+          "I207:1597;145:248",
+          "Evidence cutoff · 8 Sep 2027, 00:00 UTC"
+        ],
+        [
+          "I207:1597;145:255",
+          "Resolution criteria"
+        ],
+        [
+          "I207:1597;145:258",
+          "Possible outcomes"
+        ],
+        [
+          "I207:1597;145:261",
+          "YES"
+        ],
+        [
+          "I207:1597;145:263",
+          "NO"
+        ],
+        [
+          "I207:1597;145:265",
+          "Invalid"
+        ],
+        [
+          "I207:1597;145:269",
+          "Query opened · fee paid"
+        ],
+        [
+          "I207:1597;145:270",
+          "15 REP"
+        ],
+        [
+          "I207:1598;147:381",
+          "Disagreement raises the stakes"
+        ],
+        [
+          "I207:1598;147:385",
+          "Third challenge"
+        ],
+        [
+          "I207:1598;147:386",
+          "A third challenge doubles the bond again, from 60 to 120 REP."
+        ],
+        [
+          "I207:1598;283:817",
+          "1"
+        ],
+        [
+          "I207:1598;283:820",
+          "2"
+        ],
+        [
+          "I207:1598;283:823",
+          "3"
+        ],
+        [
+          "I207:1598;283:826",
+          "4"
+        ],
+        [
+          "I207:1598;147:392",
+          "1×"
+        ],
+        [
+          "I207:1598;147:393",
+          "15 REP"
+        ],
+        [
+          "I207:1598;147:398",
+          "YES"
+        ],
+        [
+          "I207:1598;147:397",
+          "Report"
+        ],
+        [
+          "I207:1598;147:400",
+          "2×"
+        ],
+        [
+          "I207:1598;147:401",
+          "30 REP"
+        ],
+        [
+          "I207:1598;147:406",
+          "NO"
+        ],
+        [
+          "I207:1598;147:405",
+          "Challenge"
+        ],
+        [
+          "I207:1598;147:408",
+          "4×"
+        ],
+        [
+          "I207:1598;147:409",
+          "60 REP"
+        ],
+        [
+          "I207:1598;147:414",
+          "YES"
+        ],
+        [
+          "I207:1598;147:413",
+          "Challenge 2"
+        ],
+        [
+          "I207:1598;147:416",
+          "8×"
+        ],
+        [
+          "I207:1598;147:417",
+          "120 REP"
+        ],
+        [
+          "I207:1598;147:422",
+          "NO"
+        ],
+        [
+          "I207:1598;147:421",
+          "Challenge 3"
+        ]
+      ]
+    },
+    {
+      "id": "304:645",
+      "name": "07 · What can you do with REP",
+      "text": [
+        [
+          "304:648",
+          "What can you do\nwith REP?"
+        ],
+        [
+          "304:650",
+          "Reporting and challenging are optional. Each one puts a bond at stake: being right pays, being wrong costs."
+        ],
+        [
+          "305:550",
+          "Report"
+        ],
+        [
+          "305:558",
+          "+"
+        ],
+        [
+          "305:561",
+          "Back an answer with a REP bond. If no one challenges it, you get the bond back plus part of the query fee."
+        ],
+        [
+          "305:570",
+          "Challenge"
+        ],
+        [
+          "305:567",
+          "+"
+        ],
+        [
+          "305:576",
+          "Post double the bond against a wrong answer. If yours holds, you also win most of theirs."
+        ],
+        [
+          "305:580",
+          "Risk"
+        ],
+        [
+          "305:586",
+          "If your answer is overturned, you lose the bond. Most of it goes to whoever was right."
+        ],
+        [
+          "305:1611",
+          "Proposed rules for Augur Lituus, which is in development."
+        ],
+        [
+          "I305:1612;29:10",
+          "Learn about REP"
+        ]
+      ]
+    },
+    {
+      "id": "162:485",
+      "name": "08 · Roadmap",
+      "text": [
+        [
+          "162:490",
+          "The road to\nAugur Lituus."
+        ],
+        [
+          "162:492",
+          "The research is published and the build is underway."
+        ],
+        [
+          "I162:493;159:407",
+          "Completed"
+        ],
+        [
+          "I162:493;159:413",
+          "In progress"
+        ],
+        [
+          "I162:493;159:419",
+          "Up next"
+        ],
+        [
+          "I162:493;159:435",
+          "2025"
+        ],
+        [
+          "I162:493;159:436",
+          "Augur reboots"
+        ],
+        [
+          "I162:493;159:441",
+          "January 2026"
+        ],
+        [
+          "I162:493;159:442",
+          "Whitepaper"
+        ],
+        [
+          "I162:493;159:447",
+          "August 2026"
+        ],
+        [
+          "I162:493;159:448",
+          "Moon Fork"
+        ],
+        [
+          "I162:493;159:454",
+          "Now"
+        ],
+        [
+          "I162:493;159:455",
+          "Implementation"
+        ],
+        [
+          "I162:493;159:460",
+          "No date announced"
+        ],
+        [
+          "I162:493;159:461",
+          "Testing & audits"
+        ],
+        [
+          "I162:493;159:466",
+          "No date announced"
+        ],
+        [
+          "I162:493;159:467",
+          "Launch"
+        ],
+        [
+          "I162:493;159:474",
+          "In progress · first milestones completed in July 2026"
+        ],
+        [
+          "I162:493;159:475",
+          "Building Augur Lituus."
+        ],
+        [
+          "I162:493;159:476",
+          "ChainSafe is engineering Augur Lituus, and the Foundation reviews the work against the whitepaper. The current focus is dispute resolution and forking."
+        ],
+        [
+          "I162:493;159:479",
+          "Follow the build"
+        ],
+        [
+          "I162:493;159:483",
+          "Q2 2026 report"
+        ],
+        [
+          "I162:493;159:487",
+          "Automated tests in the implementation"
+        ],
+        [
+          "I162:493;159:491",
+          "Start of the quarter"
+        ],
+        [
+          "I162:493;159:492",
+          "About 40"
+        ],
+        [
+          "I162:493;159:497",
+          "End of the quarter"
+        ],
+        [
+          "I162:493;159:498",
+          "300+"
+        ],
+        [
+          "I162:493;159:501",
+          "Across 22 merged pull requests. Q2 2026 report, 1 October 2026."
+        ]
+      ]
+    },
+    {
+      "id": "35:75",
+      "name": "09 · From the blog",
+      "text": [
+        [
+          "35:80",
+          "From the blog"
+        ],
+        [
+          "I156:405;29:7",
+          "View all posts"
+        ],
+        [
+          "154:777",
+          "Research · 24 September 2026"
+        ],
+        [
+          "154:778",
+          "Why disagreement makes\nan oracle stronger"
+        ],
+        [
+          "154:779",
+          "How bonds and open challenges reward honest reporting."
+        ],
+        [
+          "154:792",
+          "Guide · 10 September 2026"
+        ],
+        [
+          "154:793",
+          "Writing questions an oracle can answer"
+        ],
+        [
+          "154:809",
+          "Explainer · 27 August 2026"
+        ],
+        [
+          "154:810",
+          "What happens when a fork begins"
+        ],
+        [
+          "154:841",
+          "Community · 13 August 2026"
+        ],
+        [
+          "154:842",
+          "Notes from the community call"
+        ]
+      ]
+    },
+    {
+      "id": "36:86",
+      "name": "10 · FAQ",
+      "text": [
+        [
+          "166:1078",
+          "Frequently asked questions"
+        ],
+        [
+          "I166:1081;166:559;166:522",
+          "How does today’s Augur relate to its earlier prediction markets?"
+        ],
+        [
+          "I166:1081;166:559;166:527",
+          "Augur launched on Ethereum in 2018 as a decentralized prediction market protocol, with REP holders settling disputed outcomes. Augur v2 still runs today, and in August 2026 its fork mechanism completed its first live run. Augur Lituus, the next generation of Augur’s oracle, is designed to resolve questions for other prediction markets and applications, not only Augur’s own."
+        ],
+        [
+          "I166:1081;166:559;166:530",
+          "Moon Fork report"
+        ],
+        [
+          "I166:1081;166:579;166:542",
+          "What role does REP play?"
+        ],
+        [
+          "I166:1081;166:599;166:542",
+          "Can I build with Augur today?"
+        ],
+        [
+          "I166:1081;166:619;166:542",
+          "What if the question cannot be answered?"
+        ],
+        [
+          "I166:1081;166:639;166:542",
+          "Why would REP holders choose the honest fork?"
+        ]
+      ]
+    },
+    {
+      "id": "37:91",
+      "name": "11 · Footer / contact",
+      "text": [
+        [
+          "167:839",
+          "Talk to the Augur team."
+        ],
+        [
+          "167:840",
+          "Tell us what your application needs, ask about the protocol, or share feedback."
+        ],
+        [
+          "I167:841;29:4",
+          "Talk to us"
+        ],
+        [
+          "174:838",
+          "Follow Augur’s progress"
+        ],
+        [
+          "174:839",
+          "Research, development and product updates."
+        ],
+        [
+          "I174:841;38:93",
+          "Email address"
+        ],
+        [
+          "I174:841;38:95",
+          "you@example.com"
+        ],
+        [
+          "I174:845;29:7",
+          "Subscribe"
+        ],
+        [
+          "167:961",
+          "Augur’s work is funded and coordinated by the Lituus Foundation."
+        ],
+        [
+          "167:962",
+          "contact@augur.net"
+        ],
+        [
+          "167:964",
+          "Augur"
+        ],
+        [
+          "167:966",
+          "About"
+        ],
+        [
+          "167:967",
+          "Contact"
+        ],
+        [
+          "167:969",
+          "Products"
+        ],
+        [
+          "167:971",
+          "Augur Lituus"
+        ],
+        [
+          "167:972",
+          "Zoltar"
+        ],
+        [
+          "167:973",
+          "Augur Stratoblast"
+        ],
+        [
+          "167:975",
+          "Resources"
+        ],
+        [
+          "167:977",
+          "Blog"
+        ],
+        [
+          "167:978",
+          "FAQ"
+        ],
+        [
+          "167:979",
+          "Learn"
+        ],
+        [
+          "167:980",
+          "REP"
+        ],
+        [
+          "167:981",
+          "Whitepaper ↗"
+        ],
+        [
+          "167:983",
+          "Community"
+        ],
+        [
+          "167:985",
+          "Discord ↗"
+        ],
+        [
+          "167:986",
+          "Telegram ↗"
+        ],
+        [
+          "167:987",
+          "X ↗"
+        ],
+        [
+          "167:988",
+          "GitHub ↗"
+        ]
+      ]
+    }
+  ]
+}

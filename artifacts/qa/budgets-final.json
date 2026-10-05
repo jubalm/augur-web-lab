@@ -1,0 +1,286 @@
+{
+  "fonts": [
+    "dist/_astro/sora-latin-400-normal.CRt88UEn.woff2",
+    "dist/_astro/schibsted-grotesk-latin-400-normal.DPhJBilQ.woff2",
+    "dist/_astro/sora-latin-600-normal.Cdg4DaK0.woff2"
+  ],
+  "pages": [
+    {
+      "page": "dist/about/index.html",
+      "cssGzipBytes": 7164,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/reading-the-whitepaper/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/disputes-bonds-and-forks/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/how-the-products-fit-together/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/index.html",
+      "cssGzipBytes": 7250,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/what-rep-does/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/writing-questions/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/when-a-question-cannot-be-answered/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/how-augur-answers-a-question/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/learn/what-is-an-oracle/index.html",
+      "cssGzipBytes": 7984,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/rep/index.html",
+      "cssGzipBytes": 7280,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/index.html",
+      "cssGzipBytes": 12831,
+      "jsGzipBytes": 8865,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/Tenets.astro_astro_type_script_index_0_lang.CaStvHLZ.js",
+        "dist/_astro/home-art.C-NxzY0a.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js",
+        "dist/_astro/Applications.astro_astro_type_script_index_0_lang.D6shqEmE.js",
+        "dist/_astro/home-interactions.BPcMWyOG.js",
+        "dist/_astro/HowItWorks.astro_astro_type_script_index_0_lang.D6shqEmE.js",
+        "dist/_astro/SquareMath.astro_astro_type_script_index_0_lang.WgxCloom.js",
+        "dist/_astro/Roadmap.astro_astro_type_script_index_0_lang.D6shqEmE.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/FaqItem.astro_astro_type_script_index_0_lang.D4AacVvk.js"
+      ]
+    },
+    {
+      "page": "dist/products/index.html",
+      "cssGzipBytes": 7167,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/blog/writing-questions-an-oracle-can-answer/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/quarterly-report-what-changed/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/what-happens-when-a-fork-begins/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/index.html",
+      "cssGzipBytes": 7086,
+      "jsGzipBytes": 3234,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/building-in-public-following-the-work/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/category/project-updates/index.html",
+      "cssGzipBytes": 7086,
+      "jsGzipBytes": 3234,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/category/research-and-design/index.html",
+      "cssGzipBytes": 7086,
+      "jsGzipBytes": 3234,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/category/for-builders/index.html",
+      "cssGzipBytes": 7086,
+      "jsGzipBytes": 3234,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/why-disagreement-makes-an-oracle-stronger/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/blog/notes-from-the-community-call/index.html",
+      "cssGzipBytes": 7767,
+      "jsGzipBytes": 3561,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/BlogCover.astro_astro_type_script_index_0_lang.gT0bpYSr.js",
+        "dist/_astro/debug.BBFWVXd5.js",
+        "dist/_astro/play-once.CtC3IhAj.js"
+      ]
+    },
+    {
+      "page": "dist/faq/index.html",
+      "cssGzipBytes": 7413,
+      "jsGzipBytes": 2563,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/FaqItem.astro_astro_type_script_index_0_lang.D4AacVvk.js",
+        "dist/_astro/debug.BBFWVXd5.js"
+      ]
+    },
+    {
+      "page": "dist/404.html",
+      "cssGzipBytes": 6515,
+      "jsGzipBytes": 1667,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/contact/index.html",
+      "cssGzipBytes": 7169,
+      "jsGzipBytes": 2398,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/lab/homepage-redesign/index.html",
+      "cssGzipBytes": 14041,
+      "jsGzipBytes": 6478,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    },
+    {
+      "page": "dist/lab/index.html",
+      "cssGzipBytes": 6663,
+      "jsGzipBytes": 5530,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js",
+        "dist/_astro/HeroLoom.astro_astro_type_script_index_0_lang.BVw5XT5l.js"
+      ]
+    },
+    {
+      "page": "dist/lab/user-flow/index.html",
+      "cssGzipBytes": 6192,
+      "jsGzipBytes": 2880,
+      "jsFiles": [
+        "dist/_astro/page.CMFgH77u.js"
+      ]
+    }
+  ],
+  "note": "Gzip bytes sum unique external assets and inline script/style blocks per page, following static JS imports."
+}

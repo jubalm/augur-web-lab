@@ -1,0 +1,18 @@
+---
+import type { Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from './PageHero.astro';
+import BlogCard from '../content/BlogCard.astro';
+import { blogCategories } from '../content/blog';
+interface Props { page: Page<CollectionEntry<'blog'>>; category?: string; }
+const { page, category }=Astro.props;
+const categoryLabel=blogCategories.find(item=>item.slug===category)?.label;
+---
+<PageLayout title={`${categoryLabel?`${categoryLabel} | `:''}Blog | Augur`} description="Project updates, research and quarterly reports from the Augur project, newest first.">
+ <PageHero title="Blog" lead="Project updates, research and quarterly reports from the Augur project, newest first." />
+ <section class="archive container" aria-label={categoryLabel||'All posts'}><nav class="categories" aria-label="Blog categories"><a href="/blog/" aria-current={!category?'page':undefined}>All posts</a>{blogCategories.map(item=><a href={`/blog/category/${item.slug}/`} aria-current={category===item.slug?'page':undefined}>{item.label}</a>)}</nav><div class="post-grid">{page.data.map(post=><BlogCard post={post}/>)}</div>{(page.url.prev||page.url.next)&&<nav class="pagination" aria-label="Blog pages">{page.url.prev&&<a class="button outline" href={page.url.prev}>Previous posts</a>}{page.url.next&&<a class="button outline" href={page.url.next}>Show more posts</a>}</nav>}</section>
+</PageLayout>
+<style>
+ .archive{border-top:1px solid var(--border-quiet);padding-block:24px 96px}.categories{display:flex;flex-wrap:wrap;gap:8px 32px;border-bottom:1px solid var(--border-quiet);margin-bottom:56px}.categories a{display:flex;align-items:center;min-height:64px;border-bottom:2px solid transparent;text-decoration:none;font:400 16px/24px var(--font-heading);color:var(--muted-foreground)}.categories a[aria-current=page]{border-color:var(--primary);color:var(--foreground)}.categories a:hover{color:var(--foreground)}.post-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:64px 32px}.pagination{display:flex;justify-content:center;gap:24px;margin-top:64px}@media(max-width:1023px){.post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.post-grid{grid-template-columns:1fr;gap:48px}.categories{gap:0 20px;margin-bottom:40px}.categories a{font-size:14px;min-height:52px}}
+</style>

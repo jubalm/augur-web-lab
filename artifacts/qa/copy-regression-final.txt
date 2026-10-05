@@ -1,0 +1,12 @@
+bun test v1.3.14 (0d9b296a)
+
+tests/copy-check.test.ts:
+(pass) accepts every canonical section with the newsletter fallback [27.34ms]
+(pass) rejects a changed answer-band claim [27.27ms]
+(pass) rejects additional visible prose [27.10ms]
+(pass) rejects a missing short control label [25.25ms]
+
+ 4 pass
+ 0 fail
+ 9 expect() calls
+Ran 4 tests across 1 file. [145.00ms]

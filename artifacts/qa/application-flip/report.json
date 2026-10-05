@@ -1,0 +1,187 @@
+{
+  "frames": [
+    {
+      "time": 0,
+      "cards": [
+        {
+          "x": 96,
+          "width": 776,
+          "layoutWidth": 220,
+          "transform": "matrix(3.52727, 0, 0, 1, 0, 0)"
+        },
+        {
+          "x": 888,
+          "width": 220,
+          "layoutWidth": 776,
+          "transform": "matrix(0.283505, 0, 0, 1, 556, 0)"
+        },
+        {
+          "x": 1124,
+          "width": 220,
+          "layoutWidth": 220,
+          "transform": "none"
+        }
+      ],
+      "visible": [
+        "application-panel-prediction"
+      ],
+      "animatedProperties": [
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "opacity",
+        "transform",
+        "opacity",
+        "opacity"
+      ]
+    },
+    {
+      "time": 80,
+      "cards": [
+        {
+          "x": 96,
+          "width": 445.5966796875,
+          "layoutWidth": 220,
+          "transform": "matrix(2.02544, 0, 0, 1, 0, 0)"
+        },
+        {
+          "x": 557.5966186523438,
+          "width": 550.4033813476562,
+          "layoutWidth": 776,
+          "transform": "matrix(0.709283, 0, 0, 1, 225.597, 0)"
+        },
+        {
+          "x": 1124,
+          "width": 220,
+          "layoutWidth": 220,
+          "transform": "none"
+        }
+      ],
+      "visible": [
+        "application-panel-prediction"
+      ],
+      "animatedProperties": [
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "opacity",
+        "transform",
+        "opacity",
+        "opacity"
+      ]
+    },
+    {
+      "time": 160,
+      "cards": [
+        {
+          "x": 96,
+          "width": 290.6717224121094,
+          "layoutWidth": 220,
+          "transform": "matrix(1.32124, 0, 0, 1, 0, 0)"
+        },
+        {
+          "x": 402.67169189453125,
+          "width": 705.3283081054688,
+          "layoutWidth": 776,
+          "transform": "matrix(0.908928, 0, 0, 1, 70.6717, 0)"
+        },
+        {
+          "x": 1124,
+          "width": 220,
+          "layoutWidth": 220,
+          "transform": "none"
+        }
+      ],
+      "visible": [
+        "application-panel-prediction"
+      ],
+      "animatedProperties": [
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "opacity",
+        "transform",
+        "opacity",
+        "opacity"
+      ]
+    },
+    {
+      "time": 320,
+      "cards": [
+        {
+          "x": 96,
+          "width": 220,
+          "layoutWidth": 220,
+          "transform": "none"
+        },
+        {
+          "x": 332,
+          "width": 776,
+          "layoutWidth": 776,
+          "transform": "none"
+        },
+        {
+          "x": 1124,
+          "width": 220,
+          "layoutWidth": 220,
+          "transform": "none"
+        }
+      ],
+      "visible": [
+        "application-panel-prediction"
+      ],
+      "animatedProperties": [
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "transform",
+        "opacity",
+        "transform",
+        "opacity",
+        "opacity"
+      ]
+    }
+  ],
+  "checks": [
+    "FLIP starts at original visual bounds; final layout is applied once; only transform/opacity effects.",
+    "Rapid reselect converges to latest tab and restores all panel inline geometry.",
+    "Reduced motion during FLIP settles selected panel and cancels effects.",
+    "Print during FLIP settles the selected panel.",
+    "Persisted pagehide settles and clears temporary panel geometry.",
+    "All three selections and rapid retarget have no overflow at 1440px.",
+    "All three selections and rapid retarget have no overflow at 1280px.",
+    "All three selections and rapid retarget have no overflow at 1024px.",
+    "All three selections and rapid retarget have no overflow at 768px.",
+    "All three selections and rapid retarget have no overflow at 390px.",
+    "All three selections and rapid retarget have no overflow at 360px.",
+    "Missing WAAPI uses an instant, functional tab selection."
+  ],
+  "errors": []
+}

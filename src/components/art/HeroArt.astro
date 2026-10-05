@@ -1,0 +1,17 @@
+---
+import {heroSquares} from '../../data/hero-art';
+import {heroTimeline} from '../../motion/timelines';
+---
+<svg class="hero-art" width="572" height="457" viewBox="0 0 572 457" aria-hidden="true" focusable="false">
+ <rect class="orbit" x="244" y="186.5" width="84" height="84" fill="none" stroke="var(--web-outline)" style={`--start:${heroTimeline.orbit.start}ms;--duration:${heroTimeline.orbit.end-heroTimeline.orbit.start}ms`}/>
+ {heroSquares.map(s=><rect class="hero-participant" x={s.x} y={s.y} width={s.size} height={s.size} fill={s.fill} fill-opacity={s.opacity} style={`--dx:${s.dx}px;--dy:${s.dy}px;--start:${s.start*1000}ms;--move:${heroTimeline.squareMove}ms;--fade:${heroTimeline.squareFade}ms`} data-ring={s.ring}/>)}
+ <rect class="empty-centre" x="270" y="212.5" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="2" stroke-dasharray="4 4" style={`--start:${heroTimeline.centre.start}ms;--duration:${heroTimeline.centre.end-heroTimeline.centre.start}ms`}/>
+</svg>
+<style>
+.hero-art{display:block;width:100%;height:auto;overflow:visible}
+:global([data-hero-arrival=entering]) .hero-participant{animation:arrive-square calc(var(--move) * var(--hero-motion-factor,1)) var(--ease-reveal) calc(var(--start) * var(--hero-motion-factor,1)) backwards,fade-square calc(var(--fade) * var(--hero-motion-factor,1)) var(--ease-reveal) calc(var(--start) * var(--hero-motion-factor,1)) backwards}
+:global([data-hero-arrival=entering]) :is(.orbit,.empty-centre){animation:reveal-art calc(var(--duration) * var(--hero-motion-factor,1)) var(--ease-reveal) calc(var(--start) * var(--hero-motion-factor,1)) backwards}
+@keyframes arrive-square{from{transform:translate(var(--dx),var(--dy))}to{transform:none}}
+@keyframes fade-square{from{opacity:.2}to{opacity:1}}
+@keyframes reveal-art{from{opacity:0}to{opacity:1}}
+</style>

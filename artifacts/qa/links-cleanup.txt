@@ -1,0 +1,2 @@
+$ bun scripts/check-links.ts
+26 pages, 1949 anchor destinations resolve and external URLs come from the registry.

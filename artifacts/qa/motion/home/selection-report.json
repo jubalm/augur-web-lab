@@ -1,0 +1,183 @@
+{
+  "applications": [
+    {
+      "target": "DIV",
+      "role": "tablist",
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "DIV",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "DIV",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 100,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 800,
+      "delay": 0
+    },
+    {
+      "target": "DIV",
+      "role": null,
+      "duration": 250,
+      "delay": 800
+    },
+    {
+      "target": "DIV",
+      "role": "tabpanel",
+      "duration": 160,
+      "delay": 0
+    }
+  ],
+  "walkthrough": [
+    {
+      "target": "BUTTON",
+      "role": "tab",
+      "duration": 180,
+      "delay": 0
+    },
+    {
+      "target": "BUTTON",
+      "role": "tab",
+      "duration": 180,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "BUTTON",
+      "role": "tab",
+      "duration": 180,
+      "delay": 0
+    },
+    {
+      "target": "BUTTON",
+      "role": "tab",
+      "duration": 180,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "LI",
+      "role": null,
+      "duration": 320,
+      "delay": 160
+    },
+    {
+      "target": "DIV",
+      "role": "tabpanel",
+      "duration": 160,
+      "delay": 0
+    }
+  ],
+  "bonds": [
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 160,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 160,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 160,
+      "delay": 0
+    },
+    {
+      "target": "DIV",
+      "role": "tabpanel",
+      "duration": 160,
+      "delay": 0
+    }
+  ],
+  "roadmap": [
+    {
+      "target": "DIV",
+      "role": null,
+      "duration": 320,
+      "delay": 0
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 850,
+      "delay": 160
+    },
+    {
+      "target": "SPAN",
+      "role": null,
+      "duration": 850,
+      "delay": 160
+    },
+    {
+      "target": "DIV",
+      "role": "tabpanel",
+      "duration": 160,
+      "delay": 0
+    }
+  ],
+  "cover": [
+    {
+      "duration": 850
+    }
+  ]
+}

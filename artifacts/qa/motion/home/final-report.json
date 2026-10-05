@@ -1,0 +1,135 @@
+{
+  "errors": [],
+  "states": [
+    {
+      "name": "applications",
+      "index": 0,
+      "height": 544,
+      "visible": 1
+    },
+    {
+      "name": "applications",
+      "index": 1,
+      "height": 544,
+      "visible": 1
+    },
+    {
+      "name": "applications",
+      "index": 2,
+      "height": 544,
+      "visible": 1
+    },
+    {
+      "name": "walkthrough",
+      "index": 0,
+      "height": 549,
+      "visible": 1
+    },
+    {
+      "name": "walkthrough",
+      "index": 1,
+      "height": 549,
+      "visible": 1
+    },
+    {
+      "name": "walkthrough",
+      "index": 2,
+      "height": 549,
+      "visible": 1
+    },
+    {
+      "name": "walkthrough",
+      "index": 3,
+      "height": 549,
+      "visible": 1
+    },
+    {
+      "name": "bonds",
+      "index": 0,
+      "height": 395,
+      "visible": 1
+    },
+    {
+      "name": "bonds",
+      "index": 1,
+      "height": 395,
+      "visible": 1
+    },
+    {
+      "name": "bonds",
+      "index": 2,
+      "height": 395,
+      "visible": 1
+    },
+    {
+      "name": "bonds",
+      "index": 3,
+      "height": 395,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 0,
+      "height": 550,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 1,
+      "height": 550,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 2,
+      "height": 550,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 3,
+      "height": 550,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 4,
+      "height": 550,
+      "visible": 1
+    },
+    {
+      "name": "roadmap",
+      "index": 5,
+      "height": 550,
+      "visible": 1
+    }
+  ],
+  "motion": {
+    "hiddenPause": true,
+    "hiddenResume": true,
+    "printSettled": true,
+    "printSelected": {
+      "selected": "application-tab-insurance",
+      "visible": "application-panel-insurance",
+      "animations": 0
+    },
+    "reducedDuringTransition": {
+      "selected": "application-tab-grants",
+      "visible": "application-panel-grants",
+      "animations": 0
+    },
+    "cover": [],
+    "faq": [
+      {
+        "duration": 320,
+        "delay": 0,
+        "target": "P"
+      },
+      {
+        "duration": 320,
+        "delay": 50,
+        "target": "A"
+      }
+    ]
+  }
+}

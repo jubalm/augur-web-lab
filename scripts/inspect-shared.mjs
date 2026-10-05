@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+import { mkdirSync, writeFileSync } from 'node:fs';
+mkdirSync('artifacts/qa/shared',{recursive:true});
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto(process.env.AUGUR_TEST_URL??'http://127.0.0.1:4321/');await page.evaluate(()=>document.fonts.ready);
+await page.screenshot({path:'artifacts/qa/shared/viewport-1440.png'});
+await page.locator('.home-hero').screenshot({path:'artifacts/qa/shared/hero-1440.png'});
+await page.evaluate(()=>scrollTo(0,0));
+const measurements=await page.evaluate(()=>({hero:document.querySelector('.home-hero').getBoundingClientRect().toJSON(),headline:document.querySelector('h1').getBoundingClientRect().toJSON(),copy:getComputedStyle(document.querySelector('h1')).font,overflow:document.documentElement.scrollWidth>innerWidth,fonts:performance.getEntriesByType('resource').filter(r=>r.name.includes('woff')).map(r=>r.name)}));
+await page.locator('.site-footer').screenshot({path:'artifacts/qa/shared/footer-1440.png'});
+writeFileSync('artifacts/qa/shared/measurements.json',JSON.stringify({errors,...measurements},null,2));console.log(JSON.stringify({errors,...measurements},null,2));await browser.close();

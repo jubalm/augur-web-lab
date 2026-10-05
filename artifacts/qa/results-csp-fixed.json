@@ -1,0 +1,161 @@
+{
+  "config": {
+    "argv": [
+      "/home/goddard/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+      "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/node_modules/.bin/playwright",
+      "test",
+      "--grep",
+      " / renders"
+    ],
+    "configFile": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/playwright.config.mjs",
+    "rootDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/qa/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "site.spec.mjs",
+      "file": "site.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "/ renders, has no browser errors, and passes axe",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3641,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'sha256-08UaD/1m68enQNPOS23Yt1k0CoXFnE2Caap+KzTYAJE=' 'sha256-Ot0AcqsRC62r7ZlP5tUqpD3eGeSjBo4eojqovMPiVzw=' 'sha256-bckqut9t3aRwIifReAzr0MleqgVXLLf8ltJOg6oEskg=' 'sha256-xw0nX4KHyFaZ4lN/CjeYAYucBKGIhT09Zo/55/abxFY=' 'sha256-teskMnk1GrSB5gp9Xrf44bpyzT37fx9yEiJ2rQyMaOc=' 'sha256-jk1llkD292vcHA/A0Oi2cvp3esVBTAjFjj02cYhtCuc=' 'sha256-5VfWEG4aoM7xrf6uvPCF7n9szr5L6yH0DFxOprqQWo8=' 'sha256-M30xo9cngSgl1Ag3X9g8l3KuOpMc0tm4+5OfBZ2Fqbk=' 'sha256-pfvl8AudtSmxw6dkdrLKOBJGbxM//wWwEdeztQOCUls=' 'sha256-qYEU+hMbc8ADFY8i3WbUL1iGMo1AILJ1LE11EyHSPbA=' 'sha256-ZHWD5mWrYeEDdKTul2ctlok+z5DcIPKyfRcNpqxFenQ=' 'sha256-p+YAdRFFluhb2wvGooI2faheo1m5TD/IdDi74wxiN+I=' 'sha256-VwPBh0INm87BAptT//b82u6aS+LcUIJChgMd6iJWKfc=' 'sha256-b1WV7HdukWMfH6hHG0gEzLm4TLsKP9d6KuxMJfSrYj0=' 'sha256-BF0290pkb3jxQsE7z00xR8Imp8X34FLC88L0lkMnrGw=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-0chmwFk0zaA528yFfGV7J9ppIpdfTPPULncDF3WG7Zs=' 'sha256-eIXWvAmxkr251LJZkjniEK5LcPF3NkapbJepohwYRIc=' 'sha256-Q2BPg90ZMplYY+FSdApNErhpWafg2hcRRbndmvxuL/Q=' 'sha256-Ya0pUYrC7nM5Cn/056TyVuEiz6dFGrzmkWzgON0pF0U=' 'sha256-SHXg3YtOAVshUMT3f+eElYDgbV0kaujWj8DSaXSS4Vs=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=''. Either the 'unsafe-inline' keyword, a hash ('sha256-lsm59jtbn32eZWZ2eIF2KLsKMYZ65BA077DrNNkEGz0='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.\",\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'sha256-08UaD/1m68enQNPOS23Yt1k0CoXFnE2Caap+KzTYAJE=' 'sha256-Ot0AcqsRC62r7ZlP5tUqpD3eGeSjBo4eojqovMPiVzw=' 'sha256-bckqut9t3aRwIifReAzr0MleqgVXLLf8ltJOg6oEskg=' 'sha256-xw0nX4KHyFaZ4lN/CjeYAYucBKGIhT09Zo/55/abxFY=' 'sha256-teskMnk1GrSB5gp9Xrf44bpyzT37fx9yEiJ2rQyMaOc=' 'sha256-jk1llkD292vcHA/A0Oi2cvp3esVBTAjFjj02cYhtCuc=' 'sha256-5VfWEG4aoM7xrf6uvPCF7n9szr5L6yH0DFxOprqQWo8=' 'sha256-M30xo9cngSgl1Ag3X9g8l3KuOpMc0tm4+5OfBZ2Fqbk=' 'sha256-pfvl8AudtSmxw6dkdrLKOBJGbxM//wWwEdeztQOCUls=' 'sha256-qYEU+hMbc8ADFY8i3WbUL1iGMo1AILJ1LE11EyHSPbA=' 'sha256-ZHWD5mWrYeEDdKTul2ctlok+z5DcIPKyfRcNpqxFenQ=' 'sha256-p+YAdRFFluhb2wvGooI2faheo1m5TD/IdDi74wxiN+I=' 'sha256-VwPBh0INm87BAptT//b82u6aS+LcUIJChgMd6iJWKfc=' 'sha256-b1WV7HdukWMfH6hHG0gEzLm4TLsKP9d6KuxMJfSrYj0=' 'sha256-BF0290pkb3jxQsE7z00xR8Imp8X34FLC88L0lkMnrGw=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-0chmwFk0zaA528yFfGV7J9ppIpdfTPPULncDF3WG7Zs=' 'sha256-eIXWvAmxkr251LJZkjniEK5LcPF3NkapbJepohwYRIc=' 'sha256-Q2BPg90ZMplYY+FSdApNErhpWafg2hcRRbndmvxuL/Q=' 'sha256-Ya0pUYrC7nM5Cn/056TyVuEiz6dFGrzmkWzgON0pF0U=' 'sha256-SHXg3YtOAVshUMT3f+eElYDgbV0kaujWj8DSaXSS4Vs=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=''. Either the 'unsafe-inline' keyword, a hash ('sha256-lsm59jtbn32eZWZ2eIF2KLsKMYZ65BA077DrNNkEGz0='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:23:20",
+                    "location": {
+                      "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                      "column": 20,
+                      "line": 23
+                    },
+                    "snippet": "  21 |     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();\n  22 |     expect(result.violations).toEqual([]);\n> 23 |     expect(errors).toEqual([]);\n     |                    ^\n  24 |     await page.screenshot({ path: `artifacts/qa/screenshots/${route.replace(/\\W+/g, '-') || 'home'}-1440.png`, fullPage: true });\n  25 |   });\n  26 | }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                        "column": 20,
+                        "line": 23
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 3\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'sha256-08UaD/1m68enQNPOS23Yt1k0CoXFnE2Caap+KzTYAJE=' 'sha256-Ot0AcqsRC62r7ZlP5tUqpD3eGeSjBo4eojqovMPiVzw=' 'sha256-bckqut9t3aRwIifReAzr0MleqgVXLLf8ltJOg6oEskg=' 'sha256-xw0nX4KHyFaZ4lN/CjeYAYucBKGIhT09Zo/55/abxFY=' 'sha256-teskMnk1GrSB5gp9Xrf44bpyzT37fx9yEiJ2rQyMaOc=' 'sha256-jk1llkD292vcHA/A0Oi2cvp3esVBTAjFjj02cYhtCuc=' 'sha256-5VfWEG4aoM7xrf6uvPCF7n9szr5L6yH0DFxOprqQWo8=' 'sha256-M30xo9cngSgl1Ag3X9g8l3KuOpMc0tm4+5OfBZ2Fqbk=' 'sha256-pfvl8AudtSmxw6dkdrLKOBJGbxM//wWwEdeztQOCUls=' 'sha256-qYEU+hMbc8ADFY8i3WbUL1iGMo1AILJ1LE11EyHSPbA=' 'sha256-ZHWD5mWrYeEDdKTul2ctlok+z5DcIPKyfRcNpqxFenQ=' 'sha256-p+YAdRFFluhb2wvGooI2faheo1m5TD/IdDi74wxiN+I=' 'sha256-VwPBh0INm87BAptT//b82u6aS+LcUIJChgMd6iJWKfc=' 'sha256-b1WV7HdukWMfH6hHG0gEzLm4TLsKP9d6KuxMJfSrYj0=' 'sha256-BF0290pkb3jxQsE7z00xR8Imp8X34FLC88L0lkMnrGw=' 'sha256-QzWFZi+FLIx23tnm9SBU4aEgx4x8DsuASP07mfqol/c=' 'sha256-0chmwFk0zaA528yFfGV7J9ppIpdfTPPULncDF3WG7Zs=' 'sha256-eIXWvAmxkr251LJZkjniEK5LcPF3NkapbJepohwYRIc=' 'sha256-Q2BPg90ZMplYY+FSdApNErhpWafg2hcRRbndmvxuL/Q=' 'sha256-Ya0pUYrC7nM5Cn/056TyVuEiz6dFGrzmkWzgON0pF0U=' 'sha256-SHXg3YtOAVshUMT3f+eElYDgbV0kaujWj8DSaXSS4Vs=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=''. Either the 'unsafe-inline' keyword, a hash ('sha256-lsm59jtbn32eZWZ2eIF2KLsKMYZ65BA077DrNNkEGz0='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  21 |     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();\n  22 |     expect(result.violations).toEqual([]);\n> 23 |     expect(errors).toEqual([]);\n     |                    ^\n  24 |     await page.screenshot({ path: `artifacts/qa/screenshots/${route.replace(/\\W+/g, '-') || 'home'}-1440.png`, fullPage: true });\n  25 |   });\n  26 | }\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:23:20"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:42:34.500Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site--renders-has-no-browser-errors-and-passes-axe/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site--renders-has-no-browser-errors-and-passes-axe/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site--renders-has-no-browser-errors-and-passes-axe/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                    "column": 20,
+                    "line": 23
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-b1d99b86078fd3ef379d",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T18:42:33.284Z",
+    "duration": 5535.821,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

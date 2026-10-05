@@ -1,0 +1,9 @@
+---
+import { crossAnywhere as diagram } from '../../../data/diagrams';
+---
+<svg viewBox="0 0 336 168" width="336" height="168" class="tenet-diagram" data-cross aria-hidden="true">
+  <rect data-edge {...diagram.edge} fill="none" stroke="var(--mark-participant, #71728A)" stroke-width="3" stroke-dasharray="3 9" />
+  {diagram.participants.map(([x,y])=><rect data-participant x={x} y={y} width="20" height="20" fill="var(--mark-participant, #71728A)"/>)}
+  {diagram.trails.map((trail,i)=><rect data-trail={i} x={trail.x} y={trail.y} width={trail.size} height={trail.size} opacity={trail.opacity} fill={i>5?'var(--primary)':'var(--mark-participant, #71728A)'}/>)}
+  {diagram.crossers.map((square,i)=><rect data-crosser={i} x={square.x} y={square.y} width="20" height="20" fill={i===3?'var(--primary)':'var(--mark-participant, #71728A)'}/>)}
+</svg>

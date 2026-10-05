@@ -1,0 +1,684 @@
+[
+  {
+    "id": "161:404",
+    "items": [
+      {
+        "id": "161:486",
+        "name": "Evidence",
+        "type": "FRAME",
+        "x": 719,
+        "y": 48,
+        "width": 480,
+        "height": 193,
+        "layout": "VERTICAL",
+        "gap": 20,
+        "padding": [
+          24,
+          28,
+          24,
+          28
+        ],
+        "children": [
+          {
+            "id": "161:487",
+            "name": "Evidence label",
+            "type": "TEXT",
+            "x": 29,
+            "y": 25,
+            "width": 422,
+            "height": 20,
+            "text": "From the blog",
+            "fontSize": 14,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 20
+            }
+          },
+          {
+            "id": "162:404",
+            "name": "Chart",
+            "type": "FRAME",
+            "x": 29,
+            "y": 65,
+            "width": 422,
+            "height": 103
+          }
+        ]
+      },
+      {
+        "id": "161:487",
+        "name": "Evidence label",
+        "type": "TEXT",
+        "x": 29,
+        "y": 25,
+        "width": 422,
+        "height": 20,
+        "text": "From the blog",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      },
+      {
+        "id": "162:406",
+        "name": "Post title",
+        "type": "TEXT",
+        "x": 0,
+        "y": 15,
+        "width": 228,
+        "height": 22,
+        "text": "Augur Reboot 2025 Roadmap",
+        "fontSize": 15,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 22
+        }
+      },
+      {
+        "id": "162:407",
+        "name": "Post date",
+        "type": "TEXT",
+        "x": 346,
+        "y": 16,
+        "width": 76,
+        "height": 20,
+        "text": "1 April 2025",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      },
+      {
+        "id": "162:409",
+        "name": "Post title",
+        "type": "TEXT",
+        "x": 0,
+        "y": 14,
+        "width": 143,
+        "height": 22,
+        "text": "Generalized Augur",
+        "fontSize": 15,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 22
+        }
+      },
+      {
+        "id": "162:410",
+        "name": "Post date",
+        "type": "TEXT",
+        "x": 342,
+        "y": 15,
+        "width": 80,
+        "height": 20,
+        "text": "13 May 2025",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      }
+    ]
+  },
+  {
+    "id": "161:502",
+    "items": [
+      {
+        "id": "161:584",
+        "name": "Evidence",
+        "type": "FRAME",
+        "x": 719,
+        "y": 48,
+        "width": 480,
+        "height": 190,
+        "layout": "VERTICAL",
+        "gap": 20,
+        "padding": [
+          24,
+          28,
+          24,
+          28
+        ],
+        "children": [
+          {
+            "id": "161:585",
+            "name": "Evidence label",
+            "type": "TEXT",
+            "x": 29,
+            "y": 25,
+            "width": 422,
+            "height": 20,
+            "text": "The paper",
+            "fontSize": 14,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 20
+            }
+          },
+          {
+            "id": "162:411",
+            "name": "Chart",
+            "type": "FRAME",
+            "x": 29,
+            "y": 65,
+            "width": 422,
+            "height": 100
+          }
+        ]
+      },
+      {
+        "id": "161:585",
+        "name": "Evidence label",
+        "type": "TEXT",
+        "x": 29,
+        "y": 25,
+        "width": 422,
+        "height": 20,
+        "text": "The paper",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      },
+      {
+        "id": "162:412",
+        "name": "Cover",
+        "type": "FRAME",
+        "x": 0,
+        "y": -18,
+        "width": 104,
+        "height": 136,
+        "layout": "NONE",
+        "gap": 0,
+        "padding": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "children": [
+          {
+            "id": "162:413",
+            "name": "Square / Green",
+            "type": "RECTANGLE",
+            "x": 14,
+            "y": 18,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:414",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 30,
+            "y": 18,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:415",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 62,
+            "y": 18,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:416",
+            "name": "Square / Green",
+            "type": "RECTANGLE",
+            "x": 78,
+            "y": 30,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:417",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 14,
+            "y": 46,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:418",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 46,
+            "y": 46,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:419",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 86,
+            "y": 58,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:420",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 22,
+            "y": 106,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:421",
+            "name": "Square / Green",
+            "type": "RECTANGLE",
+            "x": 54,
+            "y": 118,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:422",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 86,
+            "y": 106,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:423",
+            "name": "Square / Paper",
+            "type": "RECTANGLE",
+            "x": 70,
+            "y": 94,
+            "width": 3,
+            "height": 3
+          },
+          {
+            "id": "162:424",
+            "name": "Cover title",
+            "type": "TEXT",
+            "x": 14,
+            "y": 66,
+            "width": 41,
+            "height": 32,
+            "text": "Augur\nLituus",
+            "fontSize": 13,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 16
+            }
+          }
+        ]
+      },
+      {
+        "id": "162:413",
+        "name": "Square / Green",
+        "type": "RECTANGLE",
+        "x": 14,
+        "y": 18,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:414",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 30,
+        "y": 18,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:415",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 62,
+        "y": 18,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:416",
+        "name": "Square / Green",
+        "type": "RECTANGLE",
+        "x": 78,
+        "y": 30,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:417",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 14,
+        "y": 46,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:418",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 46,
+        "y": 46,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:419",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 86,
+        "y": 58,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:420",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 22,
+        "y": 106,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:421",
+        "name": "Square / Green",
+        "type": "RECTANGLE",
+        "x": 54,
+        "y": 118,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:422",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 86,
+        "y": 106,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:423",
+        "name": "Square / Paper",
+        "type": "RECTANGLE",
+        "x": 70,
+        "y": 94,
+        "width": 3,
+        "height": 3
+      },
+      {
+        "id": "162:424",
+        "name": "Cover title",
+        "type": "TEXT",
+        "x": 14,
+        "y": 66,
+        "width": 41,
+        "height": 32,
+        "text": "Augur\nLituus",
+        "fontSize": 13,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 16
+        }
+      },
+      {
+        "id": "162:426",
+        "name": "Paper title",
+        "type": "TEXT",
+        "x": 0,
+        "y": 0,
+        "width": 294,
+        "height": 24,
+        "text": "Augur Lituus Whitepaper",
+        "fontSize": 18,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 24
+        }
+      },
+      {
+        "id": "162:427",
+        "name": "Paper meta",
+        "type": "TEXT",
+        "x": 0,
+        "y": 30,
+        "width": 294,
+        "height": 20,
+        "text": "PDF · January 2026",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      },
+      {
+        "id": "162:428",
+        "name": "Paper source",
+        "type": "TEXT",
+        "x": 0,
+        "y": 56,
+        "width": 294,
+        "height": 20,
+        "text": "AugurProject/whitepaper on GitHub",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      }
+    ]
+  },
+  {
+    "id": "161:698",
+    "items": [
+      {
+        "id": "161:780",
+        "name": "Evidence",
+        "type": "FRAME",
+        "x": 719,
+        "y": 48,
+        "width": 480,
+        "height": 237,
+        "layout": "VERTICAL",
+        "gap": 20,
+        "padding": [
+          24,
+          28,
+          24,
+          28
+        ],
+        "children": [
+          {
+            "id": "161:781",
+            "name": "Evidence label",
+            "type": "TEXT",
+            "x": 29,
+            "y": 25,
+            "width": 422,
+            "height": 20,
+            "text": "Goals for the coming quarter",
+            "fontSize": 14,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 20
+            }
+          },
+          {
+            "id": "162:442",
+            "name": "Chart",
+            "type": "FRAME",
+            "x": 29,
+            "y": 65,
+            "width": 422,
+            "height": 107
+          },
+          {
+            "id": "161:795",
+            "name": "Caption",
+            "type": "TEXT",
+            "x": 29,
+            "y": 192,
+            "width": 422,
+            "height": 20,
+            "text": "Q2 2026 report, 1 October 2026.",
+            "fontSize": 13,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "161:781",
+        "name": "Evidence label",
+        "type": "TEXT",
+        "x": 29,
+        "y": 25,
+        "width": 422,
+        "height": 20,
+        "text": "Goals for the coming quarter",
+        "fontSize": 14,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      },
+      {
+        "id": "162:444",
+        "name": "Square / Next",
+        "type": "RECTANGLE",
+        "x": 0,
+        "y": 22,
+        "width": 10,
+        "height": 10
+      },
+      {
+        "id": "162:447",
+        "name": "Square / Next",
+        "type": "RECTANGLE",
+        "x": 0,
+        "y": 21,
+        "width": 10,
+        "height": 10
+      },
+      {
+        "id": "161:795",
+        "name": "Caption",
+        "type": "TEXT",
+        "x": 29,
+        "y": 192,
+        "width": 422,
+        "height": 20,
+        "text": "Q2 2026 report, 1 October 2026.",
+        "fontSize": 13,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      }
+    ]
+  },
+  {
+    "id": "161:796",
+    "items": [
+      {
+        "id": "161:878",
+        "name": "Evidence",
+        "type": "FRAME",
+        "x": 719,
+        "y": 48,
+        "width": 480,
+        "height": 254,
+        "layout": "VERTICAL",
+        "gap": 20,
+        "padding": [
+          24,
+          28,
+          24,
+          28
+        ],
+        "children": [
+          {
+            "id": "162:449",
+            "name": "Chart",
+            "type": "FRAME",
+            "x": 29,
+            "y": 25,
+            "width": 422,
+            "height": 164
+          },
+          {
+            "id": "161:893",
+            "name": "Caption",
+            "type": "TEXT",
+            "x": 29,
+            "y": 209,
+            "width": 422,
+            "height": 20,
+            "text": "From “Augur Is Testing Its Past and Building Its Future”, 21 July 2026.",
+            "fontSize": 13,
+            "lineHeight": {
+              "unit": "PIXELS",
+              "value": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "162:450",
+        "name": "Quote mark",
+        "type": "TEXT",
+        "x": 0,
+        "y": 0,
+        "width": 20,
+        "height": 40,
+        "text": "“",
+        "fontSize": 40,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 40
+        }
+      },
+      {
+        "id": "162:451",
+        "name": "Quote",
+        "type": "TEXT",
+        "x": 0,
+        "y": 44,
+        "width": 422,
+        "height": 120,
+        "text": "A whitepaper does not resolve markets by itself; the design has to be implemented, tested, audited, documented, and made usable.",
+        "fontSize": 20,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 30
+        }
+      },
+      {
+        "id": "161:893",
+        "name": "Caption",
+        "type": "TEXT",
+        "x": 29,
+        "y": 209,
+        "width": 422,
+        "height": 20,
+        "text": "From “Augur Is Testing Its Past and Building Its Future”, 21 July 2026.",
+        "fontSize": 13,
+        "lineHeight": {
+          "unit": "PIXELS",
+          "value": 20
+        }
+      }
+    ]
+  }
+]

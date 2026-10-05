@@ -1,0 +1,7 @@
+---
+import {faqEntries} from '../../data/faq';
+import FaqItem from '../content/FaqItem.astro';
+const entries=faqEntries.filter(entry=>entry.homepage);
+---
+<section class="home-faq section" aria-labelledby="faq-heading"><div class="container"><h2 id="faq-heading">Frequently asked questions</h2><div class="faq-accordion">{entries.map((entry,i)=><FaqItem entry={entry} name="home-faq" open={i===0}/>)}</div></div></section>
+<style>.home-faq{background:var(--web-band);padding-block:72px 96px}.home-faq h2{margin:0 0 32px}.faq-accordion{border:1px solid var(--web-outline);background:var(--web-quiet)}.faq-accordion :global(.faq-item+.faq-item){border-top:1px solid var(--web-outline)}.faq-accordion :global(.faq-answer){max-width:628px;padding-right:56px}.faq-accordion :global(summary){font-size:18px;line-height:26px}.faq-accordion :global(details[open]>summary){padding-bottom:12px}.faq-accordion :global(.faq-answer){padding-bottom:12px}.faq-accordion :global(.faq-answer p){color:var(--foreground);opacity:.86}.faq-accordion :global(.faq-answer a){margin-top:8px}@media(max-width:767px){.home-faq{padding-block:64px}.faq-accordion :global(.faq-answer){padding-right:16px}.faq-accordion :global(summary){font-size:16px;line-height:24px}}</style>

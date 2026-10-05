@@ -1,0 +1,36 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/pages/PageHero.astro';
+import { history } from '../data/history';
+import { links } from '../data/links';
+const principles = [
+ ['Open source','All work is open source. The code for Augur Lituus and Zoltar is public on GitHub.'],
+ ['Research in public','Designs are published as papers and discussed in the open before they’re built.'],
+ ['Clear about status','We keep what’s designed, what’s being built and what’s live apart, and date every update.'],
+];
+const organizations = [
+ ['Lituus Foundation','Restarted Augur in March 2025. Funds and coordinates the work, and reviews it against the whitepaper.',links.foundation.url,'lituus.foundation'],
+ ['ChainSafe','Engineering Augur Lituus, with work reviewed by the Lituus Foundation against the whitepaper.',links.chainSafe.url,'ChainSafe'],
+ ['Dark Florist','Building Augur Stratoblast and Statoblast Trading on Zoltar, with Foundation backing.',links.darkFlorist.url,'GitHub'],
+];
+---
+<PageLayout title="About Augur" description="The origins of Augur, the organizations involved, and the work toward open infrastructure for real-world answers.">
+ <PageHero title="About Augur" lead="Augur began as a decentralized prediction market on Ethereum in 2018. Today it’s building Augur Lituus, the next generation of its oracle, so any app can get real-world answers no one controls." />
+ <section class="section container ruled">
+  <div class="section-heading"><h2>What we’re working toward</h2><p class="lead">Apps increasingly depend on facts from outside the blockchain. Those answers should come from an open process anyone can join and check, not from a company, a committee or a multisig.</p></div>
+  <div class="principles">{principles.map(([title,body])=><div><h3>{title}</h3><p>{body}</p></div>)}</div>
+ </section>
+ <section class="section container ruled">
+  <div class="section-heading"><h2>Who’s involved</h2><p class="lead">Augur is an open project. These organizations fund, build and review the current work.</p></div>
+  <div class="organizations">{organizations.map(([name,body,href,label])=><article class="tile"><h3>{name}</h3><p>{body}</p><a class="button text" href={href}>{label} <span aria-hidden="true">↗</span></a></article>)}</div>
+ </section>
+ <section class="section container ruled">
+  <div class="section-heading"><h2>A short history</h2><p class="lead">From prediction markets to open infrastructure for real-world answers.</p></div>
+  <dl class="history">{history.map(item=><div><dt class:list={[{current:item.date==='Now'}]}>{item.date}</dt><dd>{item.text}</dd></div>)}</dl>
+  <a class="button outline" href="/blog/">Read the full story on the blog</a>
+ </section>
+ <section class="section container"><div class="explore tile"><h2 class="heading-2">Three products, one goal</h2><p>Augur Lituus, Zoltar and Augur Stratoblast: what each one does and how they fit together.</p><div class="actions"><a class="button primary" href="/products/">See the products</a><a class="button outline" href="/contact/">Talk to us</a></div></div></section>
+</PageLayout>
+<style>
+ .ruled{border-top:1px solid var(--border-quiet);padding-top:72px}.ruled .section-heading{margin-bottom:48px}.principles,.organizations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}.principles h3::before{content:'';display:inline-block;width:7px;height:7px;background:var(--primary);margin-right:12px;vertical-align:middle}.principles{border-top:1px solid var(--border-quiet);gap:80px}.principles>div{position:relative;padding-top:40px}.principles>div+div::before{content:"";position:absolute;left:-40px;top:0;bottom:0;width:1px;background:var(--border-quiet)}.principles p,.organizations p{margin-top:14px;font-size:17px;line-height:26px;color:var(--muted-foreground)}.organizations{gap:24px}.organizations article{background:var(--web-quiet);border:1px solid var(--web-outline);display:flex;flex-direction:column;min-height:300px;padding:32px}.organizations article a{margin-top:auto;align-self:start}.history{margin:0 0 40px}.history>div{display:grid;grid-template-columns:500fr 668fr;gap:80px;padding:24px 0;border-top:1px solid var(--border-quiet)}.history dt{font:600 20px/28px var(--font-heading);display:flex;align-items:center;gap:10px}.history dt::before{content:'';width:7px;height:7px;background:var(--muted-foreground)}.history dt.current::before{background:var(--primary)}.history dd{margin:0;font-size:18px;line-height:28px;color:var(--muted-foreground)}.explore{padding:48px;background:var(--web-quiet);border:1px solid var(--web-outline)}.explore p{font-size:20px;line-height:30px;max-width:760px;color:var(--muted-foreground);margin:24px 0}.actions{display:flex;flex-wrap:wrap;gap:16px}@media(max-width:1023px){.principles,.organizations{grid-template-columns:1fr;gap:32px}.principles>div+div::before{display:none}.organizations article{min-height:220px}.history>div{grid-template-columns:180px 1fr;gap:32px}}@media(max-width:600px){.history>div{grid-template-columns:1fr;gap:12px}.explore{padding:24px}}
+</style>

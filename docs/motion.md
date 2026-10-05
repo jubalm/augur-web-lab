@@ -1,146 +1,83 @@
-# Homepage redesign arrival and scroll — September 21, 2026
+# Website motion
 
-The requested richer motion applies to `/lab/homepage-redesign/`. The hero now
-arrives in a finite sequence: three headline beats, definition and actions, then
-the question sheet, answer choices and assembling REP stack. A single downward
-cue closes the sequence at about two seconds. An inline opt-in runs before the
-hero is painted; default styles remain fully visible. Focus, pointerdown, a key
-inside the hero, leaving view, reduced motion, hiding the document and pagehide
-settle the entrance immediately. Refresh replays it; cached history does not.
+Implementation timings live in `src/motion/timelines.ts`, derived from Figma `121:152`, `250:717`, the component state frames and the owner brief. Production scenes play once; prototype loops are not copied. Browser frame captures and any differences belong in `decisions.md`.
 
-`product-page.ts` gives headings, control strips, application output, roadmap
-panels, article images/copy, FAQ rows and footer columns their own entrances.
-Groups stagger by 110ms (capped at 330ms), with 850ms text/panel, 950ms heading and
-1050ms image motion. Images settle from a small scale/offset without cropping their
-artwork. Only opacity and transforms animate. Each region plays once; there is no
-idle loop or scroll interception. Focus and pointer interaction settle the relevant
-region immediately. Pending page and roadmap regions resume after cached history
-navigation, without replaying regions already seen.
+## Shared policy
 
-The sticky mechanism and native application transitions retain their existing
-controllers. The new effects do not transform the sticky container or its active
-scenes. Reduced motion and disabled JavaScript keep the static reading path.
-This is website-local motion; copy, identity, pinned foundations and dependencies
-are unchanged. Verification is recorded in `docs/verification.md`.
+`play-once.ts` starts a scene when it enters the viewport and cleans up after completion/pagehide. Interaction settles the region; reduced motion cancels it to the static end state. Content and art are fully visible before enhancement and remain settled with JavaScript disabled or in print. Only transform, opacity and SVG stroke draws animate. The picker may change layout only as an intentional interaction with an instant fallback. No scroll hijacking or information gated by animation.
 
-# Planned animation placeholders — September 19, 2026
+Entrance scenes use the shared play-once controller. Development-only `?motion=slow` multiplies timings by five; `?motion=replay` assists comparison. Production ignores those flags.
 
-Three static frames on `/` mark the spot animations still to be designed: the three Possible applications examples. The three Why + how cards (Resolve any question, Question every answer, Bribery-resistant by design) also have planned animations, briefed in `WhyHow.astro`, but since the September 19 design review they show no stage until one is built. The Why + how cards form one outlined strip, which reveals as a single piece rather than card by card. Each frame states in one line what its animation should show; the briefs live in the component source. When an animation is built, replace the whole `AnimationPlaceholder`. Keep the finished piece decorative, because the neighbouring copy carries the meaning. Following the rules below and in `AGENTS.md`, it should be finite rather than an idle loop and static with reduced motion or without JavaScript.
-
-The Possible applications tabs have their own small motion: the outgoing panel fades in 160ms, the new one rises 8px and fades in over 320ms, and the green underline slides to the chosen tab over 320ms where anchor positioning is supported. All of it is CSS and switches instantly with reduced motion.
-
-# Scroll motion system — September 19, 2026
-
-The user asked for motion while scrolling and within the page to be established now, so later work can focus on copy, wording and structure. Website pages load `src/styles/motion.css`, a CSS-only vocabulary applied with attributes:
-
-| Attribute | Effect |
+| Shared token | Value |
 | --- | --- |
-| `data-reveal` | Fade and rise 20px as the element enters the viewport |
-| `data-reveal="fade"` | Fade only, for large visuals |
-| `data-reveal="draw"` | Draw from the inline start, for lines and rules |
-| `data-reveal="pop"` | Scale up from a point, for small marks |
-| `data-reveal-children` | Reveal each direct child in turn: columns, lists, cards |
-| `--reveal-order`, `--reveal-step`, `--reveal-length` | Optional custom properties: delay by whole steps (48px each by default), or change the scroll distance |
+| Reveal | cubic-bezier(.22,.61,.36,1) |
+| Hero | cubic-bezier(.22,.7,.22,1) |
+| Draw | cubic-bezier(.45,0,.2,1) |
+| Crossfade | cubic-bezier(.45,0,.55,1) |
+| Newcomer overshoot only | cubic-bezier(.45,1.45,.8,1) |
+| Hover/press | 180 ms |
+| Fade out / tab panel / long panel | 160 / 320 / 850 ms |
+| Timed stagger | 110 ms |
 
-Native scroll-driven animations (`animation-timeline: view()`) tie progress to each element’s entry into the viewport. An element settles over 120–240px of scrolling, depending on its height. Staggered children start 48px apart. Because progress follows scroll position, anchors, find-in-page, restored scroll and the end of the page always show the correct state; there is no script, observer or hidden state to clean up. Following the modern-web-guidance recommendation for decorative effects, unsupported browsers get no fallback: Firefox, reduced motion and print show the static, fully visible page.
+## Hero arrival
 
-`HomeSection.astro` applies `data-reveal-children` to every section heading, so new sections built with it animate automatically. Lists and columns opt in with one attribute; new children in those lists inherit the stagger. Current stage draws its timeline one segment at a time (100px of scroll each), pops each status marker as its segment starts and then reveals its text. Disclosures inside `main` (FAQ answers, Why + how notes and question criteria) open and close over 320ms with `interpolate-size` and `::details-content`; unsupported browsers open instantly. Header menus keep their own panels.
+Inline opt-in precedes paint. Interaction, reduced-motion changes, hidden page and pagehide settle it; bfcache restoration does not replay arrival. The art is exact extracted SVG geometry with per-square source offsets.
 
-Why + how now uses the same vocabulary. Its scripted 240ms reading reveal in `resolution-explainer.ts` is removed; the example controls and their own finite scene transitions are unchanged. The hero arrival and Signal Loom are unchanged.
+| Element | Start → end, ms | Treatment |
+| --- | --- | --- |
+| Headline line 1 | 0 → 700 | Opacity + 16 px rise |
+| Line 2 | 100 → 800 | Same |
+| Line 3 | 200 → 900 | Same |
+| Support | 400 → 900 | Opacity + 8 px rise |
+| Actions | 650 → 950 | Opacity, disabled while fully transparent |
+| Underline draw | 750 → 1320 | scaleX from left |
+| Underline fade | 1800 → 2250 | Opacity to zero |
+| Heritage field | 500 → 2100 | Opacity |
+| Rings 7, 6, 5, 4, 3, 2, 1 | 0, 100, 200, 300, 400, 500, 600 | Each square moves 1200 ms; fades from .2 over 800 ms |
+| Orbit | 1100 → 1700 | Opacity |
+| Empty centre | 1750 → 2300 | Appears last |
 
-When editing copy or structure, keep the attributes on the containers. Only transform and opacity animate, so text changes cannot cause layout shifts. Individual timings are one-line changes in `motion.css`. Avoid attaching reveals to elements taller than the viewport or to the final rows of a page; the footer uses a 24px step so its directory is fully revealed at the bottom.
+Pointer glow is limited to fine pointers and a 200 px radius, rAF-throttled; 120 ms in / 450 ms out. It resets on leave, scroll and resize, and is disabled for reduced motion, hidden document or off-screen hero. Only a subset of twelve heritage squares twinkles on varied 2.6–5.4 s opacity cycles. This is the sole ongoing ambient treatment and must be measured; off-screen/hidden pauses and reduced-motion cancellation apply.
 
-# Homepage restoration and underline — September 14, 2026
+## Who decides
 
-Signal Loom is restored on `/` using the retained `HeroLoom` component and controller, with the prior 27% / -1% desktop placement, tonal backdrop and masked artwork edges. Its visible continuous motion remains the explicitly requested exception described below. No scene or foundation changes are included.
+One scene runs to 6200 ms and rests on the canonical diagrams. Answer text fades at 50–550 and rises 18 px at 50–600.
 
-The existing headline/support/action arrival now includes a 1200ms artwork fade starting at 300ms. A primary-color underline beneath “decentralized” starts at 750ms, draws from left to right, holds briefly, and fades, finishing at 2250ms. Its pseudo-element uses only opacity/transform and does not alter text layout. That final animation settles the sequence; a 3000ms fallback timer cleans up if the event is missed. Focus, pointerdown, keyboard input, page hiding, pagehide or a motion-preference change settle immediately. Fresh navigation and refresh replay; history-cache restoration stays settled. Without JavaScript or with reduced motion, text and static artwork are present and the transient underline is absent. This supersedes the empty-artwork note and earlier entrance cleanup timings below.
+| Cross anywhere element | Timing, ms |
+| --- | --- |
+| Dotted edge | 400 → 750 |
+| Twelve participants | Start 450, 40 apart, 320 duration |
+| Top / right / bottom / newcomer | 950 → 1450 / 1150 → 1650 / 1350 → 1850 / 1550 → 2050 |
+| Crossing displacement | -30 y / +48 x / +30 y / -48 x |
+| Trail far / near starts | 1070 / 1150; 1270 / 1350; 1470 / 1550; 1670 / 1750 |
+| Trail fade | 150; far 4 px rests .30, near 8 px rests .55 |
 
-# Common Aperture removed — September 13, 2026
+Peer mesh: twelve squares pop at 450–1320; sixteen links draw at 750–1600 and rest at .45 opacity. Highlight order is 8→4→5→10→6→3→7, beginning 1750 with roughly 550 ms hops. Each square fades in 350, holds 200, fades out 400; final highlight ends about 6100. Square glow is Green 60%, 18 px with 2 px spread; lit link is 2 px, 6 px glow at 90%. The end state has no lit participant. There is no moving particle along the links.
 
-The user rejected Common Aperture and requested its deletion. Its homepage artwork, lab study, component, geometry, renderer and controller are removed. The homepage retains its header, copy, actions and text arrival with an empty artwork area. Signal Loom remains available only in the lab; Animation 02 is a placeholder again. This supersedes earlier homepage animation notes below.
+No authority: participants at 450–970, result outline at 700–1020, lines at 800–1330, dotted gaps at 1050–1470. Lane signals cross 268 px at 1400–2300, 1550–2450 and 1700–2600, fading away. The result turns Green at 2550–2850.
 
-# Motion experiments
+## Stateful illustrations
 
-## Animation 02 reset — September 13, 2026
+| Region | Timing and behaviour |
+| --- | --- |
+| Applications | Cards/connectors use a 320 ms FLIP transform after one grid layout change; labels counter-scale and outgoing text retains its width. Panel out 160, in 320 with 8 px rise; active connector turns Green. Signal fades 100, travels 60 px over 800; backstop brightens over 250 on arrival. One selected tab, default Prediction markets. |
+| Walkthrough | Active step colour 180; description/status/outcome/ledger update 320. All states reserve equal height. A challenge replaces the tentative answer and restarts appeal. |
+| Bond entrance | Bars at 300–900, 500–1100, 700–1300, 900–1500; displacements 16,32,64,128. Baseline clips the rising bars; first 150 of each fades. |
+| Bond selection | Later bars fade 160, new latest rises 320 and becomes Green. Four is the initial resting selection. |
+| REP equation | Row stagger 110. Stake 0–320; arrow 240–560; return 460–980; plus 700–880; win 850–1170. Risk replaces its stake with the dashed outline. |
+| Roadmap | Track draws to Now over 1000, future dashes fade, stops pop sequentially 110 apart over 320. Panel out160/in320; evidence scaleX 850. Manual tab activation. |
+| FAQ | Native details; 320 via details-content/interpolate-size where supported, instant fallback. Answer line stagger50; vertical plus stroke rotates out. |
+| Header | Disclosure in180 with 4 px rise, out160, chevron rotation; Escape restores focus. No ARIA menu role. |
+| Blog art/footer field | Static SVG; blog covers fade once over 850 ms, footer field uses its one reveal. |
 
-The user rejected Independent Paths, Overlapping Layers, and the subsequently approved Forking Labyrinth prototype. All three experiments' components/controllers and the maze geometry are removed; Animation 02 is an empty placeholder again. Signal Loom remains the current homepage and lab animation. The user requested a detailed creative brief for another model before exploring further implementations. A new direction must feel meaningful, move autonomously while visible, and respond additionally to interaction. Information aggregation, uncertainty, probability, resolution and branching remain conceptual material; a maze is no longer the selected direction. See `docs/hero-animation-creative-brief.md`.
+Controls transition for 180 ms without moving their geometry. Loading spinner exists only while actually loading. Print and forced-colors treatments retain readable relationships; reduced motion uses instant state changes.
 
-## Homepage integration — September 13, 2026
+Canonical Cross anywhere geometry has twelve base participants, while the brief text says eleven. The implementation preserves the extracted canonical geometry; this is a documented source discrepancy.
 
-The first-viewport experiment on `/` uses an interactive version of Signal Loom, concentrated beside the headline and support with a quiet transition into the copy area. It shares the established strand geometry; the full study remains in `/lab`. The retained September 13 art-direction pass adds a static tonal background and enlarges the artwork while bringing its focal end inside the viewport. The desktop placement now starts at 27% and ends at -1%, superseding the earlier -8% offset below. The mask applies only to canvas/SVG; keyboard focus uses a separate visible inset cue.
+FAQ child staggering applies to the answer paragraph and optional link, rather than splitting responsive wrapped lines into artificial spans. Peer-mesh CSS drop-shadows approximate the source's 2 px spread. Development replay restarts visible entrance scenes, pauses off-screen or while hidden, and stops on interaction. Development slow multiplies entrance, tab/picker/walkthrough/bond/roadmap and FAQ timings by five; production ignores both flags. The brief's canonical FAQ 3 has only “Follow the build”, so an extra “Talk to us” link in an older state variant is omitted.
 
-The revised introduction uses finite CSS animations, enabled by `hero-arrival.js` inlined before the hero content. This replaces the previous subtle Web Animations treatment and avoids a visible-then-hidden first-paint flash. Three headline lines reveal from opacity zero and a 16px offset over 700ms, staggered by 100ms. Supporting copy follows at 400ms, settling 8px over 500ms. The loom fades in from 300ms over 1200ms, reaching its existing moving state at 1500ms. The slower, less front-loaded easing gives each stage time to register. Its underlying opacity is preserved. Header and background remain steady.
+Measured evidence is in `artifacts/qa/motion/hero-results.json` and `artifacts/qa/motion/home/`. Hero arrival is settled at 2300 ms. Twelve twinkle marks cost 4.045 ms of main-thread work over a settled five-second sample, with no measured script, style or layout work. This idle result does not erase startup long tasks: final Lighthouse reports retain the separate failed 50 ms limit. Hidden-page pause/resume of diagrams was exercised using a synthetic visibility event; print and mid-transition reduced-motion changes settle the selected state synchronously.
 
-Both action links fade together in their final positions from 650–950ms. Pointer hit testing is suppressed only during the fully transparent delay, then enabled as the fade starts. Focus, pointerdown or a key inside the hero immediately finish the introduction without preventing native navigation. Pointer movement alone does not cancel it. Reduced motion, page hiding and pagehide also settle immediately. The final artwork animation releases all listeners and the one 1800ms cleanup timer; the timer handles missing animation-end events. Backwards fill returns each element to its visible base styles independently of script cleanup, and history-cache restoration does not replay. With JavaScript disabled or reduced motion, the hero is fully visible and static from the outset. No dependency, layout animation or extra frame loop is introduced.
+Controls and debug verification: `scripts/inspect-controls-debug.mjs` checks the rendered contact action plus all four pinned button styles in six states, loading rotation, reduced motion, visible replay, interaction cancellation, ×5 transitions and production flag exclusion. Reports and state screenshots are in `artifacts/qa/controls-debug/`. Website overrides fix state specificity locally; pinned component source remains unchanged.
 
-The hero starts live and moves continuously while visible. Alignment is steady along the path, so observations converge toward a stable focal end without alternating between focus and defocus. Independent settling waves travel downstream and diminish as the paths mature, retaining small differences at the focus. Continuous particle travel and slow drift remain; the scene has no gathering front, hold, release envelope or reset; the separate page entrance only settles the composition. Homepage maximum alignment is .96 and interaction strength is .75. Hover bends; clicks temporarily vary individual paths and shift the shared result according to click position. Dragging retains a limited tilt (yaw ±.35 radians, pitch ±.28 around the initial view), with smooth follow-through and no automatic rotation or visible hero controls. The four arrow keys provide the same bounded exploration. Escape pauses persistently and clears the trace; fresh pointer or supported keyboard input resumes. Theme, resize and visibility changes do not clear that explicit pause. There is no visible playback toolbar.
-
-Twenty-one of the 168 strands now carry green accents: lanes 0, 8 and 16 in each family, drawn after the neutral strands to retain their color at crossings. The selected alpha contribution is .28 and baseline accent is .30, with the stronger dark-theme mix retained. Hover adds a slight green highlight; click disturbance can dim it by at most 30%. Both SVG fallbacks draw these accent strands last at 1 px stroke width and .70 opacity, with the same focal taper. The desktop artwork retains its -8% right offset to expose the focal end. These are refinements of the woven metaphor; the small disorder is illustrative and does not simulate actual decisions.
-
-Hidden/offscreen work suspends rendering; reduced motion presents a static pattern, and the build-time SVG preserves the artwork without JavaScript or WebGL. The user's explicit request for natural constant motion authorizes this visible continuous loop as an exception to the earlier finite-motion/no-idle-loop preference. Text and source links are independent of the scene. This remains an illustrative composition proposal, with no live data or measured UX result implied; its placement is website-local and does not change the identity rules or pinned foundations.
-
-## Experiment principles
-
-Start with a question about hierarchy, identity, or state. Keep animation isolated in the experiment, finite, and optional unless the user explicitly requests continuous motion, as with the current Signal Loom. Use native CSS/Web Animations before adding GSAP. Add Three.js only when an actual 3D experiment requires it.
-
-## Lab animation choices — September 13, 2026
-
-The `/lab#motion` section offers three selectable studies: **01 Signal Loom**, **02 Animation 02** and **03 Animation 03**. Signal Loom is selected by default and retains its existing explanation. The other two are explicitly labeled placeholders with empty preview areas; no second or third animation is implemented yet. This selection previews lab studies only.
-
-At the user's request, the original lab animation and toolbar were removed. `SignalLoomStudy.astro` now renders the same `HeroLoom.astro` component and `hero-loom.ts` controller used by the homepage, including maximum alignment .96, interaction strength .75, opacity, static fallback, pointer/drag behavior and Escape-to-pause/clear. Its local preview frame carries the homepage's tonal background and edge fade. The obsolete `FocusField.astro` and `focus-field.ts` were deleted; the shared scene, geometry, memory and camera modules remain in use. The homepage component, controller and page were not changed.
-
-`AnimationShowcase.astro` uses native radio controls and CSS to show one study at a time, including without JavaScript. Native arrow-key selection, visible keyboard focus and the existing semantic colors/control styles carry through. Hidden Signal Loom has no visible dimensions, so its visibility check stops rendering; returning to it resumes only when motion preferences and its pause state allow. The homepage continues to use its existing Signal Loom.
-
-## Signal Loom — September 13, 2026
-
-Signal Loom is the user's approved open-weave alternative to the earlier globe. Its refined metaphor is independent perspectives carrying observations: each line is a persistent information stream and moving points are observations arriving along it. Horizontal position describes arriving inputs becoming more interpretable relationships; vertical separation indicates difference around a curved shared contour, without a truth ranking. The on-page rationale stays at three short sentences. This is illustrative geometry, not a data-processing or consensus claim.
-
-Seven families of 24 strands retain the woven composition. Both home and lab use steady spatial alignment: maturity rises from path position .05 to .84, scaled by each strand's resistance. From .5 to .86, a focal taper reduces shared band, lane and depth separation to 14% of their former spread. The same taper is applied to static geometry. Continuous observation travel remains at `.028 + aThread.z * .01` normalized path units per second, with slow bounded drift and seeded variation. The 22-second parameter sets that variation's timescale, without a focus/defocus cycle. Fourteen strands retain substantial separation across all seven families; seven additional tentative strands retain smaller differences. The other 147 gather closely. These roles are distinct from the twenty-one accent strands.
-
-Independent settling waves now travel downstream with periods of roughly 9–12 seconds, set by each strand's seed. Their amplitude falls with maturity, leaving `.012 + .035 * resistance` model units of residual uncertainty at the focal end. Depth motion uses 55% of that amplitude. Twenty-eight strands also take more pronounced rounded detours between path positions .25 and .94, with smaller deviations on the rest. Their independent 17–23-second variation opens and closes those detours without unraveling the shared result. The SVG retains the resting detour geometry. Static/reduced-motion rendering suppresses temporal variation and travelling waves. The motion remains deterministic illustrative geometry, with no fresh per-frame randomness or evidence evaluation.
-
-Hover bending retains 70% less displacement at the focal end and a slight green highlight on selected strands. A click keeps the broad local response: a .75-second attack, exponential decay at .4 per second and at most 8% local alignment reduction. At the result, it combines position-specific variation for individual strands at scale .18 with shared drift at scale .10. Each summed component is clamped to ±1 before scaling, focal weighting and interaction strength, giving a combined bound of ±.21 model units per component on the homepage. Arrival delay uses a .15 factor on the remaining horizontal distance from the click to the focal end; the existing .8-second attack and .22-per-second decay remain. Static/reduced-motion rendering suppresses both result offsets. Three independently aging responses can overlap. Drag tilt remains limited; all four arrows and Enter/Space provide keyboard equivalents. Hover distance and displacement use the visible camera plane. Nearby strands add a small independent flutter, reduced by half at the focus. Its scale is `.018 + .035 * reconsideration` before influence and interaction strength. Dragging suppresses hover deformation and trace-writing until release.
-
-Pointer movement and clicks also write a small session-local spatial memory. `focus-field-memory.ts` stores a 16-column, 7-row field of Y/Z offsets, now with a wider .8-unit local influence and a broader downstream tail. Smooth interpolation between columns keeps the path changes rounded. Click strength is .55 and pointer trace strength is .1. Values approach their target over roughly two seconds; the target decays with a 65-second active-time constant. Exact exponential integration makes recovery consistent across frame rates. Each component remains bounded at ±0.2 model units. Clear trace removes accumulated offsets; the homepage's Escape action also clears transient input. Nothing is persisted, learned, or transmitted.
-
-When clicks reuse one of the three response slots, its outgoing contribution fades smoothly over .4 seconds before the next soft attack. Further clicks update the pending location without restarting that fade; every click still contributes to spatial memory. Static mode and clearing transient input cancel pending responses.
-
-Three.js 0.186.0 remains the renderer; a small local damped camera helper replaces OrbitControls. It uses the existing animation clock and adds no frame loop. One indexed line geometry and a small point geometry evaluate the weave in custom GLSL; buffers are uploaded once, while a bounded uniform grid carries memory. There are still 168 strands, 240 segments per strand, and 504 moving observations. Adjacent segments share endpoints: 40,488 unique line vertices replace 80,640 duplicated vertices. The 80,640 indices fit in a Uint16 buffer, preserving primitive order and drawing green strands last. Zero-weight interaction slots skip their shader calculations; old responses retire after 60 active seconds, when their remaining displacement is subpixel. Combined geometry buffers use 1,800,960 bytes instead of 3,245,760, a 44.51% reduction. This is a buffer measurement, not a measured frame-rate gain. Pixel ratio remains capped at 2; no postprocessing, new dependency, per-frame geometry rebuild or additional draw object is introduced. The scene remains a near-viewport dynamic import with no React hydration. GPU resources and listeners/observers are disposed on page exit, with history-cache restoration supported.
-
-Pausing, leaving the viewport, or hiding the page suspends both the animation clock and memory decay. Scroll/focus/pointer/resize events refresh viewport visibility without an idle measurement loop; repeated offscreen events do not redraw. Reduced motion shows an imperfect shared pattern statically and suppresses transient input and stored offsets; re-enabling motion can restore the stored trace. The 168-path build-time SVG also retains unresolved strands. JavaScript-disabled, missing-WebGL/module/shader, and context-loss paths retain that fallback.
-
-Existing foreground/background/primary roles, typography, and buttons remain in use. Brand Foundation PDF p.25 informs the focus, hairlines, and whitespace. The motion-design skill informed continuous path motion, bounded variation, and asymmetric contact/recovery timing. Source originals, logo assets and pinned foundations remain unchanged.
-
-## Retired logo study
-
-The prior assembly component and script are retained as an isolated, unmounted study.
-
-The supplied Augur glyph has two existing paths. `LogoAssembly.astro` reads the two local public SVG variants **at build time**, inlines their unmodified markup, and selects the correct original variant for the theme. There is no filesystem read in browser code or server requirement in the static output.
-
-`src/motion/logo-assembly.ts` translates the two original parts vertically by 18 SVG pixels and fades them into their original positions. Duration: 700 ms with a 100 ms offset. No rotations, geometry changes, recoloring, filters, or continuous effects. It runs once on load and only replays on demand.
-
-- The original, assembled markup is the default with JavaScript disabled or Web Animations unavailable.
-- `prefers-reduced-motion: reduce` skips animation. A preference change cancels active work and exposes the static state immediately.
-- “Preview reduced motion” uses the same static path for review; it cannot override a device preference that already requires reduced motion.
-- Replay cancels earlier work safely. A run counter prevents old completion callbacks from altering the latest state.
-- Page hiding cancels work. Page exit removes listeners. There is no idle `requestAnimationFrame`, timer loop, layout measurement, or resize handler; SVG sizing is responsive CSS.
-- Navigation and controls remain available during the animation. The animated artwork is decorative to interaction, with a single accessible description.
-
-This transient treatment is a user-requested **lab proposal**, not a change to the canonical identity usage rules. The resting mark exactly matches the supplied paths/fills. Obtain approval before using the motion as site-wide brand behavior.
-
-## Future studies
-
-**Retained: More life in the first viewport.** The static tonal background, larger loom placement and finite arrival sequence are implemented above. The user requested keeping this pass. Further visual work is open-ended; no measured UX outcome is claimed.
-
-Keep scroll experiments on native scrolling and transform/opacity where possible. Maintain readable text independently of the animation. Stop rendering when work is paused/offscreen, and avoid idle loops outside an explicitly requested continuous-motion study. Clean up listeners, observers, animation handles, and WebGL resources. Never couple a decorative scene to every page.
-
-The global reduced-motion gate is the unchanged Augur registry rule. JavaScript-driven animations also need explicit media-query handling, as the CSS duration gate cannot stop Web Animations on its own.
-
-## Standalone website and control previews
-
-`src/motion/website.ts` supplies finite 800ms text entrances, a 1600ms Earth entrance, and one-time 700ms intersection reveals. Active Web Animations are canceled when the page hides or reduced-motion preference changes. The observer disconnects on page exit. Resolution tabs use a cancelable 300ms transition and support Left/Right/Home/End; no automatic progression is implied.
-
-Native anchor scrolling is smooth unless the OS requests reduced motion. The lab's ring loading preview run only during an explicit two-second preview, then stop. Page exit clears its timer. Skeleton geometry remains static. CSS reduced-motion rules suppress loading motion. None of these interactions introduces a new animation dependency or ongoing idle rendering.
-
-The Resources disclosure uses a finite 180ms entrance, cancelled on preference changes and page exit. Native FAQ disclosures use a short opacity/translation entrance. CSS disables these effects under reduced motion. No hover-open delays or idle motion were added.
+Final picker verification is in `artifacts/qa/application-flip/`: FLIP keyframes at 0/80/160/320ms; outgoing-panel width preservation; both selection directions at 1440/1280/1024/768/390/360px checked during the fade; rapid retargeting; reduced-motion, print, pagehide and resize settlement; instant no-WAAPI fallback. Card descendants are clipped locally during counter-scaling, preserving the tab’s external focus outline and avoiding transient page overflow. The updated debug report checks 1600ms FLIP under slow mode and confirms that grid columns have no CSS transition.

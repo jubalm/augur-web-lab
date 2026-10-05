@@ -1,28 +1,25 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-import { cp } from 'node:fs/promises';
-
-const labOnly = process.env.AUGUR_LAB_ONLY === '1';
-
 export default defineConfig({
-  output: 'static',
-  ...(labOnly ? {
-    srcDir: './src/lab-deploy',
-    outDir: './dist-lab',
-    // No automatic copy of the website's public directory.
-    publicDir: './src/lab-deploy/public',
-  } : {}),
-  vite: { define: { 'import.meta.env.PUBLIC_LAB_ONLY': JSON.stringify(labOnly ? '1' : '0') } },
-  integrations: [react(), ...(labOnly ? [{
-    name: 'lab-public-assets',
-    hooks: {
-      'astro:build:done': async ({ dir }) => {
-        // Explicit allowlist: homepage imagery and future public files stay private.
-        for (const folder of ['brand', 'licenses']) {
-          await cp(new URL(`./public/${folder}`, import.meta.url), new URL(`${folder}/`, dir), { recursive: true });
-        }
-      },
-    },
-  }] : [])],
+  site: 'https://www.augur.net', output: 'static', trailingSlash: 'always',
+  build: { inlineStylesheets: 'always' },
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  integrations: [react()],
+  markdown: { syntaxHighlight: false },
+  security: { csp: {
+    directives: ["default-src 'self'", "img-src 'self' data:", "font-src 'self'", "connect-src 'self'", "object-src 'none'", "base-uri 'self'"],
+    styleDirective: { resources: [
+      { resource: "'self'", kind: 'element' },
+      { resource: "'unsafe-inline'", kind: 'attribute' },
+    ] },
+  } },
+  vite: { css: { postcss: { plugins: [{
+    postcssPlugin: 'augur-latin-woff2',
+    AtRule: { 'font-face': rule => {
+      const range = rule.nodes?.find(node => node.prop === 'unicode-range');
+      if (range && !range.value.includes('U+0000-00FF')) { rule.remove(); return; }
+      rule.walkDecls('src', decl => { decl.value = decl.value.split(',').filter(source => source.includes('woff2')).join(','); });
+    } },
+  }] } } },
   devToolbar: { enabled: false },
 });

@@ -1,0 +1,134 @@
+[
+  {
+    "route": "/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 475.4849999999999,
+    "cls": 0.008240396121883656,
+    "longTasks": [
+      52
+    ],
+    "report": "artifacts/qa/lighthouse-final/--desktop.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/",
+    "device": "mobile",
+    "scores": {
+      "performance": 99.0,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1771.515,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      195,
+      123,
+      105,
+      51
+    ],
+    "report": "artifacts/qa/lighthouse-final/--mobile.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/blog/why-disagreement-makes-an-oracle-stronger/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 362.7025,
+    "cls": 0.0004015186211141889,
+    "longTasks": [],
+    "report": "artifacts/qa/lighthouse-final/-blog-why-disagreement-makes-an-oracle-stronger--desktop.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": true
+    }
+  },
+  {
+    "route": "/blog/why-disagreement-makes-an-oracle-stronger/",
+    "device": "mobile",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1427.41,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      132
+    ],
+    "report": "artifacts/qa/lighthouse-final/-blog-why-disagreement-makes-an-oracle-stronger--mobile.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  },
+  {
+    "route": "/learn/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 322.73,
+    "cls": 0.0004015186211141889,
+    "longTasks": [],
+    "report": "artifacts/qa/lighthouse-final/-learn--desktop.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": true
+    }
+  },
+  {
+    "route": "/learn/",
+    "device": "mobile",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1203.234,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      146,
+      50
+    ],
+    "report": "artifacts/qa/lighthouse-final/-learn--mobile.json",
+    "budgets": {
+      "scores": true,
+      "lcp": true,
+      "cls": true,
+      "longTasks": false
+    }
+  }
+]

@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCover from './BlogCover.astro';
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const date = new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(post.data.publishedAt);
+---
+<article class="blog-card">
+  <a href={`/blog/${post.id}/`} aria-labelledby={`title-${post.id}`}>
+    <BlogCover variant={post.data.cover} />
+    <p class="meta">{post.data.category} · <time datetime={post.data.publishedAt.toISOString().slice(0,10)}>{date}</time></p>
+    <h3 id={`title-${post.id}`}>{post.data.title}</h3>
+    <p class="description">{post.data.description}</p>
+  </a>
+</article>
+<style>
+ a{display:block;text-decoration:none}h3{font-size:22px;line-height:30px;font-weight:600;margin:16px 0}.meta{font-size:14px;line-height:20px;color:var(--muted-foreground);margin:24px 0 0}.description{color:var(--muted-foreground);margin:0;font-size:16px;line-height:24px}a:hover h3{text-decoration:underline;text-underline-offset:5px}
+</style>

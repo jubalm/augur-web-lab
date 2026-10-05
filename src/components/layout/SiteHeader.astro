@@ -1,0 +1,50 @@
+---
+import Brand from '../primitives/Brand.astro';
+import Icon from '../primitives/Icon.astro';
+import Button from '../primitives/Button.astro';
+import {navigation,navigationGroups} from '../../data/navigation';
+const groups=[{label:'Products',items:navigation.products},{label:'Resources',items:navigation.resources},{label:'Community',items:navigation.community}];
+---
+<header class="site-header" data-site-header>
+  <div class="container header-inner">
+    <a href="/" aria-label="Augur home" class="logo"><Brand /></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="/about/" class="nav-link">About</a>
+      {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure><summary aria-controls={`nav-${index}`}>{group.label}<Icon name="chevron-down" /></summary><div class="nav-panel" id={`nav-${index}`}><ul>{group.items.map(item=><li><a href={item.href}>{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div></details>)}
+    </nav>
+    <div class="header-actions"><Button href="/contact/" variant="outline">Talk to us</Button><button class="mobile-open" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open><Icon name="list" /></button></div>
+  </div>
+  <dialog id="mobile-navigation" class="mobile-navigation" aria-labelledby="mobile-nav-title">
+    <div class="mobile-top"><a href="/" aria-label="Augur home"><Brand/></a><h2 id="mobile-nav-title" class="sr-only">Navigation</h2><button type="button" aria-label="Close navigation" data-mobile-close><Icon name="x"/></button></div>
+    <nav aria-label="Mobile navigation">{navigationGroups.map(group=><div class="mobile-group"><h3>{group.label}</h3><ul>{group.items.map(item=><li><a href={item.href}>{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div>)}</nav>
+  </dialog>
+  <noscript><nav class="fallback-nav" aria-label="Navigation">{navigationGroups.flatMap(group=>group.items).map(item=><a href={item.href}>{item.label}{('external' in item && item.external)?' ↗':''}</a>)}</nav></noscript>
+</header>
+<script>import {initNavigation} from '../../motion/disclosure-nav';initNavigation();</script>
+<style>
+.site-header{height:96px;background:var(--background);border-bottom:1px solid var(--border-quiet);position:relative;z-index:20}
+.header-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.desktop-nav{display:flex;gap:32px;align-items:center;font:400 16px/24px var(--font-heading)}
+.nav-link,summary{display:flex;gap:8px;align-items:center;min-height:48px;text-decoration:none;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}summary :global(.web-icon){width:16px;height:16px;transition:transform 180ms}summary :global(svg){width:16px;height:16px}
+.nav-disclosure[open] summary :global(.web-icon){transform:rotate(180deg)}
+.nav-link:hover,summary:hover{text-decoration:underline;text-underline-offset:6px}.nav-disclosure{position:relative}
+.nav-panel{position:absolute;top:calc(100% + 12px);left:-20px;width:240px;background:var(--web-tile);border:1px solid var(--web-outline);padding:8px;animation:nav-in 180ms var(--ease-reveal)}
+@supports selector(details::details-content){
+  .nav-disclosure::details-content{opacity:0;transform:translateY(4px);transition:opacity 160ms var(--ease-reveal),transform 160ms var(--ease-reveal),content-visibility 160ms allow-discrete}
+  .nav-disclosure[open]::details-content{opacity:1;transform:none;transition-duration:180ms}
+  .nav-panel{animation:none}
+}
+ul{list-style:none;padding:0;margin:0}.nav-panel a{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;text-decoration:none;font:400 14px/20px var(--font-heading)}
+.nav-panel a:hover{background:var(--web-raised)}
+.header-actions{display:flex;gap:16px;align-items:center}.mobile-open{display:none}
+.mobile-navigation{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100svh;max-height:none;padding:24px;background:var(--background);color:var(--foreground);border:0;overflow-y:auto}
+.mobile-navigation::backdrop{background:var(--background)}.mobile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.mobile-top button,.mobile-open{width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:1px solid var(--web-outline);color:var(--foreground)}
+.mobile-navigation nav{display:grid;grid-template-columns:1fr 1fr;gap:32px 16px}.mobile-group h3{font-size:14px;line-height:20px;color:var(--muted-foreground);margin-bottom:12px}
+.mobile-group a{display:flex;gap:8px;align-items:center;min-height:44px;padding-block:10px;text-decoration:none}
+.fallback-nav{display:none}.fallback-nav a{padding:8px}
+@keyframes nav-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:1100px){.desktop-nav{gap:24px}.header-inner{gap:24px}}
+@media(max-width:1023px){.desktop-nav{display:none}.mobile-open{display:flex}.header-actions :global(.button){display:none}.fallback-nav{display:flex;flex-wrap:wrap;background:var(--web-band)}.site-header:has(.fallback-nav){height:auto;min-height:96px}.site-header:has(.fallback-nav) .header-inner{height:96px}}
+</style>

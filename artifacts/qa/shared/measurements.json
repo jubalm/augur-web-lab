@@ -1,0 +1,30 @@
+{
+  "errors": [],
+  "hero": {
+    "x": 0,
+    "y": 136,
+    "width": 1440,
+    "height": 764,
+    "top": 136,
+    "right": 1440,
+    "bottom": 900,
+    "left": 0
+  },
+  "headline": {
+    "x": 96,
+    "y": 290.515625,
+    "width": 620,
+    "height": 233.953125,
+    "top": 290.515625,
+    "right": 716,
+    "bottom": 524.46875,
+    "left": 96
+  },
+  "copy": "600 72px / 77.9998px Sora, ui-sans-serif, system-ui, sans-serif",
+  "overflow": false,
+  "fonts": [
+    "http://127.0.0.1:4322/_astro/sora-latin-600-normal.Cdg4DaK0.woff2",
+    "http://127.0.0.1:4322/_astro/schibsted-grotesk-latin-400-normal.DPhJBilQ.woff2",
+    "http://127.0.0.1:4322/_astro/sora-latin-400-normal.CRt88UEn.woff2"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "directory": "/tmp/augur-clean-verification-zp1xg8am",
+  "nodeModulesPresentBeforeInstall": false,
+  "copiedLockSha256": "50393c1d1d6c457009bba0084bea534f1e69c4f023cd899f2f98c850264944c8",
+  "sourceLockSha256": "50393c1d1d6c457009bba0084bea534f1e69c4f023cd899f2f98c850264944c8",
+  "sourceLockUnchanged": true,
+  "freshLockUnchanged": true,
+  "threePackageInstalled": false,
+  "threeTypesInstalled": false,
+  "htmlPages": 26,
+  "legacyOutputExists": false,
+  "results": {
+    "install": "417 packages installed [73.87s]",
+    "check": "",
+    "build": "17:38:09 [build] Complete!"
+  },
+  "freshHomepageMatchesWorkspace": true,
+  "allBuildOutputsMatch": true,
+  "outputFileCount": 57
+}

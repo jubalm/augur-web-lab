@@ -1,0 +1,19 @@
+{
+  "paths": "ecdbc12d91a67ebc9da3ebb181de8b52b57cfec2292d290e692d8dfefa7838ec",
+  "comparisonRects": 137,
+  "glowOpacity": "1",
+  "settled": "003a8e52ca8d079bbbc6edbb524c838a97aedddd963627d4946b8e7d5df3a1f2",
+  "rects": "21d33d4226bf4d1aeb2b0bd24a19d25347c6a31d683ff5bdc61cef7810e8520d",
+  "glowVisiblyActive": true,
+  "identicalLitPixels": false,
+  "pathCount": 2,
+  "changedLitPixels": 113,
+  "maximumChannelDifference": 19,
+  "differenceBounds": [
+    16,
+    156,
+    301,
+    280
+  ],
+  "decision": "Rejected compound paths: active glow differed at antialiased edges, and isolated startup remeasurement did not establish a long-task improvement. Original rect glow restored; unused motion-attribute removal retained."
+}

@@ -1,0 +1,13 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import AnnouncementBar from '../components/layout/AnnouncementBar.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+interface Props { title?:string; description?:string; image?:string; article?:boolean; footer?:boolean; class?:string; }
+const {footer=true,class:className,...metadata}=Astro.props;
+---
+<BaseLayout {...metadata}>
+  <AnnouncementBar /><SiteHeader />
+  <main id="main" class={className} tabindex="-1"><slot /></main>
+  {footer&&<SiteFooter />}
+</BaseLayout>

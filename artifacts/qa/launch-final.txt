@@ -1,0 +1,82 @@
+$ bun scripts/check-launch.ts
+Launch blocked by 79 items:
+- Unverified destination contact: mailto:contact@augur.net — Owner brief and Figma footer. Domain owner must confirm this inbox.
+- src/content/learn/how-the-products-fit-together.md:6: placeholder: true
+- src/content/learn/how-the-products-fit-together.md:7: needsReview: true
+- src/content/learn/how-augur-answers-a-question.md:7: needsReview: true
+- src/content/learn/writing-questions.md:6: placeholder: true
+- src/content/learn/writing-questions.md:7: needsReview: true
+- src/content/learn/disputes-bonds-and-forks.md:6: placeholder: true
+- src/content/learn/disputes-bonds-and-forks.md:7: needsReview: true
+- src/content/learn/what-rep-does.md:6: placeholder: true
+- src/content/learn/what-rep-does.md:7: needsReview: true
+- src/content/learn/when-a-question-cannot-be-answered.md:6: placeholder: true
+- src/content/learn/when-a-question-cannot-be-answered.md:7: needsReview: true
+- src/content/learn/what-is-an-oracle.md:6: placeholder: true
+- src/content/learn/what-is-an-oracle.md:7: needsReview: true
+- src/content/learn/reading-the-whitepaper.md:6: placeholder: true
+- src/content/learn/reading-the-whitepaper.md:7: needsReview: true
+- src/content/blog/building-in-public-following-the-work.md:8: placeholder: true
+- src/content/blog/building-in-public-following-the-work.md:9: needsReview: true
+- src/content/blog/writing-questions-an-oracle-can-answer.md:8: placeholder: true
+- src/content/blog/writing-questions-an-oracle-can-answer.md:9: needsReview: true
+- src/content/blog/quarterly-report-what-changed.md:8: placeholder: true
+- src/content/blog/quarterly-report-what-changed.md:9: needsReview: true
+- src/content/blog/notes-from-the-community-call.md:8: placeholder: true
+- src/content/blog/notes-from-the-community-call.md:9: needsReview: true
+- src/content/blog/why-disagreement-makes-an-oracle-stronger.md:8: placeholder: true
+- src/content/blog/why-disagreement-makes-an-oracle-stronger.md:9: needsReview: true
+- src/content/blog/what-happens-when-a-fork-begins.md:8: placeholder: true
+- src/content/blog/what-happens-when-a-fork-begins.md:9: needsReview: true
+- src/data/faq.ts:17: { id: 'invalid', category: 'How it works', homepage: true, needsReview: true, question: 'What if the question cannot be answered?',
+- src/data/faq.ts:20: { id: 'honest-fork', category: 'REP', homepage: true, needsReview: true, question: 'Why would REP holders choose the honest fork?',
+- src/data/faq.ts:23: { id: 'augur-lituus', category: 'Getting started', homepage: false, needsReview: true, question: 'What is Augur Lituus?',
+- src/data/faq.ts:26: { id: 'trading', category: 'Getting started', homepage: false, needsReview: true, question: 'Where can I trade on Augur?',
+- src/data/faq.ts:29: { id: 'who-decides', category: 'How it works', homepage: false, needsReview: true, question: 'Who decides whether an outcome is true?',
+- src/data/faq.ts:32: { id: 'disagreement', category: 'How it works', homepage: false, needsReview: true, question: 'What if people disagree about the result?',
+- src/data/faq.ts:35: { id: 'rep-actions', category: 'REP', homepage: false, needsReview: true, question: 'What can I do with REP?',
+- src/data/faq.ts:38: { id: 'talk-to-team', category: 'Building with Augur', homepage: false, needsReview: true, question: 'How do I talk to the team about a project?',
+- src/data/products.ts:7: status: 'In development', builder: 'ChainSafe, reviewed by the Lituus Foundation', design: 'Augur Lituus whitepaper, January 2026', codeLabel: 'Lituus-CS, public on GitHub', paper: links.whitepaper.url, code: links.lituusCode.url, needsReview: true },
+- src/data/products.ts:11: status: 'In development', builder: '', design: 'Zoltar whitepaper', codeLabel: 'AugurProject/zoltar, public on GitHub', paper: links.zoltarPaper.url, code: links.zoltarCode.url, needsReview: true },
+- src/data/products.ts:14: detail: '', status: 'In development', builder: 'Dark Florist, with Lituus Foundation backing', design: '', codeLabel: 'In the Zoltar repository', paper: '', code: links.zoltarCode.url, needsReview: true },
+- Decide when to retire or rotate the message. — Figma `215:435`, Note / 01 / Announcement bar.
+- Confirm the spelling: the menu says “Stratoblast”; the code and strategy say “Statoblast”. — Figma `215:463`, Note / 02 / Header.
+- The hero animation is a placeholder for now. Still needs more thought before launch. — Figma `215:491`, Note / 03 / Hero.
+- “Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one. — Figma `215:523`, Note / 04 / Who decides what happened?.
+- Confirm the “own chain or L2” backstop line with the maintainers. — Figma `215:551`, Note / 05 / What could you build?.
+- Refresh after each quarterly report and confirm with the maintainers. — Figma `215:601`, Note / 08 / Roadmap.
+- The posts are stand-ins; choose real posts before launch. — Figma `215:625`, Note / 09 / From the blog.
+- Answers 4 and 5 are whitepaper-based drafts that need review. — Figma `215:649`, Note / 10 / FAQ.
+- The newsletter needs a provider, consent and privacy text before it can collect emails. — Figma `215:673`, Note / 11 / Footer.
+- contact@augur.net needs the domain owner’s confirmation. — Figma `215:673`, Note / 11 / Footer.
+- Confirm the payout wording and the status line with the maintainers. — Figma `305:1618`, Note / 07 / What can you do with REP?.
+- First pass, added 2 October 2026. Spacing and motion still to polish. — Figma `305:1618`, Note / 07 / What can you do with REP?.
+- The backstop line is a proposed design; confirm chain and L2 support with the maintainers. — Figma `216:405`, Note / 05 / Picker states.
+- Refresh the figures with each quarterly report. — Figma `216:472`, Note / 08 / Roadmap states.
+- Swap in real article art once posts are chosen. — Figma `216:506`, Note / 09 / Cover placeholders.
+- Confirm descriptions and status with the maintainers. — Figma `225:449`, Note / P2 / Products.
+- Spelling: “Stratoblast” in the menu, “Statoblast” in the code. — Figma `225:449`, Note / P2 / Products.
+- Needs full rewrite. — Figma `225:490`, Note / P3 / Learn.
+- The guides still need writing. Old Learn articles should be rewritten, not copied. — Figma `225:490`, Note / P3 / Learn.
+- Add verified contract addresses and explorer links. — Figma `225:519`, Note / P4 / REP.
+- No buying, selling or migration instructions here. Review the wording with the maintainers. — Figma `225:519`, Note / P4 / REP.
+- Posts shown are stand-ins. The real archive (16 posts since April 2025) moves over with original dates. — Figma `225:556`, Note / P5 / Blog.
+- Placeholder article. Real posts move over with their original dates. — Figma `257:1299`, Note / P5.1 / Blog article.
+- Decide the byline (team or named authors) and whether to show reading time. — Figma `257:1299`, Note / P5.1 / Blog article.
+- Placeholder guide copy. The four guides still need writing. — Figma `261:1583`, Note / P3.1 / Learn guide.
+- Resolve or explicitly revise the strict “no long tasks over 50 ms” performance requirement. Final Lighthouse scores, LCP and CLS pass; measured long tasks still reach 209 ms on simulated mobile and 74 ms on the desktop homepage.
+- Verify an actual back/forward-cache restoration in a browser environment that permits it. This Chromium session reported `BackForwardCacheDisabledForDelegate` and `BrowsingInstanceNotSwapped`; synthetic persisted events and normal back navigation passed, but real cached restoration remains unverified.
+- Review every content entry marked `placeholder: true` or `needsReview: true`, including additional FAQ answers.
+- Replace all four homepage stand-in posts and article bodies; migrate the 16 original archive posts with their original dates. Preserve source provenance.
+- Confirm the roadmap attribution: the Q2 report distinguishes 6,399,867.64 migrated REPv2 (58.2%) from REPv2_Yes_1 total supply. The August report uses total supply as migration. Approved Figma wording is retained pending editorial review.
+- Confirm the intended Zoltar paper destination. The reachable successor is the current system overview; do not label it a PDF or historical whitepaper.
+- Confirm REP contract addresses and explorer links with maintainers. No contract address is published by this build.
+- Confirm the byline “By the Augur team”; review the provisional reading times (Figma article five minutes, guide 2 six minutes, other stand-in articles one–two minutes).
+- Set an announcement retirement date or explicitly retain the bar after reviewing the latest report.
+- Choose and configure the newsletter provider, consent wording and privacy text; until then use Blog, X and Discord follow links.
+- Confirm contact@augur.net with the domain owner. Composing an email is not delivery.
+- Review the complete responsive, keyboard, no-JavaScript, reduced-motion, forced-colors, visual and performance evidence in `docs/decisions.md`.
+- Resolve every unverified destination in `src/data/links.ts`.
+- Set `PUBLIC_SITE_INDEXABLE=true` only after all release gates pass; verify robots, sitemap, canonical URLs and SEO again.
+- Preserve legacy source-report URLs when migrating the original archive. Absolute www.augur.net report links are reachable on the existing public site but must resolve on the replacement before deployment.
+error: script "check:launch" exited with code 1

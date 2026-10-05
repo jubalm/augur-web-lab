@@ -1,0 +1,62 @@
+import { readFile } from 'node:fs/promises';
+import { homepageCopySource as source } from '../src/data/homepage-copy';
+
+function normalize(value: string): string {
+  return value.replace(/&(?:#39|apos);/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+    .replace(/&#x([0-9a-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/↗/g, '')
+    .replace(/\s+/g, ' ').replace(/\s+([.,!?;:])/g, '$1').trim();
+}
+
+// Independent read-only Figma extraction, not imported from the rendering data.
+// Compare the default desktop state; state transitions have separate browser QA.
+const selectors = ['.announcement', '.site-header', '.home-hero', '.tenets', '.applications', '.how-it-works', '.rep', '.roadmap', '.home-blog', '.home-faq', '.site-footer'];
+const excluded = [
+  'script', 'style', 'svg', 'noscript', '[hidden]', '.sr-only', 'dialog', '.nav-panel',
+  '.application-tab[aria-selected="true"] .app-question', '.app-plus', '.roadmap-plus',
+  '.walkthrough-steps [aria-selected="false"] .step-description',
+  'details:not([open]) > div',
+];
+const html = await readFile(process.argv[2] ?? 'dist/index.html', 'utf8');
+let cleaner = new HTMLRewriter();
+for (const selector of excluded) cleaner = cleaner.on(selector, { element(element) { element.remove(); } });
+const visible = await cleaner.transform(new Response(html)).text();
+const sections = selectors.map(selector => ({ selector, count: 0, text: '' }));
+let extractor = new HTMLRewriter();
+for (const section of sections) extractor = extractor.on(section.selector, {
+  element() { section.count++; },
+  text(chunk) { section.text += chunk.text + (chunk.lastInTextNode ? ' ' : ''); },
+});
+await extractor.transform(new Response(visible)).text();
+
+let failures = 0;
+let passageCount = 0;
+for (const [index, section] of sections.entries()) {
+  const canonical = source.sections[index];
+  let expected = canonical.text.map(([node, text]) => ({ node, text: normalize(text) }));
+  // The owner's §6 fallback explicitly replaces an unprovisioned newsletter form.
+  if (section.selector === '.site-footer') {
+    expected = expected.filter(({ text }) => !['Email address', 'you@example.com', 'Subscribe'].includes(text));
+    expected.push(...['Blog', 'X', 'Discord'].map(text => ({ node: 'brief:newsletter-fallback', text })));
+  }
+  let remaining = ` ${normalize(section.text)} `;
+  const errors: string[] = [];
+  if (section.count !== 1) errors.push(`Expected one section; found ${section.count}.`);
+  // Match complete phrases with occurrence counts. Longer phrases first prevent
+  // labels such as "REP" from consuming a word inside another approved passage.
+  // DOM order may differ for accessible tablists; word order within copy may not.
+  for (const { node, text } of expected.sort((a, b) => b.text.length - a.text.length)) {
+    const phrase = ` ${text} `;
+    if (!remaining.includes(phrase)) errors.push(`Missing or changed ${node}: ${text}`);
+    else remaining = remaining.replace(phrase, ' ');
+  }
+  if (remaining.trim()) errors.push(`Unexpected copy: ${remaining.trim()}`);
+  passageCount += expected.length;
+  if (errors.length) {
+    failures += errors.length;
+    console.error(`${canonical.name} (${canonical.id})\n${errors.map(error => `  ${error}`).join('\n')}`);
+  }
+}
+if (failures) process.exitCode = 1;
+else console.log(`Homepage copy: ${passageCount} visible text passages across all ${sections.length} sections match Figma 28:7, with the approved newsletter fallback; no extra copy.`);

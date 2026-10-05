@@ -1,0 +1,1561 @@
+{
+  "config": {
+    "argv": [
+      "/home/goddard/.local/share/fnm/node-versions/v24.18.0/installation/bin/node",
+      "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/node_modules/.bin/playwright",
+      "test",
+      "--grep-invert",
+      "/lab/"
+    ],
+    "configFile": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/playwright.config.mjs",
+    "rootDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.spec.mjs"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "artifacts/qa/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "site.spec.mjs",
+      "file": "site.spec.mjs",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "/about/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5900,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:10.900Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-11dbd47ed151d3d3c4bb",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/building-in-public-following-the-work/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:17.504Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-faefe314361f6ac4fced",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/category/for-builders/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3362,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:22.683Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-da95a0bc7279832804c6",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/category/project-updates/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3220,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:26.087Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-c042d6a9f26d4bb8da13",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/category/research-and-design/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3305,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:29.335Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-45e412e8ae15bce4107e",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3758,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:32.684Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-88f648d089ae7bff2fdf",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/notes-from-the-community-call/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2614,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:36.471Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-96704411a5bed124e6f0",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/quarterly-report-what-changed/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2289,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:39.113Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-be1669728654fa2a5204",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/what-happens-when-a-fork-begins/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2429,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:41.428Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-569c3022170d6c6869b8",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/why-disagreement-makes-an-oracle-stronger/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2455,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:43.879Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-ff5cb8f909f37dc2fe17",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/blog/writing-questions-an-oracle-can-answer/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2359,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:46.359Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-bafef667884ad3d32290",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/contact/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1900,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:48.744Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-eddeca726db5b69980de",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/faq/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3948,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:50.674Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-b1d0a7e4b5f5a5944082",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8454,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:31:54.680Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-b1d99b86078fd3ef379d",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/disputes-bonds-and-forks/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5597,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:03.221Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-2ab56576028c07f52046",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/how-augur-answers-a-question/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5905,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:08.883Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-4ec410e80a632b9d42ca",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/how-the-products-fit-together/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5149,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:14.874Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-2db3ab09ee65eca63681",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4459,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:20.118Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-186397ac97fc5f27db57",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/reading-the-whitepaper/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3131,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:24.627Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-8a004ceb34cb369cc949",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/what-is-an-oracle/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3662,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:27.798Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-7487c714db2ab5621e69",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/what-rep-does/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:31.533Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-c8ea98ada370ff7d4eaa",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/when-a-question-cannot-be-answered/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:35.197Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-8f91c64bbb78571321de",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/learn/writing-questions/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2301,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:37.659Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-a50b7527a814487ceeb0",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/products/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2447,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:39.981Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-963873dc5858d0d6f627",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "/rep/ renders, has no browser errors, and passes axe",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2608,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:42.450Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-0bcf24d8d2c5c2fe5577",
+          "file": "site.spec.mjs",
+          "line": 10,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:45.084Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-baa006d75df0566fe842",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 1280px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4151,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:49.379Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-e321ece516cf6aa61e0d",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 1024px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4011,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:53.555Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-737bd93e27703b1a48a1",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 768px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3626,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:32:57.585Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-6fe4184c3fe767a690d0",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3211,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:01.232Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-e853582f2f9583e6024d",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "homepage has no horizontal overflow at 360px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3072,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:04.462Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-b5b55b0c8217cf071471",
+          "file": "site.spec.mjs",
+          "line": 29,
+          "column": 3
+        },
+        {
+          "title": "all tabs support focus movement, manual activation and roving tabindex",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2217,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:07.554Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-8692a7cc1b0f25a49eca",
+          "file": "site.spec.mjs",
+          "line": 45,
+          "column": 1
+        },
+        {
+          "title": "FAQ uses exclusive native disclosure and first is open",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6087,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').filter({ has: locator('summary') }).first()\nExpected: \u001b[32m\"\"\u001b[39m\nReceived: serializes to the same string\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('details[name]').filter({ has: locator('summary') }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').filter({ has: locator('summary') }).first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').filter({ has: locator('summary') }).first()\nExpected: \u001b[32m\"\"\u001b[39m\nReceived: serializes to the same string\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('details[name]').filter({ has: locator('summary') }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').filter({ has: locator('summary') }).first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:69:29",
+                    "location": {
+                      "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                      "column": 29,
+                      "line": 69
+                    },
+                    "snippet": "  67 |   const faq = page.locator('details[name]').filter({ has: page.locator('summary') });\n  68 |   expect(await faq.count()).toBeGreaterThanOrEqual(5);\n> 69 |   await expect(faq.first()).toHaveAttribute('open', '');\n     |                             ^\n  70 |   await faq.nth(1).locator('summary').click();\n  71 |   await expect(faq.nth(1)).toHaveAttribute('open', '');\n  72 |   await expect(faq.first()).not.toHaveAttribute('open', '');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                        "column": 29,
+                        "line": 69
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').filter({ has: locator('summary') }).first()\nExpected: \u001b[32m\"\"\u001b[39m\nReceived: serializes to the same string\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" locator('details[name]').filter({ has: locator('summary') }).first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').filter({ has: locator('summary') }).first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  67 |   const faq = page.locator('details[name]').filter({ has: page.locator('summary') });\n  68 |   expect(await faq.count()).toBeGreaterThanOrEqual(5);\n> 69 |   await expect(faq.first()).toHaveAttribute('open', '');\n     |                             ^\n  70 |   await faq.nth(1).locator('summary').click();\n  71 |   await expect(faq.nth(1)).toHaveAttribute('open', '');\n  72 |   await expect(faq.first()).not.toHaveAttribute('open', '');\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:69:29"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:09.796Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-FAQ-uses-exclusive-native-disclosure-and-first-is-open/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-FAQ-uses-exclusive-native-disclosure-and-first-is-open/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-FAQ-uses-exclusive-native-disclosure-and-first-is-open/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                    "column": 29,
+                    "line": 69
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-2ad9d48333bec1bff76f",
+          "file": "site.spec.mjs",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "desktop navigation closes on Escape and restores trigger focus",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2070,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:16.888Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-e4974646ed02d1268d10",
+          "file": "site.spec.mjs",
+          "line": 75,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation is a modal dialog with Escape restoration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1236,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:19.566Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-e8f02fe9e3748e169969",
+          "file": "site.spec.mjs",
+          "line": 89,
+          "column": 1
+        },
+        {
+          "title": "contact validates required fields without claiming delivery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2026,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:20.829Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-1d67e3265d29d162c191",
+          "file": "site.spec.mjs",
+          "line": 100,
+          "column": 1
+        },
+        {
+          "title": "no JavaScript keeps primary content and default states visible",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6002,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').first()\nExpected: not \u001b[32m\"\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" locator('details[name]').first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details open=\"\" name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').first()\nExpected: not \u001b[32m\"\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" locator('details[name]').first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details open=\"\" name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:123:25",
+                    "location": {
+                      "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                      "column": 25,
+                      "line": 123
+                    },
+                    "snippet": "  121 |   const faq = page.locator('details[name]').first();\n  122 |   await faq.locator('summary').click();\n> 123 |   await expect(faq).not.toHaveAttribute('open', '');\n      |                         ^\n  124 |   await page.screenshot({ path: 'artifacts/qa/screenshots/home-no-javascript.png', fullPage: true });\n  125 |   await context.close();\n  126 | });"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                        "column": 25,
+                        "line": 123
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('details[name]').first()\nExpected: not \u001b[32m\"\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveAttribute\" locator('details[name]').first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('details[name]').first()\u001b[22m\n\u001b[2m    14 × locator resolved to <details open=\"\" name=\"site-nav\" class=\"nav-disclosure\" data-nav-disclosure=\"\" data-astro-cid-vwn3tmth=\"\">…</details>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  121 |   const faq = page.locator('details[name]').first();\n  122 |   await faq.locator('summary').click();\n> 123 |   await expect(faq).not.toHaveAttribute('open', '');\n      |                         ^\n  124 |   await page.screenshot({ path: 'artifacts/qa/screenshots/home-no-javascript.png', fullPage: true });\n  125 |   await context.close();\n  126 | });\n    at /home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs:123:25"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:22.879Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-no-JavaScript-keeps-p-8bd69--and-default-states-visible/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-no-JavaScript-keeps-p-8bd69--and-default-states-visible/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/artifacts/qa/test-results/site-no-JavaScript-keeps-p-8bd69--and-default-states-visible/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/home/goddard/.codex/worktrees/8f8e/augur-web-lab/tests/site.spec.mjs",
+                    "column": 25,
+                    "line": 123
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-4d9b71eeea92a4a2ec4c",
+          "file": "site.spec.mjs",
+          "line": 114,
+          "column": 1
+        },
+        {
+          "title": "reduced motion renders settled content without running animations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 648,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:29.467Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-915988107b108e82bdf9",
+          "file": "site.spec.mjs",
+          "line": 128,
+          "column": 1
+        },
+        {
+          "title": "hero occupies the first desktop viewport at the required sizes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1489,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:30.313Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-222cd85ca7f51c920dbf",
+          "file": "site.spec.mjs",
+          "line": 135,
+          "column": 1
+        },
+        {
+          "title": "skip link and forced-colors retain keyboard access",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1741,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:31.839Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-1cd8f7d23d2b2c248400",
+          "file": "site.spec.mjs",
+          "line": 147,
+          "column": 1
+        },
+        {
+          "title": "unknown routes show the designed 404 and working recovery links",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1822,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T18:33:33.618Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "892f01ebe3c3cd11efb8-2b099d6a486b90f61eb4",
+          "file": "site.spec.mjs",
+          "line": 158,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T18:31:08.893Z",
+    "duration": 146752.82700000002,
+    "expected": 39,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

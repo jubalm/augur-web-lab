@@ -1,0 +1,124 @@
+[
+  {
+    "variant": "baseline",
+    "longTasks": [],
+    "geometry": {
+      "height": 4489,
+      "body": 5918
+    },
+    "elements": 666,
+    "top": [
+      {
+        "name": "RunTask",
+        "wall": 85.95,
+        "cpu": 32.224
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 84.957,
+        "cpu": 32.115
+      },
+      {
+        "name": "Layout",
+        "wall": 68.276,
+        "cpu": 16.327
+      },
+      {
+        "name": "RunTask",
+        "wall": 18.316,
+        "cpu": 12.408
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 18.261,
+        "cpu": 12.354
+      },
+      {
+        "name": "Receive mojo message",
+        "wall": 18.245,
+        "cpu": 12.339
+      },
+      {
+        "name": "UpdateLayoutTree",
+        "wall": 15.765,
+        "cpu": 9.955
+      },
+      {
+        "name": "RunTask",
+        "wall": 14.742,
+        "cpu": 10.83
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 14.685,
+        "cpu": 10.795
+      },
+      {
+        "name": "RunTask",
+        "wall": 11.322,
+        "cpu": 9.334
+      }
+    ]
+  },
+  {
+    "variant": "without-unused-motion-vars",
+    "longTasks": [],
+    "geometry": {
+      "height": 4489,
+      "body": 5918
+    },
+    "elements": 666,
+    "top": [
+      {
+        "name": "RunTask",
+        "wall": 170.726,
+        "cpu": 32.046
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 170.65,
+        "cpu": 31.972
+      },
+      {
+        "name": "Layout",
+        "wall": 161.208,
+        "cpu": 24.115
+      },
+      {
+        "name": "RunTask",
+        "wall": 33.734,
+        "cpu": 12.928
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 31.331,
+        "cpu": 12.705
+      },
+      {
+        "name": "Receive mojo message",
+        "wall": 31.253,
+        "cpu": 12.631
+      },
+      {
+        "name": "RunTask",
+        "wall": 28.283,
+        "cpu": 13.577
+      },
+      {
+        "name": "ThreadControllerImpl::RunTask",
+        "wall": 28.034,
+        "cpu": 13.468
+      },
+      {
+        "name": "UpdateLayoutTree",
+        "wall": 25.518,
+        "cpu": 11.887
+      },
+      {
+        "name": "RunTask",
+        "wall": 18.335,
+        "cpu": 7.098
+      }
+    ]
+  }
+]
