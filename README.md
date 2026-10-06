@@ -35,6 +35,6 @@ The owner-authorized legacy cleanup removed 170 tracked files, including the old
 
 ## Content and deployment
 
-Use `docs/content.md` to edit copy. Keep external destinations in `src/data/links.ts` and set review flags honestly. The contact form opens an encoded email draft; it never reports delivery. The newsletter renders follow links until a provider and consent policy are approved.
+Use `docs/content.md` to edit copy. Keep external destinations in `src/data/links.ts` and set review flags honestly. The contact form opens an encoded email draft; it never reports delivery. The newsletter shows its designed email field as a local-only prototype: it validates in the browser, sends nothing (even without JavaScript) and says so, until a provider and consent policy are approved and `site.newsletter.provider` is set.
 
 The build emits static files to `dist`; `vercel.json` configures that output and response headers. No deployment is part of this change. Indexing defaults off: set `PUBLIC_SITE_INDEXABLE=true` only after `docs/launch-checklist.md` is complete. Read `docs/decisions.md` for actual verification evidence and remaining limitations.

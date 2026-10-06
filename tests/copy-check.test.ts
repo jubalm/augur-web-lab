@@ -13,7 +13,7 @@ async function check(name: string, html: string) {
   return Bun.spawnSync([process.execPath, 'scripts/check-copy.ts', path]);
 }
 
-test('accepts every canonical section with the newsletter fallback', async () => {
+test('accepts every canonical section with the restored newsletter field', async () => {
   expect((await check('original', original)).exitCode).toBe(0);
 });
 test('rejects a changed answer-band claim', async () => {
@@ -35,4 +35,11 @@ test('rejects a missing short control label', async () => {
   const result = await check('missing', changed);
   expect(result.exitCode).toBe(1);
   expect(result.stderr.toString()).toContain('Missing or changed 208:1210');
+});
+test('rejects a changed newsletter placeholder', async () => {
+  const changed = original.replace('placeholder="you@example.com"', 'placeholder="Email"');
+  expect(changed).not.toBe(original);
+  const result = await check('placeholder', changed);
+  expect(result.exitCode).toBe(1);
+  expect(result.stderr.toString()).toContain('newsletter placeholder');
 });

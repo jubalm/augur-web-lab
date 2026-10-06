@@ -170,3 +170,88 @@ test('article copy link announces success and copies its canonical address', asy
   await expect(page.getByRole('status').filter({ hasText: 'Link copied' })).toHaveText('Link copied');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('https://www.augur.net/blog/why-disagreement-makes-an-oracle-stronger/');
 });
+
+// Polish brief (5 Oct 2026): looping tenet scenes, hover navigation, restored
+// newsletter field, row hover states and the REP stake flows.
+test('tenet diagrams loop while visible and pause off-screen', async ({ page }) => {
+  await page.goto('/');
+  const grid = page.locator('.tenet-grid');
+  await grid.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(400);
+  const loops = () => page.evaluate(() => [...document.querySelectorAll('[data-cross],[data-mesh],[data-authority]')].flatMap(svg => svg.getAnimations({ subtree: true })).map(a => ({ state: a.playState, iterations: a.effect.getTiming().iterations })));
+  const running = await loops();
+  expect(running.length).toBeGreaterThan(20);
+  expect(running.every(a => a.iterations === Infinity && a.state === 'running')).toBe(true);
+  await page.evaluate(() => scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  expect((await loops()).every(a => a.state === 'paused')).toBe(true);
+  await grid.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  expect((await loops()).every(a => a.state === 'running')).toBe(true);
+});
+
+test('answer statement is live, selectable text on the settled ribbon', async ({ page }) => {
+  await page.goto('/');
+  const band = page.locator('[data-answer-band]');
+  await band.scrollIntoViewIfNeeded();
+  await expect(band).toHaveAttribute('data-ribbon', 'settled', { timeout: 4000 });
+  const answer = band.locator('[data-answer]');
+  await expect(answer).toHaveText('With Augur, no party controls the answer.');
+  expect(await answer.evaluate(element => getComputedStyle(element).userSelect)).not.toBe('none');
+  await expect(band.locator('.ribbon-overlay')).toHaveCount(0);
+});
+
+test('desktop navigation opens on hover and switches panels without closing', async ({ page }) => {
+  await page.goto('/');
+  const trigger = name => page.locator('header nav summary').filter({ hasText: name }).first();
+  await trigger('Products').hover();
+  await expect(trigger('Products')).toHaveAttribute('aria-expanded', 'true');
+  await trigger('Resources').hover();
+  await expect(trigger('Resources')).toHaveAttribute('aria-expanded', 'true');
+  await expect(trigger('Products')).toHaveAttribute('aria-expanded', 'false');
+  const panel = await page.locator('#nav-1').boundingBox();
+  await page.mouse.move(panel.x + 40, panel.y + 30, { steps: 6 });
+  await expect(trigger('Resources')).toHaveAttribute('aria-expanded', 'true');
+  await page.mouse.move(700, 700);
+  await expect(trigger('Resources')).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('newsletter field validates locally and never sends or claims a subscription', async ({ page }) => {
+  const posts = [];
+  page.on('request', request => { if (request.method() !== 'GET' || request.url().includes('email=')) posts.push(request.url()); });
+  await page.goto('/');
+  const field = page.getByLabel('Email address');
+  await expect(field).toHaveAttribute('placeholder', 'you@example.com');
+  await page.getByRole('button', { name: 'Subscribe' }).click();
+  await expect(field).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.locator('#newsletter-email-error')).toHaveText('Enter your email address.');
+  await field.fill('reader@example.org');
+  await field.press('Enter');
+  await expect(page.getByRole('status').filter({ hasText: 'nothing was sent or saved' })).toBeVisible();
+  await expect(page.getByText(/subscribed|you're in|thanks for subscribing/i)).toHaveCount(0);
+  expect(posts).toEqual([]);
+  expect(page.url()).not.toContain('email=');
+});
+
+test('closed FAQ questions respond to hover and keyboard focus', async ({ page }) => {
+  await page.goto('/');
+  const item = page.locator('.home-faq .faq-item').nth(1);
+  await item.scrollIntoViewIfNeeded();
+  const before = await item.evaluate(element => getComputedStyle(element).backgroundColor);
+  await item.locator('summary').hover();
+  await expect.poll(() => item.evaluate(element => getComputedStyle(element).backgroundColor)).not.toBe(before);
+  await page.mouse.move(5, 5);
+  await item.locator('summary').focus();
+  await page.keyboard.press('Shift+Tab');
+  await page.keyboard.press('Tab');
+  await expect.poll(() => item.evaluate(element => getComputedStyle(element).outlineStyle)).toBe('solid');
+});
+
+test('REP section explains stakes without the removed status sentence', async ({ page }) => {
+  await page.goto('/');
+  const rep = page.locator('.rep');
+  await expect(rep.getByText('Proposed rules for Augur Lituus, which is in development.')).toHaveCount(0);
+  await expect(rep.getByRole('img', { name: /if no one challenges, your bond comes back/i })).toBeVisible();
+  await expect(rep.getByRole('link', { name: 'Learn about REP' })).toHaveClass(/outline/);
+  await expect(page.locator('.home-blog').getByRole('link', { name: 'View all posts' })).toHaveClass(/outline/);
+});

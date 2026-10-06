@@ -50,9 +50,17 @@ export function initHomeInteractions(){
  });
  document.querySelectorAll<HTMLElement>('[data-walkthrough]').forEach(root=>{
   if(enhanced.has(root))return;enhanced.add(root);
+  // The query card stays put between steps; only what changed moves: the
+  // status, the newly completed progress segment, the selected outcome and the
+  // newest ledger row.
   root.addEventListener('tabschange',event=>{
-   if(reduced.matches||!animationsAvailable)return;const {index}=(event as CustomEvent<{index:number}>).detail;
-   root.querySelector(`#walkthrough-panel-${index} [data-ledger-latest]`)?.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:motionTime(timing.panel),delay:motionTime(timing.fadeOut),easing:easing.reveal,fill:'backwards'});
+   if(reduced.matches||!animationsAvailable)return;const {index,previous}=(event as CustomEvent<{index:number;previous:number}>).detail;
+   const panel=root.querySelector(`#walkthrough-panel-${index}`);if(!panel)return;
+   const quick={duration:motionTime(timing.hover),easing:easing.reveal,fill:'backwards'} as const;
+   panel.querySelector('.query-status')?.animate([{opacity:0},{opacity:1}],quick);
+   if(index>previous)panel.querySelectorAll('.query-progress>span').forEach((segment,i)=>{if(i>previous&&i<=index)segment.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:motionTime(timing.panel),delay:motionTime((i-previous-1)*60),easing:easing.draw,fill:'backwards'});});
+   panel.querySelector('.outcome-chip.is-selected')?.animate([{opacity:.3,transform:'scale(.96)'},{opacity:1,transform:'scale(1)'}],{...quick,duration:motionTime(timing.panel)});
+   if(index>previous)panel.querySelector('[data-ledger-latest]')?.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:motionTime(timing.panel),delay:motionTime(80),easing:easing.reveal,fill:'backwards'});
   });
  });
 }

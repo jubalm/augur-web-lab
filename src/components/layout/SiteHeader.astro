@@ -2,15 +2,19 @@
 import Brand from '../primitives/Brand.astro';
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
-import {navigation,navigationGroups} from '../../data/navigation';
+import {navigation,navigationGroups,type NavigationItem} from '../../data/navigation';
 const groups=[{label:'Products',items:navigation.products},{label:'Resources',items:navigation.resources},{label:'Community',items:navigation.community}];
+const path=Astro.url.pathname;
+// Current section: a page and everything below it (blog posts under /blog/).
+const within=(href:string)=>{const page=href.split('#')[0]!;return !href.startsWith('http')&&page!=='/'&&path.startsWith(page);};
+const isCurrent=(href:string)=>within(href)&&!href.includes('#');
 ---
 <header class="site-header" data-site-header>
   <div class="container header-inner">
     <a href="/" aria-label="Augur home" class="logo"><Brand /></a>
     <nav class="desktop-nav" aria-label="Main navigation">
-      <a href="/about/" class="nav-link">About</a>
-      {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure><summary aria-controls={`nav-${index}`}>{group.label}<Icon name="chevron-down" /></summary><div class="nav-panel" id={`nav-${index}`}><ul>{group.items.map(item=><li><a href={item.href}>{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div></details>)}
+      <a href="/about/" class="nav-link" aria-current={isCurrent('/about/')?'page':undefined}>About</a>
+      {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure data-current={group.items.some(item=>within(item.href))?'':undefined}><summary aria-controls={`nav-${index}`} aria-expanded="false">{group.label}<Icon name="chevron-down" /></summary><div class="nav-panel" id={`nav-${index}`}><ul>{group.items.map(item=><li><a href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>{(item as NavigationItem).icon&&<Icon name={(item as NavigationItem).icon!} class="nav-logo"/>}<span>{item.label}</span>{('external' in item && item.external)&&<Icon name="arrow-up-right" class="nav-external"/>}</a></li>)}</ul></div></details>)}
     </nav>
     <div class="header-actions"><Button href="/contact/" variant="outline">Talk to us</Button><button class="mobile-open" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open><Icon name="list" /></button></div>
   </div>
@@ -25,18 +29,29 @@ const groups=[{label:'Products',items:navigation.products},{label:'Resources',it
 .site-header{height:96px;background:var(--background);border-bottom:1px solid var(--border-quiet);position:relative;z-index:20}
 .header-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:32px}
 .desktop-nav{display:flex;gap:32px;align-items:center;font:400 16px/24px var(--font-heading)}
-.nav-link,summary{display:flex;gap:8px;align-items:center;min-height:48px;text-decoration:none;cursor:pointer;list-style:none}
-summary::-webkit-details-marker{display:none}summary :global(.web-icon){width:16px;height:16px;transition:transform 180ms}summary :global(svg){width:16px;height:16px}
+.nav-link,summary{position:relative;display:flex;gap:8px;align-items:center;min-height:48px;text-decoration:none;cursor:pointer;list-style:none;text-underline-offset:6px;text-decoration-thickness:1px}
+summary::-webkit-details-marker{display:none}summary :global(.web-icon){width:16px;height:16px;transition:transform 180ms var(--ease-reveal)}summary :global(svg){width:16px;height:16px}
 .nav-disclosure[open] summary :global(.web-icon){transform:rotate(180deg)}
-.nav-link:hover,summary:hover{text-decoration:underline;text-underline-offset:6px}.nav-disclosure{position:relative}
-.nav-panel{position:absolute;top:calc(100% + 12px);left:-20px;width:240px;background:var(--web-tile);border:1px solid var(--web-outline);padding:8px;animation:nav-in 180ms var(--ease-reveal)}
+.nav-link:hover,summary:hover,.nav-disclosure[open]>summary{text-decoration:underline}
+/* Current section: a 2 px Green rule on the header's bottom edge under the item. */
+.nav-link[aria-current=page]::after,.nav-disclosure[data-current]>summary::after{content:'';position:absolute;left:0;right:0;bottom:-24px;height:2px;background:var(--primary)}
+.nav-disclosure[data-current]>summary::after{right:24px}
+.nav-disclosure{position:relative}
+.nav-panel{position:absolute;top:calc(100% + 24px);left:-21px;width:240px;background:var(--web-tile);border:1px solid var(--web-outline);padding:8px;animation:nav-in 180ms var(--ease-reveal)}
+/* Hover bridge: the 24 px between the item and its panel belongs to the panel. */
+.nav-panel::before{content:'';position:absolute;left:-1px;right:-1px;bottom:100%;height:25px}
 @supports selector(details::details-content){
   .nav-disclosure::details-content{opacity:0;transform:translateY(4px);transition:opacity 160ms var(--ease-reveal),transform 160ms var(--ease-reveal),content-visibility 160ms allow-discrete}
   .nav-disclosure[open]::details-content{opacity:1;transform:none;transition-duration:180ms}
+  [data-nav-switching] .nav-disclosure::details-content{transition:none}
   .nav-panel{animation:none}
 }
-ul{list-style:none;padding:0;margin:0}.nav-panel a{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px;text-decoration:none;font:400 14px/20px var(--font-heading)}
-.nav-panel a:hover{background:var(--web-raised)}
+[data-nav-switching] .nav-panel{animation:none}[data-nav-switching] summary :global(.web-icon){transition:none}
+ul{list-style:none;padding:0;margin:0}.nav-panel a{position:relative;min-height:48px;display:flex;align-items:center;gap:12px;padding:12px;text-decoration:none;font:400 16px/24px var(--font-heading);transition:background-color 180ms ease-out}.nav-panel a>span{flex:1}
+.nav-panel a :global(.nav-external),.nav-panel a :global(.nav-external svg){width:16px;height:16px;color:var(--muted-foreground)}
+.nav-panel a:hover{background:var(--web-raised)}.nav-panel a:focus-visible{outline-offset:-2px;background:var(--web-raised)}
+.nav-panel a[aria-current=page]{background:var(--web-quiet)}.nav-panel a[aria-current=page]::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:2px;background:var(--primary)}
+@media(prefers-reduced-motion:reduce){summary :global(.web-icon),.nav-panel a{transition:none}}
 .header-actions{display:flex;gap:16px;align-items:center}.mobile-open{display:none}
 .mobile-navigation{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100svh;max-height:none;padding:24px;background:var(--background);color:var(--foreground);border:0;overflow-y:auto}
 .mobile-navigation::backdrop{background:var(--background)}.mobile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}

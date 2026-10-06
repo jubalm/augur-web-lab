@@ -35,13 +35,14 @@ let passageCount = 0;
 for (const [index, section] of sections.entries()) {
   const canonical = source.sections[index];
   let expected = canonical.text.map(([node, text]) => ({ node, text: normalize(text) }));
-  // The owner's §6 fallback explicitly replaces an unprovisioned newsletter form.
+  const errors: string[] = [];
+  // The newsletter field is restored as a visual prototype (owner polish brief, 5 Oct 2026).
+  // Its Figma placeholder TEXT node is an input attribute on the website, checked below.
   if (section.selector === '.site-footer') {
-    expected = expected.filter(({ text }) => !['Email address', 'you@example.com', 'Subscribe'].includes(text));
-    expected.push(...['Blog', 'X', 'Discord'].map(text => ({ node: 'brief:newsletter-fallback', text })));
+    expected = expected.filter(({ text }) => text !== 'you@example.com');
+    if (!/<input[^>]*id="newsletter-email"[^>]*placeholder="you@example\.com"/.test(html)) errors.push('Missing or changed newsletter placeholder: you@example.com');
   }
   let remaining = ` ${normalize(section.text)} `;
-  const errors: string[] = [];
   if (section.count !== 1) errors.push(`Expected one section; found ${section.count}.`);
   // Match complete phrases with occurrence counts. Longer phrases first prevent
   // labels such as "REP" from consuming a word inside another approved passage.
@@ -59,4 +60,4 @@ for (const [index, section] of sections.entries()) {
   }
 }
 if (failures) process.exitCode = 1;
-else console.log(`Homepage copy: ${passageCount} visible text passages across all ${sections.length} sections match Figma 28:7, with the approved newsletter fallback; no extra copy.`);
+else console.log(`Homepage copy: ${passageCount} visible text passages across all ${sections.length} sections match Figma 28:7, including the restored newsletter field; no extra copy.`);

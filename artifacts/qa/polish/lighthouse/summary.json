@@ -1,0 +1,36 @@
+[
+  {
+    "route": "/",
+    "device": "desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "lcpMs": 475.8175,
+    "cls": 0.008240396121883656,
+    "longTasks": [
+      71
+    ],
+    "report": "artifacts/qa/polish/lighthouse/--desktop.json"
+  },
+  {
+    "route": "/",
+    "device": "mobile",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 66
+    },
+    "lcpMs": 1765.6525,
+    "cls": 0.0009455481881594678,
+    "longTasks": [
+      155,
+      131,
+      92
+    ],
+    "report": "artifacts/qa/polish/lighthouse/--mobile.json"
+  }
+]

@@ -140,6 +140,10 @@
           "“Was the milestone demonstrated by the deadline?”"
         ],
         [
+          "I135:261;137:225",
+          "Settle positions on the final answer."
+        ],
+        [
           "I135:261;137:227",
           "Market result"
         ],
@@ -248,6 +252,10 @@
         [
           "I207:1597;145:265",
           "Invalid"
+        ],
+        [
+          "I207:1597;387:880",
+          "Activity"
         ],
         [
           "I207:1597;145:269",
@@ -364,12 +372,32 @@
           "Reporting and challenging are optional. Each one puts a bond at stake: being right pays, being wrong costs."
         ],
         [
+          "I305:1612;29:7",
+          "Learn about REP"
+        ],
+        [
           "305:550",
           "Report"
         ],
         [
-          "305:558",
+          "388:590",
+          "Your bond"
+        ],
+        [
+          "388:592",
+          "No challenge"
+        ],
+        [
+          "388:601",
+          "Bond back"
+        ],
+        [
+          "388:602",
           "+"
+        ],
+        [
+          "388:606",
+          "Fee share"
         ],
         [
           "305:561",
@@ -380,8 +408,24 @@
           "Challenge"
         ],
         [
-          "305:567",
+          "388:612",
+          "Double bond"
+        ],
+        [
+          "388:614",
+          "Your answer holds"
+        ],
+        [
+          "388:624",
+          "Bond back"
+        ],
+        [
+          "388:625",
           "+"
+        ],
+        [
+          "388:629",
+          "Most of theirs"
         ],
         [
           "305:576",
@@ -392,16 +436,20 @@
           "Risk"
         ],
         [
+          "388:634",
+          "Your bond"
+        ],
+        [
+          "388:636",
+          "Overturned"
+        ],
+        [
+          "388:645",
+          "Bond lost"
+        ],
+        [
           "305:586",
           "If your answer is overturned, you lose the bond. Most of it goes to whoever was right."
-        ],
-        [
-          "305:1611",
-          "Proposed rules for Augur Lituus, which is in development."
-        ],
-        [
-          "I305:1612;29:10",
-          "Learn about REP"
         ]
       ]
     },

@@ -16,6 +16,11 @@ const squares=exact?exact.map(([x,y,opacity,accent])=>({x,y,opacity,accent:!!acc
 .heritage-glow{opacity:0;transition:opacity 450ms ease-out}.heritage-field[data-pointer-active] .heritage-glow{opacity:1;transition-duration:120ms}
 .heritage-field[data-active] .twinkle{animation:twinkle var(--cycle) ease-in-out var(--phase) infinite alternate}
 @keyframes twinkle{from{opacity:var(--rest)}to{opacity:var(--dim)}}
-@media(prefers-reduced-motion:reduce){.twinkle{animation:none!important}.heritage-glow{display:none}}
+/* Hero background drift: the whole field moves a few pixels on a long loop,
+   composited as one layer, only while the hero ambience runs. */
+:global([data-ambient]) > .heritage-field[data-heritage=interactive]{animation:field-drift 24s ease-in-out infinite;animation-play-state:paused}
+:global([data-ambient=running]) > .heritage-field[data-heritage=interactive]{animation-play-state:running}
+@keyframes field-drift{0%,100%{transform:none}25%{transform:translate(6px,-3px)}75%{transform:translate(-6px,3px)}}
+@media(prefers-reduced-motion:reduce){.twinkle,.heritage-field{animation:none!important}.heritage-glow{display:none}}
 @media print{.heritage-field{display:none}}
 </style>

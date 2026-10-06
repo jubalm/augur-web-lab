@@ -2,7 +2,7 @@
 
 ## Authority and boundaries
 
-The current task wins. Use the read-only Augur.net Figma file `3RgHvLRqEZDsAmcBQ7tvVa`; canonical homepage `28:7` wins over older component copy. Use only Augur Brand, Website/Navy and Size & motion variables and Augur text styles. The Brand Foundation PDF is the identity authority; see `docs/source-material.md`. Mechanism facts come from the January 2026 Augur Lituus whitepaper.
+The current task wins. Use the Augur.net Figma file `3RgHvLRqEZDsAmcBQ7tvVa`; canonical homepage `28:7` wins over older component copy. Since the owner's polish brief of 5 October 2026 (`docs/claude-polish-prompt.md`) the file may be edited: keep website and Figma in step, use real editable layers and components, and record motion and states on Section details. Use only Augur Brand, Website/Navy and Size & motion variables and Augur text styles. The Brand Foundation PDF is the identity authority; see `docs/source-material.md`. Mechanism facts come from the January 2026 Augur Lituus whitepaper.
 
 Do not mutate source originals in the optional external reference directory. Never hand-edit `vendor/augur/**`, `scripts/design-system.ts`, `src/components/ui/*`, `src/lib/utils.ts`, `src/styles/augur.css` or `src/styles/augur-typography.css`. Preserve official brand geometry, colours, clearspace and minimum width. Do not commit, push, publish or deploy without a request.
 
@@ -18,9 +18,9 @@ Do not mutate source originals in the optional external reference directory. Nev
 
 ## Motion and access
 
-Transform/opacity and SVG stroke draws only. For interaction-driven layout changes such as widening picker cards, use FLIP or same-document View Transitions with an instant fallback. Authored scenes play once and settle on interaction, reduced motion, print or navigation. Hero arrival settles when the page is hidden; other timed scenes pause when hidden or off-screen and resume only while visible. No-JavaScript and print render final states. Only subtle, measured hero twinkle may repeat while visible; prefer a finite treatment when it avoids ongoing motion. Never hide content behind animation.
+Transform/opacity and SVG stroke draws only. For interaction-driven layout changes such as widening picker cards, use FLIP or same-document View Transitions with an instant fallback. The three tenet diagrams loop seamlessly while visible (`loop-scene.ts`); every cycle starts and ends on the static diagram. The hero keeps a measured ambient loop after arrival (ring wave only during its active window, drift, twinkle). Other authored scenes play once and settle on interaction, reduced motion, print or navigation. Hero arrival settles when the page is hidden; ongoing and timed scenes pause when hidden or off-screen and resume only while visible. No-JavaScript, reduced motion and print render final states. Measure any new ongoing motion. Never hide content behind animation.
 
-Use one tabs controller with keyboard arrows, Home/End, activation mode and labelled panels. Native disclosure buttons and exclusive named details must work by keyboard; no ARIA menu navigation. Native mobile dialog must manage focus. Forms have labels, autocomplete, associated errors and a polite summary. Email composition is not delivery. Newsletter has honest follow links until configured.
+Use one tabs controller with keyboard arrows, Home/End, activation mode and labelled panels. Native disclosure buttons and exclusive named details must work by keyboard; no ARIA menu navigation. Native mobile dialog must manage focus. Forms have labels, autocomplete, associated errors and a polite summary. Email composition is not delivery. The newsletter keeps its designed field as a local-only prototype until a provider and consent are approved: it validates in the browser, never sends data and never claims a subscription.
 
 ## Verification and handoff
 

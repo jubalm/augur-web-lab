@@ -1,7 +1,7 @@
 import { links, type LinkKey } from './links';
 
-export type NavigationItem = { label: string; href: string; external?: boolean; linkKey?: LinkKey };
-const external = (label: string, linkKey: LinkKey): NavigationItem => ({ label, href: links[linkKey].url, external: true, linkKey });
+export type NavigationItem = { label: string; href: string; external?: boolean; linkKey?: LinkKey; icon?: string };
+const external = (label: string, linkKey: LinkKey, icon?: string): NavigationItem => ({ label, href: links[linkKey].url, external: true, linkKey, icon });
 
 /** Header and footer consume this same directory. */
 export const navigation = {
@@ -16,7 +16,8 @@ export const navigation = {
     { label: 'Learn', href: '/learn/' }, { label: 'REP', href: '/rep/' },
     external('Whitepaper', 'whitepaper'),
   ],
-  community: [external('Discord', 'discord'), external('Telegram', 'telegram'), external('X', 'x'), external('GitHub', 'github')],
+  // Community logos identify each destination in the header panel (Figma 43:153).
+  community: [external('Discord', 'discord', 'discord-logo'), external('Telegram', 'telegram', 'telegram-logo'), external('X', 'x', 'x-logo'), external('GitHub', 'github', 'github-logo')],
 } satisfies Record<string, NavigationItem[]>;
 
 export const navigationGroups = [

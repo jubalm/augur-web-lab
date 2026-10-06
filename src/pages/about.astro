@@ -13,6 +13,7 @@ const organizations = [
  ['ChainSafe','Engineering Augur Lituus, with work reviewed by the Lituus Foundation against the whitepaper.',links.chainSafe.url,'ChainSafe'],
  ['Dark Florist','Building Augur Stratoblast and Statoblast Trading on Zoltar, with Foundation backing.',links.darkFlorist.url,'GitHub'],
 ];
+import Icon from '../components/primitives/Icon.astro';
 ---
 <PageLayout title="About Augur" description="The origins of Augur, the organizations involved, and the work toward open infrastructure for real-world answers.">
  <PageHero title="About Augur" lead="Augur began as a decentralized prediction market on Ethereum in 2018. Today it’s building Augur Lituus, the next generation of its oracle, so any app can get real-world answers no one controls." />
@@ -22,7 +23,7 @@ const organizations = [
  </section>
  <section class="section container ruled">
   <div class="section-heading"><h2>Who’s involved</h2><p class="lead">Augur is an open project. These organizations fund, build and review the current work.</p></div>
-  <div class="organizations">{organizations.map(([name,body,href,label])=><article class="tile"><h3>{name}</h3><p>{body}</p><a class="button text" href={href}>{label} <span aria-hidden="true">↗</span></a></article>)}</div>
+  <div class="organizations">{organizations.map(([name,body,href,label])=><article class="tile"><h3>{name}</h3><p>{body}</p><a class="button text" href={href}>{label}<Icon name="arrow-up-right"/></a></article>)}</div>
  </section>
  <section class="section container ruled">
   <div class="section-heading"><h2>A short history</h2><p class="lead">From prediction markets to open infrastructure for real-world answers.</p></div>

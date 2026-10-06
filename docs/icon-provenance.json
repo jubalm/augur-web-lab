@@ -57,8 +57,58 @@
       "path": "src/assets/icons/phosphor/bold/list.svg",
       "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/list-bold.svg",
       "sha256": "eebf2179178a5d4e93097a35f6a02efec45db6a88c1fbbc027fe81a167fd910f"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/warning-circle.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/warning-circle-bold.svg",
+      "sha256": "82a1a5cad112a89581d11f44affb41433a1a8b804a9d77556a5c2b97b23784aa",
+      "added": "2026-10-05",
+      "purpose": "Field error marker (matches Figma Icon / circle-alert)"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/chart-line-up.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/chart-line-up-bold.svg",
+      "sha256": "a0ade3a6d60b5cb7fdf6b9f5415b9f6329a3f6d69ddce6c35bc6b88cd7b78b57",
+      "added": "2026-10-05",
+      "purpose": "Prediction markets application"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/shield-check.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/shield-check-bold.svg",
+      "sha256": "da3d313e3cec48b0cf45865d791f4838b5841df2ef564467d02b15ff20f507f3",
+      "added": "2026-10-05",
+      "purpose": "Insurance & payments application"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/users-three.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/users-three-bold.svg",
+      "sha256": "5246b7d9cc7e2011823f127b65278a3d9434bb0b008e9dedacd9f10ff33697c5",
+      "added": "2026-10-05",
+      "purpose": "DAOs & grants application"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/airplane-tilt.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/airplane-tilt-bold.svg",
+      "sha256": "f45b2e8bc936d3dcf699555bb787f7ff1ab7829b0997672e6bb14bde1ac41be4",
+      "added": "2026-10-05",
+      "purpose": "Flight-delay example in the insurance result"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/clock.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/clock-bold.svg",
+      "sha256": "45cf8bb6e1929b4d7fcbf52d83b35c6d130f4ea12d981db19370392cba724f4a",
+      "added": "2026-10-05",
+      "purpose": "Evidence cutoff in the query card"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/check.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/check-bold.svg",
+      "sha256": "d0ca4e324ff5bb3a1a3bacb9f7580359b8e03cc6862a614d5ed14458db64bedf",
+      "added": "2026-10-05",
+      "purpose": "Selected outcome and met requirement marks"
     }
   ],
   "inventoryUpdated": "2026-10-05",
-  "inventoryNote": "Retained the 10 used Phosphor Bold icons after owner-authorized removal of 76 unused icons (60 Light, Regular and Fill assets plus 16 Bold assets); source revisions and retained-file hashes are unchanged. See docs/evidence/cleanup-completed.json."
+  "inventoryNote": "Retained the 10 used Phosphor Bold icons after owner-authorized removal of 76 unused icons (60 Light, Regular and Fill assets plus 16 Bold assets); source revisions and retained-file hashes are unchanged. See docs/evidence/cleanup-completed.json.",
+  "polishNote": "Polish pass (5 Oct 2026) added 7 Phosphor Bold icons, byte-identical to the pinned revision, where they clarify meaning: application types, query cutoff, selected outcomes and field errors."
 }

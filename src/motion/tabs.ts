@@ -43,6 +43,9 @@ export function setupTabs(root: HTMLElement) {
     tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
     root.dataset.active=String(index);
     root.dispatchEvent(new CustomEvent('tabschange',{detail:{index,previous},bubbles:false}));
+    // Panels that share one layout (the query card) swap in place; their
+    // controller animates only the parts that change.
+    if(root.hasAttribute('data-panel-swap')){panels.forEach((panel,i)=>{if(panel)panel.hidden=i!==index;});root.dispatchEvent(new Event('tabspanelshown'));return;}
     await animatePanel(outgoing,false,opacity);
     if(current!==transition)return;
     panels.forEach((panel,i)=>{if(panel)panel.hidden=i!==index;});
