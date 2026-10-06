@@ -22,6 +22,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Approve the Products menu action label, “Explore Augur Lituus →” (added 6 October 2026). — Figma `216:340`, Note / 02 / Header dropdowns.
 - [x] These frames show the hero without the announcement bar. Canonical homepage adds the bar as required. — Figma `216:371`, Note / 03 / Hero motion.
 - [ ] The backstop line is a proposed design; confirm chain and L2 support with the maintainers. — Figma `216:405`, Note / 05 / Picker states.
+- [ ] Approve the market query wording (added 6 October 2026): the stage labels “Asked”, “Reported Yes”, “Not challenged” and “Final”, and the “Invalid” outcome. The statuses reuse How it works. — Figma `216:405`, Note / 05 / Picker states.
 - [ ] Refresh the figures with each quarterly report. — Figma `216:472`, Note / 08 / Roadmap states.
 - [ ] Swap in real article art once posts are chosen. — Figma `216:506`, Note / 09 / Cover placeholders.
 - [ ] Confirm descriptions and status with the maintainers. — Figma `225:449`, Note / P2 / Products.

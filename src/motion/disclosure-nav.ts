@@ -3,10 +3,11 @@ import { motionTime } from './debug';
 
 /** Header disclosures: native details/summary, enhanced for fine pointers.
  * Hover opens a panel after a short intent delay; leaving the navigation closes
- * a hover-opened panel after a grace period. A highlight tile glides to the
- * item under the pointer (or the open item). Moving between items with a panel
- * open glides the panel from the old item to the new one, resizing its frame
- * while the new links fade in, so there is never a close/reopen flash or gap.
+ * a hover-opened panel after a grace period. A Green line glides under the
+ * label of the item under the pointer (or the open item). Moving between items
+ * with a panel open glides the panel from the old item to the new one, resizing
+ * its frame while the new links fade in, so there is never a close/reopen flash
+ * or gap.
  * Click, tap, keyboard and Escape keep their native disclosure behaviour.
  * Only transform and opacity animate. No ARIA menu roles are used. */
 const OPEN_DELAY = 80;
@@ -27,15 +28,24 @@ export function initNavigation() {
   let openTimer=0,closeTimer=0,hovered:HTMLElement|null=null,pendingFrom:DOMRect|null=null;
   root.dataset.navEnhanced='';
 
-  // Highlight tile: a plain block moved with translate and scaleX only.
+  // Highlight line: a 2 px rule under the item's label, moved with translate
+  // and scaleX only. It draws in from the label's left edge, glides between
+  // items and retracts to its left edge when nothing is highlighted. A line
+  // still retracting glides back instead of starting over.
+  let lineAt='';
   const place=(item:HTMLElement|null)=>{
     if(!highlight||!nav)return;
-    if(!item){delete highlight.dataset.visible;return;}
-    const from=nav.getBoundingClientRect(),box=item.getBoundingClientRect();
-    const appearing=highlight.dataset.visible===undefined;
-    if(appearing)highlight.dataset.instant='';
-    highlight.style.transform=`translateX(${box.left-from.left}px) scaleX(${box.width/100})`;
-    if(appearing){void highlight.offsetWidth;requestAnimationFrame(()=>delete highlight.dataset.instant);}
+    if(!item){
+      if(highlight.dataset.visible!==undefined){delete highlight.dataset.visible;highlight.style.transform=`${lineAt} scaleX(0)`;}
+      return;
+    }
+    const from=nav.getBoundingClientRect(),box=(item.querySelector('.nav-item-label')??item).getBoundingClientRect();
+    lineAt=`translate(${box.left-from.left}px,${box.bottom-from.top}px)`;
+    if(highlight.dataset.visible===undefined&&!highlight.getAnimations().length){
+      highlight.dataset.instant='';highlight.style.transform=`${lineAt} scaleX(0)`;
+      void highlight.offsetWidth;delete highlight.dataset.instant;
+    }
+    highlight.style.transform=`${lineAt} scaleX(${box.width/100})`;
     highlight.dataset.visible='';
   };
   const openSummary=()=>disclosures.find(item=>item.open)?.querySelector<HTMLElement>('summary')??null;
@@ -108,7 +118,7 @@ export function initNavigation() {
     const current=disclosures.find(item=>item.open);
     if(current&&openedBy.get(current)==='hover')closeTimer=window.setTimeout(()=>close(),CLOSE_DELAY);
   },options);
-  // Inside an open panel the tile stays on that panel's item.
+  // Inside an open panel the line stays on that panel's item.
   disclosures.forEach(item=>panelOf(item)?.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=null;syncHighlight();}},options));
   document.addEventListener('pointerdown',event=>{if(event.target instanceof Node&&!root.contains(event.target)){clearTimers();close();}},options);
   root.addEventListener('focusout',event=>{

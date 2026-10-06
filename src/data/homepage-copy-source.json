@@ -1,7 +1,7 @@
 {
   "fileKey": "3RgHvLRqEZDsAmcBQ7tvVa",
   "nodeId": "28:7",
-  "extractedAt": "2026-10-05",
+  "extractedAt": "2026-10-06",
   "sections": [
     {
       "id": "208:1205",
@@ -136,24 +136,48 @@
           "Settle a market."
         ],
         [
-          "I135:261;137:224",
-          "“Was the milestone demonstrated by the deadline?”"
-        ],
-        [
           "I135:261;137:225",
           "Settle positions on the final answer."
         ],
         [
-          "I135:261;137:227",
+          "I135:261;403:1004;435:979",
           "Market result"
         ],
         [
-          "I135:261;137:230",
+          "I135:261;403:1004;435:982",
+          "Final answer"
+        ],
+        [
+          "I135:261;403:1004;435:983",
+          "Was the milestone demonstrated by the deadline?"
+        ],
+        [
+          "I135:261;403:1004;435:987",
+          "Asked"
+        ],
+        [
+          "I135:261;403:1004;435:990",
+          "Reported Yes"
+        ],
+        [
+          "I135:261;403:1004;435:993",
+          "Not challenged"
+        ],
+        [
+          "I135:261;403:1004;435:996",
+          "Final"
+        ],
+        [
+          "I135:261;403:1004;435:999",
           "Yes"
         ],
         [
-          "I135:261;137:233",
+          "I135:261;403:1004;435:1003",
           "No"
+        ],
+        [
+          "I135:261;403:1004;435:1005",
+          "Invalid"
         ],
         [
           "I135:261;137:237",

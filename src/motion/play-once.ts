@@ -6,7 +6,7 @@ export type Animate = (element: Element | null, keyframes: Keyframe[] | Property
 /** No styles are changed until enhancement runs. Static and reduced-motion
  * documents therefore expose the fully settled artwork without JavaScript.
  * A scene already seen this session (see `seen.ts`) stays settled. */
-export function playOnce(root: Element, build: (animate: Animate) => void) {
+export function playOnce(root: Element, build: (animate: Animate) => void, { threshold = .12 }: { threshold?: number } = {}) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const key = sceneKey();
   if (reduced.matches || !('IntersectionObserver' in window) || hasSeen(key)) return;
@@ -59,7 +59,7 @@ export function playOnce(root: Element, build: (animate: Animate) => void) {
   const observer = new IntersectionObserver(entries => {
     visible = entries.some(entry => entry.isIntersecting);
     if (visible) resume(); else pause();
-  }, {threshold:.12});
+  }, {threshold});
   observer.observe(root);
   root.addEventListener('pointerdown',settle,{signal:events.signal});
   root.addEventListener('focusin',settle,{signal:events.signal});
