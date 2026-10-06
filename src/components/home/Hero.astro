@@ -6,7 +6,7 @@ import {links} from '../../data/links';
 import {heroTimeline} from '../../motion/timelines';
 import heroArrival from '../../motion/hero-arrival.js?raw';
 const arrivalScript=heroArrival.replace('__DEV__',String(import.meta.env.DEV));
-const style=`--line-duration:${heroTimeline.lines[0].end}ms;--copy-start:${heroTimeline.copy.start}ms;--copy-duration:${heroTimeline.copy.end-heroTimeline.copy.start}ms;--action-start:${heroTimeline.actions.start}ms;--action-duration:${heroTimeline.actions.end-heroTimeline.actions.start}ms;--field-start:${heroTimeline.field.start}ms;--field-duration:${heroTimeline.field.end-heroTimeline.field.start}ms;--underline-start:${heroTimeline.underline.start}ms;--underline-duration:${heroTimeline.underline.end-heroTimeline.underline.start}ms;--underline-fade-start:${heroTimeline.underline.fadeStart}ms;--underline-fade-duration:${heroTimeline.underline.fadeEnd-heroTimeline.underline.fadeStart}ms`;
+const style=`--line-duration:${heroTimeline.lines[0].end}ms;--copy-start:${heroTimeline.copy.start}ms;--copy-duration:${heroTimeline.copy.end-heroTimeline.copy.start}ms;--action-start:${heroTimeline.actions.start}ms;--action-duration:${heroTimeline.actions.end-heroTimeline.actions.start}ms;--field-start:${heroTimeline.field.start}ms;--field-duration:${heroTimeline.field.end-heroTimeline.field.start}ms;--underline-start:${heroTimeline.underline.start}ms;--underline-duration:${heroTimeline.underline.end-heroTimeline.underline.start}ms`;
 ---
 <section class="home-hero" aria-labelledby="hero-title" data-home-hero style={style}>
  <script is:inline set:html={arrivalScript}></script>
@@ -26,19 +26,21 @@ const style=`--line-duration:${heroTimeline.lines[0].end}ms;--copy-start:${heroT
 .hero-inner{position:relative;display:grid;grid-template-columns:minmax(0,620fr) minmax(0,572fr);align-items:center;gap:56px}
 .hero-copy{position:relative;z-index:1}[data-hero-line]{display:block;white-space:nowrap}.hero-dot{color:var(--primary)}
 .hero-support{margin-top:28px}.hero-lead{font-size:22px;line-height:33px}.hero-body{font-size:18px;line-height:28px;color:var(--muted-foreground);margin-top:12px}
-.hero-actions{display:flex;align-items:center;gap:24px;margin-top:28px}.hero-emphasis{position:relative}.hero-emphasis::after{content:'';position:absolute;left:0;bottom:-5px;height:3px;width:100%;background:var(--primary);transform-origin:left;opacity:0}
+.hero-actions{display:flex;align-items:center;gap:24px;margin-top:28px}.hero-emphasis{position:relative}.hero-emphasis::after{content:'';position:absolute;left:0;top:1.07em;height:max(2px,.042em);width:100%;background:var(--primary);transform-origin:left}
 [data-hero-arrival=entering] [data-hero-line]{animation:hero-line calc(var(--line-duration) * var(--hero-motion-factor,1)) var(--ease-hero) calc(var(--line-start) * var(--hero-motion-factor,1)) backwards}
 
 [data-hero-arrival=entering] .hero-support{animation:hero-support calc(var(--copy-duration) * var(--hero-motion-factor,1)) var(--ease-hero) calc(var(--copy-start) * var(--hero-motion-factor,1)) backwards}
 [data-hero-arrival=entering] .hero-actions{animation:hero-actions calc(var(--action-duration) * var(--hero-motion-factor,1)) ease-out calc(var(--action-start) * var(--hero-motion-factor,1)) backwards}
-[data-hero-arrival=entering] .hero-emphasis::after{animation:hero-underline calc(var(--underline-duration) * var(--hero-motion-factor,1)) var(--ease-hero) calc(var(--underline-start) * var(--hero-motion-factor,1)) backwards,hero-underline-out calc(var(--underline-fade-duration) * var(--hero-motion-factor,1)) ease-out calc(var(--underline-fade-start) * var(--hero-motion-factor,1)) backwards}
+/* The underline under “decentralized” draws in on arrival and stays (owner feedback, 6 Oct 2026).
+   It sits just under the letters: the baseline is .97em below the top of the text box, the line
+   starts .1em below it. No glow (owner, 6 Oct 2026). */
+[data-hero-arrival=entering] .hero-emphasis::after{animation:hero-underline calc(var(--underline-duration) * var(--hero-motion-factor,1)) var(--ease-hero) calc(var(--underline-start) * var(--hero-motion-factor,1)) backwards}
 [data-hero-arrival=entering] :global(.heritage-field){animation:hero-field calc(var(--field-duration) * var(--hero-motion-factor,1)) ease-out calc(var(--field-start) * var(--hero-motion-factor,1)) backwards}
 @keyframes hero-line{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes hero-support{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes hero-actions{from{opacity:0;visibility:hidden}to{opacity:1;visibility:visible}}
 @keyframes hero-field{from{opacity:0}to{opacity:1}}
 @keyframes hero-underline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes hero-underline-out{from{opacity:1}to{opacity:0}}
 @media(min-width:768px) and (max-height:800px){.home-hero{padding-block:40px}}
 @media(max-width:1200px){.hero-inner{gap:32px}.hero-lead{font-size:20px;line-height:30px}.hero-body{font-size:16px;line-height:24px}.hero-actions{gap:16px}.hero-actions :global(.button){font-size:14px;padding-inline:16px}.hero-actions :global(.text){padding-inline:0}}
 @media(max-width:767px){.home-hero{min-height:calc(100svh - 176px);padding-block:48px}.hero-inner{grid-template-columns:1fr;gap:48px}.hero-copy{max-width:620px}.hero-visual{width:80%;max-width:420px;margin-inline:auto}.hero-actions{flex-wrap:wrap}.hero-support{margin-top:24px}.display{font-size:clamp(34px,7.5vw,54px)}}

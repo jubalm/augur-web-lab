@@ -1,9 +1,18 @@
 ---
 import { crossAnywhere as diagram } from '../../../data/diagrams';
+// Four crossers wait on the open edge (the static diagram). The loop
+// (tenet-choreography.ts) brings each one in, lights it Green, keeps it on as a
+// Paper member, settles it to Mist and later lets it leave and return.
+const mist = 'var(--mark-participant, #71728A)';
 ---
 <svg viewBox="0 0 336 168" width="336" height="168" class="tenet-diagram" data-cross aria-hidden="true">
-  <rect data-edge {...diagram.edge} fill="none" stroke="var(--mark-participant, #71728A)" stroke-width="3" stroke-dasharray="3 9" />
-  {diagram.participants.map(([x,y])=><rect data-participant x={x} y={y} width="20" height="20" fill="var(--mark-participant, #71728A)"/>)}
-  {diagram.trails.map((trail,i)=><rect data-trail={i} x={trail.x} y={trail.y} width={trail.size} height={trail.size} opacity={trail.opacity} fill={i>5?'var(--primary)':'var(--mark-participant, #71728A)'}/>)}
-  {diagram.crossers.map((square,i)=><rect data-crosser={i} x={square.x} y={square.y} width="20" height="20" fill={i===3?'var(--primary)':'var(--mark-participant, #71728A)'}/>)}
+  <rect data-edge {...diagram.edge} fill="none" stroke={mist} stroke-width="3" stroke-dasharray="3 9" />
+  {diagram.participants.map(([x,y])=><rect data-participant x={x} y={y} width="20" height="20" fill={mist}/>)}
+  {diagram.participants.map(([x,y],i)=><rect data-motion={`cross-seat:${i}`} x={x} y={y} width="20" height="20" fill="var(--foreground)" opacity="0"/>)}
+  {diagram.trails.map((trail,i)=><rect data-motion={`cross-trail:${i}`} x={trail.x} y={trail.y} width={trail.size} height={trail.size} opacity={trail.opacity} fill={i>5?'var(--primary)':mist}/>)}
+  {diagram.crossers.map((square,i)=><g data-motion={`cross:${i}`} data-crosser={i}>
+    <rect x={square.x} y={square.y} width="20" height="20" fill={i===3?'var(--primary)':mist}/>
+    {i===3?<rect data-motion={`cross-mist:${i}`} x={square.x} y={square.y} width="20" height="20" fill={mist} opacity="0"/>:<rect data-motion={`cross-green:${i}`} x={square.x} y={square.y} width="20" height="20" fill="var(--primary)" opacity="0"/>}
+    <rect data-motion={`cross-paper:${i}`} x={square.x} y={square.y} width="20" height="20" fill="var(--foreground)" opacity="0"/>
+  </g>)}
 </svg>

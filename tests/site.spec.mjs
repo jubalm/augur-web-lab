@@ -334,3 +334,98 @@ test('REP section explains stakes without the removed status sentence', async ({
   await expect(rep.getByRole('link', { name: 'Learn about REP' })).toHaveClass(/outline/);
   await expect(page.locator('.home-blog').getByRole('link', { name: 'View all posts' })).toHaveClass(/outline/);
 });
+
+// Owner iteration (6 Oct 2026): reload never replays scenes, even where storage is blocked; the
+// hero underline stays under the letters with no glow; the market answer can be chosen; the hero
+// answers the pointer and taps; past roadmap milestones read as done; Activity is a timeline;
+// REP actions are rows with icons; only the Peer mesh glows.
+test('a reload settles entrance scenes even where storage is blocked', async ({ page }) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'sessionStorage', { get() { throw new DOMException('Access is denied for this document.', 'SecurityError'); } }); });
+  await page.goto('/');
+  await page.reload();
+  await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'settled');
+  const band = page.locator('[data-answer-band]');
+  await band.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  expect(await band.getAttribute('data-ribbon')).toBeNull();
+  const bonds = page.locator('[data-bonds]');
+  await bonds.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  expect(await bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+});
+
+test('the decentralized underline stays visible just under the letters, with no glow', async ({ page }) => {
+  await page.goto('/');
+  await page.reload();
+  const metrics = await page.locator('.hero-emphasis').evaluate(emphasis => {
+    const probe = document.createElement('span');
+    probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+    emphasis.prepend(probe);
+    const baseline = probe.getBoundingClientRect().top - emphasis.getBoundingClientRect().top;
+    probe.remove();
+    const line = getComputedStyle(emphasis, '::after');
+    return { opacity: line.opacity, gap: parseFloat(line.top) - baseline, size: parseFloat(getComputedStyle(emphasis).fontSize) };
+  });
+  expect(metrics.opacity).toBe('1');
+  expect(metrics.gap).toBeGreaterThan(0);
+  expect(metrics.gap).toBeLessThan(metrics.size * .15);
+  expect(await page.locator('.home-hero [style*="filter"], .home-hero [style*="blur"]').count()).toBe(0);
+});
+
+test('the prediction market answer can be chosen by mouse and keyboard', async ({ page }) => {
+  await page.goto('/');
+  const group = page.getByRole('group', { name: 'Market result' });
+  await expect(group.getByRole('radio', { name: 'Yes' })).toBeChecked();
+  await page.locator('.market-option', { hasText: 'No' }).click();
+  await expect(group.getByRole('radio', { name: 'No' })).toBeChecked();
+  await page.keyboard.press('ArrowUp');
+  await expect(group.getByRole('radio', { name: 'Yes' })).toBeChecked();
+});
+
+test('the hero lens parts squares near the pointer and a click sends a ripple', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForFunction(() => document.querySelector('[data-home-hero]')?.dataset.ambient === 'running', null, { timeout: 8000 });
+  const art = page.locator('[data-hero-art]');
+  const box = await art.boundingBox();
+  await page.mouse.move(box.x + box.width * .6, box.y + box.height * .4, { steps: 6 });
+  await expect.poll(() => art.evaluate(element => [...element.querySelectorAll('.hero-sq')].filter(square => square.style.transform).length)).toBeGreaterThan(5);
+  await page.mouse.click(box.x + box.width * .2, box.y + box.height * .7);
+  await expect(art.locator('.hero-ripple')).toHaveCount(1);
+});
+
+test('past roadmap milestones read as done and only the current leg is Green', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.roadmap-stop.is-completed .web-icon')).toHaveCount(3);
+  await expect(page.locator('[data-track-live]')).toHaveCount(1);
+  const colours = await page.locator('.roadmap-tabs .roadmap-label').evaluateAll(labels => labels.map(label => getComputedStyle(label).color));
+  expect(colours[0]).toBe(colours[1]);
+  expect(colours[0]).not.toBe(colours[3]);
+});
+
+test('walkthrough activity is a timeline with the latest event in Green', async ({ page }) => {
+  await page.goto('/');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#walkthrough-tab-3').click();
+  const panel = page.locator('#walkthrough-panel-3');
+  await expect(panel.locator('.query-ledger li')).toHaveCount(4);
+  await expect(panel.locator('.ledger-node .web-icon')).toHaveCount(4);
+  expect(await panel.locator('[data-ledger-latest] .ledger-node').evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgb(42, 231, 168)');
+});
+
+test('REP actions are rows with icons that replay their flow on hover', async ({ page }) => {
+  await page.goto('/');
+  const rows = page.locator('.rep .stake-row');
+  await expect(rows).toHaveCount(3);
+  await expect(page.locator('.rep .stake-icon .web-icon')).toHaveCount(3);
+  expect(new Set(await rows.evaluateAll(items => items.map(item => Math.round(item.getBoundingClientRect().top)))).size).toBe(3);
+  await rows.first().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(1600);
+  await rows.nth(1).hover();
+  await expect.poll(() => rows.nth(1).evaluate(row => row.getAnimations({ subtree: true }).filter(animation => animation.playState === 'running').length)).toBeGreaterThan(0);
+});
+
+test('only the Peer mesh glows', async ({ page }) => {
+  await page.goto('/');
+  expect(await page.locator('[data-cross] [style*="filter"], [data-authority] [style*="filter"]').count()).toBe(0);
+  expect(await page.locator('[data-mesh] [style*="filter"]').count()).toBeGreaterThan(0);
+});

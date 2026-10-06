@@ -133,11 +133,47 @@
       "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/coins-bold.svg",
       "sha256": "96de33888e4f7fd3eef1a8aec20c2381a85a734c7a073a1dddcaff80e668ac31",
       "added": "2026-10-05",
-      "purpose": "REP destination in the header Resources menu"
+      "purpose": "REP destination in the header Resources menu; homepage walkthrough Activity: a fee paid"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/lock-simple.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/lock-simple-bold.svg",
+      "sha256": "656f6bff423aa14e5d58c60f25bec0ffd853c3fbec9514e36576fa48b545370c",
+      "added": "2026-10-06",
+      "purpose": "Homepage walkthrough Activity: a bond locked"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/seal-check.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/seal-check-bold.svg",
+      "sha256": "61559b0e0467180e127c4e3592960559644d380b743b6d0e3c38d81ce1008026",
+      "added": "2026-10-06",
+      "purpose": "Homepage walkthrough Activity: the answer made final"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/flag.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/flag-bold.svg",
+      "sha256": "43476831d66b397669c93e7247613b339078149a34aaa05ccfab159a50eb5bff",
+      "added": "2026-10-06",
+      "purpose": "Homepage REP rows: Report"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/scales.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/scales-bold.svg",
+      "sha256": "1ec5dc3aa40626210797bdb8cece5b26a1b126957c5100baa9722de315d73071",
+      "added": "2026-10-06",
+      "purpose": "Homepage REP rows: Challenge"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/warning.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/warning-bold.svg",
+      "sha256": "c473db9807bb726638eefcdc70554078cd2a195313d87e28a70498531ec106c0",
+      "added": "2026-10-06",
+      "purpose": "Homepage REP rows: Risk"
     }
   ],
-  "inventoryUpdated": "2026-10-05",
+  "inventoryUpdated": "2026-10-06",
   "inventoryNote": "Retained the 10 used Phosphor Bold icons after owner-authorized removal of 76 unused icons (60 Light, Regular and Fill assets plus 16 Bold assets); source revisions and retained-file hashes are unchanged. See docs/evidence/cleanup-completed.json.",
   "polishNote": "Polish pass (5 Oct 2026) added 7 Phosphor Bold icons, byte-identical to the pinned revision, where they clarify meaning: application types, query cutoff, selected outcomes and field errors.",
-  "navNote": "Navigation pass (5 Oct 2026, owner feedback) added 4 Phosphor Bold icons, byte-identical to the pinned revision, so each Resources menu destination is identifiable at a glance."
+  "navNote": "Navigation pass (5 Oct 2026, owner feedback) added 4 Phosphor Bold icons, byte-identical to the pinned revision, so each Resources menu destination is identifiable at a glance.",
+  "iterationNote": "Owner iteration (6 Oct 2026) added 5 Phosphor Bold icons, byte-identical to the pinned revision: lock-simple and seal-check for the walkthrough Activity timeline, flag, scales and warning for the REP rows. Coins and check gained uses. The same glyphs are components in Figma Components C1."
 }

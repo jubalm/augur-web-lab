@@ -1,12 +1,17 @@
 import { replayMotion } from './debug';
 
-/** Entrance scenes play once per tab session (owner feedback, 5 Oct 2026:
- * pressing F5 must not replay every animation). A scene is recorded when it
- * starts; a reload, a history visit or a later visit in the same session shows
- * it settled. Scenes the reader has not reached yet still play. Storage can be
- * unavailable (private modes, blocked site data): the scenes then simply play. */
+/** Entrance scenes play once per tab session (owner feedback, 5 and 6 Oct 2026:
+ * pressing F5 must not replay any animation). A reload or a history visit
+ * always shows every scene settled, read from the navigation type so it holds
+ * even where storage is blocked (the 6 Oct report came from a browser that
+ * denies `sessionStorage`). On a fresh visit a scene is recorded when it starts,
+ * so a later visit in the same session shows it settled while scenes the reader
+ * has not reached yet still play. Without storage, a fresh visit plays them. */
 const STORE = 'augur:motion-seen';
 const counters = new Map<string, number>();
+const navigation = performance.getEntriesByType?.('navigation')[0] as PerformanceNavigationTiming | undefined;
+/** True for a reload or a back/forward visit (not for a new navigation or prerender). */
+export const revisit = navigation?.type === 'reload' || navigation?.type === 'back_forward';
 
 const read = (): string[] => {
   try { return JSON.parse(sessionStorage.getItem(STORE) ?? '[]') as string[]; } catch { return []; }
@@ -21,7 +26,7 @@ export function sceneKey(name = 'scene') {
 }
 
 export function hasSeen(key: string) {
-  return !replayMotion && read().includes(key);
+  return !replayMotion && (revisit || read().includes(key));
 }
 
 export function markSeen(key: string) {

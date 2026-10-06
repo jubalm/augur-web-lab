@@ -13,10 +13,12 @@ export const walkthrough = [
   { title: 'Challenge if needed', description: 'Anyone can back a different outcome with a larger REP bond. A completed challenge opens another appeal period. Disagreement follows the same public rules.', status: 'Challenge received', state: 'active', answerLabel: 'Current answer · new appeal period', outcome: 'NO', replaced: 'YES' },
   { title: 'Use the final answer', description: 'When an appeal period ends without a new challenge, the latest outcome becomes final. Applications can use that answer under their own settlement rules.', status: 'Final answer', state: 'final', answerLabel: 'Final answer · appeal period ended', outcome: 'NO', replaced: 'YES' },
 ] as const;
+/** Activity rows. Each icon names what happened to the REP: a fee paid, a bond
+ * locked, the answer made final (Phosphor Bold, see docs/icon-provenance.json). */
 export const ledger = [
-  { event: 'Query opened · fee paid', amount: '15 REP' },
+  { event: 'Query opened · fee paid', amount: '15 REP', icon: 'coins' },
   // The challenge replaces this report: from step 2 the card strikes it through.
-  { event: 'Reported Yes · bond locked', amount: '15 REP', replacedAt: 2 },
-  { event: 'Challenged with No · bond locked', amount: '30 REP' },
-  { event: 'Appeal period ended · No is final', amount: '' },
+  { event: 'Reported Yes · bond locked', amount: '15 REP', icon: 'lock-simple', replacedAt: 2 },
+  { event: 'Challenged with No · bond locked', amount: '30 REP', icon: 'lock-simple' },
+  { event: 'Appeal period ended · No is final', amount: '', icon: 'seal-check' },
 ] as const;

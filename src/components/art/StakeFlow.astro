@@ -4,19 +4,22 @@ import Icon from '../primitives/Icon.astro';
  * and what comes back. Payouts follow the January 2026 whitepaper (§4.0.2,
  * §4.3.1: winners receive 80% of losing bonds, so the copy says “most”).
  * Square sizes are proportional: a bond is one 32 px square, a challenge posts
- * two, “most of theirs” is 80% of one bond’s area and a fee share is smaller. */
+ * two, “most of theirs” is 80% of one bond’s area and a fee share is smaller.
+ * Owner feedback (6 Oct 2026): icons and visuals, not just text, and rows rather
+ * than a second set of three boxes after the tenets. Each row: icon and action,
+ * the flow drawn large as its illustration, then the text. */
 type Block = { kind: 'bond' | 'gain' | 'fee' | 'lost'; count?: number };
 type Group = { blocks: Block; caption: string };
-const rows: { title: string; text: string; summary: string; stake: Group; condition: string; outcome: Group[] }[] = [
- { title: 'Report', text: 'Back an answer with a REP bond. If no one challenges it, you get the bond back plus part of the query fee.',
+const rows: { title: string; icon: string; text: string; summary: string; stake: Group; condition: string; outcome: Group[] }[] = [
+ { title: 'Report', icon: 'flag', text: 'Back an answer with a REP bond. If no one challenges it, you get the bond back plus part of the query fee.',
    summary: 'Your bond; if no one challenges, your bond comes back plus a share of the fee.',
    stake: { blocks: { kind: 'bond' }, caption: 'Your bond' }, condition: 'No challenge',
    outcome: [{ blocks: { kind: 'bond' }, caption: 'Bond back' }, { blocks: { kind: 'fee' }, caption: 'Fee share' }] },
- { title: 'Challenge', text: 'Post double the bond against a wrong answer. If yours holds, you also win most of theirs.',
+ { title: 'Challenge', icon: 'scales', text: 'Post double the bond against a wrong answer. If yours holds, you also win most of theirs.',
    summary: 'Double the bond; if your answer holds, it comes back plus most of theirs.',
    stake: { blocks: { kind: 'bond', count: 2 }, caption: 'Double bond' }, condition: 'Your answer holds',
    outcome: [{ blocks: { kind: 'bond', count: 2 }, caption: 'Bond back' }, { blocks: { kind: 'gain' }, caption: 'Most of theirs' }] },
- { title: 'Risk', text: 'If your answer is overturned, you lose the bond. Most of it goes to whoever was right.',
+ { title: 'Risk', icon: 'warning', text: 'If your answer is overturned, you lose the bond. Most of it goes to whoever was right.',
    summary: 'Your bond; if your answer is overturned, the bond is lost.',
    stake: { blocks: { kind: 'bond' }, caption: 'Your bond' }, condition: 'Overturned',
    outcome: [{ blocks: { kind: 'lost' }, caption: 'Bond lost' }] },
@@ -24,7 +27,7 @@ const rows: { title: string; text: string; summary: string; stake: Group; condit
 ---
 <ol class="stake-flows">
  {rows.map(row=><li class="stake-row" data-stake-row>
-  <h3>{row.title}</h3>
+  <div class="stake-head"><span class="stake-icon" aria-hidden="true"><Icon name={row.icon}/></span><h3>{row.title}</h3></div>
   <div class="stake-flow" role="img" aria-label={row.summary}>
    <span class="flow-group" data-stake><span class="blocks">{Array.from({length:row.stake.blocks.count??1},()=> <i class="bond"></i>)}</span><span class="flow-caption">{row.stake.caption}</span></span>
    <span class="flow-link"><span class="flow-condition" data-condition>{row.condition}</span><span class="flow-line" data-line><Icon name="arrow-right"/></span></span>
@@ -35,30 +38,38 @@ const rows: { title: string; text: string; summary: string; stake: Group; condit
 </ol>
 <script>import {initStakeFlow} from '../../motion/home-art';initStakeFlow();</script>
 <style>
+ /* Rows, not tiles (owner, 6 Oct 2026: the tenets already use three boxes). Each row reads
+    icon and action, then the flow as its illustration, then the text, between hairlines. */
  .stake-flows{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--web-outline)}
- .stake-row{display:grid;grid-template-columns:200px 456px minmax(0,1fr);gap:48px;align-items:center;padding-block:32px;border-top:1px solid var(--web-outline)}
+ .stake-row{display:grid;grid-template-columns:240px minmax(0,1fr) 380px;column-gap:48px;align-items:center;padding-block:36px;border-top:1px solid var(--web-outline)}
+ .stake-head{display:flex;align-items:center;gap:16px}
+ .stake-icon{display:grid;place-items:center;width:48px;height:48px;flex:none;background:var(--web-tile);color:var(--foreground);transition:color 180ms ease-out,background-color 180ms ease-out}
+ .stake-icon :global(.web-icon),.stake-icon :global(svg){width:24px;height:24px}
+ .stake-row:hover .stake-icon{color:var(--primary);background:var(--web-raised)}
  .stake-row h3{font:600 24px/32px var(--font-heading);margin:0}
  .stake-row>p{color:var(--muted-foreground);font-size:18px;line-height:28px;margin:0}
- /* Fixed outer columns keep every row's condition line the same length and its outcome aligned. */
- .stake-flow{display:grid;grid-template-columns:88px minmax(64px,1fr) 196px;align-items:start;column-gap:16px;min-width:0}
+ /* Fixed outer columns keep every row's line the same length and its outcome aligned; the
+    condition sits on its own line above the arrow. Squares are proportional (a bond is 40 px). */
+ .stake-flow{display:grid;grid-template-columns:92px minmax(64px,1fr) 236px;grid-template-rows:auto auto;align-items:start;column-gap:12px;row-gap:6px;min-width:0}
  .flow-group{display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:none}
- .blocks{display:flex;align-items:flex-end;gap:6px;height:32px}
+ .blocks{display:flex;align-items:flex-end;gap:6px;height:40px}
  .blocks i{display:block;flex:none}
- .bond{width:32px;height:32px;background:var(--foreground)}
- .gain{width:29px;height:29px;background:var(--primary)}
- .fee{width:16px;height:16px;background:var(--primary)}
- .lost{width:32px;height:32px;border:1.5px dashed var(--mark-participant)}
+ .bond{width:40px;height:40px;background:var(--foreground)}
+ .gain{width:36px;height:36px;background:var(--primary)}
+ .fee{width:20px;height:20px;background:var(--primary)}
+ .lost{width:40px;height:40px;border:1.5px dashed var(--mark-participant)}
  .flow-caption{font-size:13px;line-height:18px;color:var(--muted-foreground);white-space:nowrap}
- .flow-link{display:flex;flex-direction:column;gap:2px;margin-top:-4px;min-width:0}
- .flow-condition{font:600 13px/18px var(--font-heading);color:var(--foreground);white-space:nowrap}
- .flow-line{position:relative;display:block;height:16px;transform-origin:left center}
+ .flow-link{display:contents}
+ .flow-condition{grid-column:2/4;grid-row:1;font:600 13px/18px var(--font-heading);color:var(--foreground);white-space:nowrap}
+ [data-stake]{grid-column:1;grid-row:2}.flow-outcome{grid-column:3;grid-row:2}
+ .flow-line{grid-column:2;grid-row:2;position:relative;display:block;height:16px;margin-top:12px;transform-origin:left center}
  .flow-line::before{content:'';position:absolute;left:0;right:6px;top:7.5px;height:1px;background:var(--mark-participant)}
  .flow-line :global(.web-icon){position:absolute;right:-2px;top:0;width:16px;height:16px;color:var(--mark-participant)}
  .flow-outcome{display:flex;align-items:flex-start;gap:12px;flex:none}
- .flow-plus{height:32px;display:flex;align-items:center;font:400 20px/1 var(--font-heading);color:var(--muted-foreground)}
+ .flow-plus{height:40px;display:flex;align-items:center;font:400 20px/1 var(--font-heading);color:var(--muted-foreground)}
  .flow-group[data-outcome] .blocks i{transform-origin:center}
- @media(max-width:1279px){.stake-row{grid-template-columns:150px minmax(0,420px) minmax(0,1fr);gap:24px}}
- @media(max-width:1023px){.stake-row{grid-template-columns:140px minmax(0,1fr)}.stake-row>p{grid-column:2}}
- @media(max-width:600px){.stake-row{grid-template-columns:1fr;gap:16px}.stake-row>p{grid-column:auto}.stake-flow{grid-template-columns:80px minmax(40px,1fr) auto;column-gap:12px;row-gap:6px}.flow-link{display:contents}.flow-condition{grid-row:1;grid-column:1/-1}.stake-flow>[data-stake]{grid-row:2;grid-column:1}.flow-line{grid-row:2;grid-column:2;margin-top:8px}.flow-outcome{grid-row:2;grid-column:3;gap:8px}.blocks{height:24px;gap:4px}.bond,.lost{width:24px;height:24px}.gain{width:22px;height:22px}.fee{width:12px;height:12px}.flow-plus{height:24px;font-size:16px}.flow-caption{font-size:12px;line-height:16px}.flow-line{margin-top:4px}}
+ @media(max-width:1279px){.stake-row{grid-template-columns:200px minmax(0,1fr);row-gap:20px;column-gap:40px}.stake-row>p{grid-column:2}.stake-flow{max-width:560px}}
+ @media(max-width:767px){.stake-row{grid-template-columns:1fr;padding-block:28px}.stake-row>p{grid-column:auto}.stake-flow{grid-template-columns:auto minmax(28px,1fr) auto;column-gap:10px;max-width:none}.blocks{height:28px;gap:4px}.bond,.lost{width:28px;height:28px}.gain{width:25px;height:25px}.fee{width:14px;height:14px}.flow-plus{height:28px;font-size:16px}.flow-caption{font-size:12px;line-height:16px}.flow-outcome{gap:8px}.flow-line{margin-top:6px}.stake-icon{width:40px;height:40px}.stake-icon :global(.web-icon),.stake-icon :global(svg){width:20px;height:20px}}
+ @media(prefers-reduced-motion:reduce){.stake-icon{transition:none}}
  @media(forced-colors:active){.bond,.gain,.fee{background:CanvasText;forced-color-adjust:none}.lost{border-color:CanvasText}.flow-line::before{background:CanvasText}}
 </style>

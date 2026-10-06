@@ -8,6 +8,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Decide when to retire or rotate the message. — Figma `215:435`, Note / 01 / Announcement bar.
 - [ ] Confirm the spelling: the menu says “Stratoblast”; the code and strategy say “Statoblast”. — Figma `215:463`, Note / 02 / Header.
 - [ ] The hero animation is a placeholder for now. Still needs more thought before launch. — Figma `215:491`, Note / 03 / Hero.
+- [ ] 6 October 2026: the new hero motion (story loop, pointer lens, tap ripple) awaits the owner’s review. — Figma `215:491`, Note / 03 / Hero.
 - [ ] “Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one. — Figma `215:523`, Note / 04 / Who decides what happened?.
 - [ ] Confirm the “own chain or L2” backstop line with the maintainers. — Figma `215:551`, Note / 05 / What could you build?.
 - [ ] Refresh after each quarterly report and confirm with the maintainers. — Figma `215:601`, Note / 08 / Roadmap.

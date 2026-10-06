@@ -12,13 +12,15 @@ export function initHomeInteractions(){
   if(enhanced.has(root))return;enhanced.add(root);
   setupApplicationLayout(root,reduced);
   let motion:Animation[]=[];
-  root.addEventListener('tabschange',event=>{
+  const sendSignal=(index:number)=>{
    motion.forEach(a=>a.cancel());motion=[];if(reduced.matches||!animationsAvailable)return;
-   const {index}=(event as CustomEvent<{index:number}>).detail;
    const signal=root.querySelector(`[data-connector="${index}"] .app-signal`);
    if(signal){motion.push(signal.animate([{opacity:0},{opacity:1}],{duration:motionTime(applicationTimeline.signalFade),fill:'both'}));motion.push(signal.animate([{transform:'translateY(-14px)'},{transform:`translateY(${applicationTimeline.signalDistance-14}px)`}],{duration:motionTime(applicationTimeline.signalTravel),easing:easing.reveal,fill:'both'}));}
    const backstop=root.querySelector('.application-backstop');if(backstop)motion.push(backstop.animate([{opacity:.55},{opacity:1}],{delay:motionTime(applicationTimeline.signalTravel),duration:motionTime(applicationTimeline.backstop)}));
-  });
+  };
+  root.addEventListener('tabschange',event=>sendSignal((event as CustomEvent<{index:number}>).detail.index));
+  // Picking a market answer sends it down the connector again.
+  root.addEventListener('change',event=>{if((event.target as HTMLElement).closest('[data-market-result]'))sendSignal(Number(root.dataset.active??0));});
   reduced.addEventListener('change',()=>motion.forEach(a=>a.cancel()));
   root.addEventListener('tabssettled',()=>{motion.forEach(a=>a.cancel());motion=[];});
  });
@@ -38,6 +40,7 @@ export function initHomeInteractions(){
   if(enhanced.has(root))return;enhanced.add(root);
   playOnce(root,animate=>{
    animate(root.querySelector('[data-track-done]'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:roadmapTimeline.track,easing:easing.draw});
+   animate(root.querySelector('[data-track-live]'),[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{delay:roadmapTimeline.track*2/3,duration:roadmapTimeline.track/3,easing:easing.draw});
    animate(root.querySelector('[data-track-ahead]'),[{opacity:0},{opacity:1}],{delay:600,duration:400});
    root.querySelectorAll('[data-stop]').forEach((stop,i)=>animate(stop,[{opacity:0,transform:'scale(.3)'},{opacity:1,transform:'scale(1)'}],{delay:i*roadmapTimeline.stopStagger,duration:roadmapTimeline.stopDuration}));
    root.querySelectorAll('[role="tabpanel"]:not([hidden]) [data-evidence-bar]').forEach(bar=>animate(bar,[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{delay:300,duration:roadmapTimeline.evidence}));
@@ -65,7 +68,14 @@ export function initHomeInteractions(){
     // A challenge that lands strikes through the answer it replaced; activity
     // that is no longer the latest dims behind the new row.
     panel.querySelectorAll<HTMLElement>('[data-replaced-at]').forEach(node=>{const at=Number(node.dataset.replacedAt);if(previous<at&&at<=index)node.querySelector('s')?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{pseudoElement:'::after',duration:motionTime(timing.panel),delay:motionTime(160),easing:easing.draw,fill:'backwards'});});
-    panel.querySelectorAll('.query-ledger li:not([data-ledger-latest])').forEach((row,i)=>{if(i>=previous)row.querySelectorAll(':scope>span:not(.ledger-mark)').forEach(span=>span.animate([{opacity:1},{opacity:.55}],{duration:motionTime(timing.panel),easing:easing.reveal,fill:'backwards'}));});
+    // The event that was latest hands its Green node to the new one and steps back.
+    const handed=panel.querySelectorAll<HTMLElement>('.query-ledger li')[previous];
+    if(handed&&!handed.hasAttribute('data-ledger-latest')){
+     const styles=getComputedStyle(root);
+     handed.animate([{color:styles.getPropertyValue('--foreground')},{color:getComputedStyle(handed).color}],{duration:motionTime(timing.panel),easing:easing.reveal});
+     const node=handed.querySelector('.ledger-node');if(node)node.animate([{backgroundColor:styles.getPropertyValue('--primary'),borderColor:styles.getPropertyValue('--primary'),color:styles.getPropertyValue('--background')},{backgroundColor:getComputedStyle(node).backgroundColor,borderColor:getComputedStyle(node).borderTopColor,color:getComputedStyle(node).color}],{duration:motionTime(timing.panel),easing:easing.reveal});
+    }
+    panel.querySelector('[data-ledger-latest] .ledger-node')?.animate([{transform:'scale(.4)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:motionTime(timing.panel),delay:motionTime(120),easing:easing.newcomer,fill:'backwards'});
    }
   });
  });
