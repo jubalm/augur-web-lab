@@ -17,7 +17,13 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
       <a href="/about/" class="nav-item nav-link" aria-current={isCurrent('/about/')?'page':undefined} data-current={within('/about/')?'':undefined}>About</a>
       {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure data-current={group.items.some(item=>within(item.href))?'':undefined}>
         <summary class="nav-item" aria-controls={`nav-${index}`} aria-expanded="false">{group.label}<Icon name="chevron-down" class="nav-chevron"/></summary>
-        <div class="nav-panel" id={`nav-${index}`} data-variant={group.variant}><ul>{group.items.map((entry)=>{const item=entry as NavigationItem;const glyph=item.logo??item.icon;return <li><a href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>
+        <div class="nav-panel" id={`nav-${index}`} data-variant={group.variant}><ul>{group.items.map((entry)=>{const item=entry as NavigationItem;const glyph=item.logo??item.icon;
+          // The lead card's one link is its action; the whole card is its hit area.
+          if(item.cta)return <li class="nav-feature">
+            <span class="nav-feature-head"><span class="nav-mark" aria-hidden="true"></span><span class="nav-text"><span class="nav-label">{item.label}</span><span class="nav-description">{item.description}</span></span></span>
+            <a class="nav-cta" href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>{item.cta}<Icon name="arrow-right" class="nav-cta-arrow"/></a>
+          </li>;
+          return <li><a href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>
           {glyph?<Icon name={glyph} class="nav-glyph"/>:<span class="nav-mark" aria-hidden="true"></span>}
           <span class="nav-text"><span class="nav-label">{item.label}</span>{item.description&&<span class="nav-description">{item.description}</span>}</span>
           {item.external&&<Icon name="arrow-up-right" class="nav-external"/>}
@@ -62,7 +68,7 @@ summary::-webkit-details-marker{display:none}
 .nav-panel{position:absolute;top:calc(100% + 28px);left:0;width:248px;padding:8px;isolation:isolate;animation:nav-in 200ms var(--ease-reveal)}
 .nav-panel::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--web-tile);border:1px solid var(--web-outline);border-top-color:var(--web-tile);transform-origin:top left}
 .nav-panel::after{content:'';position:absolute;left:0;right:0;bottom:100%;height:29px}
-.nav-panel[data-variant=products]{width:320px}
+.nav-panel[data-variant=products]{width:624px;padding:12px}
 @supports selector(details::details-content){
   .nav-disclosure::details-content{opacity:0;transform:translateY(-6px);transition:opacity 150ms ease-out,transform 150ms var(--ease-reveal),content-visibility 150ms allow-discrete}
   .nav-disclosure[open]::details-content{opacity:1;transform:none;transition-duration:200ms}
@@ -88,7 +94,25 @@ ul{list-style:none;padding:0;margin:0}
 .nav-panel a:hover .nav-mark,.nav-panel a:focus-visible .nav-mark{background:var(--primary);transform:rotate(45deg) scale(.9)}
 .nav-panel a:hover .nav-external,.nav-panel a:focus-visible .nav-external{color:var(--foreground);transform:translate(2px,-2px)}
 .nav-panel a[aria-current=page]{background:var(--web-quiet)}.nav-panel a[aria-current=page]::before{content:'';position:absolute;left:0;top:12px;bottom:12px;width:2px;background:var(--primary)}
-@media(prefers-reduced-motion:reduce){.nav-item,.nav-chevron,.nav-panel a,.nav-glyph,.nav-mark,.nav-external,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
+/* Products: Augur Lituus leads as a card with a Green action; Zoltar and Augur
+   Stratoblast stack beside it. The action's ::after stretches over the card. */
+.nav-panel[data-variant=products] ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px}
+.nav-panel[data-variant=products] li{display:flex}.nav-panel[data-variant=products] li>a{flex:1;padding:20px 16px}
+.nav-panel[data-variant=products] .nav-description{font-size:14px;line-height:20px}
+.nav-feature{grid-row:span 2;position:relative;flex-direction:column;gap:32px;padding:20px;transition:background-color 140ms ease-out}
+.nav-feature-head{display:flex;gap:12px;align-items:flex-start}
+.nav-feature .nav-label{font:600 20px/26px var(--font-heading)}
+.nav-feature .nav-mark{margin:9px 0 0;background:var(--primary)}
+.nav-panel .nav-feature .nav-cta{position:static;margin:auto 0 0;min-height:48px;justify-content:center;align-items:center;gap:12px;padding:11px 24px;border:1px solid transparent;font:600 16px/24px var(--font-heading);background:var(--primary);color:var(--primary-foreground)}
+.nav-cta::after{content:'';position:absolute;inset:0}
+.nav-cta-arrow{transition:transform 200ms var(--ease-reveal)}
+.nav-feature:hover{background:var(--web-raised)}
+.nav-panel .nav-feature:hover .nav-cta,.nav-panel .nav-feature .nav-cta:focus-visible{background:var(--web-action-hover)}
+.nav-panel .nav-feature .nav-cta:active{background:var(--web-action-pressed)}
+.nav-panel .nav-feature .nav-cta:focus-visible{outline-offset:2px}
+.nav-feature:hover .nav-cta-arrow,.nav-cta:focus-visible .nav-cta-arrow{transform:translateX(3px)}
+.nav-feature:hover .nav-mark,.nav-feature:focus-within .nav-mark{transform:rotate(45deg) scale(.9)}
+@media(prefers-reduced-motion:reduce){.nav-item,.nav-chevron,.nav-panel a,.nav-glyph,.nav-mark,.nav-external,.nav-feature,.nav-cta-arrow,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
 .header-actions{display:flex;gap:16px;align-items:center}.mobile-open{display:none}
 .mobile-navigation{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100svh;max-height:none;padding:24px;background:var(--background);color:var(--foreground);border:0;overflow-y:auto}
 .mobile-navigation::backdrop{background:var(--background)}.mobile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}

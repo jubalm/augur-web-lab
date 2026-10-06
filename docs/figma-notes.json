@@ -615,7 +615,7 @@
           {
             "id": "216:351",
             "name": "Text",
-            "text": "Names only, no descriptions: 240 px panels with 48 px rows."
+            "text": "Products, 624 px: Augur Lituus leads as a card linked through its “Explore Augur Lituus →” button; Zoltar and Augur Stratoblast stack beside it. Hover: card Dark 3, diamond mark, button Hover. Resources and Community: 240 px panels, 48 px rows."
           },
           {
             "id": "216:355",
@@ -631,6 +631,46 @@
             "id": "216:361",
             "name": "Text",
             "text": "Every destination is a placeholder until its page exists."
+          },
+          {
+            "id": "421:1046",
+            "name": "Text",
+            "text": "Approve the label “Explore Augur Lituus →”."
+          },
+          {
+            "id": "375:1445",
+            "name": "Label",
+            "text": "FOR THE BUILD"
+          },
+          {
+            "id": "375:1450",
+            "name": "Text",
+            "text": "Fine pointers only, (hover: hover) and (pointer: fine): hovering an item opens its panel after 90 ms of intent, fading in over 180 ms with a 4 px rise."
+          },
+          {
+            "id": "375:1458",
+            "name": "Text",
+            "text": "With a panel open, moving straight to another item swaps panels in the same frame: transitions are suppressed, so there is no close/reopen fade and no empty gap."
+          },
+          {
+            "id": "375:1462",
+            "name": "Text",
+            "text": "A 24 px hover bridge joins item and panel. Leaving the bar and panel closes a hover-opened panel after 260 ms (160 ms fade); re-entering cancels it. Hovering About closes it."
+          },
+          {
+            "id": "375:1466",
+            "name": "Text",
+            "text": "Clicking an item the pointer opened pins it open; clicking again closes it. Touch, click and keyboard (Enter/Space) toggle natively; Escape closes and returns focus to the item; tabbing out closes."
+          },
+          {
+            "id": "375:1470",
+            "name": "Text",
+            "text": "States: open item underlined with a rotated chevron; row hover Dark 3; row focus a 2 px Pewter inset ring; current page row Dark 1 with a 2 px Green edge; current section a 2 px Green rule on the header’s bottom edge."
+          },
+          {
+            "id": "375:1474",
+            "name": "Text",
+            "text": "Community rows carry their logo (20 px Phosphor Bold) as on this frame; off-site rows end with a 16 px Pewter ↗."
           }
         ]
       },

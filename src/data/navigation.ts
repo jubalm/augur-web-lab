@@ -1,9 +1,10 @@
 import { links, type LinkKey } from './links';
 import { products } from './products';
 
-/** `logo` marks a community destination wherever it is listed; `icon` and
- * `description` only enrich the header panels. */
-export type NavigationItem = { label: string; href: string; external?: boolean; linkKey?: LinkKey; icon?: string; logo?: string; description?: string };
+/** `logo` marks a community destination wherever it is listed; `icon`,
+ * `description` and `cta` only enrich the header panels. An item with a `cta`
+ * leads its panel as a card whose action carries that label. */
+export type NavigationItem = { label: string; href: string; external?: boolean; linkKey?: LinkKey; icon?: string; logo?: string; description?: string; cta?: string };
 const external = (label: string, linkKey: LinkKey, extra: Partial<NavigationItem> = {}): NavigationItem => ({ label, href: links[linkKey].url, external: true, linkKey, ...extra });
 const tagline = (id: (typeof products)[number]['id']) => products.find(product => product.id === id)!.tagline;
 
@@ -11,8 +12,9 @@ const tagline = (id: (typeof products)[number]['id']) => products.find(product =
 export const navigation = {
   augur: [{ label: 'About', href: '/about/' }, { label: 'Contact', href: '/contact/' }],
   // Product taglines come from the products directory (Figma 219:81).
+  // Augur Lituus leads the panel; Zoltar and Augur Stratoblast follow it.
   products: [
-    { label: 'Augur Lituus', href: '/products/#augur-lituus', description: tagline('augur-lituus') },
+    { label: 'Augur Lituus', href: '/products/#augur-lituus', description: tagline('augur-lituus'), cta: 'Explore Augur Lituus' },
     { label: 'Zoltar', href: '/products/#zoltar', description: tagline('zoltar') },
     { label: 'Augur Stratoblast', href: '/products/#augur-stratoblast', description: tagline('augur-stratoblast') },
   ],

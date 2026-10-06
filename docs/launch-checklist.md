@@ -19,6 +19,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Confirm the payout wording and the status line with the maintainers. — Figma `305:1618`, Note / 07 / What can you do with REP?.
 - [ ] First pass, added 2 October 2026. Spacing and motion still to polish. — Figma `305:1618`, Note / 07 / What can you do with REP?.
 - [x] Every destination is a placeholder until its page exists. All new page destinations now resolve; public destinations are registered and HTTP-verified. — Figma `216:340`, Note / 02 / Header dropdowns.
+- [ ] Approve the Products menu action label, “Explore Augur Lituus →” (added 6 October 2026). — Figma `216:340`, Note / 02 / Header dropdowns.
 - [x] These frames show the hero without the announcement bar. Canonical homepage adds the bar as required. — Figma `216:371`, Note / 03 / Hero motion.
 - [ ] The backstop line is a proposed design; confirm chain and L2 support with the maintainers. — Figma `216:405`, Note / 05 / Picker states.
 - [ ] Refresh the figures with each quarterly report. — Figma `216:472`, Note / 08 / Roadmap states.

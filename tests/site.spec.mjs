@@ -295,6 +295,24 @@ test('desktop navigation opens on hover and switches panels without closing', as
   await expect(trigger('Resources')).toHaveAttribute('aria-expanded', 'false');
 });
 
+test('Augur Lituus leads the products panel with one action across its card', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('header nav summary').filter({ hasText: 'Products' }).first().click();
+  const panel = page.locator('#nav-0');
+  await expect(panel.locator('li .nav-label')).toHaveText(['Augur Lituus', 'Zoltar', 'Augur Stratoblast']);
+  const feature = panel.locator('.nav-feature');
+  await expect(feature.getByRole('link')).toHaveCount(1);
+  await expect(feature.getByRole('link', { name: 'Explore Augur Lituus', exact: true })).toHaveAttribute('href', '/products/#augur-lituus');
+  // The action's hit area covers the card, so the title follows it too.
+  const head = await feature.locator('.nav-feature-head').boundingBox();
+  expect(await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.closest('a')?.getAttribute('href'), { x: head.x + 40, y: head.y + 10 })).toBe('/products/#augur-lituus');
+  // Keyboard order follows the emphasis: Augur Lituus, then Zoltar and Augur Stratoblast.
+  for (const name of [/^Explore Augur Lituus$/, /^Zoltar/, /^Augur Stratoblast/]) {
+    await page.keyboard.press('Tab');
+    await expect(panel.getByRole('link', { name })).toBeFocused();
+  }
+});
+
 test('newsletter field validates locally and never sends or claims a subscription', async ({ page }) => {
   const posts = [];
   page.on('request', request => { if (request.method() !== 'GET' || request.url().includes('email=')) posts.push(request.url()); });
