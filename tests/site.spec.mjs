@@ -190,6 +190,85 @@ test('tenet diagrams loop while visible and pause off-screen', async ({ page }) 
   expect((await loops()).every(a => a.state === 'running')).toBe(true);
 });
 
+// Owner feedback (5 Oct 2026): the three diagrams are always moving while
+// visible, with no start-stop-wait. Every sample differs from the previous one.
+test('tenet diagrams never rest between samples while visible', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.tenet-grid').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  const diagrams = await page.locator('[data-cross],[data-mesh],[data-authority]').all();
+  let previous = await Promise.all(diagrams.map(diagram => diagram.screenshot()));
+  for (let sample = 0; sample < 16; sample++) {
+    await page.waitForTimeout(200);
+    const current = await Promise.all(diagrams.map(diagram => diagram.screenshot()));
+    current.forEach((shot, index) => expect(shot.equals(previous[index]), `diagram ${index} rested at sample ${sample}`).toBe(false));
+    previous = current;
+  }
+});
+
+test('entrance scenes play once per session and F5 keeps them settled', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'entering');
+  const bonds = page.locator('[data-bonds]');
+  await bonds.scrollIntoViewIfNeeded();
+  await expect.poll(() => bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBeGreaterThan(0);
+  await page.reload();
+  await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'settled');
+  expect(await page.locator('[data-home-hero]').evaluate(element => element.getAnimations({ subtree: true }).filter(animation => animation.effect?.getTiming().iterations !== Infinity && animation.playState === 'running').length)).toBe(0);
+  await bonds.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  expect(await bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
+});
+
+test('opening a FAQ question animates; the open question on load does not', async ({ page }) => {
+  await page.goto('/');
+  const items = page.locator('.home-faq .faq-item');
+  await items.first().scrollIntoViewIfNeeded();
+  expect(await items.first().locator('.faq-answer p').evaluate(element => element.getAnimations().length)).toBe(0);
+  const started = await items.nth(2).evaluate(item => {
+    item.querySelector('summary').click();
+    return { transition: 'faqTransition' in document.documentElement.dataset, opening: 'faqOpening' in item.dataset };
+  });
+  expect(started).toEqual({ transition: true, opening: true });
+  await expect(items.nth(2)).toHaveAttribute('open', '');
+  await expect(items.first()).not.toHaveAttribute('open', '');
+  await expect.poll(() => page.evaluate(() => 'faqTransition' in document.documentElement.dataset)).toBe(false);
+});
+
+test('switching header panels glides the panel instead of reopening it', async ({ page }) => {
+  await page.goto('/');
+  const trigger = name => page.locator('header nav summary').filter({ hasText: name }).first();
+  await trigger('Products').hover();
+  await expect(trigger('Products')).toHaveAttribute('aria-expanded', 'true');
+  const glide = await page.evaluate(() => {
+    const resources = document.querySelectorAll('[data-nav-disclosure]')[1];
+    resources.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+    return { open: resources.open, animations: resources.querySelector('.nav-panel').getAnimations({ subtree: true }).length };
+  });
+  expect(glide.open).toBe(true);
+  expect(glide.animations).toBeGreaterThan(0);
+  await expect(trigger('Products')).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('[data-nav-highlight]')).toHaveAttribute('data-visible', '');
+});
+
+test('walkthrough crosses off completed steps and strikes the replaced answer', async ({ page }) => {
+  await page.goto('/');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#walkthrough-tab-2').click();
+  const done = page.locator('.walkthrough-steps .step-done');
+  expect(await done.evaluateAll(marks => marks.map(mark => getComputedStyle(mark).opacity))).toEqual(['1', '1', '0', '0']);
+  const panel = page.locator('#walkthrough-panel-2');
+  await expect(panel.locator('.outcome-chip.is-replaced s')).toHaveText('YES');
+  await expect(panel.locator('.outcome-chip.is-selected')).toContainText('NO');
+  await expect(panel.locator('.query-ledger [data-replaced-at] s')).toHaveText('Reported Yes · bond locked');
+  await expect(page.locator('#walkthrough-panel-1 .query-ledger s')).toHaveCount(0);
+});
+
+test('social destinations carry their logos', async ({ page }) => {
+  await page.goto('/');
+  for (const name of ['Discord', 'Telegram', 'X', 'GitHub']) await expect(page.locator('.site-footer nav').getByRole('link', { name, exact: true }).locator('.social-logo svg')).toHaveCount(1);
+});
+
 test('answer statement is live, selectable text on the settled ribbon', async ({ page }) => {
   await page.goto('/');
   const band = page.locator('[data-answer-band]');

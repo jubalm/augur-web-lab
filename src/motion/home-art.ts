@@ -1,7 +1,8 @@
 import {playOnce} from './play-once';
 import {loopScene} from './loop-scene';
+import {hasSeen,markSeen,sceneKey} from './seen';
 import {motionTime} from './debug';
-import {crossAnywhere} from '../data/diagrams';
+import {crossAnywhere,peerMesh} from '../data/diagrams';
 import {easing,tenetLoop,ribbonTimeline,repTimeline} from './timelines';
 type Point = [time: number, values: Keyframe];
 /** Keyframes on a cycle timeline. Points are [ms, values]; the cycle opens and
@@ -14,54 +15,69 @@ const pulse=(start:number,{rise,hold,fall,peak=1}:{rise:number;hold:number;fall:
 
 export function initTenets(){
  const {cross,mesh,authority}=tenetLoop;
- // Permissionless: the crossers fade, then arrive again across the open edge
- // from every side, each leaving a short trail; the Green newcomer comes last.
+ // Permissionless: newcomers keep arriving across the open edge. Each crosser
+ // fades, then slides back in from outside with its trail; the four copies are
+ // a second apart and each moves for 1.2 s, so one is always crossing. The
+ // Green newcomer arrives last. (A crawling dashed edge was tried and dropped:
+ // stroke-dashoffset repaints every frame, ~290 ms of main thread per 5 s.)
  document.querySelectorAll<SVGSVGElement>('[data-cross]').forEach(svg=>loopScene(svg,animate=>{
-  const options={duration:cross.cycle};
+  const arrive=cross.enter+cross.move;
   svg.querySelectorAll('[data-crosser]').forEach((node,i)=>{
-   const square=crossAnywhere.crossers[i]!,start=cross.enter[i]!,away=`translate(${square.dx}px,${square.dy}px)`;
-   animate(node,track(cross.cycle,{opacity:1},[
-    [cross.exit.start,{opacity:1,easing:easing.crossfade}],[cross.exit.end,{opacity:0}],[start,{opacity:0,easing:easing.crossfade}],[start+cross.fadeIn,{opacity:1}],
-   ]),options);
+   const square=crossAnywhere.crossers[i]!,away=`translate(${square.dx}px,${square.dy}px)`,options={duration:cross.cycle,delay:i*cross.stagger};
+   animate(node,track(cross.cycle,{opacity:1},[[0,{opacity:1,easing:easing.crossfade}],[cross.fadeOut,{opacity:0}],[cross.enter,{opacity:0,easing:easing.crossfade}],[cross.enter+cross.fadeIn,{opacity:1}]]),options);
    // Position runs on its own track so the slide eases over its whole length.
-   animate(node,track(cross.cycle,{transform:'translate(0,0)'},[
-    [cross.exit.end,{transform:'translate(0,0)'}],[cross.exit.end+1,{transform:away}],[start,{transform:away,easing:i===3?easing.newcomer:easing.reveal}],[start+cross.move,{transform:'translate(0,0)'}],
-   ]),options);
+   animate(node,track(cross.cycle,{transform:'translate(0,0)'},[[cross.fadeOut,{transform:'translate(0,0)'}],[cross.fadeOut+1,{transform:away}],[cross.enter,{transform:away,easing:i===3?easing.newcomer:easing.reveal}],[arrive,{transform:'translate(0,0)'}]]),options);
   });
   svg.querySelectorAll('[data-trail]').forEach((node,j)=>{
-   const rest=crossAnywhere.trails[j]!.opacity,start=cross.enter[Math.floor(j/2)]!+(j%2?cross.trail.near:cross.trail.far);
-   animate(node,track(cross.cycle,{opacity:rest},[[cross.exit.start,{opacity:rest,easing:easing.crossfade}],[cross.exit.end,{opacity:0}],[start,{opacity:0,easing:easing.crossfade}],[start+cross.trail.fade,{opacity:rest}]]),options);
+   const rest=crossAnywhere.trails[j]!.opacity,back=arrive+(j%2?cross.trail.near:cross.trail.far);
+   animate(node,track(cross.cycle,{opacity:rest},[[0,{opacity:rest,easing:easing.crossfade}],[cross.fadeOut,{opacity:0}],[back,{opacity:0,easing:easing.crossfade}],[back+cross.trail.fade,{opacity:rest}]]),{duration:cross.cycle,delay:Math.floor(j/2)*cross.stagger});
   });
- },{threshold:tenetLoop.threshold}));
- // Decentralized: a highlight hops through the mesh and back, one square at a
- // time, with the link between them glowing at each handoff. Nothing is lit at rest.
+ }));
+ // Decentralized: a relay hops peer to peer along the highlighted path and
+ // back without resting. The packet crosses each link while the link glows,
+ // the next peer lights as it lands and the last one dims behind it.
  document.querySelectorAll<SVGSVGElement>('[data-mesh]').forEach(svg=>loopScene(svg,animate=>{
-  const squares=[...svg.querySelectorAll('[data-mesh-glow]')],links=[...svg.querySelectorAll('[data-mesh-glow-link]')],last=squares.length-1;
-  const squarePoints=squares.map(()=>[] as Point[]),linkPoints=links.map(()=>[] as Point[]);
-  for(const [base,order] of [[mesh.forward,squares.map((_,i)=>i)],[mesh.backward,squares.map((_,i)=>last-i)]] as const){
-   order.forEach((index,step)=>{
-    const start=base+step*mesh.hop;
-    squarePoints[index]!.push(...pulse(start,{rise:mesh.fadeIn,hold:step===last?mesh.lastHold:mesh.hold,fall:mesh.fadeOut}));
-    if(step<last){const link=base===mesh.forward?index:index-1;linkPoints[link]!.push(...pulse(start+mesh.link.delay,{rise:mesh.link.rise,hold:mesh.link.hold,fall:mesh.link.fall}));}
-   });
-  }
-  squares.forEach((node,i)=>animate(node,track(mesh.cycle,{opacity:0},squarePoints[i]!),{duration:mesh.cycle}));
-  links.forEach((node,i)=>animate(node,track(mesh.cycle,{opacity:0},linkPoints[i]!),{duration:mesh.cycle}));
- },{threshold:tenetLoop.threshold}));
- // Trustless: the result steps back to Mist, a Mist signal crosses each lane
- // through the empty middle, and the last arrival lights the result again.
- document.querySelectorAll<SVGSVGElement>('[data-authority]').forEach(svg=>loopScene(svg,animate=>{
-  const options={duration:authority.cycle},{pending,signal,result}=authority;
-  animate(svg.querySelector('[data-result]'),track(authority.cycle,{opacity:1},[[pending.start,{opacity:1,easing:easing.crossfade}],[pending.end,{opacity:0}],[result.start,{opacity:0,easing:easing.crossfade}],[result.end,{opacity:1}]]),options);
-  animate(svg.querySelector('[data-result-pending]'),track(authority.cycle,{opacity:0},[[pending.start,{opacity:0,easing:easing.crossfade}],[pending.end,{opacity:1}],[result.start,{opacity:1,easing:easing.crossfade}],[result.end,{opacity:0}]]),options);
-  svg.querySelectorAll('[data-signal]').forEach((node,i)=>{
-   const start=signal.start+i*signal.stagger,end=start+signal.travel;
-   animate(node,track(authority.cycle,{opacity:0,transform:'translateX(0)'},[
-    [start,{opacity:0,transform:'translateX(0)',easing:easing.crossfade}],[start+120,{opacity:.9,transform:`translateX(${signal.distance*120/signal.travel}px)`,easing:easing.crossfade}],
-    [end-150,{opacity:.9,transform:`translateX(${signal.distance*(signal.travel-150)/signal.travel}px)`,easing:easing.crossfade}],[end,{opacity:0,transform:`translateX(${signal.distance}px)`}],
-   ]),{...options,easing:'linear'});
+  const squares=[...svg.querySelectorAll('[data-mesh-glow]')],links=[...svg.querySelectorAll('[data-mesh-glow-link]')];
+  const route=[...squares.keys(),...[...squares.keys()].reverse().slice(1)];
+  const hop=mesh.travel+mesh.dwell,cycle=(route.length-1)*hop,{light,link}=mesh;
+  // Waypoint k: the packet departs at k·hop and lands travel later.
+  const departs=(k:number)=>k*hop,lands=(k:number)=>k*hop-mesh.dwell;
+  const squarePoints=squares.map(()=>[] as Point[]),linkPoints=links.map(()=>[] as Point[]),packet:Point[]=[];
+  route.forEach((index,k)=>{
+   if(k>0&&k<route.length-1)squarePoints[index]!.push(...pulse(lands(k)-light.lead,{rise:light.rise,hold:mesh.dwell+light.lead-light.rise+light.hold,fall:light.fall}));
+   if(k<route.length-1){
+    const next=route[k+1]!;
+    linkPoints[Math.min(index,next)]!.push(...pulse(departs(k),{rise:link.rise,hold:mesh.travel-link.rise,fall:mesh.dwell}));
+   }
   });
- },{threshold:tenetLoop.threshold}));
+  // The route opens and closes on the first peer, lit at rest.
+  squarePoints[0]!.push([mesh.dwell/2,{opacity:1,easing:easing.crossfade}],[mesh.dwell/2+light.fall,{opacity:0}],[cycle-mesh.dwell-light.lead,{opacity:0,easing:easing.crossfade}],[cycle-mesh.dwell-light.lead+light.rise,{opacity:1}]);
+  const centre=(index:number)=>{const [x,y]=peerMesh.participants[peerMesh.highlight[index]!]!;return [x,y] as const;};
+  const [x0,y0]=centre(0);
+  route.forEach((index,k)=>{
+   const [x,y]=centre(index),at=`translate(${x-x0}px,${y-y0}px)`;
+   if(k>0)packet.push([lands(k),{transform:at}]);
+   if(k<route.length-1)packet.push([departs(k),{transform:at,easing:easing.crossfade}]);
+  });
+  squares.forEach((node,i)=>animate(node,track(cycle,{opacity:i===0?1:0},squarePoints[i]!),{duration:cycle}));
+  links.forEach((node,i)=>animate(node,track(cycle,{opacity:0},linkPoints[i]!),{duration:cycle}));
+  animate(svg.querySelector('[data-mesh-packet]'),track(cycle,{transform:'translate(0px,0px)'},packet),{duration:cycle});
+ }));
+ // Trustless: reports stream along every lane through the empty middle, where
+ // no authority sits. Lanes start 1.2 s apart and each signal takes 2.4 s, so
+ // two are usually in flight; senders give and receivers take a small pulse.
+ document.querySelectorAll<SVGSVGElement>('[data-authority]').forEach(svg=>loopScene(svg,animate=>{
+  const {cycle,travel,distance,fadeIn,fadeOut,send,receive}=authority;
+  svg.querySelectorAll<SVGElement>('[data-signal]').forEach((node,i)=>{
+   const options={duration:cycle,delay:i*authority.stagger};
+   animate(node,track(cycle,{opacity:0,transform:'translateX(0px)'},[
+    [0,{opacity:0,transform:'translateX(0px)'}],[fadeIn,{opacity:.9,transform:`translateX(${distance*fadeIn/travel}px)`}],
+    [travel-fadeOut,{opacity:.9,transform:`translateX(${distance*(travel-fadeOut)/travel}px)`}],[travel,{opacity:0,transform:`translateX(${distance}px)`}],
+   ]),options);
+   animate(svg.querySelector(`[data-sender="${i}"]`),track(cycle,{transform:'scale(1)'},[[0,{transform:'scale(1)',easing:easing.crossfade}],[send*.4,{transform:'scale(.86)',easing:easing.crossfade}],[send,{transform:'scale(1)'}]]),options);
+   animate(svg.querySelector(`[data-receiver="${i}"]`),track(cycle,{transform:'scale(1)'},[[travel-fadeOut,{transform:'scale(1)',easing:easing.reveal}],[travel-fadeOut+receive*.35,{transform:'scale(1.16)',easing:easing.crossfade}],[travel-fadeOut+receive,{transform:'scale(1)'}]]),options);
+  });
+ }));
 }
 
 /** The answer band: a Green ribbon sweeps in under the statement once, led by
@@ -70,7 +86,8 @@ export function initTenets(){
 export function initAnswerRibbon(){
  const band=document.querySelector<HTMLElement>('[data-answer-band]');
  const text=band?.querySelector<HTMLElement>('[data-answer]');
- if(!band||!text||matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)||typeof band.animate!=='function')return;
+ const key=sceneKey('answer-ribbon');
+ if(!band||!text||matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window)||typeof band.animate!=='function'||hasSeen(key))return;
  // Already on screen when the script runs: keep the settled band, no flash.
  const box=band.getBoundingClientRect();if(box.bottom>0&&box.top<innerHeight)return;
  const fill=document.createElement('div');fill.className='ribbon-fill';
@@ -81,7 +98,7 @@ export function initAnswerRibbon(){
  const events=new AbortController();let animations:Animation[]=[];
  const settle=()=>{animations.forEach(a=>a.cancel());fill.remove();overlay.remove();edge.remove();band.dataset.ribbon='settled';observer.disconnect();events.abort();};
  const play=()=>{
-  observer.disconnect();
+  observer.disconnect();markSeen(key);
   const timing={duration:motionTime(ribbonTimeline.duration),easing:easing.draw,fill:'both'} as const;
   animations=[
    fill.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],timing),

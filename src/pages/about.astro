@@ -23,7 +23,7 @@ import Icon from '../components/primitives/Icon.astro';
  </section>
  <section class="section container ruled">
   <div class="section-heading"><h2>Who’s involved</h2><p class="lead">Augur is an open project. These organizations fund, build and review the current work.</p></div>
-  <div class="organizations">{organizations.map(([name,body,href,label])=><article class="tile"><h3>{name}</h3><p>{body}</p><a class="button text" href={href}>{label}<Icon name="arrow-up-right"/></a></article>)}</div>
+  <div class="organizations">{organizations.map(([name,body,href,label])=><article class="tile"><h3>{name}</h3><p>{body}</p><a class="button text" href={href}>{label==='GitHub'&&<Icon name="github-logo"/>}{label}<Icon name="arrow-up-right"/></a></article>)}</div>
  </section>
  <section class="section container ruled">
   <div class="section-heading"><h2>A short history</h2><p class="lead">From prediction markets to open infrastructure for real-world answers.</p></div>

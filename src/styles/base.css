@@ -36,6 +36,8 @@ img { max-width:100%; height:auto }
 .skip-link { position:fixed; top:12px; left:12px; z-index:100; padding:12px 20px; background:var(--primary); color:var(--primary-foreground); transform:translateY(-200%) }
 .skip-link:focus { transform:none }
 .web-icon,.web-icon>span,.web-icon svg { display:inline-block;width:20px;height:20px;flex:none }
+/* Block inner glyphs: an icon is exactly its box, so flex rows centre it optically. */
+.web-icon>span,.web-icon svg { display:block }
 .button,.aug-button { display:inline-flex; justify-content:center; align-items:center; gap:12px; min-height:48px; height:auto; padding:11px 24px; border:1px solid transparent; border-radius:0; font:600 16px/24px var(--font-heading); text-decoration:none; transition:background-color 180ms ease-out,border-color 180ms ease-out,color 180ms ease-out; white-space:normal }
 .button,.button.primary,.aug-button--default { background:var(--primary);color:var(--primary-foreground) }
 .button:hover,.button.primary:hover,.aug-button--default:hover { background:var(--web-action-hover) }

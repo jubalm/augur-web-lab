@@ -9,6 +9,12 @@
   if (preference.matches || document.hidden || root.contains(document.activeElement)) return;
   // The build substitutes a literal false in production, excluding debug behaviour.
   const debug = __DEV__ ? new URLSearchParams(location.search).get('motion') : null;
+  // Arrival plays once per tab session: a reload (F5), a history visit or a
+  // later return to the homepage keeps the settled hero.
+  const navigation = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : undefined;
+  let arrived = false;
+  try { arrived = sessionStorage.getItem('augur:hero-arrived') === '1'; sessionStorage.setItem('augur:hero-arrived', '1'); } catch {}
+  if (debug !== 'replay' && (arrived || (navigation && navigation.type !== 'navigate'))) return;
   const factor = debug === 'slow' ? 5 : 1;
   root.style.setProperty('--hero-motion-factor', String(factor));
 

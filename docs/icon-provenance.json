@@ -106,9 +106,38 @@
       "sha256": "d0ca4e324ff5bb3a1a3bacb9f7580359b8e03cc6862a614d5ed14458db64bedf",
       "added": "2026-10-05",
       "purpose": "Selected outcome and met requirement marks"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/newspaper.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/newspaper-bold.svg",
+      "sha256": "cc6895330d20a760e1eeb6cdb0a6a03f2d4184ead69e59e46558c481e16a0dc7",
+      "added": "2026-10-05",
+      "purpose": "Blog destination in the header Resources menu"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/question.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/question-bold.svg",
+      "sha256": "605254a6f6dc50f1a34bf7d8995d01902e064c2e459fbe8108b8f7890de7c259",
+      "added": "2026-10-05",
+      "purpose": "FAQ destination in the header Resources menu"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/book-open.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/book-open-bold.svg",
+      "sha256": "650b120addbdb8de7513a79e8973799026acc23dcd375d4f3b0c01d2264902c2",
+      "added": "2026-10-05",
+      "purpose": "Learn destination in the header Resources menu"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/coins.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/coins-bold.svg",
+      "sha256": "96de33888e4f7fd3eef1a8aec20c2381a85a734c7a073a1dddcaff80e668ac31",
+      "added": "2026-10-05",
+      "purpose": "REP destination in the header Resources menu"
     }
   ],
   "inventoryUpdated": "2026-10-05",
   "inventoryNote": "Retained the 10 used Phosphor Bold icons after owner-authorized removal of 76 unused icons (60 Light, Regular and Fill assets plus 16 Bold assets); source revisions and retained-file hashes are unchanged. See docs/evidence/cleanup-completed.json.",
-  "polishNote": "Polish pass (5 Oct 2026) added 7 Phosphor Bold icons, byte-identical to the pinned revision, where they clarify meaning: application types, query cutoff, selected outcomes and field errors."
+  "polishNote": "Polish pass (5 Oct 2026) added 7 Phosphor Bold icons, byte-identical to the pinned revision, where they clarify meaning: application types, query cutoff, selected outcomes and field errors.",
+  "navNote": "Navigation pass (5 Oct 2026, owner feedback) added 4 Phosphor Bold icons, byte-identical to the pinned revision, so each Resources menu destination is identifiable at a glance."
 }

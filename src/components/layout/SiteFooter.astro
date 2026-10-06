@@ -3,7 +3,7 @@ import Brand from '../primitives/Brand.astro';
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import HeritageField from '../art/HeritageField.astro';
-import {navigationGroups} from '../../data/navigation';
+import {navigationGroups,type NavigationItem} from '../../data/navigation';
 import {links} from '../../data/links';
 import {site} from '../../data/site';
 ---
@@ -20,7 +20,7 @@ import {site} from '../../data/site';
         </form></div>
     </div>
   </section>
-  <div class="container directory"><div class="identity"><a href="/" aria-label="Augur home"><Brand /></a><p>Augur's work is funded and coordinated by the Lituus Foundation.</p><a href={links.contact.url}>contact@augur.net</a></div>{navigationGroups.map(group=><nav aria-label={`Footer ${group.label}`}><h3>{group.label}</h3><ul>{group.items.map(item=><li><a href={item.href}>{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></nav>)}</div>
+  <div class="container directory"><div class="identity"><a href="/" aria-label="Augur home"><Brand /></a><p>Augur's work is funded and coordinated by the Lituus Foundation.</p><a href={links.contact.url}>contact@augur.net</a></div>{navigationGroups.map(group=><nav aria-label={`Footer ${group.label}`}><h3>{group.label}</h3><ul>{group.items.map(item=><li><a href={item.href}>{(item as NavigationItem).logo&&<Icon name={(item as NavigationItem).logo!} class="social-logo"/>}{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></nav>)}</div>
 </footer>
 <script>
  // Visual prototype: no subscription provider is configured, so the form validates
@@ -58,6 +58,8 @@ import {site} from '../../data/site';
 .directory{border-top:1px solid var(--web-outline);padding-top:40px;padding-bottom:64px;display:grid;grid-template-columns:minmax(220px,1fr) repeat(4,176px);gap:48px}
 .identity{display:flex;flex-direction:column;gap:24px;align-items:flex-start}.identity p{font-size:14px;line-height:22px;color:var(--muted-foreground);max-width:264px}
 .directory h3{font-size:14px;line-height:20px;color:var(--muted-foreground);margin-bottom:16px}.directory ul{list-style:none;padding:0;margin:0}.directory a{text-decoration:none}.directory li a{display:flex;align-items:center;gap:4px;min-height:38px;line-height:24px}.directory a:hover{text-decoration:underline}.directory :global(.web-icon),.directory :global(.web-icon svg){width:14px;height:14px}
+/* Community destinations carry their logo before the name. */
+.directory :global(.social-logo),.directory :global(.social-logo svg){width:18px;height:18px}.directory :global(.social-logo){margin-right:6px;color:var(--muted-foreground);transition:color 180ms ease-out}.directory a:hover :global(.social-logo){color:var(--foreground)}
 @media(max-width:1250px){.directory{grid-template-columns:1.5fr repeat(4,1fr);gap:24px}}
 @media(max-width:1023px){.contact-columns{grid-template-columns:1fr 1fr;gap:48px}.directory{grid-template-columns:repeat(4,1fr)}.identity{grid-column:1/-1;max-width:440px}}
 @media(max-width:767px){.contact-columns{grid-template-columns:1fr;gap:48px;padding-block:64px}.contact-band{min-height:0}.directory{grid-template-columns:repeat(2,1fr);gap:32px}.directory li a{min-height:44px}.newsletter-row{flex-direction:column;align-items:stretch}}

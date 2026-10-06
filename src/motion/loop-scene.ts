@@ -1,12 +1,14 @@
 import { motionTime } from './debug';
 import type { Animate } from './play-once';
 
-/** Seamless looping scenes (owner polish brief, 5 Oct 2026).
- * Every cycle starts and ends on the static artwork, so the server-rendered
+/** Continuous looping scenes (owner feedback, 5 Oct 2026: always moving).
+ * Every track starts and ends on the static artwork, so the server-rendered
  * diagram is also the no-JavaScript, reduced-motion and print state. A scene
- * starts once `threshold` of it is visible, then repeats while any part is on
- * screen; it pauses off-screen or in a hidden tab and resumes where it was. */
-export function loopScene(root: Element, build: (animate: Animate) => void, { threshold = .4 } = {}) {
+ * runs whenever any part of it is on screen, pauses off-screen or in a hidden
+ * tab and resumes exactly where it was. Tracks may use a positive `delay` to
+ * offset overlapping copies: before its first iteration a track shows the
+ * static artwork, which is also where every iteration begins. */
+export function loopScene(root: Element, build: (animate: Animate) => void) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   if (reduced.matches || !('IntersectionObserver' in window) || typeof root.animate !== 'function') return;
   let animations: Animation[] = [];
@@ -33,11 +35,9 @@ export function loopScene(root: Element, build: (animate: Animate) => void, { th
   const reset = () => { animations.forEach(animation => animation.cancel()); animations = []; started = false; };
   const events = new AbortController();
   const observer = new IntersectionObserver(entries => {
-    const entry = entries[entries.length - 1]!;
-    // Start at the threshold; once running, keep going until fully off-screen.
-    visible = started ? entry.isIntersecting : entry.intersectionRatio >= threshold;
+    visible = entries[entries.length - 1]!.isIntersecting;
     sync();
-  }, { threshold: [0, threshold] });
+  });
   const stop = () => { reset(); observer.disconnect(); events.abort(); };
   observer.observe(root);
   document.addEventListener('visibilitychange', sync, { signal: events.signal });
@@ -49,6 +49,3 @@ export function loopScene(root: Element, build: (animate: Animate) => void, { th
   window.addEventListener('pageshow', sync, { signal: events.signal });
   return stop;
 }
-
-/** Helpers for keyframes authored on a cycle timeline in milliseconds. */
-export const at = (time: number, cycle: number) => Math.min(1, Math.max(0, time / cycle));

@@ -61,6 +61,12 @@ export function initHomeInteractions(){
    if(index>previous)panel.querySelectorAll('.query-progress>span').forEach((segment,i)=>{if(i>previous&&i<=index)segment.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:motionTime(timing.panel),delay:motionTime((i-previous-1)*60),easing:easing.draw,fill:'backwards'});});
    panel.querySelector('.outcome-chip.is-selected')?.animate([{opacity:.3,transform:'scale(.96)'},{opacity:1,transform:'scale(1)'}],{...quick,duration:motionTime(timing.panel)});
    if(index>previous)panel.querySelector('[data-ledger-latest]')?.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:motionTime(timing.panel),delay:motionTime(80),easing:easing.reveal,fill:'backwards'});
+   if(index>previous){
+    // A challenge that lands strikes through the answer it replaced; activity
+    // that is no longer the latest dims behind the new row.
+    panel.querySelectorAll<HTMLElement>('[data-replaced-at]').forEach(node=>{const at=Number(node.dataset.replacedAt);if(previous<at&&at<=index)node.querySelector('s')?.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{pseudoElement:'::after',duration:motionTime(timing.panel),delay:motionTime(160),easing:easing.draw,fill:'backwards'});});
+    panel.querySelectorAll('.query-ledger li:not([data-ledger-latest])').forEach((row,i)=>{if(i>=previous)row.querySelectorAll(':scope>span:not(.ledger-mark)').forEach(span=>span.animate([{opacity:1},{opacity:.55}],{duration:motionTime(timing.panel),easing:easing.reveal,fill:'backwards'}));});
+   }
   });
  });
 }

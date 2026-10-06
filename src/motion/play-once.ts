@@ -1,12 +1,15 @@
 import { easing } from './timelines';
 import { motionTime, replayMotion } from './debug';
+import { hasSeen, markSeen, sceneKey } from './seen';
 export type Animate = (element: Element | null, keyframes: Keyframe[] | PropertyIndexedKeyframes, options?: KeyframeAnimationOptions) => Animation | undefined;
 
 /** No styles are changed until enhancement runs. Static and reduced-motion
- * documents therefore expose the fully settled artwork without JavaScript. */
+ * documents therefore expose the fully settled artwork without JavaScript.
+ * A scene already seen this session (see `seen.ts`) stays settled. */
 export function playOnce(root: Element, build: (animate: Animate) => void) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduced.matches || !('IntersectionObserver' in window)) return;
+  const key = sceneKey();
+  if (reduced.matches || !('IntersectionObserver' in window) || hasSeen(key)) return;
   let played = false;
   let settled = false;
   let visible = false;
@@ -34,6 +37,7 @@ export function playOnce(root: Element, build: (animate: Animate) => void) {
   const start = () => {
     if (settled || !visible || document.hidden || played) return;
     played = true;
+    markSeen(key);
     try { build(animate); } catch { settle(); return; }
     if (!animations.length) { settle(); return; }
     void Promise.all(animations.map(a=>a.finished.catch(()=>undefined))).then(()=> {

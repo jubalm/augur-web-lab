@@ -18,13 +18,15 @@ export const heroTimeline = {
  * centre, a dash step on the centre, and a long drift of the background squares. */
 export const heroAmbient = { cycle: 8000, resume: 600, ringStagger: 180, ringRadius: 42, fieldDrift: 24000,
   wave: { start: 160, peak: 640, end: 1280, scale: .975 }, centre: { start: 1360, dim: 1760, end: 2400 } } as const;
-/** Seamless tenet loops: each cycle starts and ends on the static diagram.
- * Cycles of 6, 12 and 6 s share one 12 s timeline in Figma 250:717. */
+/** Continuous tenet loops (owner feedback, 5 Oct 2026: "always moving", no
+ * start-stop-wait). Every track opens and closes on the static diagram and the
+ * tracks overlap, so something is in motion whenever a diagram is on screen.
+ * Times are milliseconds on each element's own cycle; `stagger` offsets the
+ * copies (delay = index × stagger) without changing the cycle. */
 export const tenetLoop = {
-  threshold: .4,
-  cross: { cycle: 6000, exit: { start: 600, end: 900 }, enter: [1000, 1200, 1400, 1600], move: 500, fadeIn: 150, trail: { far: 120, near: 200, fade: 150 } },
-  mesh: { cycle: 12000, forward: 500, backward: 6500, hop: 550, fadeIn: 350, hold: 200, fadeOut: 400, lastHold: 300, link: { delay: 350, rise: 250, hold: 100, fall: 450 } },
-  authority: { cycle: 6000, pending: { start: 500, end: 800 }, signal: { start: 900, stagger: 200, travel: 900, distance: 268 }, result: { start: 2200, end: 2500 } },
+  cross: { cycle: 4000, stagger: 1000, fadeOut: 300, enter: 500, move: 700, fadeIn: 160, trail: { far: 120, near: 220, fade: 220 } },
+  mesh: { travel: 450, dwell: 200, light: { lead: 100, rise: 200, hold: 100, fall: 400 }, link: { rise: 150, fall: 350 } },
+  authority: { cycle: 3600, stagger: 1200, travel: 2400, fadeIn: 120, fadeOut: 160, distance: 274, send: 260, receive: 420 },
 } as const;
 /** One-time answer ribbon: a Green band sweeps under the statement. */
 export const ribbonTimeline = { threshold: .6, duration: 900, edgeFade: 180 } as const;
@@ -33,4 +35,6 @@ export const bondTimeline = [{start:300,end:900,offset:16},{start:500,end:1100,o
 export const repTimeline = { rowStagger:160, line:{start:0,duration:400}, condition:{start:150,duration:250}, travel:{start:300,duration:520}, gain:{start:780,duration:320}, lost:{start:700,duration:300,fade:200} } as const;
 export const roadmapTimeline = {track:1000,stopStagger:110,stopDuration:320,evidence:850} as const;
 export const applicationTimeline = { signalFade:100, signalTravel:800, signalDistance:60, backstop:250 } as const;
-export const faqTimeline = { panel:timing.panel, stagger:50 } as const;
+/** FAQ: the question box eases to its new height over `transition`; the toggle,
+ * Green edge and answer text follow over `panel`, the answer lines `stagger` apart. */
+export const faqTimeline = { transition:380, panel:timing.panel, stagger:50 } as const;
