@@ -1,8 +1,9 @@
 import {setupAllTabs} from './tabs';
 import {motionTime} from './debug';
 import {setupApplicationLayout} from './application-layout';
-import {playOnce} from './play-once';
-import {easing,bondTimeline,applicationTimeline,roadmapTimeline,timing} from './timelines';
+import {playOnce,type Animate} from './play-once';
+import {playMarketQuery} from './market-query';
+import {easing,bondTimeline,applicationTimeline,marketQueryTimeline,roadmapTimeline,timing} from './timelines';
 const enhanced=new WeakSet<HTMLElement>();
 export function initHomeInteractions(){
  setupAllTabs();
@@ -12,17 +13,28 @@ export function initHomeInteractions(){
   if(enhanced.has(root))return;enhanced.add(root);
   setupApplicationLayout(root,reduced);
   let motion:Animation[]=[];
-  const sendSignal=(index:number)=>{
-   motion.forEach(a=>a.cancel());motion=[];if(reduced.matches||!animationsAvailable)return;
+  const animate:Animate=(element,keyframes,options={})=>{if(!element)return;const animation=element.animate(keyframes,{easing:easing.reveal,fill:'both',...options,duration:motionTime(Number(options.duration??320)),delay:motionTime(Number(options.delay??0))});motion.push(animation);return animation;};
+  const stop=()=>{motion.forEach(a=>a.cancel());motion=[];};
+  // The chosen application's signal runs down its connector and the backstop brightens.
+  const sendSignal=(index:number,add:Animate,delay=0)=>{
    const signal=root.querySelector(`[data-connector="${index}"] .app-signal`);
-   if(signal){motion.push(signal.animate([{opacity:0},{opacity:1}],{duration:motionTime(applicationTimeline.signalFade),fill:'both'}));motion.push(signal.animate([{transform:'translateY(-14px)'},{transform:`translateY(${applicationTimeline.signalDistance-14}px)`}],{duration:motionTime(applicationTimeline.signalTravel),easing:easing.reveal,fill:'both'}));}
-   const backstop=root.querySelector('.application-backstop');if(backstop)motion.push(backstop.animate([{opacity:.55},{opacity:1}],{delay:motionTime(applicationTimeline.signalTravel),duration:motionTime(applicationTimeline.backstop)}));
+   add(signal,[{opacity:0},{opacity:1}],{delay,duration:applicationTimeline.signalFade,easing:'linear'});
+   add(signal,[{transform:'translateY(-14px)'},{transform:`translateY(${applicationTimeline.signalDistance-14}px)`}],{delay,duration:applicationTimeline.signalTravel});
+   add(root.querySelector('.application-backstop'),[{opacity:.55},{opacity:1}],{delay:delay+applicationTimeline.signalTravel,duration:applicationTimeline.backstop,easing:'linear',fill:'none'});
   };
-  root.addEventListener('tabschange',event=>sendSignal((event as CustomEvent<{index:number}>).detail.index));
-  // Picking a market answer sends it down the connector again.
-  root.addEventListener('change',event=>{if((event.target as HTMLElement).closest('[data-market-result]'))sendSignal(Number(root.dataset.active??0));});
-  reduced.addEventListener('change',()=>motion.forEach(a=>a.cancel()));
-  root.addEventListener('tabssettled',()=>{motion.forEach(a=>a.cancel());motion=[];});
+  // Prediction markets plays its query from asked to final, then sends the answer down:
+  // once when the card scrolls into view, and whenever its tab is chosen.
+  const query=root.querySelector<HTMLElement>('[data-market-query]');
+  const playQuery=(add:Animate,start:number)=>{if(query)sendSignal(0,add,playMarketQuery(query,add,start));};
+  const settleIntro=query?playOnce(query,add=>playQuery(add,0),{threshold:marketQueryTimeline.threshold}):undefined;
+  root.addEventListener('tabsbeforechange',()=>settleIntro?.());
+  root.addEventListener('tabschange',event=>{
+   stop();if(reduced.matches||!animationsAvailable)return;
+   const {index}=(event as CustomEvent<{index:number}>).detail;
+   if(index===0&&query)playQuery(animate,timing.fadeOut);else sendSignal(index,animate);
+  });
+  reduced.addEventListener('change',stop);
+  root.addEventListener('tabssettled',stop);
  });
  document.querySelectorAll<HTMLElement>('[data-bonds]').forEach(root=>{
   if(enhanced.has(root))return;enhanced.add(root);

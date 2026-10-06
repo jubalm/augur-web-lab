@@ -2,8 +2,9 @@
 import { noAuthority as diagram } from '../../../data/diagrams';
 // Each lane fires like a neuron (tenet-choreography.ts): the sender flashes Paper,
 // a signal with two fainter followers crosses the empty middle, the solid lane
-// segments light as it passes and the receiver fires Green. At rest only the
-// third receiver, the result, is Green.
+// segments light as it passes and the receiver fires Green. At rest every
+// receiver is Mist (owner, 6 Oct 2026: none stays lit). Each flash and fire
+// also sends out the square's outline, Paper or Green, growing as it fades.
 ---
 <svg viewBox="0 0 336 168" width="336" height="168" class="tenet-diagram" data-authority aria-hidden="true">
  {diagram.lanes.map((y,i)=><g>
@@ -17,9 +18,11 @@ import { noAuthority as diagram } from '../../../data/diagrams';
     <rect data-motion={`auth-flash:${i}`} x="8" y={y-10} width="20" height="20" fill="var(--foreground)" opacity="0"/>
    </g>
    <g data-motion={`auth-receiver:${i}`}>
-    {i<2?<rect data-participant x="308" y={y-10} width="20" height="20" fill="var(--mark-participant, #71728A)"/>:<rect data-result x="308" y={y-10} width="20" height="20" fill="var(--primary)"/>}
+    <rect data-participant x="308" y={y-10} width="20" height="20" fill="var(--mark-participant, #71728A)"/>
     <rect data-motion={`auth-fire:${i}`} x="308" y={y-10} width="20" height="20" fill="var(--primary)" opacity="0"/>
    </g>
+   <rect data-motion={`auth-sender-ring:${i}`} x="8.5" y={y-9.5} width="19" height="19" fill="none" stroke="var(--foreground)" opacity="0"/>
+   <rect data-motion={`auth-receiver-ring:${i}`} x="308.5" y={y-9.5} width="19" height="19" fill="none" stroke="var(--primary)" opacity="0"/>
    <rect data-motion={`auth-trace:${i}:2`} x="29.5" y={y-1.5} width="3" height="3" fill="var(--foreground)" opacity="0"/>
    <rect data-motion={`auth-trace:${i}:1`} x="29" y={y-2} width="4" height="4" fill="var(--foreground)" opacity="0"/>
    <rect data-motion={`auth-signal:${i}`} x="28" y={y-3} width="6" height="6" fill="var(--foreground)" opacity="0"/>

@@ -178,10 +178,11 @@ test('tenet diagrams loop while visible and pause off-screen', async ({ page }) 
   const grid = page.locator('.tenet-grid');
   await grid.scrollIntoViewIfNeeded();
   await page.waitForTimeout(400);
+  // One-off lead-ins (Permissionless crossers waiting for their first turn) pause and resume with the loops.
   const loops = () => page.evaluate(() => [...document.querySelectorAll('[data-cross],[data-mesh],[data-authority]')].flatMap(svg => svg.getAnimations({ subtree: true })).map(a => ({ state: a.playState, iterations: a.effect.getTiming().iterations })));
   const running = await loops();
-  expect(running.length).toBeGreaterThan(20);
-  expect(running.every(a => a.iterations === Infinity && a.state === 'running')).toBe(true);
+  expect(running.filter(a => a.iterations === Infinity).length).toBeGreaterThan(20);
+  expect(running.every(a => (a.iterations === Infinity || a.iterations === 1) && a.state === 'running')).toBe(true);
   await page.evaluate(() => scrollTo(0, 0));
   await page.waitForTimeout(300);
   expect((await loops()).every(a => a.state === 'paused')).toBe(true);
@@ -206,6 +207,59 @@ test('tenet diagrams never rest between samples while visible', async ({ page })
   }
 });
 
+// Owner feedback (6 Oct 2026): a Permissionless square crossing the edge never
+// stops on it, including while the later crossers wait for their first turn,
+// and no Trustless receiver stays lit.
+test('Permissionless crossers never stop on the edge', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.tenet-grid').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  const stops = await page.locator('[data-cross]').evaluate(svg => {
+    const animations = svg.getAnimations({ subtree: true });
+    animations.forEach(animation => animation.pause());
+    const box = svg.getBoundingClientRect(), scale = box.width / 336, edges = [['y', 30], ['x', 294], ['y', 138], ['x', 42]];
+    const crossers = [...svg.querySelectorAll('[data-crosser]')], stopped = crossers.map(() => 0);
+    let previous = null;
+    for (let time = 0; time <= 24000; time += 20) {
+      animations.forEach(animation => { animation.currentTime = time; });
+      const opacity = element => element === svg ? 1 : Number(getComputedStyle(element).opacity) * opacity(element.parentElement);
+      const now = crossers.map(crosser => { const r = crosser.getBoundingClientRect(); return { x: (r.left - box.left) / scale, y: (r.top - box.top) / scale, opacity: opacity(crosser) }; });
+      now.forEach((square, i) => {
+        const [axis, at] = edges[i], onEdge = square[axis] < at + 1.5 && square[axis] + 20 > at - 1.5;
+        if (previous && onEdge && square.opacity > .05 && Math.hypot(square.x - previous[i].x, square.y - previous[i].y) < .02) stopped[i] += 20;
+      });
+      previous = now;
+    }
+    return stopped;
+  });
+  expect(stops).toEqual([0, 0, 0, 0]);
+  const receivers = page.locator('[data-authority] [data-motion^="auth-receiver"] > rect:first-child');
+  await expect(receivers).toHaveCount(3);
+  for (const fill of await receivers.evaluateAll(rects => rects.map(rect => rect.getAttribute('fill')))) expect(fill).toContain('--mark-participant');
+});
+
+// Owner pick (6 Oct 2026): "Pulse" squares. A square that lights up pops and
+// its outline grows and fades; at rest the outlines are invisible.
+test('tenet squares pulse when they light up', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.tenet-grid').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  await expect(page.locator('[data-cross] [data-motion*="ring:"]')).toHaveCount(16);
+  await expect(page.locator('[data-mesh] [data-motion^="mesh-ring:"]')).toHaveCount(12);
+  await expect(page.locator('[data-authority] [data-motion*="-ring:"]')).toHaveCount(6);
+  // Seat 5 brightens first, at 300 ms; 200 ms later it has popped and its outline is growing.
+  const seat = await page.locator('[data-cross]').evaluate(svg => {
+    svg.getAnimations({ subtree: true }).forEach(animation => { animation.pause(); animation.currentTime = 500; });
+    const scale = element => new DOMMatrix(getComputedStyle(element).transform).a;
+    const ring = svg.querySelector('[data-motion="cross-seat-ring:5"]'), pop = svg.querySelector('[data-motion="cross-seat-pop:5"]');
+    return { opacity: Number(getComputedStyle(ring).opacity), ring: scale(ring), pop: scale(pop), resting: Number(getComputedStyle(svg.querySelector('[data-motion="cross-seat-ring:8"]')).opacity) };
+  });
+  expect(seat.opacity).toBeGreaterThan(.3);
+  expect(seat.ring).toBeGreaterThan(1.2);
+  expect(seat.pop).toBeGreaterThan(1.05);
+  expect(seat.resting).toBe(0);
+});
+
 test('entrance scenes play once per session and F5 keeps them settled', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'entering');
@@ -214,7 +268,8 @@ test('entrance scenes play once per session and F5 keeps them settled', async ({
   await expect.poll(() => bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBeGreaterThan(0);
   await page.reload();
   await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'settled');
-  expect(await page.locator('[data-home-hero]').evaluate(element => element.getAnimations({ subtree: true }).filter(animation => animation.effect?.getTiming().iterations !== Infinity && animation.playState === 'running').length)).toBe(0);
+  // The “decentralized” underline is the owner's one exception: it sweeps in and out on every load.
+  expect(await page.locator('[data-home-hero]').evaluate(element => element.getAnimations({ subtree: true }).filter(animation => animation.effect?.getTiming().iterations !== Infinity && animation.playState === 'running' && !animation.animationName?.startsWith('hero-underline')).length)).toBe(0);
   await bonds.scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
   expect(await bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
@@ -251,6 +306,35 @@ test('switching header panels glides the panel instead of reopening it', async (
   await expect(page.locator('[data-nav-highlight]')).toHaveAttribute('data-visible', '');
 });
 
+test('the header highlight is a Green line that draws in under the label and retracts', async ({ page }) => {
+  await page.goto('/');
+  const line = await page.evaluate(() => {
+    const nav = document.querySelector('header .desktop-nav'), item = nav.querySelector('.nav-link'), rule = nav.querySelector('[data-nav-highlight]');
+    const frames = () => rule.getAnimations()[0].effect.getKeyframes().map(frame => { const matrix = new DOMMatrix(frame.transform); return { scale: matrix.a, x: matrix.e }; });
+    const probe = document.createElement('span');
+    probe.style.color = 'var(--primary)';
+    document.body.append(probe);
+    const green = getComputedStyle(probe).color;
+    probe.remove();
+    item.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+    const draw = frames();
+    rule.getAnimations().forEach(animation => animation.finish());
+    const box = rule.getBoundingClientRect(), label = item.querySelector('.nav-item-label').getBoundingClientRect();
+    nav.dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' }));
+    return { draw, retract: frames(), origin: getComputedStyle(rule).transformOrigin, height: box.height, offsets: [box.left - label.left, box.width - label.width, box.top - label.bottom], green: getComputedStyle(rule).backgroundColor === green, fill: getComputedStyle(item).backgroundColor };
+  });
+  // Both run from the label's left edge: in left to right, out right to left.
+  expect(line.origin.startsWith('0px')).toBe(true);
+  expect([line.draw[0].scale, line.retract[1].scale]).toEqual([0, 0]);
+  expect(line.draw[1].scale).toBeGreaterThan(0);
+  expect(line.retract[0].scale).toBe(line.draw[1].scale);
+  for (const frames of [line.draw, line.retract]) expect(frames[0].x).toBe(frames[1].x);
+  expect(line.height).toBe(2);
+  for (const offset of line.offsets) expect(Math.abs(offset)).toBeLessThan(0.5);
+  expect(line.green).toBe(true);
+  expect(line.fill).toBe('rgba(0, 0, 0, 0)');
+});
+
 test('walkthrough crosses off completed steps and strikes the replaced answer', async ({ page }) => {
   await page.goto('/');
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -267,6 +351,35 @@ test('walkthrough crosses off completed steps and strikes the replaced answer', 
 test('social destinations carry their logos', async ({ page }) => {
   await page.goto('/');
   for (const name of ['Discord', 'Telegram', 'X', 'GitHub']) await expect(page.locator('.site-footer nav').getByRole('link', { name, exact: true }).locator('.social-logo svg')).toHaveCount(1);
+});
+
+test('the answer statement rises word by word as the ribbon reaches it', async ({ page }) => {
+  await page.goto('/');
+  const band = page.locator('[data-answer-band]');
+  await band.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector('.ribbon-word')?.getAnimations().length);
+  const sweep = await band.evaluate(element => {
+    element.getAnimations({ subtree: true }).forEach(animation => animation.pause());
+    const words = [...element.querySelectorAll('.ribbon-word')].map(word => {
+      const animation = word.getAnimations()[0], [from, to] = animation.effect.getKeyframes();
+      return { text: word.textContent, delay: animation.effect.getTiming().delay, from: [from.opacity, from.transform], to: [to.opacity, to.transform] };
+    });
+    return { words, hidden: element.querySelector('.ribbon-overlay').getAttribute('aria-hidden'), live: element.querySelector('[data-answer]').childNodes.length };
+  });
+  // Only the aria-hidden Navy copy moves; the live statement stays one text node.
+  expect(sweep.hidden).toBe('true');
+  expect(sweep.live).toBe(1);
+  expect(sweep.words.map(word => word.text).join(' ')).toBe('With Augur, no party controls the answer.');
+  for (const word of sweep.words) {
+    expect(word.from[0]).toBe('0');
+    expect(word.from[1]).toMatch(/^translateY\(/);
+    expect(word.to).toEqual(['1', 'none']);
+  }
+  // One line at 1440: the front reaches the words left to right.
+  const delays = sweep.words.map(word => word.delay);
+  expect(delays).toEqual([...delays].sort((a, b) => a - b));
+  expect(delays[0]).toBeGreaterThan(0);
+  expect(delays.at(-1)).toBeLessThan(900);
 });
 
 test('answer statement is live, selectable text on the settled ribbon', async ({ page }) => {
@@ -353,51 +466,121 @@ test('REP section explains stakes without the removed status sentence', async ({
   await expect(page.locator('.home-blog').getByRole('link', { name: 'View all posts' })).toHaveClass(/outline/);
 });
 
-// Owner iteration (6 Oct 2026): reload never replays scenes, even where storage is blocked; the
-// hero underline stays under the letters with no glow; the market answer can be chosen; the hero
-// answers the pointer and taps; past roadmap milestones read as done; Activity is a timeline;
+// Owner iteration (6 Oct 2026): reload never replays scenes, even where storage is blocked, except
+// the answer ribbon and the hero underline; the hero underline sits under the letters with no glow and is temporary; the market example
+// plays a small query; the hero answers the pointer and taps; past roadmap milestones read as done; Activity is a timeline;
 // REP actions are rows with icons; only the Peer mesh glows.
-test('a reload settles entrance scenes even where storage is blocked', async ({ page }) => {
+test('a reload settles entrance scenes even where storage is blocked, but the answer ribbon still sweeps', async ({ page }) => {
   await page.addInitScript(() => { Object.defineProperty(window, 'sessionStorage', { get() { throw new DOMException('Access is denied for this document.', 'SecurityError'); } }); });
   await page.goto('/');
   await page.reload();
   await expect(page.locator('[data-home-hero]')).toHaveAttribute('data-hero-arrival', 'settled');
+  // The owner's exception: the answer ribbon sweeps once per load, a reload included.
   const band = page.locator('[data-answer-band]');
+  await expect(band).toHaveAttribute('data-ribbon', 'armed');
   await band.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(300);
-  expect(await band.getAttribute('data-ribbon')).toBeNull();
+  await expect.poll(() => band.evaluate(element => element.getAnimations({ subtree: true }).length)).toBeGreaterThan(0);
+  await expect(band).toHaveAttribute('data-ribbon', 'settled', { timeout: 4000 });
   const bonds = page.locator('[data-bonds]');
   await bonds.scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
   expect(await bonds.evaluate(element => element.getAnimations({ subtree: true }).length)).toBe(0);
 });
 
-test('the decentralized underline stays visible just under the letters, with no glow', async ({ page }) => {
+test('the decentralized underline sweeps in and out on every load and on hover, just under the letters', async ({ page }) => {
   await page.goto('/');
   await page.reload();
-  const metrics = await page.locator('.hero-emphasis').evaluate(emphasis => {
+  const emphasis = page.locator('.hero-emphasis');
+  const sweep = await emphasis.evaluate(element => {
+    const scale = transform => transform === 'none' ? 1 : new DOMMatrix(transform).a;
+    const animations = element.getAnimations({ subtree: true }).filter(animation => animation.effect.pseudoElement === '::after');
+    const timing = animations.map(animation => ({ name: animation.animationName, delay: animation.effect.getTiming().delay, frames: animation.effect.getKeyframes().map(frame => scale(frame.transform)) }));
+    animations.forEach(animation => animation.finish());
     const probe = document.createElement('span');
     probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
-    emphasis.prepend(probe);
-    const baseline = probe.getBoundingClientRect().top - emphasis.getBoundingClientRect().top;
+    element.prepend(probe);
+    const baseline = probe.getBoundingClientRect().top - element.getBoundingClientRect().top;
     probe.remove();
-    const line = getComputedStyle(emphasis, '::after');
-    return { opacity: line.opacity, gap: parseFloat(line.top) - baseline, size: parseFloat(getComputedStyle(emphasis).fontSize) };
+    const line = getComputedStyle(element, '::after'), hover = getComputedStyle(element, '::before');
+    return { timing, settled: scale(line.transform), origin: line.transformOrigin, gap: parseFloat(line.top) - baseline, size: parseFloat(getComputedStyle(element).fontSize), sameSpot: [hover.top, hover.height, hover.width].join() === [line.top, line.height, line.width].join() };
   });
-  expect(metrics.opacity).toBe('1');
-  expect(metrics.gap).toBeGreaterThan(0);
-  expect(metrics.gap).toBeLessThan(metrics.size * .15);
+  // In left to right, then out right to left to the same left edge; nothing stays behind.
+  expect(sweep.timing.map(animation => animation.name)).toEqual(['hero-underline-in', 'hero-underline-out']);
+  expect(sweep.timing.map(animation => animation.frames)).toEqual([[0, 1], [1, 0]]);
+  expect(sweep.timing[1].delay).toBeGreaterThan(sweep.timing[0].delay);
+  expect(sweep.settled).toBe(0);
+  expect(sweep.origin.startsWith('0px')).toBe(true);
+  expect(sweep.gap).toBeGreaterThan(0);
+  expect(sweep.gap).toBeLessThan(sweep.size * .15);
+  expect(sweep.sameSpot).toBe(true);
+  const hoverScale = () => emphasis.evaluate(element => { const transform = getComputedStyle(element, '::before').transform; return transform === 'none' ? 1 : new DOMMatrix(transform).a; });
+  await emphasis.hover();
+  await expect.poll(hoverScale).toBe(1);
+  await page.mouse.move(4, 600);
+  await expect.poll(hoverScale).toBe(0);
   expect(await page.locator('.home-hero [style*="filter"], .home-hero [style*="blur"]').count()).toBe(0);
 });
 
-test('the prediction market answer can be chosen by mouse and keyboard', async ({ page }) => {
+test('text actions draw a line under the label on hover and retract it', async ({ page }) => {
   await page.goto('/');
-  const group = page.getByRole('group', { name: 'Market result' });
-  await expect(group.getByRole('radio', { name: 'Yes' })).toBeChecked();
-  await page.locator('.market-option', { hasText: 'No' }).click();
-  await expect(group.getByRole('radio', { name: 'No' })).toBeChecked();
-  await page.keyboard.press('ArrowUp');
-  await expect(group.getByRole('radio', { name: 'Yes' })).toBeChecked();
+  const action = page.locator('.hero-actions .button.text');
+  const line = () => action.evaluate(element => {
+    const label = element.querySelector('.button-label'), style = getComputedStyle(label, '::after');
+    return { scale: style.transform === 'none' ? 1 : new DOMMatrix(style.transform).a, origin: style.transformOrigin, height: style.height, labelWidth: label.getBoundingClientRect().width, width: parseFloat(style.width), decoration: getComputedStyle(element).textDecorationLine };
+  });
+  expect((await line()).scale).toBe(0);
+  await action.hover();
+  await expect.poll(async () => (await line()).scale).toBe(1);
+  const drawn = await line();
+  expect(drawn.origin.startsWith('0px')).toBe(true);
+  expect(drawn.height).toBe('2px');
+  expect(Math.abs(drawn.width - drawn.labelWidth)).toBeLessThan(.5);
+  expect(drawn.decoration).toBe('none');
+  await page.mouse.move(4, 600);
+  await expect.poll(async () => (await line()).scale).toBe(0);
+});
+
+test('a small scroll cue sits under the hero content, loops at the top and goes once the page scrolls', async ({ page }) => {
+  await page.goto('/');
+  const cue = page.locator('[data-scroll-cue]');
+  await expect(cue).toHaveAttribute('aria-hidden', 'true');
+  const state = () => cue.evaluate(element => {
+    const box = element.getBoundingClientRect(), hit = other => { const b = document.querySelector(other).getBoundingClientRect(); return !(box.right <= b.left || b.right <= box.left || box.bottom <= b.top || b.bottom <= box.top); };
+    const loop = element.querySelector('.hero-scroll-dot').getAnimations()[0];
+    return { inView: box.bottom <= innerHeight, overlaps: hit('.hero-copy') || hit('[data-hero-art]'), loop: loop && { iterations: loop.effect.getTiming().iterations, state: loop.playState }, opacity: getComputedStyle(element).opacity };
+  });
+  const top = await state();
+  expect(top.inView).toBe(true);
+  expect(top.overlaps).toBe(false);
+  expect(top.loop).toEqual({ iterations: Infinity, state: 'running' });
+  await page.mouse.wheel(0, 400);
+  await expect(cue).toHaveAttribute('data-scrolled', '');
+  await expect.poll(async () => (await state()).opacity).toBe('0');
+  expect((await state()).loop.state).toBe('paused');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(cue).toBeHidden();
+});
+
+// Owner (6 Oct 2026): the Yes/No market result "doesn't really indicate much". It
+// is now a small query, rendered final, that plays from asked to final whenever
+// its tab is chosen; the earlier looks are temporary overlays hidden from assistive technology.
+test('the prediction market example is a small query that plays from asked to final', async ({ page }) => {
+  await page.goto('/');
+  const card = page.locator('[data-market-query]');
+  await expect(card.locator('.market-question')).toHaveText('Was the milestone demonstrated by the deadline?');
+  await expect(card.locator('.market-status')).toHaveText('Final answer');
+  await expect(card.locator('[data-stage]')).toHaveText(['Asked', 'Reported Yes', 'Not challenged', 'Final']);
+  await expect(card.locator('.market-outcomes > li')).toHaveText(['Yes, final answer', 'No', 'Invalid']);
+  await expect(page.locator('.applications').getByRole('radio')).toHaveCount(0);
+  await page.getByRole('tab', { name: /Insurance/ }).click();
+  await page.getByRole('tab', { name: /Prediction markets/ }).click();
+  const pending = card.locator('.market-status.is-pending');
+  await expect(pending).toHaveText(['Awaiting report', 'Open to challenge']);
+  expect(await pending.evaluateAll(nodes => nodes.every(node => node.getAttribute('aria-hidden') === 'true'))).toBe(true);
+  await expect(card.locator('.outcome-veil')).toHaveCount(2);
+  await expect(pending).toHaveCount(0, { timeout: 6000 });
+  await expect(card.locator('.outcome-veil')).toHaveCount(0);
+  await expect(card.locator('.market-status')).toHaveCSS('opacity', '1');
 });
 
 test('the hero lens parts squares near the pointer and a click sends a ripple', async ({ page }) => {

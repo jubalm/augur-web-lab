@@ -14,9 +14,9 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
     <a href="/" aria-label="Augur home" class="logo"><Brand /></a>
     <nav class="desktop-nav" aria-label="Main navigation">
       <span class="nav-highlight" aria-hidden="true" data-nav-highlight></span>
-      <a href="/about/" class="nav-item nav-link" aria-current={isCurrent('/about/')?'page':undefined} data-current={within('/about/')?'':undefined}>About</a>
+      <a href="/about/" class="nav-item nav-link" aria-current={isCurrent('/about/')?'page':undefined} data-current={within('/about/')?'':undefined}><span class="nav-item-label">About</span></a>
       {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure data-current={group.items.some(item=>within(item.href))?'':undefined}>
-        <summary class="nav-item" aria-controls={`nav-${index}`} aria-expanded="false">{group.label}<Icon name="chevron-down" class="nav-chevron"/></summary>
+        <summary class="nav-item" aria-controls={`nav-${index}`} aria-expanded="false"><span class="nav-item-label">{group.label}</span><Icon name="chevron-down" class="nav-chevron"/></summary>
         <div class="nav-panel" id={`nav-${index}`} data-variant={group.variant}><ul>{group.items.map((entry)=>{const item=entry as NavigationItem;const glyph=item.logo??item.icon;
           // The lead card's one link is its action; the whole card is its hit area.
           if(item.cta)return <li class="nav-feature">
@@ -45,21 +45,25 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
 .header-inner{height:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px}
 .logo{justify-self:start}.header-actions{justify-self:end}
 .desktop-nav{position:relative;display:flex;gap:4px;align-items:center;font:400 16px/24px var(--font-heading)}
-.nav-item{position:relative;z-index:1;display:flex;gap:6px;align-items:center;height:40px;padding:0 14px;text-decoration:none;cursor:pointer;list-style:none;color:var(--foreground);transition:background-color 180ms ease-out}
+.nav-item{position:relative;z-index:1;display:flex;gap:6px;align-items:center;height:40px;padding:0 14px;text-decoration:none;cursor:pointer;list-style:none;color:var(--foreground)}
 summary.nav-item{padding-right:10px}
 summary::-webkit-details-marker{display:none}
-.nav-item:hover,.nav-disclosure[open]>.nav-item{background:var(--web-raised)}
+/* Hover and the open item: a 2 px Green line under the label draws in from
+   the left and retracts back to it. */
+.nav-item-label{position:relative}
+.nav-item-label::after{content:'';position:absolute;left:0;right:0;top:100%;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform 240ms var(--ease-reveal)}
+.nav-item:hover .nav-item-label::after,.nav-disclosure[open]>.nav-item .nav-item-label::after{transform:none}
 .nav-item:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
 .nav-chevron,.nav-chevron :global(svg){width:14px;height:14px}
 .nav-chevron{color:var(--muted-foreground);transition:transform 200ms var(--ease-reveal),color 180ms ease-out}
 .nav-item:hover .nav-chevron,.nav-disclosure[open] .nav-chevron{color:var(--foreground)}
 .nav-disclosure[open] .nav-chevron{transform:rotate(180deg)}
-/* With the controller running, one highlight tile glides between items instead. */
+/* With the controller running, one line draws in, glides between items and
+   retracts instead. */
 .nav-highlight{display:none}
-[data-nav-enhanced] .nav-highlight{display:block;position:absolute;left:0;top:50%;width:100px;height:40px;margin-top:-20px;background:var(--web-raised);transform-origin:left;opacity:0;pointer-events:none;transition:transform 240ms var(--ease-reveal),opacity 160ms ease-out}
-[data-nav-enhanced] .nav-highlight[data-visible]{opacity:1}
-[data-nav-enhanced] .nav-highlight[data-instant]{transition:opacity 160ms ease-out}
-[data-nav-enhanced] .nav-item:hover,[data-nav-enhanced] .nav-disclosure[open]>.nav-item{background:transparent}
+[data-nav-enhanced] .nav-highlight{display:block;position:absolute;left:0;top:0;width:100px;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;pointer-events:none;transition:transform 240ms var(--ease-reveal)}
+[data-nav-enhanced] .nav-highlight[data-instant]{transition:none}
+[data-nav-enhanced] .nav-item-label::after{content:none}
 /* Current section: a 2 px Green rule on the header's bottom edge under the item. */
 .nav-link[data-current]::after,.nav-disclosure[data-current]>.nav-item::after{content:'';position:absolute;left:14px;right:14px;bottom:-29px;height:2px;background:var(--primary)}
 .nav-disclosure[data-current]>.nav-item::after{right:30px}
@@ -112,7 +116,7 @@ ul{list-style:none;padding:0;margin:0}
 .nav-panel .nav-feature .nav-cta:focus-visible{outline-offset:2px}
 .nav-feature:hover .nav-cta-arrow,.nav-cta:focus-visible .nav-cta-arrow{transform:translateX(3px)}
 .nav-feature:hover .nav-mark,.nav-feature:focus-within .nav-mark{transform:rotate(45deg) scale(.9)}
-@media(prefers-reduced-motion:reduce){.nav-item,.nav-chevron,.nav-panel a,.nav-glyph,.nav-mark,.nav-external,.nav-feature,.nav-cta-arrow,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
+@media(prefers-reduced-motion:reduce){.nav-item-label::after,.nav-chevron,.nav-panel a,.nav-glyph,.nav-mark,.nav-external,.nav-feature,.nav-cta-arrow,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
 .header-actions{display:flex;gap:16px;align-items:center}.mobile-open{display:none}
 .mobile-navigation{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100svh;max-height:none;padding:24px;background:var(--background);color:var(--foreground);border:0;overflow-y:auto}
 .mobile-navigation::backdrop{background:var(--background)}.mobile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
@@ -124,5 +128,5 @@ ul{list-style:none;padding:0;margin:0}
 @keyframes nav-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media(max-width:1180px){.header-inner{grid-template-columns:auto 1fr auto;gap:24px}.desktop-nav{justify-self:center;gap:0}}
 @media(max-width:1023px){.header-inner{grid-template-columns:1fr auto}.desktop-nav{display:none}.mobile-open{display:flex}.header-actions :global(.button){display:none}.fallback-nav{display:flex;flex-wrap:wrap;background:var(--web-band)}.site-header:has(.fallback-nav){height:auto;min-height:96px}.site-header:has(.fallback-nav) .header-inner{height:96px}}
-@media(forced-colors:active){.nav-highlight{display:none!important}.nav-item:hover,.nav-disclosure[open]>.nav-item{outline:1px solid CanvasText}.nav-panel::before{border-color:CanvasText}}
+@media(forced-colors:active){[data-nav-enhanced] .nav-highlight,.nav-item-label::after,.nav-link[data-current]::after,.nav-disclosure[data-current]>.nav-item::after{forced-color-adjust:none;background:CanvasText}.nav-panel::before{border-color:CanvasText}}
 </style>

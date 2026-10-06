@@ -7,7 +7,8 @@ import type { Animate } from './play-once';
  * runs whenever any part of it is on screen, pauses off-screen or in a hidden
  * tab and resumes exactly where it was. Tracks may use a positive `delay` to
  * offset overlapping copies: before its first iteration a track shows the
- * static artwork, which is also where every iteration begins. */
+ * static artwork, which is also where every iteration begins, unless the
+ * scene adds a one-off lead-in (`iterations: 1`) that covers the delay. */
 export function loopScene(root: Element, build: (animate: Animate) => void) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   if (reduced.matches || !('IntersectionObserver' in window) || typeof root.animate !== 'function') return;
@@ -29,8 +30,9 @@ export function loopScene(root: Element, build: (animate: Animate) => void) {
       started = true;
       try { build(animate); } catch { stop(); return; }
     }
-    // Pausing every effect together keeps the scene's tracks in step.
-    animations.forEach(animation => running() ? animation.play() : animation.pause());
+    // Pausing every effect together keeps the scene's tracks in step. A
+    // finished one-off lead-in stays finished: play() would restart it.
+    animations.forEach(animation => { if (animation.playState !== 'finished') running() ? animation.play() : animation.pause(); });
   };
   const reset = () => { animations.forEach(animation => animation.cancel()); animations = []; started = false; };
   const events = new AbortController();

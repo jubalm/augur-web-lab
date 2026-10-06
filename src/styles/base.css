@@ -46,8 +46,14 @@ img { max-width:100%; height:auto }
 .button.outline:hover,.aug-button--outline:hover { background:var(--web-tile);border-color:var(--border) }
 .button.outline:active,.aug-button--outline:active { background:var(--web-raised);border-color:var(--border) }
 .button.text,.aug-button--ghost,.aug-button--link { background:transparent;color:var(--foreground);padding-inline:0;border:0;text-underline-offset:6px;text-decoration-thickness:2px }
-.button.text:hover,.aug-button--ghost:hover,.aug-button--link:hover { text-decoration:underline;text-decoration-thickness:2px;background:transparent }
-.button.text:active,.aug-button--ghost:active,.aug-button--link:active { color:var(--muted-foreground);text-decoration:underline;text-decoration-thickness:2px }
+.aug-button--link:hover { text-decoration:underline;text-decoration-thickness:2px }
+.button.text:hover,.aug-button--ghost:hover,.aug-button--link:hover { background:transparent }
+.button.text:active,.aug-button--ghost:active,.aug-button--link:active { color:var(--muted-foreground) }
+/* Text actions: like the header line, a 2 px line under the label (not its icons) draws in from
+   the left on hover and retracts back to it, where the underline used to sit (6 px below the baseline). */
+.button-label { position:relative }
+.button.text .button-label::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform 240ms var(--ease-reveal) }
+.button.text:is(:hover,:active) .button-label::after { transform:none }
 .button.destructive,.aug-button--destructive { background:var(--destructive);color:var(--destructive-foreground) }
 .button.destructive:hover,.aug-button--destructive:hover { background:var(--web-danger-hover) }
 .button.destructive:active,.aug-button--destructive:active { background:var(--web-danger-pressed) }
@@ -57,8 +63,9 @@ html.dark .aug-button--default:hover:not(:disabled) { background:var(--web-actio
 html.dark .aug-button--default:active:not(:disabled) { background:var(--web-action-pressed);color:var(--primary-foreground) }
 html.dark .aug-button--outline:hover:not(:disabled) { background:var(--web-tile);color:var(--foreground);border-color:var(--border) }
 html.dark .aug-button--outline:active:not(:disabled) { background:var(--web-raised);color:var(--foreground);border-color:var(--border) }
-html.dark :is(.aug-button--ghost,.aug-button--link):hover:not(:disabled) { background:transparent;color:var(--foreground);text-decoration:underline;text-decoration-thickness:2px }
-html.dark :is(.aug-button--ghost,.aug-button--link):active:not(:disabled) { background:transparent;color:var(--muted-foreground);text-decoration:underline;text-decoration-thickness:2px }
+html.dark :is(.aug-button--ghost,.aug-button--link):hover:not(:disabled) { background:transparent;color:var(--foreground) }
+html.dark :is(.aug-button--ghost,.aug-button--link):active:not(:disabled) { background:transparent;color:var(--muted-foreground) }
+html.dark .aug-button--link:is(:hover,:active):not(:disabled) { text-decoration:underline;text-decoration-thickness:2px }
 html.dark .aug-button--destructive:hover:not(:disabled) { background:var(--web-danger-hover);color:var(--destructive-foreground) }
 html.dark .aug-button--destructive:active:not(:disabled) { background:var(--web-danger-pressed);color:var(--destructive-foreground) }
 html.dark .aug-button:is(:disabled,[aria-busy=true]) { background:var(--web-quiet);color:var(--muted-foreground);border-color:transparent;opacity:1 }
@@ -87,4 +94,4 @@ html.dark .field :is(input,textarea):disabled { background:var(--web-quiet);colo
 @media(prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important} }
 @media(prefers-reduced-motion:reduce) { html.dark .aug-button[aria-busy=true] .aug-button-spinner-icon { animation:none } }
 @media print { *,*::before,*::after{animation:none!important;transition:none!important} }
-@media(forced-colors:active) { .field-error::before{forced-color-adjust:none;background:CanvasText} .button,.tile,.outcome-chip{border:1px solid ButtonText} :focus-visible{outline:2px solid Highlight} .field input,.field textarea{border:1px solid ButtonText} }
+@media(forced-colors:active) { .field-error::before,.button.text .button-label::after{forced-color-adjust:none;background:CanvasText} .button,.tile,.outcome-chip{border:1px solid ButtonText} :focus-visible{outline:2px solid Highlight} .field input,.field textarea{border:1px solid ButtonText} }

@@ -10,7 +10,9 @@ export const timing = { hover:180, fadeOut:160, panel:320, longPanel:850, stagge
 export const heroTimeline = {
   lines: [{start:0,end:700},{start:100,end:800},{start:200,end:900}],
   copy: {start:400,end:900}, actions:{start:650,end:950},
-  underline:{start:750,end:1320},
+  underline:{start:750,end:1320}, underlineOut:{start:2200,end:2700}, underlineHover:320,
+  /** Scroll cue: fades in once the underline has gone, then loops until the page scrolls. */
+  scrollCue:{start:2400,end:2800,cycle:2400},
   field:{start:500,end:2100}, rings:[600,500,400,300,200,100,0],
   squareMove:1200,squareFade:800,orbit:{start:1100,end:1700},centre:{start:1750,end:2300},
 } as const;
@@ -19,12 +21,18 @@ export const heroTimeline = {
 /** The tenet diagram loops live in tenet-choreography.ts (one source for the
  * website and the Figma keyframes). */
 /** One-time answer ribbon: a Green band sweeps under the statement. */
-export const ribbonTimeline = { threshold: .6, duration: 900, edgeFade: 180 } as const;
+/** Each word of the statement rises `rise` em into place, in Navy, as the
+ * ribbon's front reaches it (owner, 6 Oct 2026: the text should move too). */
+export const ribbonTimeline = { threshold: .6, duration: 900, edgeFade: 180, word: { duration: 420, rise: .45 } } as const;
 export const bondTimeline = [{start:300,end:900,offset:16},{start:500,end:1100,offset:32},{start:700,end:1300,offset:64},{start:900,end:1500,offset:128}] as const;
 /** REP stake flows: line draws, bond travels to the outcome, winnings appear. */
 export const repTimeline = { rowStagger:160, line:{start:0,duration:400}, condition:{start:150,duration:250}, travel:{start:300,duration:520}, gain:{start:780,duration:320}, lost:{start:700,duration:300,fade:200} } as const;
 export const roadmapTimeline = {track:1000,stopStagger:110,stopDuration:320,evidence:850} as const;
 export const applicationTimeline = { signalFade:100, signalTravel:800, signalDistance:60, backstop:250 } as const;
+/** Prediction markets query (owner, 6 Oct 2026): each stage starts at `stages[i]`;
+ * its line draws over `draw`, the status hands over in `fade`, the answer's check
+ * pops in over `check`; the signal leaves for the backstop `signal` after Final. */
+export const marketQueryTimeline = { stages:[0,600,1300,2000], draw:400, fade:200, check:320, label:.4, signal:200, threshold:.6 } as const;
 /** FAQ: the question box eases to its new height over `transition`; the toggle,
  * Green edge and answer text follow over `panel`, the answer lines `stagger` apart. */
 export const faqTimeline = { transition:380, panel:timing.panel, stagger:50 } as const;
