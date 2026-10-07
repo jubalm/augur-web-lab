@@ -11,4 +11,11 @@ import FAQ from '../components/home/FAQ.astro';
 ---
 <PageLayout>
  <Hero/><Tenets/><Applications/><HowItWorks/><Rep/><Roadmap/><Blog/><FAQ/>
+ <script>
+  // These sections exist only here, so the page starts them once from one script; each init
+  // finds its own sections. One entry instead of five identical ones keeps the JavaScript budget.
+  import {initAnswerRibbon,initTenets,initStakeFlow} from '../motion/home-art';
+  import {initHomeInteractions} from '../motion/home-interactions';
+  initAnswerRibbon();initTenets();initHomeInteractions();initStakeFlow();
+ </script>
 </PageLayout>

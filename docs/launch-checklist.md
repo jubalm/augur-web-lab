@@ -10,7 +10,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] The hero animation is a placeholder for now. Still needs more thought before launch. — Figma `215:491`, Note / 03 / Hero.
 - [ ] 6 October 2026: the new hero motion (story loop, pointer lens, tap ripple) awaits the owner’s review. — Figma `215:491`, Note / 03 / Hero.
 - [ ] “Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one. — Figma `215:523`, Note / 04 / Who decides what happened?.
-- [ ] Confirm the “own chain or L2” backstop line with the maintainers. — Figma `215:551`, Note / 05 / What could you build?.
+- [ ] Confirm the fallback note in the Insurance & payments example (“The app could also use a faster oracle on its own chain or L2, and turn to Augur Lituus only when a claim is disputed.”) with the maintainers. — Figma `215:551`, Note / 05 / What could you build?.
 - [ ] Refresh after each quarterly report and confirm with the maintainers. — Figma `215:601`, Note / 08 / Roadmap.
 - [ ] The posts are stand-ins; choose real posts before launch. — Figma `215:625`, Note / 09 / From the blog.
 - [ ] Answers 4 and 5 are whitepaper-based drafts that need review. — Figma `215:649`, Note / 10 / FAQ.
@@ -21,7 +21,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [x] Every destination is a placeholder until its page exists. All new page destinations now resolve; public destinations are registered and HTTP-verified. — Figma `216:340`, Note / 02 / Header dropdowns.
 - [ ] Approve the Products menu action label, “Explore Augur Lituus →” (added 6 October 2026). — Figma `216:340`, Note / 02 / Header dropdowns.
 - [x] These frames show the hero without the announcement bar. Canonical homepage adds the bar as required. — Figma `216:371`, Note / 03 / Hero motion.
-- [ ] The backstop line is a proposed design; confirm chain and L2 support with the maintainers. — Figma `216:405`, Note / 05 / Picker states.
+- [ ] The fallback note is a proposed design; confirm chain and L2 support, and the fallback use, with the maintainers. — Figma `216:405`, Note / 05 / Picker states.
 - [ ] Approve the market query wording (added 6 October 2026): the stage labels “Asked”, “Reported Yes”, “Not challenged” and “Final”, and the “Invalid” outcome. The statuses reuse How it works. — Figma `216:405`, Note / 05 / Picker states.
 - [ ] Refresh the figures with each quarterly report. — Figma `216:472`, Note / 08 / Roadmap states.
 - [ ] Swap in real article art once posts are chosen. — Figma `216:506`, Note / 09 / Cover placeholders.

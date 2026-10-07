@@ -583,6 +583,89 @@ test('the prediction market example is a small query that plays from asked to fi
   await expect(card.locator('.market-status')).toHaveCSS('opacity', '1');
 });
 
+// Owner (6 Oct 2026): the 112 px “One backstop for every app.” band implied that a
+// backstop is Augur Lituus's only use. The band is now one slim line naming the oracle,
+// and the fallback use is one app's choice, inside the Insurance panel only.
+test('the Augur Lituus band is one slim line and the fallback use sits in one example', async ({ page }) => {
+  await page.goto('/');
+  const band = page.locator('.application-oracle');
+  await expect(band.locator('h3')).toHaveText('Augur Lituus');
+  await expect(band.locator('p')).toHaveText('One oracle for every app.');
+  expect((await band.boundingBox()).height).toBeLessThanOrEqual(64);
+  await expect(page.locator('.applications')).not.toContainText(/backstop/i);
+  await expect(page.locator('.app-fallback')).toHaveCount(1);
+  await expect(page.locator('#application-panel-insurance .app-fallback')).toHaveText('The app could also use a faster oracle on its own chain or L2, and turn to Augur Lituus only when a claim is disputed.');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#application-tab-insurance').click();
+  const name = await page.locator('#application-tab-insurance .app-name').boundingBox();
+  const story = await page.locator('#application-panel-insurance .app-story').boundingBox();
+  expect(story.y).toBeGreaterThan(name.y + name.height);
+});
+
+// Owner (6 Oct 2026): the grants example (“Published.”) was weak. It is now a prize
+// challenge whose answer is one of three teams, not yes or no.
+test('the DAOs & grants example is a prize challenge with one winning team', async ({ page }) => {
+  await page.goto('/');
+  const tab = page.locator('#application-tab-grants');
+  await expect(tab).toContainText('Which team shipped a working prototype first?');
+  await tab.click();
+  const panel = page.locator('#application-panel-grants');
+  await expect(panel.locator('h3')).toHaveText('Award a grant.');
+  await expect(panel.locator('.prize-teams > li')).toHaveText(['Team A', 'Team B, final answer', 'Team C']);
+  await expect(panel.locator('.prize-teams .is-winner')).toHaveCount(1);
+  await expect(panel.locator('.prize-caption')).toHaveText('Prize sent to Team B');
+  await expect(panel).not.toContainText('Published');
+});
+
+// Owner (6 Oct 2026): no one-sided Green bar on the open application card; its icon
+// tile fills Green instead, at every width.
+test('the open application card is marked by a Green icon tile, not an edge', async ({ page }) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const tab = page.locator('.application-tab[aria-selected="true"]');
+    expect(await tab.evaluate(element => ['Top', 'Right', 'Bottom', 'Left'].map(side => getComputedStyle(element)[`border${side}Width`]))).toEqual(['0px', '0px', '0px', '0px']);
+    await expect(tab.locator('.app-icon')).toHaveCSS('background-color', 'rgb(42, 231, 168)');
+    await expect(page.locator('.application-tab[aria-selected="false"] .app-icon').first()).not.toHaveCSS('background-color', 'rgb(42, 231, 168)');
+  }
+});
+
+// Owner (6 Oct 2026): subtle motion for Insurance and DAOs & grants. Each plays
+// when its tab is chosen and ends on the rendered final state: the flight's arrival
+// slides out from the scheduled-arrival tick; Team B turns from a plain tile (an
+// aria-hidden veil) to the Green winner and the caption rises in.
+test('the insurance and prize examples play in when chosen and settle on their final state', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('#application-tab-insurance').click();
+  const run = page.locator('.flight-run');
+  // The panel stays hidden for the 160 ms outgoing fade, where Chromium reports no animated style.
+  await expect.poll(() => run.evaluate(element => getComputedStyle(element).transform)).not.toBe('none');
+  await expect.poll(() => run.evaluate(element => getComputedStyle(element).transform), { timeout: 4000 }).toBe('none');
+  await expect(page.locator('.flight-summary > span:last-child')).toHaveCSS('opacity', '1');
+  await page.locator('#application-tab-grants').click();
+  const veil = page.locator('.prize-veil');
+  await expect(veil).toHaveAttribute('aria-hidden', 'true');
+  await expect(veil).toHaveCount(0, { timeout: 4000 });
+  await expect(page.locator('.prize-caption')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.is-winner .web-icon')).toHaveCSS('opacity', '1');
+});
+
+test('with reduced motion the examples do not play, and the flight square stays square', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [1440, 768, 360]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.locator('#application-tab-insurance').click();
+    await expect(page.locator('#application-panel-insurance')).toBeVisible();
+    const box = await page.locator('.flight-arrival').boundingBox();
+    expect([Math.round(box.width), Math.round(box.height)]).toEqual([14, 14]);
+    expect(await page.locator('.flight-run').evaluate(element => element.getAnimations().length)).toBe(0);
+  }
+  await page.locator('#application-tab-grants').click();
+  await expect(page.locator('#application-panel-grants')).toBeVisible();
+  await expect(page.locator('.prize-veil')).toHaveCount(0);
+});
+
 test('the hero lens parts squares near the pointer and a click sends a ripple', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => document.querySelector('[data-home-hero]')?.dataset.ambient === 'running', null, { timeout: 8000 });
@@ -622,7 +705,59 @@ test('REP actions are rows with icons that replay their flow on hover', async ({
   await rows.first().scrollIntoViewIfNeeded();
   await page.waitForTimeout(1600);
   await rows.nth(1).hover();
-  await expect.poll(() => rows.nth(1).evaluate(row => row.getAnimations({ subtree: true }).filter(animation => animation.playState === 'running').length)).toBeGreaterThan(0);
+  // The ambient loop always runs; the replay is everything else.
+  await expect.poll(() => rows.nth(1).evaluate(row => row.getAnimations({ subtree: true }).filter(animation => animation.playState === 'running' && animation.id !== 'rep-loop').length)).toBeGreaterThan(0);
+});
+
+// Owner (6 Oct 2026): the REP rows were not aligned. Each row now has one axis
+// through icon, title, squares, arrow, “+” and the text's first line; the condition
+// is centred over its arrow; arrows and outcomes line up across rows, phones included.
+test('REP rows share one axis and their arrows line up across rows', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const rows = await page.locator('.stake-row').evaluateAll(items => items.map(row => {
+      const box = selector => row.querySelector(selector).getBoundingClientRect(), mid = selector => box(selector).top + box(selector).height / 2;
+      const text = row.querySelector(':scope > p'), line = box('.flow-line'), label = box('.flow-condition');
+      return { axis: [mid('[data-stake] .blocks'), mid('.flow-arrow'), ...[...row.querySelectorAll('.flow-outcome .blocks, .flow-plus')].map(node => node.getBoundingClientRect()).map(b => b.top + b.height / 2)],
+        head: [mid('.stake-icon'), mid('h3')], first: text.getBoundingClientRect().top + parseFloat(getComputedStyle(text).lineHeight) / 2,
+        labelOffset: Math.abs(label.left + label.width / 2 - (line.left + line.width / 2)), lineLeft: Math.round(line.left), lineWidth: Math.round(line.width), outcome: Math.round(box('.flow-outcome').left) };
+    }));
+    for (const row of rows) {
+      for (const y of row.axis) expect(Math.abs(y - row.axis[0])).toBeLessThanOrEqual(1);
+      expect(row.labelOffset).toBeLessThanOrEqual(1);
+      if (width === 1440) for (const y of [...row.head, row.first]) expect(Math.abs(y - row.axis[0])).toBeLessThanOrEqual(1);
+    }
+    for (const key of ['lineLeft', 'lineWidth', 'outcome']) expect(new Set(rows.map(row => row[key])).size).toBe(1);
+  }
+});
+
+// Owner (6 Oct 2026): “more alive”, then option B of three sketches: a copy of the
+// bond glides along the arrow and lands on the returned bond (winnings pop; Risk's copy
+// fades into the lost bond). It runs on elements of its own, invisible at rest, and
+// lands exactly on the outcome at any width.
+test('the REP rows loop a gliding bond that lands on the outcome and is invisible at rest', async ({ page }) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    await page.locator('.stake-flows').scrollIntoViewIfNeeded();
+    await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation => animation.id === 'rep-loop' && animation.playState === 'running').length)).toBe(9);
+    expect(await page.evaluate(() => document.getAnimations().filter(animation => animation.id === 'rep-loop').every(animation => animation.effect.getTiming().iterations === Infinity))).toBe(true);
+    // Lead 1800 + first send 60 + travel 1200 (rep-choreography.ts): the first row's copy has landed.
+    const landed = await page.evaluate(() => {
+      // The once-per-visit entrance may still be sliding the returned bond in; settle it first.
+      document.querySelector('.stake-flows').getAnimations({ subtree: true }).filter(animation => animation.id !== 'rep-loop').forEach(animation => animation.finish());
+      document.getAnimations().filter(animation => animation.id === 'rep-loop').forEach(animation => { animation.pause(); animation.currentTime = 3060; });
+      const row = document.querySelector('.stake-row'), ghost = row.querySelector('.flow-ghost i').getBoundingClientRect(), bond = row.querySelector('.flow-outcome .blocks i').getBoundingClientRect();
+      return [Math.round(ghost.left - bond.left), Math.round(ghost.top - bond.top)];
+    });
+    expect(landed).toEqual([0, 0]);
+  }
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  expect(await page.locator('.flow-ghost, .flow-flash').evaluateAll(nodes => nodes.every(node => getComputedStyle(node).opacity === '0'))).toBe(true);
+  await expect(page.locator('.flow-arrow')).toHaveCount(3);
 });
 
 test('only the Peer mesh glows', async ({ page }) => {

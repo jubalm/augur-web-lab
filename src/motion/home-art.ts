@@ -3,7 +3,8 @@ import {loopScene} from './loop-scene';
 import {motionTime} from './debug';
 import {tenetChoreography,tenetCycle} from './tenet-choreography';
 import {keyframes,type Track} from './choreography';
-import {easing,ribbonTimeline,repTimeline} from './timelines';
+import {repCycle,repRowTracks} from './rep-choreography';
+import {easing,ribbonTimeline,repTimeline,timeAt} from './timelines';
 /** The three tenet diagrams loop while any part is on screen (loop-scene.ts),
  * every element on its own 12 s track from tenet-choreography.ts, a delayed
  * track after a one-off lead-in. SVG elements
@@ -28,16 +29,6 @@ export function initTenets(){
    animate(svg.querySelector(`[data-motion="${track.id}"]`),keyframes(track,tenetCycle,undefined,{individual:false}),{duration:tenetCycle,delay:track.delay??0});
   }
  }));
-}
-
-/** The moment, as a fraction of the duration, at which a cubic-bezier easing
- * whose output rises steadily reaches `progress`. */
-function timeAt(curve:string,progress:number){
- const [x1=0,y1=0,x2=1,y2=1]=(curve.match(/-?[\d.]+/g)??[]).map(Number);
- const at=(a:number,b:number,s:number)=>3*(1-s)**2*s*a+3*(1-s)*s**2*b+s**3;
- let low=0,high=1;
- for(let step=0;step<24;step++){const mid=(low+high)/2;if(at(y1,y2,mid)<progress)low=mid;else high=mid;}
- return at(x1,x2,(low+high)/2);
 }
 
 /** The answer band: a Green ribbon sweeps in under the statement once per
@@ -88,8 +79,10 @@ export function initAnswerRibbon(){
  * Hovering a tile with a mouse plays its flow again (owner feedback, 6 Oct 2026). */
 function stakeFlow(row:HTMLElement,delay:number,animate:Animate){
  const t=repTimeline;
- const line=row.querySelector('[data-line]'),stake=row.querySelector('[data-stake] .blocks'),moving=row.querySelector('[data-outcome="bond"] .blocks')??row.querySelector('[data-outcome="lost"] .blocks');
+ const line=row.querySelector('[data-line] line'),stake=row.querySelector('[data-stake] .blocks'),moving=row.querySelector('[data-outcome="bond"] .blocks')??row.querySelector('[data-outcome="lost"] .blocks');
+ // The arrow's line draws, then its head appears, so the head never stretches.
  animate(line,[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{delay:delay+t.line.start,duration:t.line.duration,easing:easing.draw});
+ animate(row.querySelector('[data-line] path'),[{opacity:0},{opacity:1}],{delay:delay+t.line.start+t.line.duration-120,duration:160});
  animate(row.querySelector('[data-condition]'),[{opacity:0},{opacity:1}],{delay:delay+t.condition.start,duration:t.condition.duration});
  const distance=moving&&stake?moving.getBoundingClientRect().left-stake.getBoundingClientRect().left:120;
  const bonds=row.querySelector('[data-outcome="bond"]');
@@ -113,12 +106,13 @@ function stakeFlow(row:HTMLElement,delay:number,animate:Animate){
 }
 export function initStakeFlow(){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- document.querySelectorAll<HTMLElement>('[data-stake-row]').forEach((row,i)=>{
+ const rows=[...document.querySelectorAll<HTMLElement>('[data-stake-row]')];
+ rows.forEach((row,i)=>{
   playOnce(row,animate=>stakeFlow(row,i*repTimeline.rowStagger,animate));
   let replay:Animation[]=[];
   row.addEventListener('pointerenter',event=>{
    if(event.pointerType!=='mouse'||reduced.matches||typeof row.animate!=='function'||replay.some(a=>a.playState==='running'))return;
-   if(row.getAnimations({subtree:true}).some(a=>a.playState==='running'))return;
+   if(row.getAnimations({subtree:true}).some(a=>a.playState==='running'&&a.id!=='rep-loop'))return;
    replay=[];
    stakeFlow(row,0,(element,frames,options={})=>{
     if(!element)return;
@@ -127,4 +121,14 @@ export function initStakeFlow(){
    });
   });
  });
+ // The ambient loop (rep-choreography.ts) runs on elements of its own (the gliding copy, the
+ // winnings' blocks, the lost bond's flash), never on those the entrance or hover replay move.
+ const list=rows[0]?.closest('.stake-flows');
+ if(list)loopScene(list,animate=>rows.forEach((row,i)=>{
+  const spec={gains:row.querySelectorAll('[data-outcome="gain"] .blocks,[data-outcome="fee"] .blocks').length,lost:!!row.querySelector('[data-outcome="lost"]')};
+  for(const track of repRowTracks(i,spec)){
+   const animation=animate(row.querySelector(`[data-motion="${track.id}"]`),keyframes(track,repCycle,track.prop==='translate'?value=>`${value}%`:undefined,{individual:false}),{duration:repCycle,delay:track.delay??0});
+   if(animation)animation.id='rep-loop';
+  }
+ }));
 }

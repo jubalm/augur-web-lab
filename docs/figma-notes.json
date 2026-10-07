@@ -253,12 +253,12 @@
           {
             "id": "215:566",
             "name": "Text",
-            "text": "Solid tiles; the answer shows as a Green tile. All three connect to one Augur Lituus backstop bar."
+            "text": "Solid tiles; the answer shows as a Green tile. Prediction markets plays a small query to its final answer, Insurance slides the arrival past +2 hours, and DAOs & grants turns the winning team Green. All three connect to one slim Augur Lituus band: “One oracle for every app.”"
           },
           {
             "id": "215:570",
             "name": "Text",
-            "text": "Animation: when a card opens, a small Green square travels down its line to the backstop bar."
+            "text": "Animation: when a card opens, its result plays in, then a small Green square travels down its line to the Augur Lituus band."
           },
           {
             "id": "248:1353",
@@ -268,7 +268,7 @@
           {
             "id": "283:3685",
             "name": "Text",
-            "text": "Collapsed cards show their question under the title and a + to open them."
+            "text": "Every card leads with an icon (chart-line-up, shield-check, users-three). Collapsed cards show their question and a + to open them; hover lifts the card, keyboard focus adds a Pewter ring. The open card’s icon tile fills Green with a Navy icon; there is no top bar. Each open card adds a one-line explanation of what the app does with the answer."
           },
           {
             "id": "215:571",
@@ -278,7 +278,7 @@
           {
             "id": "215:576",
             "name": "Text",
-            "text": "Confirm the “own chain or L2” backstop line with the maintainers."
+            "text": "Confirm with the maintainers the Insurance fallback note: a faster oracle on the app’s own chain or L2, with Augur Lituus only for disputed claims."
           }
         ]
       },
@@ -747,7 +747,7 @@
           {
             "id": "216:410",
             "name": "Summary",
-            "text": "The three application cards. One is open at a time; the backstop bar never changes."
+            "text": "The three application cards. One is open at a time; the Augur Lituus band never changes."
           },
           {
             "id": "216:411",
@@ -762,32 +762,32 @@
           {
             "id": "216:420",
             "name": "Text",
-            "text": "Backstop line: apps could run on their own chain or L2 and turn to Augur Lituus on Ethereum when an answer is disputed."
+            "text": "Augur Lituus band (6 Oct 2026): one slim 64 px line, “Augur Lituus | One oracle for every app.”, in Label. The backstop headline and its own-chain-or-L2 line are gone; that idea lives only in the Insurance example’s fallback note."
           },
           {
             "id": "216:424",
             "name": "Text",
-            "text": "Outcomes are illustrative; each app applies its own rules."
+            "text": "Outcomes and teams are illustrative; each app applies its own rules."
           },
           {
             "id": "386:1509",
             "name": "Text",
-            "text": "Each card leads with a 40 px icon tile (Phosphor Bold, 20 px): chart-line-up, shield-check, users-three. Collapsed tiles are Dark 3 with a Paper icon; the open card’s tile is outlined and drawn in Green."
+            "text": "Each card leads with a 40 px icon tile (Phosphor Bold, 20 px): chart-line-up, shield-check, users-three. Collapsed tiles are Dark 3 with a Paper icon; the open card’s tile fills Green with a Navy icon (6 Oct 2026), and its name is Green."
           },
           {
             "id": "386:1513",
             "name": "Text",
-            "text": "Every open state has a one-line explanation under its question; Prediction markets now reads “Settle positions on the final answer.” Results carry a check on the winning outcome and on “Grant requirement met”, and a plane beside AB123."
+            "text": "Every open state has a one-line explanation under its question; Prediction markets reads “Settle positions on the final answer.” Insurance & payments shows a plane beside AB123 and, under the flight card, a callout (1 px Outline box, scales icon): “The app could also use a faster oracle on its own chain or L2, and turn to Augur Lituus only when a claim is disputed.” DAOs & grants is a prize challenge (Applications / Prize challenge): three team tiles, Team B Green with a check, and “Prize sent to Team B”."
           },
           {
             "id": "386:1517",
             "name": "Text",
-            "text": "Collapsed card hover: card lifts to Dark 3, its icon tile and + box turn Navy and the + border Pewter (180 ms). Keyboard focus: 2 px Pewter inset ring. Selection keeps the 3 px Green top rule; activation stays manual (arrows move, Enter/Space opens)."
+            "text": "Collapsed card hover: card lifts to Dark 3, its icon tile and + box turn Navy and the + border Pewter (180 ms). Keyboard focus: 2 px Pewter inset ring. Selection has no top rule or edge bar; the open card is marked by its Green icon tile; activation stays manual (arrows move, Enter/Space opens)."
           },
           {
             "id": "414:1146",
             "name": "Text",
-            "text": "Prediction markets shows a small query (Applications / Market query): status, question, four stages (Asked, Reported Yes, Not challenged, Final) and the outcomes Yes, No and Invalid, at rest on Final. When the card scrolls into view, and whenever its tab is chosen, the website plays the stages in (0, 0.6, 1.3, 2 s): the current stage is Green with a Paper label and steps back to Pewter as the next begins, the status passes through Awaiting report and Open to challenge, Yes goes from one outcome among three to outlined (reported) to Green with a check (final), and the signal then runs down to the backstop. Press Play on the frame beside the states to see it. Visitors no longer pick the answer."
+            "text": "Prediction markets shows a small query (Applications / Market query): status, question, four stages (Asked, Reported Yes, Not challenged, Final) and the outcomes Yes, No and Invalid, at rest on Final. When the card scrolls into view, and whenever its tab is chosen, the website plays the stages in (0, 0.6, 1.3, 2 s): the current stage is Green with a Paper label and steps back to Pewter as the next begins, the status passes through Awaiting report and Open to challenge, Yes goes from one outcome among three to outlined (reported) to Green with a check (final), and the signal then runs down to the Augur Lituus band. Press Play on the frame beside the states to see it. Visitors no longer pick the answer. Insurance and DAOs & grants play too whenever their tab is chosen (Applications / Motion · insurance play and · prize play, keyed from flightTimeline and prizeTimeline): the arrival square leaves the scheduled-arrival tick and slides to the arrival as the delay line grows (0.32–1.22 s), and the summary brightens from 40% as it passes +2 hours; Team B turns from a plain tile to Green at 0.6 s, its check pops in and “Prize sent to Team B” rises in."
           },
           {
             "id": "216:425",
@@ -797,7 +797,7 @@
           {
             "id": "216:430",
             "name": "Text",
-            "text": "The backstop line is a proposed design; confirm chain and L2 support with the maintainers."
+            "text": "The Insurance fallback note (a faster oracle on the app’s own chain or L2, Augur Lituus only for disputed claims) rests on the Website Strategy p.10; confirm with the maintainers."
           },
           {
             "id": "435:1728",
