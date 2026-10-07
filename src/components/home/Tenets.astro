@@ -17,7 +17,6 @@ const tenets=[
   {tenets.map(({title,diagram:Diagram,body})=><article class="tile tenet-tile"><Diagram/><div><h3>{title}</h3><p>{body}</p></div></article>)}
  </div>
 </section>
-<script>import {initTenets,initAnswerRibbon} from '../../motion/home-art';initAnswerRibbon();initTenets();</script>
 <style>
  .tenets{padding-top:64px}.tenets>.container:first-child{border-top:1px solid var(--web-outline);padding-top:72px;padding-bottom:56px}.section-heading{margin-bottom:0}.answer-band{position:relative;overflow:hidden;background:var(--primary);color:var(--background);padding:24px 0 28px}.answer-band p{font-family:var(--font-heading);font-size:clamp(26px,2.5vw,36px);font-weight:600;line-height:44px;letter-spacing:-.01em}.tenet-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-top:48px;padding-bottom:96px;border-bottom:1px solid var(--web-outline)}.tenet-tile{padding:32px 32px 36px;background:var(--web-tile);display:flex;flex-direction:column;gap:28px;min-width:0}.tenet-tile h3{font:600 24px/32px var(--font-heading);margin:0 0 12px}.tenet-tile p{color:var(--muted-foreground);font-size:17px;line-height:27px;margin:0}.tenet-tile :global(svg){width:100%;height:auto;aspect-ratio:2/1;overflow:visible}.tenet-tile :global(:is(rect,[data-motion])){transform-box:fill-box;transform-origin:center}
  /* Ribbon sweep (initAnswerRibbon): the static band is the no-JS, reduced-motion and print state. */

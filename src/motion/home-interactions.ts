@@ -3,6 +3,7 @@ import {motionTime} from './debug';
 import {setupApplicationLayout} from './application-layout';
 import {playOnce,type Animate} from './play-once';
 import {playMarketQuery} from './market-query';
+import {playFlight,playPrize} from './application-plays';
 import {easing,bondTimeline,applicationTimeline,marketQueryTimeline,roadmapTimeline,timing} from './timelines';
 const enhanced=new WeakSet<HTMLElement>();
 export function initHomeInteractions(){
@@ -15,23 +16,28 @@ export function initHomeInteractions(){
   let motion:Animation[]=[];
   const animate:Animate=(element,keyframes,options={})=>{if(!element)return;const animation=element.animate(keyframes,{easing:easing.reveal,fill:'both',...options,duration:motionTime(Number(options.duration??320)),delay:motionTime(Number(options.delay??0))});motion.push(animation);return animation;};
   const stop=()=>{motion.forEach(a=>a.cancel());motion=[];};
-  // The chosen application's signal runs down its connector and the backstop brightens.
+  // The chosen application's signal runs down its connector and the Augur Lituus band brightens.
   const sendSignal=(index:number,add:Animate,delay=0)=>{
    const signal=root.querySelector(`[data-connector="${index}"] .app-signal`);
    add(signal,[{opacity:0},{opacity:1}],{delay,duration:applicationTimeline.signalFade,easing:'linear'});
    add(signal,[{transform:'translateY(-14px)'},{transform:`translateY(${applicationTimeline.signalDistance-14}px)`}],{delay,duration:applicationTimeline.signalTravel});
-   add(root.querySelector('.application-backstop'),[{opacity:.55},{opacity:1}],{delay:delay+applicationTimeline.signalTravel,duration:applicationTimeline.backstop,easing:'linear',fill:'none'});
+   add(root.querySelector('.application-oracle'),[{opacity:.55},{opacity:1}],{delay:delay+applicationTimeline.signalTravel,duration:applicationTimeline.oracle,easing:'linear',fill:'none'});
   };
   // Prediction markets plays its query from asked to final, then sends the answer down:
   // once when the card scrolls into view, and whenever its tab is chosen.
   const query=root.querySelector<HTMLElement>('[data-market-query]');
   const playQuery=(add:Animate,start:number)=>{if(query)sendSignal(0,add,playMarketQuery(query,add,start));};
   const settleIntro=query?playOnce(query,add=>playQuery(add,0),{threshold:marketQueryTimeline.threshold}):undefined;
+  // Insurance and DAOs & grants are hidden until chosen, so they play whenever their tab is.
+  const flight=root.querySelector<HTMLElement>('[data-play="insurance"]'),prize=root.querySelector<HTMLElement>('[data-play="grants"]');
   root.addEventListener('tabsbeforechange',()=>settleIntro?.());
   root.addEventListener('tabschange',event=>{
    stop();if(reduced.matches||!animationsAvailable)return;
    const {index}=(event as CustomEvent<{index:number}>).detail;
-   if(index===0&&query)playQuery(animate,timing.fadeOut);else sendSignal(index,animate);
+   if(index===0&&query)playQuery(animate,timing.fadeOut);
+   else if(index===1&&flight)sendSignal(index,animate,playFlight(flight,animate,timing.fadeOut));
+   else if(index===2&&prize)sendSignal(index,animate,playPrize(prize,animate,timing.fadeOut));
+   else sendSignal(index,animate);
   });
   reduced.addEventListener('change',stop);
   root.addEventListener('tabssettled',stop);

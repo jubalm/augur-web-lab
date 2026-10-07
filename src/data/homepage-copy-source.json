@@ -1,7 +1,7 @@
 {
   "fileKey": "3RgHvLRqEZDsAmcBQ7tvVa",
   "nodeId": "28:7",
-  "extractedAt": "2026-10-06",
+  "extractedAt": "2026-10-07",
   "sections": [
     {
       "id": "208:1205",
@@ -193,7 +193,7 @@
         ],
         [
           "I135:261;137:241",
-          "“Was the promised work published on time?”"
+          "“Which team shipped a working prototype first?”"
         ],
         [
           "I135:261;137:249",
@@ -201,11 +201,7 @@
         ],
         [
           "I135:261;137:254",
-          "One backstop for every app."
-        ],
-        [
-          "I135:261;137:255",
-          "Apps could run on their own chain or L2 and turn to Augur Lituus when an answer is disputed."
+          "One oracle for every app."
         ]
       ]
     },
@@ -408,10 +404,6 @@
           "Your bond"
         ],
         [
-          "388:592",
-          "No challenge"
-        ],
-        [
           "388:601",
           "Bond back"
         ],
@@ -422,6 +414,10 @@
         [
           "388:606",
           "Fee share"
+        ],
+        [
+          "388:592",
+          "No challenge"
         ],
         [
           "305:561",
@@ -436,10 +432,6 @@
           "Double bond"
         ],
         [
-          "388:614",
-          "Your answer holds"
-        ],
-        [
           "388:624",
           "Bond back"
         ],
@@ -450,6 +442,10 @@
         [
           "388:629",
           "Most of theirs"
+        ],
+        [
+          "388:614",
+          "Your answer holds"
         ],
         [
           "305:576",
@@ -464,12 +460,12 @@
           "Your bond"
         ],
         [
-          "388:636",
-          "Overturned"
-        ],
-        [
           "388:645",
           "Bond lost"
+        ],
+        [
+          "388:636",
+          "Overturned"
         ],
         [
           "305:586",
@@ -535,7 +531,7 @@
         ],
         [
           "I162:493;159:460",
-          "No date announced"
+          "2027"
         ],
         [
           "I162:493;159:461",
@@ -543,7 +539,7 @@
         ],
         [
           "I162:493;159:466",
-          "No date announced"
+          "2027"
         ],
         [
           "I162:493;159:467",
