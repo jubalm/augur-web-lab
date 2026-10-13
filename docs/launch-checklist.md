@@ -54,6 +54,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Confirm contact@augur.net with the domain owner. Composing an email is not delivery.
 - [ ] Review the complete responsive, keyboard, no-JavaScript, reduced-motion, forced-colors, visual and performance evidence in `docs/decisions.md`.
 - [ ] Resolve every unverified destination in `src/data/links.ts`.
+- [ ] Approve the Brand assets page copy and confirm the logo files and REP token icon may be redistributed publicly, with any usage terms (`src/data/brand.ts` review flag).
 - [ ] Set `PUBLIC_SITE_INDEXABLE=true` only after all release gates pass; verify robots, sitemap, canonical URLs and SEO again.
 
 - [ ] Preserve legacy source-report URLs when migrating the original archive. Absolute www.augur.net report links are reachable on the existing public site but must resolve on the replacement before deployment.

@@ -1,7 +1,7 @@
 {
   "fileKey": "3RgHvLRqEZDsAmcBQ7tvVa",
   "nodeId": "28:7",
-  "extractedAt": "2026-10-07",
+  "extractedAt": "2026-10-13",
   "sections": [
     {
       "id": "208:1205",
@@ -734,6 +734,10 @@
         [
           "167:967",
           "Contact"
+        ],
+        [
+          "490:1616",
+          "Brand assets"
         ],
         [
           "167:969",

@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 const browser=await chromium.launch({headless:true,executablePath:process.env.AUGUR_CHROME_PATH,args:['--no-sandbox']});
 const base=process.env.AUGUR_TEST_URL ?? 'http://127.0.0.1:4321';
 const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
-const routes=['/about/','/products/','/learn/','/learn/how-augur-answers-a-question/','/rep/','/blog/','/blog/why-disagreement-makes-an-oracle-stronger/','/faq/','/contact/'];
+const routes=['/about/','/products/','/learn/','/learn/how-augur-answers-a-question/','/rep/','/blog/','/blog/why-disagreement-makes-an-oracle-stronger/','/faq/','/contact/','/brand/'];
 const out='artifacts/qa/site-pages';await fs.mkdir(out,{recursive:true});
 const results=[];
 for(const route of routes){

@@ -765,3 +765,22 @@ test('only the Peer mesh glows', async ({ page }) => {
   expect(await page.locator('[data-cross] [style*="filter"], [data-authority] [style*="filter"]').count()).toBe(0);
   expect(await page.locator('[data-mesh] [style*="filter"]').count()).toBeGreaterThan(0);
 });
+
+test('the footer links to brand assets, whose downloads resolve and whose colors copy', async ({ page, context }) => {
+  await page.goto('/');
+  await page.getByRole('navigation', { name: 'Footer Augur' }).getByRole('link', { name: 'Brand assets' }).click();
+  await expect(page).toHaveURL(/\/brand\/$/);
+  const downloads = await page.locator('main a[download]').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')))]);
+  expect(downloads.length).toBe(27);
+  for (const href of downloads) expect((await page.request.get(href)).status(), href).toBe(200);
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const green = page.getByRole('button', { name: 'Copy Augur Green hex #2AE7A8' });
+  await green.click();
+  await expect(green).toContainText('Copied');
+  await expect(page.locator('[data-copy-status]')).toHaveText('Copied #2AE7A8');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('#2AE7A8');
+  for (const width of [1024, 768, 390, 360]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${width}px`).toBe(true);
+  }
+});

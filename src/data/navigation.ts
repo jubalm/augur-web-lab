@@ -10,7 +10,7 @@ const tagline = (id: (typeof products)[number]['id']) => products.find(product =
 
 /** Header and footer consume this same directory. */
 export const navigation = {
-  augur: [{ label: 'About', href: '/about/' }, { label: 'Contact', href: '/contact/' }],
+  augur: [{ label: 'About', href: '/about/' }, { label: 'Contact', href: '/contact/' }, { label: 'Brand assets', href: '/brand/' }],
   // Product taglines come from the products directory (Figma 219:81).
   // Augur Lituus leads the panel; Zoltar and Augur Stratoblast follow it.
   products: [
