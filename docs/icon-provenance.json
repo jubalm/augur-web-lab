@@ -169,6 +169,16 @@
       "sha256": "c473db9807bb726638eefcdc70554078cd2a195313d87e28a70498531ec106c0",
       "added": "2026-10-06",
       "purpose": "Homepage REP rows: Risk"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/download-simple.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/download-simple-bold.svg",
+      "sha256": "3ca0b8bba15633eb29f9818fe3670d6438bcbc897649c767e491a411e696e2d3"
+    },
+    {
+      "path": "src/assets/icons/phosphor/bold/copy.svg",
+      "source": "https://raw.githubusercontent.com/phosphor-icons/core/2b75f3ad12b420c9504ef05df8d2564a28f8500e/assets/bold/copy-bold.svg",
+      "sha256": "204e84365593c418c71d9ce0674be3dd3e5ff13d0dc13e1f728249ef9571bf9e"
     }
   ],
   "inventoryUpdated": "2026-10-06",

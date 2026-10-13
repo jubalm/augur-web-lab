@@ -14,5 +14,113 @@
   "public/brand/horizontal-reversed.svg": {
     "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Reversed.svg",
     "sha256": "2083d9a60c1b3989bafaa9a9a3309d8d9c717e04902b2a704cc110d89ff807d8"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-color.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Color.svg",
+    "sha256": "71e4cf91243a7d61ebd71f27765efcb81cfdcfe7ecb6548cbfddb388df02bea8"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-color.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Color.png",
+    "sha256": "7005e2980943ed42f11bd02e219f329ce2c0b1e55733d8bc7be3621395a8c05a"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-reversed.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Reversed.svg",
+    "sha256": "2083d9a60c1b3989bafaa9a9a3309d8d9c717e04902b2a704cc110d89ff807d8"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-reversed.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Reversed.png",
+    "sha256": "c73fc4c3077e2e7d4c4324ef23029307373845b7596f58eed2f763cc813a1134"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-navy.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Black.svg",
+    "sha256": "5a137b732d0d21e0c32742137201126db0e7426c30a2c1a3cade13160d2a8576"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-navy.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/Black.png",
+    "sha256": "acc89809aac3b9046445ea4cc59c0a5fc05e8d64588367ec3ddbfc2ef21ef78a"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-white.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/White.svg",
+    "sha256": "b54c29eb49db2526596977773aba0d5ceeab99c72aad2758b144cec46bb834b9"
+  },
+  "public/brand/kit/horizontal/augur-horizontal-white.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Horizontal/White.png",
+    "sha256": "847942b09474a6d88ce04aeb0e2b34fae08d57934e347545078fdfab66aab1c5"
+  },
+  "public/brand/kit/vertical/augur-vertical-color.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Color.svg",
+    "sha256": "25c6ae4007f7f03b123224cd1a9c0052aad28c3ba9d9015d9b863e4f467bbb04"
+  },
+  "public/brand/kit/vertical/augur-vertical-color.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Color.png",
+    "sha256": "8d75441edd6b59963f0b0e707aa120683a9ede3fb6b81962fa48394c01ff6900"
+  },
+  "public/brand/kit/vertical/augur-vertical-reversed.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Reversed.svg",
+    "sha256": "0cbc3d3f221f9cd7d826a53b2b71a26ac2cf9a20bb8522ef2bb9659f1876dbd7"
+  },
+  "public/brand/kit/vertical/augur-vertical-reversed.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Reversed.png",
+    "sha256": "69756d7f850f1b93e2e69df728a6ec44e7f9f82345d0c404c2c81432aa7bbdcf"
+  },
+  "public/brand/kit/vertical/augur-vertical-navy.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Black.svg",
+    "sha256": "b88a1f0174e825460fd8d1461f6dd5f9027e4e9bc9ae10de13c015b1a2e3a9b5"
+  },
+  "public/brand/kit/vertical/augur-vertical-navy.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/Black.png",
+    "sha256": "899928bd15a2d30e5eb08870e1b350c31585280a0f5f58446df8428b94a647ef"
+  },
+  "public/brand/kit/vertical/augur-vertical-white.svg": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/White.svg",
+    "sha256": "5806140f2d2a8446603752ad03eda9ecddd84b8d8292cf46f6a30b2f5738c80a"
+  },
+  "public/brand/kit/vertical/augur-vertical-white.png": {
+    "source": "media/Augur Logo/Augur Logo - Full Logo/Vertical/White.png",
+    "sha256": "8dddaf92f618241971ff2160f0c455f8b2b29f7773d11f847e4b57ba0f9510db"
+  },
+  "public/brand/kit/glyph/augur-glyph-color.svg": {
+    "source": "media/Augur Logo/Glyph/Color.svg",
+    "sha256": "31858f078d021309e01d7a60a0b5ceb348e8f6fa4e958e99d40c13aa422d63f5"
+  },
+  "public/brand/kit/glyph/augur-glyph-color.png": {
+    "source": "media/Augur Logo/Glyph/Color.png",
+    "sha256": "623c93059a37f608dab418c973128e8dd7857bd412f937bd6c811dcb9bc16ac1"
+  },
+  "public/brand/kit/glyph/augur-glyph-reversed.svg": {
+    "source": "media/Augur Logo/Glyph/Reversed.svg",
+    "sha256": "1fbaa11af83224924962ac4232cc835730f3911ef254ad910496220a5c00dbc7"
+  },
+  "public/brand/kit/glyph/augur-glyph-reversed.png": {
+    "source": "media/Augur Logo/Glyph/Reversed.png",
+    "sha256": "c44d9b604d99ff727ce5f4fba23a34f0c600e7b9bbb63544f2c3234ec8f2e3d3"
+  },
+  "public/brand/kit/glyph/augur-glyph-navy.svg": {
+    "source": "media/Augur Logo/Glyph/Black.svg",
+    "sha256": "639b3212080f4b4e44a40598d638316d5267faf193d43dddd66ccf5af405d780"
+  },
+  "public/brand/kit/glyph/augur-glyph-navy.png": {
+    "source": "media/Augur Logo/Glyph/Black.png",
+    "sha256": "fbd2cb11954e5156a9343e178ec2d2952f3f2658503a84cee1e56ac4e824b193"
+  },
+  "public/brand/kit/glyph/augur-glyph-white.svg": {
+    "source": "media/Augur Logo/Glyph/White.svg",
+    "sha256": "2408462b13ea2655be411194ca66b70b977ee6175ec0910026fd9778af6adece"
+  },
+  "public/brand/kit/glyph/augur-glyph-white.png": {
+    "source": "media/Augur Logo/Glyph/White.png",
+    "sha256": "224252155b77c95d0c96d1ba6a96159af6bc1a57ba39531ef7733769d31f8d65"
+  },
+  "public/brand/kit/rep-token/rep-token-icon.svg": {
+    "source": "media/Augur Logo/REPv2 Icon/REPv2 Icon - Full Color over Black.svg",
+    "sha256": "0650420805b31593273dcb8428cd08e6dae86ba09fa735bf6ac332c61141c9a2"
+  },
+  "public/brand/kit/rep-token/rep-token-icon.png": {
+    "source": "media/Augur Logo/REPv2 Icon/REPv2 Icon - Full Color over Black.png",
+    "sha256": "e6648fda1d7f1819db2106107e4022169bc4b07563bdda72607fe86f8266146c"
+  },
+  "public/brand/augur-brand-assets.zip": {
+    "source": "Built on 2026-10-13 from public/brand/kit (the 26 files above, unchanged) plus a README.txt of the Brand Foundation rules; 7-Zip, deflate -mx=9, timestamps fixed at 2026-10-13 00:00.",
+    "sha256": "9776a6d091330caff7c3ea83fb2888d8c3defc4f25c13a363bd3a8a22b12a7f7"
   }
 }

@@ -23,6 +23,8 @@ export const links = {
   chainSafe: { url: "https://chainsafe.io/", verified: true, source: "Official ChainSafe homepage; involvement sourced from Q2 report." },
   zoltarPaper: { url: "https://github.com/AugurProject/zoltar/blob/main/docs/explanation/zoltar.html", verified: true, source: "Current Zoltar system overview; successor to older local whitepaper. Exact paper destination requires maintainer confirmation." },
   xShare: { url: "https://x.com/intent/tweet", verified: true, source: "X share intent endpoint; HTTP 200." },
+  soraFont: { url: "https://fonts.google.com/specimen/Sora", verified: true, source: "Google Fonts specimen for Sora, the Brand Foundation primary typeface; HTTP 200 on 2026-10-13." },
+  schibstedFont: { url: "https://fonts.google.com/specimen/Schibsted+Grotesk", verified: true, source: "Google Fonts specimen for Schibsted Grotesk, the Brand Foundation secondary typeface; HTTP 200 on 2026-10-13." },
   contact: { url: "mailto:contact@augur.net", verified: false, source: "Owner brief and Figma footer. Domain owner must confirm this inbox." },
 } as const satisfies Record<string, ExternalLink>;
 

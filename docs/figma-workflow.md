@@ -12,4 +12,4 @@ Responsive compositions below 1440 are authorized adaptations: flexible margins,
 
 Since 6 October 2026 the owner works website-first: Figma waits until the owner says “update figma”. Meanwhile, add each website change's Figma counterpart here (component or variant, Homepage `28:7` instance, Section details keys or state frame, note text). On “update figma”, sync the whole list in one pass, generating keys from the website's choreography rather than retyping them, record the result in `decisions.md` and clear the synced items.
 
-Nothing is pending: the list was synced on 7 October 2026 (see `decisions.md`).
+Nothing is pending: the list was synced on 7 October 2026, and the Brand assets page was built in Figma alongside the website on 13 October 2026 at the owner's request (see `decisions.md`).
