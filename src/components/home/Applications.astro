@@ -26,19 +26,22 @@ const builderCase={
   {icon:'eye',title:'A selling point.',line:'Users can check every outcome instead of taking the project’s word for it.'},
  ],
 };
+// The answer's check is Phosphor Bold's own centreline drawn as a stroke, so it can draw in.
+const check='40 144 96 200 224 72';
 ---
 <section class="applications section" aria-labelledby="applications-heading">
  <div class="container">
   <div class="section-heading"><h2 id="applications-heading">What can Augur&nbsp;Lituus power?</h2><p class="lead">Any app that needs to know what happened in the world.<br/>It asks a question and acts on the answer.</p></div>
-  <div class="cases" data-tabs data-applications data-activation="manual" data-active="0">
-   <div class="case-tabs" role="tablist" aria-label="Use cases" aria-orientation="vertical">
+  <div class="cases" data-tabs data-applications data-panel-swap data-activation="manual" data-active="0">
+   <div class="case-tabs" role="tablist" aria-label="Use cases" aria-orientation="vertical" style={`--count:${applications.length}`}>
     {applications.map((app,i)=><button type="button" role="tab" id={`application-tab-${app.id}`} aria-controls={`application-panel-${app.id}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1} class="case-tab"><span class="case-icon" aria-hidden="true"><Icon name={app.icon}/></span><span class="case-label"><span class="case-name">{app.title}</span><span class="case-blurb" aria-hidden="true">{app.summary}</span></span></button>)}
+    <span class="case-marker" aria-hidden="true"></span>
    </div>
    <div class="case-stage">
     {applications.map((app,i)=><div role="tabpanel" id={`application-panel-${app.id}`} aria-labelledby={`application-tab-${app.id}`} class="case-panel" tabindex="0" hidden={i!==0}>
      <p class="case-summary">{app.summary}</p>
      <p class="case-question">{app.question}</p>
-     <p class="case-answer"><span class="sr-only">Possible answers: {app.outcomes.join(' or ')}. Answer: {app.answer}.</span><span class="case-options" aria-hidden="true">{app.outcomes.map(outcome=>outcome===app.answer?<span class="case-option is-answer">{outcome}<span class="case-pick">{outcome}<Icon name="check"/></span></span>:<span class="case-option is-other">{outcome}</span>)}</span></p>
+     <p class="case-answer"><span class="sr-only">Possible answers: {app.outcomes.join(' or ')}. Answer: {app.answer}.</span><span class="case-options" aria-hidden="true">{app.outcomes.map(outcome=>outcome===app.answer?<span class="case-option is-answer">{outcome}<span class="case-fill"></span><span class="case-pick">{outcome}<svg class="case-check" viewBox="0 0 256 256" focusable="false"><polyline points={check} pathLength="1"/></svg></span></span>:<span class="case-option is-other">{outcome}</span>)}</span></p>
      <p class="case-by">Decided in the open, not by {app.notBy}.</p>
      <div class="case-act">
       <p class="case-action">{app.action}</p>
@@ -70,18 +73,25 @@ const builderCase={
  /* The list sits on the heading row's 500 column and runs through the 80 gutter into the example, so the
     picked case and its example form one surface. The rows share the example's height. */
  .cases{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:var(--case-gap)}
- .case-tabs{display:grid;grid-auto-rows:1fr;margin-right:calc(-1 * var(--case-gap));background:var(--web-quiet)}
- .case-tab{display:grid;grid-template-columns:auto minmax(0,1fr);align-content:center;align-items:start;column-gap:20px;padding:24px calc(var(--case-gap) + 24px) 24px 32px;border:0;border-top:1px solid var(--web-outline);background:transparent;color:var(--muted-foreground);text-align:left;cursor:pointer;transition:background-color 180ms ease-out,color 180ms ease-out}
- .case-tab:first-child,.case-tab[aria-selected="true"],.case-tab[aria-selected="true"]+.case-tab{border-top-color:transparent}
+ .case-tabs{position:relative;isolation:isolate;display:grid;grid-auto-rows:1fr;margin-right:calc(-1 * var(--case-gap));background:var(--web-quiet)}
+ .case-tab{display:grid;grid-template-columns:auto minmax(0,1fr);align-content:center;align-items:start;column-gap:20px;padding:24px calc(var(--case-gap) + 24px) 24px 32px;border:0;border-top:1px solid var(--web-outline);background:transparent;color:var(--muted-foreground);text-align:left;cursor:pointer;transition:border-color 240ms ease-out 280ms,color 240ms ease-out}
+ /* A hairline gives way at once to the arriving marker, and shows again only once the marker has passed. */
+ .case-tab:first-child,.case-tab[aria-selected="true"],.case-tab[aria-selected="true"]+.case-tab{border-top-color:transparent;transition-delay:0ms}
+ /* The picked row's surface is one marker that glides to the row picked (owner, 19 Oct 2026: polished
+    motion), so the list and the example read as one object that moves together. The rows share one
+    height, so the marker moves by whole rows; the picked row's name and Green tile catch up as it lands.
+    Below 1024, where rows stack apart, each row carries its own surface instead. */
+ .case-marker{position:absolute;z-index:-1;inset:0 0 auto;height:calc(100% / var(--count));background:var(--web-tile);transition:transform 560ms cubic-bezier(.16,1,.3,1);pointer-events:none}
+ [data-active="1"]>.case-tabs>.case-marker{transform:translateY(100%)}[data-active="2"]>.case-tabs>.case-marker{transform:translateY(200%)}
  /* The name's first line centers on the 44 px icon tile. */
  .case-label{display:grid;gap:8px;min-width:0;padding-top:6px}
  .case-name{font:400 clamp(20px,1.67vw,24px)/1.3 var(--font-heading);letter-spacing:-.01em;text-wrap:balance}
  .case-blurb{font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
- .case-icon{display:grid;place-items:center;width:44px;height:44px;background:var(--web-raised);color:var(--muted-foreground);transition:background-color 180ms ease-out,color 180ms ease-out,transform 120ms ease-out}.case-icon :global(.web-icon),.case-icon :global(svg){width:22px;height:22px}
+ .case-icon{display:grid;place-items:center;width:44px;height:44px;background:var(--web-raised);color:var(--muted-foreground);transition:background-color 240ms ease-out,color 240ms ease-out,transform 120ms ease-out}.case-icon :global(.web-icon),.case-icon :global(svg){width:22px;height:22px}
  /* The picked case is the example's surface and its icon tile fills Green (owner, 6 Oct 2026: never a
     side edge). Unpicked cases brighten their name and take the hover edge. */
- .case-tab[aria-selected="true"]{background:var(--web-tile);color:var(--foreground);cursor:default}
- .case-tab[aria-selected="true"] .case-icon{background:var(--primary);color:var(--background)}
+ .case-tab[aria-selected="true"]{color:var(--foreground);cursor:default;transition-delay:0ms,120ms}
+ .case-tab[aria-selected="true"] .case-icon{background:var(--primary);color:var(--background);transition-delay:140ms}
  @media(hover:hover) and (pointer:fine){.case-tab:not([aria-selected="true"]):hover{color:var(--foreground)}.case-tab:not([aria-selected="true"]):hover:not(:focus-visible){outline:1px solid var(--web-hover-edge);outline-offset:-1px}.case-tab:not([aria-selected="true"]):hover .case-icon{color:var(--foreground)}}
  .case-tab:not([aria-selected="true"]):active .case-icon{transform:scale(.94)}
  .case-tab:focus-visible{outline-offset:-2px}
@@ -97,19 +107,23 @@ const builderCase={
  .case-question{position:relative;margin:0;font:400 clamp(26px,2.22vw,32px)/1.25 var(--font-heading);letter-spacing:-.02em;color:var(--foreground);text-wrap:balance}
  .case-question::before,.case-question::after{color:var(--augur-color-surface-dark-mist)}.case-question::before{content:'“';position:absolute;right:100%;margin-right:.06em}.case-question::after{content:'”'}
  /* Both answers, as chips: the picked one fills Green with its check and the other steps back (owner,
-    19 Oct 2026: "the option picked … then fade the other one"). The Green fill is a layer over the
-    chip, so the pick plays on opacity and transform. */
+    19 Oct 2026: "the option picked … then fade the other one"). The Green fill and the picked label are
+    layers over the chip, so the pick plays on transform and opacity: the fill sweeps across, the label
+    shows and the check draws. Both chips are Paper until the answer is in, so neither gives it away. */
  .case-answer{margin:24px 0 0}
  .case-options{display:flex;gap:8px}
  .case-option{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:96px;height:48px;padding:0 20px;border:1px solid var(--web-outline);font:600 20px/1 var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
- .case-option.is-other{color:var(--muted-foreground);opacity:.5}
- .case-pick{position:absolute;inset:-1px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--primary);color:var(--background)}.case-pick :global(.web-icon),.case-pick :global(svg){width:20px;height:20px}
+ .case-option.is-other{opacity:.4}
+ .case-fill{position:absolute;inset:-1px;background:var(--primary);transform-origin:left}
+ .case-pick{position:absolute;inset:-1px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--background)}
+ .case-check{width:20px;height:20px;overflow:visible}
+ .case-check polyline{fill:none;stroke:currentColor;stroke-width:24;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 3}
  /* Who did not decide the answer (owner, 19 Oct 2026, from Augus's notes): one muted line under the
     chips, so each case shows the party it keeps out of the decision. */
  .case-by{margin:12px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
- /* What the app does: below a rule, so asking and acting read as two halves of one example. The
+ /* What the app does: set apart by space (no rule; the owner removed dividers on 19 Oct 2026), so asking and acting read as two halves of one example. The
     picture takes the rest of the height. */
- .case-act{flex:1;display:flex;flex-direction:column;align-self:stretch;margin-top:36px;padding-top:32px;border-top:1px solid var(--web-outline)}
+ .case-act{flex:1;display:flex;flex-direction:column;align-self:stretch;margin-top:72px}
  .case-action{margin:0;font:600 clamp(20px,1.67vw,24px)/1.3 var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
  .case-explanation{margin:4px 0 0;font-size:18px;line-height:28px;color:var(--muted-foreground);text-wrap:pretty}
  /* Insurance keeps the fallback use (owner, 6 Oct 2026): one app's choice, never Augur Lituus's only use.
@@ -143,14 +157,15 @@ const builderCase={
  .builder-ask p{flex:0 1 auto;margin:0;font-size:18px;line-height:28px;color:var(--foreground);text-wrap:pretty}
  .ask-setup,.ask-payoff{display:block}.ask-setup{color:var(--muted-foreground);text-wrap:balance}
  .builder-ask :global(.button){flex:none}
- @media(forced-colors:active){.case-stage{border:1px solid CanvasText}.case-tab[aria-selected="true"]{outline:1px solid CanvasText;outline-offset:-1px}.case-tab[aria-selected="true"] .case-icon,.case-pick{forced-color-adjust:none;background:Highlight;color:HighlightText}.case-option{border-color:CanvasText}.builder-icon{border:1px solid CanvasText}}
- @media(prefers-reduced-motion:reduce){.case-tab,.case-icon{transition:none}}
+ @media(forced-colors:active){.case-stage{border:1px solid CanvasText}.case-marker{display:none}.case-tab[aria-selected="true"]{outline:1px solid CanvasText;outline-offset:-1px}.case-tab[aria-selected="true"] .case-icon,.case-fill{forced-color-adjust:none;background:Highlight;color:HighlightText}.case-pick{forced-color-adjust:none;color:HighlightText}.case-option{border-color:CanvasText}.builder-icon{border:1px solid CanvasText}}
+ @media(prefers-reduced-motion:reduce){.case-tab,.case-icon,.case-marker{transition:none}}
  @media(max-width:1200px){.applications{--case-gap:48px}.case-tab{column-gap:16px;padding-left:24px}.case-panel{padding:40px}}
  /* Below 1024 the list becomes rows of names above the example, which shows the summary itself. */
  @media(max-width:1023px){
   .cases{grid-template-columns:minmax(0,1fr)}
   .case-tabs{grid-auto-rows:auto;margin:0 0 4px;gap:4px;background:none}
-  .case-tab{align-items:center;min-height:64px;padding:10px 20px;column-gap:14px;border-top:0;background:var(--web-quiet)}.case-icon{width:40px;height:40px}.case-label{padding-top:0}
+  .case-tab{align-items:center;min-height:64px;padding:10px 20px;column-gap:14px;border-top:0;background:var(--web-quiet);transition-property:background-color,color;transition-delay:0ms}.case-icon{width:40px;height:40px}.case-label{padding-top:0}
+  .case-tab[aria-selected="true"]{background:var(--web-tile)}.case-marker{display:none}
   .case-blurb{display:none}
   .case-panel{padding:36px 32px 44px}
   /* Stacked, the cases differ in height, so the stage fits the case shown instead of the tallest. */

@@ -40,7 +40,7 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
 </header>
 <script>import {initNavigation} from '../../motion/disclosure-nav';initNavigation();</script>
 <style>
-.site-header{height:96px;background:var(--background);border-bottom:1px solid var(--border-quiet);position:relative;z-index:20}
+.site-header{height:96px;background:var(--background);position:relative;z-index:20}
 /* Logo, centred navigation, actions: the outer columns share the free space. */
 .header-inner{height:100%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px}
 .logo{justify-self:start}.header-actions{justify-self:end}

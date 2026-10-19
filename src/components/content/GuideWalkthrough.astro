@@ -5,7 +5,7 @@ const rows=[['Query opened · fee paid','15 REP'],['Report · YES','15 REP bond'
 <section class="example-question" aria-labelledby="example-question">
  <div class="question-meta"><h2 id="example-question">Example question</h2><span class="status pending">Awaiting report</span></div>
  <p class="question-title">{query.question}</p>
- <div class="question-facts"><div><span>Evidence cutoff</span><p>{query.cutoff.replace('Evidence cutoff · ','')}</p></div><div><span>Possible outcomes</span><p class="outcomes">{['YES','NO','Invalid'].map(outcome=><span>{outcome}</span>)}</p></div></div>
+ <div class="question-facts"><div><span>Evidence cutoff</span><p>{query.cutoffDate}</p></div><div><span>Possible outcomes</span><p class="outcomes">{['YES','NO','Invalid'].map(outcome=><span>{outcome}</span>)}</p></div></div>
 </section>
 <ol class="guide-timeline">{walkthrough.map((step,index)=><li id={`step-${index+1}`}><span class="step-number" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><div><h2>{step.title}</h2><p>{step.description}</p><div class="guide-ledger"><span>{rows[index][0]}</span><strong>{rows[index][1]}</strong></div></div></li>)}</ol>
 <style>

@@ -2,10 +2,12 @@
 import type { FaqEntry } from '../../data/faq';
 interface Props { entry: FaqEntry; open?: boolean; name?: string; pageQuestion?: boolean; }
 const { entry, open = false, name = 'page-faq', pageQuestion = false }=Astro.props;
+// A link to the page the reader is already on (“More about REP” on /rep/) is left out.
+const linkHere=entry.link.href===Astro.url.pathname;
 ---
 <details name={name} open={open} class="faq-item" id={`faq-${entry.id}`}>
  <summary><span>{pageQuestion&&entry.pageQuestion?entry.pageQuestion:entry.question}</span><span class="faq-toggle" aria-hidden="true"></span></summary>
- <div class="faq-answer"><p>{entry.answer}</p><a href={entry.link.href}>{entry.link.label}</a></div>
+ <div class="faq-answer"><p>{entry.answer}</p>{!linkHere&&<a href={entry.link.href}>{entry.link.label}</a>}</div>
 </details>
 <script>
  import {faqTimeline} from '../../motion/timelines';
@@ -56,7 +58,7 @@ const { entry, open = false, name = 'page-faq', pageQuestion = false }=Astro.pro
  .faq-toggle{position:relative;display:block;width:32px;height:32px;flex:none;border:1px solid var(--web-outline);transition:transform var(--faq-answer-time,320ms) cubic-bezier(.22,.61,.36,1),background-color 180ms ease-out,border-color 180ms ease-out}
  .faq-toggle::before,.faq-toggle::after{content:'';position:absolute;left:9px;top:14px;width:12px;height:1.5px;background:var(--foreground);transition:transform var(--faq-answer-time,320ms) cubic-bezier(.22,.61,.36,1),background-color 180ms ease-out}.faq-toggle::after{transform:rotate(90deg)}
  summary:hover .faq-toggle{border-color:var(--muted-foreground)}details[open] .faq-toggle{background:var(--primary);border-color:var(--primary);transform:rotate(180deg)}details[open]>summary:hover .faq-toggle{background:var(--web-action-hover);border-color:var(--web-action-hover)}details[open] .faq-toggle::before,details[open] .faq-toggle::after{background:var(--primary-foreground)}details[open] .faq-toggle::after{transform:rotate(0)}
- .faq-answer{padding-bottom:24px;font-size:16px;line-height:26px;color:var(--muted-foreground)}.faq-answer a{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font:600 14px/20px var(--font-heading);text-decoration:none;color:var(--foreground)}.faq-answer a:hover{text-decoration:underline}
+ .faq-answer{padding-bottom:24px;font-size:16px;line-height:26px;color:var(--muted-foreground);overflow-wrap:break-word}.faq-answer a{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;font:600 14px/20px var(--font-heading);text-decoration:none;color:var(--foreground)}.faq-answer a:hover{text-decoration:underline}
  /* Only a question the reader opens animates its answer; the open one on load does not. */
  @media(prefers-reduced-motion:no-preference){.faq-item[data-faq-opening][open] .faq-answer>*{animation:faq-answer-enter var(--faq-answer-time,320ms) cubic-bezier(.22,.61,.36,1) calc(var(--faq-answer-stagger,50ms) * 2) both}.faq-item[data-faq-opening][open] .faq-answer>*+*{animation-delay:calc(var(--faq-answer-stagger,50ms) * 3)}}
  @media(prefers-reduced-motion:reduce){.faq-item,.faq-item::before,.faq-toggle,.faq-toggle::before,.faq-toggle::after{transition:none}}

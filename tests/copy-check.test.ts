@@ -44,7 +44,7 @@ test('rejects a changed newsletter placeholder', async () => {
   expect(result.stderr.toString()).toContain('newsletter placeholder');
 });
 test('rejects a changed How it works title', async () => {
-  const changed = original.replace('Get paid to report it.', 'Earn while you report.');
+  const changed = original.replace('Know what happened?', 'Saw what happened?');
   expect(changed).not.toBe(original);
   const result = await check('how-title', changed);
   expect(result.exitCode).toBe(1);

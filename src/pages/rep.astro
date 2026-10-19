@@ -1,18 +1,69 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import PageHero from '../components/pages/PageHero.astro';
-import { links } from '../data/links';
-const roles=[['Report','Back an answer with a REP bond. If no one challenges it, it becomes final.'],['Challenge','Disagree by posting a larger bond. If your answer holds, you win most of the losing bond.'],['Fork','If a dispute reaches a fork, holders can move their REP to the universe they believe reflects reality.']];
-const versions=[['REPv1','Legacy token from the original Augur.','Legacy'],['REPv2','The Augur v2 token in the parent universe.','Parent universe'],['REPv2_Yes_1','The winning side of the 2026 Moon Fork. Augur Lituus is being built around it.','Current reference'],['REPv2_No_1','The other side of the Moon Fork, a separate live universe.','Separate universe']];
-const forkSteps=[['A dispute reaches the fork','Challenges keep doubling the bond until it crosses the fork threshold.'],['The universe splits','One child universe is created for each possible answer, each with its own REP.'],['Holders choose a side','REP migration into an outcome universe is one-way. Each design sets its own migration rules.']];
+import TokenCard from '../components/rep/TokenCard.astro';
+import BondLadder from '../components/rep/BondLadder.astro';
+import Participation from '../components/rep/Participation.astro';
+import ForkStory from '../components/rep/ForkStory.astro';
+import VersionRail from '../components/rep/VersionRail.astro';
+import FaqItem from '../components/content/FaqItem.astro';
 import Icon from '../components/primitives/Icon.astro';
+import { hero, ladder, participation, fork, versions, repFaq } from '../data/rep';
+import { faqEntries } from '../data/faq';
+import { links } from '../data/links';
+/** REP, rebuilt 19 October 2026 (docs/decisions.md). The story runs from what REP is for to
+ * what it asks of the reader: why lying costs more each round, holding against taking part,
+ * what a fork asks of holders, which REP is current, then holders' questions. The hero's token
+ * card keeps the contract-reference job of augur.net/rep. Copy lives in src/data/rep.ts. */
+const questions = repFaq.ids.map(id => { const entry = faqEntries.find(item => item.id === id); if (!entry) throw new Error(`Unknown FAQ entry ${id}`); return entry; });
 ---
-<PageLayout title="REP | Augur’s token" description="How REP secures Augur’s oracle, the REP versions, and what a fork means. Reporting and challenging are optional.">
- <PageHero title="REP" lead="REP (Reputation) secures Augur’s oracle. Reporting and challenging are optional: participants put a REP bond at risk behind an answer. A fork is the last resort." />
- <section class="section container ruled"><div class="section-heading"><h2>What REP does</h2><p class="lead">Trading a prediction isn’t the same as reporting its outcome. REP is for reporting, challenging and, as a last resort, choosing a side in a fork.</p></div><div class="roles">{roles.map(([title,body])=><div><h3>{title}</h3><p>{body}</p></div>)}</div><div class="holder-note"><h3>If you hold REP, here’s what to watch</h3><p>REP belongs to a particular protocol and universe. During a fork, each design has its own migration rules and window. Reporting and challenging remain optional; holding REP alone does not earn reporting rewards.</p><p>Under the proposed Augur Lituus rules, winners receive 80% of losing bonds and 20% is burned. <a href={links.whitepaper.url}>Whitepaper §4.3.1 <span aria-hidden="true">↗</span></a></p></div></section>
- <section class="section container ruled"><div class="section-heading"><h2>Which REP do you hold?</h2><p class="lead">A ticker alone doesn’t identify the token. The version and contract address identify which REP it is.</p></div><div class="table-scroll" tabindex="0" role="region" aria-label="REP versions"><table><thead><tr><th scope="col">Version</th><th scope="col">What it is</th><th scope="col">Chain</th><th scope="col">Contract</th><th scope="col">Status</th></tr></thead><tbody>{versions.map(([version,description,status])=><tr><th scope="row">{version}</th><td>{description}</td><td>Ethereum</td><td>Not yet verified</td><td><span class:list={['version-status',{current:status==='Current reference'}]}>{status}</span></td></tr>)}</tbody></table></div><p class="table-note">Contract addresses and explorer links appear here once verified.</p></section>
- <section class="section container ruled"><div class="section-heading"><h2>During a fork</h2><p class="lead">A fork only happens when a dispute escalates all the way. Here’s what holders need to know.</p></div><ol class="fork-steps">{forkSteps.map(([title,body],index)=><li class="tile"><span class="step-number" aria-hidden="true">{index+1}</span><h3>{title}</h3><p>{body}</p></li>)}</ol><p class="fork-note">Augur v2’s completed fork, Augur Lituus’s proposed rules and Zoltar’s model differ in their details. Each guide states which one it describes.</p><div class="actions"><a class="button outline" href={links.moonFork.url}>Read the Moon Fork report<Icon name="arrow-up-right"/></a><a class="button text" href={links.discord.url}><Icon name="discord-logo"/><span class="button-label">Ask a question on Discord</span><Icon name="arrow-up-right"/></a></div></section>
+<PageLayout title="REP | Augur’s token" description="What REP does, why it makes lying expensive, the current REPv2_Yes_1 contract, which REP you hold and what to do in a fork. Reporting and challenging are optional.">
+ <section class="rep-hero" aria-labelledby="rep-title">
+  <div class="container rep-hero-grid">
+   <div class="rep-hero-copy">
+    <h1 id="rep-title">{hero.title}</h1>
+    <p class="lead">{hero.lead}</p>
+    <nav class="actions" aria-label="On this page"><a class="button outline" href="#versions">Which REP do I hold?</a><a class="button outline" href="#fork">If a fork happens</a></nav>
+   </div>
+   <TokenCard />
+  </div>
+ </section>
+ <section class="section container" id="how-rep-works" aria-labelledby="ladder-heading">
+  <div class="section-heading"><h2 id="ladder-heading">{ladder.title}</h2><p class="lead">{ladder.lead}</p></div>
+  <BondLadder />
+ </section>
+ <section class="section band" id="taking-part" aria-labelledby="taking-part-heading"><div class="container">
+  <div class="section-heading"><h2 id="taking-part-heading">{participation.title}</h2><p class="lead">{participation.lead}</p></div>
+  <Participation />
+ </div></section>
+ <section class="section container" id="fork" aria-labelledby="fork-heading">
+  <div class="section-heading"><h2 id="fork-heading">{fork.title}</h2><p class="lead">{fork.lead}</p></div>
+  <ForkStory />
+ </section>
+ <section class="section band" id="versions" aria-labelledby="versions-heading"><div class="container">
+  <div class="section-heading"><h2 id="versions-heading">{versions.title}</h2><p class="lead">{versions.lead}</p></div>
+  <VersionRail />
+ </div></section>
+ <section class="section container rep-faq" id="questions" aria-labelledby="questions-heading">
+  <h2 id="questions-heading">{repFaq.title}</h2>
+  <div class="faq-accordion">{questions.map((entry, index) => <FaqItem entry={entry} name="rep-faq" open={index === 0} />)}</div>
+  <div class="actions faq-actions"><a class="button outline" href="/faq/#rep">See all questions</a><a class="button text" href={links.discord.url}><Icon name="discord-logo"/><span class="button-label">Ask on Discord</span><Icon name="arrow-up-right"/></a></div>
+ </section>
 </PageLayout>
 <style>
- .ruled{border-top:1px solid var(--border-quiet);padding-top:72px}.ruled .section-heading{margin-bottom:48px}.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}.roles{border-top:1px solid var(--border-quiet)}.roles>div{padding-top:40px}.roles>div+div{border-left:1px solid var(--border-quiet);padding-left:32px}.roles h3::before{content:'';display:inline-block;width:7px;height:7px;background:var(--primary);margin-right:12px;vertical-align:middle}.roles p,.fork-steps p{font-size:17px;line-height:26px;color:var(--muted-foreground);margin-top:14px}.holder-note{padding:32px 36px;margin-top:48px;border:1px solid var(--primary);background:var(--web-quiet)}.holder-note p{color:var(--muted-foreground);font-size:18px;line-height:28px;margin-top:16px}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;min-width:780px}th,td{text-align:left;border-bottom:1px solid var(--border-quiet);padding:24px;font-size:17px;line-height:26px}thead{background:var(--web-quiet)}thead th{font:400 13px/18px var(--font-heading);color:var(--muted-foreground)}tbody th{font:600 18px/26px var(--font-heading);width:22%;white-space:nowrap}td:nth-child(2){width:28%;color:var(--muted-foreground)}td:nth-child(3){white-space:nowrap}td:nth-child(4){color:var(--muted-foreground);font-size:15px}.version-status{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--web-outline);font-size:13px;line-height:18px;padding:6px 10px;white-space:nowrap}.version-status.current{border-color:var(--primary)}.version-status.current::before{content:'';width:6px;height:6px;background:var(--primary)}.table-note{font-size:15px;line-height:22px;color:var(--muted-foreground);margin-top:40px}.fork-steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.fork-steps li{padding:28px}.step-number{display:grid;place-items:center;width:40px;height:40px;background:var(--primary);color:var(--primary-foreground);font:600 15px/22px var(--font-heading)}.fork-steps h3{font-size:22px;line-height:30px;margin-top:24px}.fork-note{font-size:16px;line-height:24px;color:var(--muted-foreground);max-width:900px;margin-top:32px}.actions{display:flex;flex-wrap:wrap;gap:24px;margin-top:32px}@media(max-width:1023px){.roles,.fork-steps{grid-template-columns:1fr}.roles{border-top:1px solid var(--border-quiet)}.roles>div{padding-top:40px}.roles>div+div{padding:24px 0 0;border-left:0;border-top:1px solid var(--border-quiet)}.holder-note{padding:24px}}@media print{.table-scroll{overflow:visible}table{min-width:0}}
+ /* Hero: the claim on the left, the current token on the right, as a wallet would show it. */
+ .rep-hero{padding-block:112px 104px}
+ .rep-hero-grid{display:grid;grid-template-columns:minmax(0,668fr) minmax(0,500fr);column-gap:80px;align-items:center}
+ .rep-hero h1{font-size:clamp(2.5rem,4.445vw,4rem);line-height:1.125;letter-spacing:-.02em}
+ .rep-hero .lead{margin-top:24px}
+ .rep-hero .actions{gap:12px 16px;margin-top:40px}
+ .rep-faq h2{margin-bottom:32px}
+ .faq-accordion{border:1px solid var(--web-outline);background:var(--web-quiet)}
+ .faq-accordion :global(.faq-item+.faq-item){border-top:1px solid var(--web-outline)}
+ .faq-accordion :global(.faq-answer){max-width:720px;padding-right:56px}
+ .faq-accordion :global(details[open]>summary){padding-bottom:12px}
+ .faq-accordion :global(.faq-answer p){color:var(--foreground);opacity:.86}
+ .faq-actions{gap:16px 32px;margin-top:32px}
+ @media(max-width:1279px){.rep-hero-grid{column-gap:48px}}
+ @media(max-width:1023px){.rep-hero{padding-block:72px}.rep-hero-grid{grid-template-columns:1fr;row-gap:48px}.rep-hero-copy{max-width:720px}}
+ @media(max-width:767px){.rep-hero{padding-block:56px 64px}.rep-hero .actions{margin-top:32px}.faq-accordion :global(.faq-answer){padding-right:0}}
 </style>

@@ -6,73 +6,107 @@
  * below awaits the owner's approval (docs/launch-checklist.md). */
 export const walkthroughReview = { needsReview: true, source: 'Draft copy, 19 October 2026; January 2026 Augur Lituus whitepaper.' } as const;
 
+/** The example question. Its description is illustrative resolution terms for the
+ * example (owner, 19 Oct 2026: “a good description for whatever the question is”);
+ * it makes no claim about Augur Lituus or about the state of the science. */
 export const query = {
   question: 'Has room-temperature superconductivity been independently demonstrated at ambient pressure?',
-  cutoff: 'Evidence cutoff · 8 Sep 2027, 00:00 UTC',
   cutoffDate: '8 Sep 2027, 00:00 UTC',
-  // Expanded criteria restate the card's own facts plus the FAQ's sourced
-  // definition of Invalid; no scientific resolution requirements are invented.
-  outcomes: 'YES, NO or Invalid. Invalid covers malformed or unresolvable questions.',
-};
+  cutoffUnix: Date.UTC(2027, 8, 8) / 1000,
+  description: [
+    'Resolves YES if, before the evidence cutoff, a material is shown to superconduct at room temperature and ambient pressure, and at least two research groups with no ties to the original team reproduce the result.',
+    'A demonstration counts only if it shows both zero electrical resistance and the Meissner effect, the expulsion of a magnetic field, at 20 °C (293 K) or warmer and at normal atmospheric pressure. Results must be public, as a peer-reviewed paper or a preprint with its data, and each replication must use samples the group made itself.',
+    "Resolves NO if no result meets these conditions by the cutoff, including a claim that isn't independently reproduced in time. Resolves Invalid if the question can't be answered as written, for example if the evidence can't be judged against these terms. Reporters judge what is public at the cutoff; later results don't change the answer.",
+  ],
+} as const;
 
 /** Illustrative amounts, one source for the card. The first report's bond equals
  * the fee (§2, §4.1); a challenge doubles it; winners receive 80% of the losing
  * bond (§4.3.1, “most” in visible copy) and the other 20% is burned. */
-const fee = 15, bond = fee, challenge = bond * 2, share = bond * 4 / 5, burned = bond - share;
-export const rep = { fee, bond, challenge, share, burned } as const;
+// The whitepaper's own example (§4.5): a 15 REP fee, a reporter taking a sixth of it (2.5 REP)
+// after 12 hours, a 15 REP bond and a 30 REP appeal.
+const fee = 15, bond = fee, challenge = bond * 2, share = bond * 4 / 5, burned = bond - share, reward0 = fee / 6;
+export const rep = { fee, bond, challenge, share, burned, reward0 } as const;
 const amount = (value: number) => `${value} REP`;
 
 /** A square in the zone: a bond (Pewter, one 32 px square per bond), what you gain
- * (Green: “most of theirs” is 80% of a bond's area, the reward a smaller square), or
+ * (Green: “80% of theirs” is 80% of a bond's area, the reward a smaller square), or
  * a lost bond (outlined). */
 export type Square = 'bond' | 'share' | 'reward' | 'lost';
-/** `amount` is a REP tag; `detail` is a plain line in its place. */
-export interface Group { squares: Square[]; caption: string; amount?: string; detail?: string }
-export type Zone =
-  | { kind: 'meter'; label: string; cap: string; scale: readonly [string, string]; caption: string; note: string }
-  | { kind: 'flow'; label: string; summary: string; stake: Group; condition: string; outcome: Group[]; note?: string }
-  | { kind: 'receipt'; label: string; summary: string; outcome: Group[]; note?: string };
+/** `amount` is a REP tag; `detail` is a plain line in its place; `label` replaces the squares'
+ * own numbers (the reward when its amount is known). */
+export interface Group { squares: Square[]; caption: string; amount?: string; detail?: string; label?: string }
+/** Every panel leads with its payoff (owner, 19 Oct 2026: “more selly … use %”): the
+ * role, a headline figure, and one line saying what you lock, what has to happen and
+ * what comes back. Percentages are one question's payout in
+ * REP from the whitepaper rules and these example amounts, never a yield or a rate,
+ * and the loss case always sits in the same panel. */
+interface Pitch { label: string; stat: string; statNote: string }
+export type Zone = Pitch & (
+  | { kind: 'meter'; scale: readonly [string, string]; caption: string; note: string }
+  | { kind: 'flow'; summary: string; stake: Group; condition: string; outcome: Group[]; note: string }
+  | { kind: 'receipt'; summary: string; outcome: Group[]; note: string });
+const percent = (part: number, whole: number) => `${Math.round(part / whole * 100)}%`;
 
-const reward: Group = { squares: ['reward'], caption: 'Reward' };
+const reward: Group = { squares: ['reward'], caption: 'Reward', amount: `Up to ${amount(fee)}` };
 export const walkthrough: readonly {
   title: string; description: string; status: string; state: 'pending' | 'active' | 'final';
-  answerLabel: string; outcome: 'YES' | 'NO' | null; replaced?: 'YES'; zone: Zone;
+  answerLabel: string; outcome: 'YES' | 'NO' | null; zone: Zone;
+  /** What is happening now, at the top of Activity while the query is open. */
+  now?: { event: string; detail: string };
 }[] = [
-  { title: 'A question opens', description: 'Any app can ask a multiple-choice question and pay a fee in REP. Part of that fee rewards whoever reports the right answer, and the reward grows the longer the question waits.',
+  { title: 'A question opens', description: 'Anyone can ask a multiple-choice question and pay a fee in REP. The fee funds a reward for reporting the right answer, and the reward grows the longer the question waits.',
     status: 'Awaiting report', state: 'pending', answerLabel: 'Possible outcomes', outcome: null,
-    zone: { kind: 'meter', label: 'Reward offered', cap: `Up to ${amount(fee)}`, scale: ['0 REP', amount(fee)], caption: 'Starts at 0 REP and rises until someone reports.',
-      note: 'It goes to whoever first reports the answer that becomes final.' } },
+    now: { event: 'Waiting for a report', detail: 'The reward rises until someone reports' },
+    zone: { kind: 'meter', label: 'Reward offered', stat: `Up to ${amount(fee)}`, statNote: `to report the answer: up to ${percent(fee, fee)} of the fee, plus any tips`,
+      scale: ['0 REP', amount(fee)], caption: `Starts at 0 REP and rises until someone reports. In the whitepaper's example, a reporter takes it at ${amount(reward0)} after 12 hours.`,
+      note: 'Paid to whoever first reports the answer that becomes final.' } },
   { title: 'Report what happened', description: 'Stake REP equal to the fee on the outcome you saw. If no one challenges it, your bond comes back with the reward.',
-    status: 'Open to challenge', state: 'active', answerLabel: 'Current answer · open to challenge', outcome: 'YES',
-    zone: { kind: 'flow', label: 'If you report', summary: `If you report: stake ${amount(bond)}; if no one challenges, you get ${amount(bond)} back plus the reward.`,
+    status: 'Open to challenge', state: 'active', answerLabel: 'Reported answer', outcome: 'YES',
+    now: { event: 'Appeal period running', detail: 'Anyone can challenge with double the bond' },
+    zone: { kind: 'flow', label: 'Reporting', stat: `+${percent(reward0, bond)}`, statNote: `Stake ${amount(bond)}, get ${amount(bond + reward0)} back if no one challenges`,
+      note: `If your answer is overturned, you lose your ${amount(bond)} bond.`, summary: `If you report: stake ${amount(bond)}; if no one challenges, you get ${amount(bond)} back plus the reward, ${amount(reward0)} in the whitepaper's example.`,
       stake: { squares: ['bond'], caption: 'Your bond', amount: amount(bond) }, condition: 'No challenge',
-      outcome: [{ squares: ['bond'], caption: 'Bond back', amount: amount(bond) }, reward] } },
+      outcome: [{ squares: ['bond'], caption: 'Bond back', amount: amount(bond) }, { ...reward, label: String(reward0) }] } },
   { title: 'Challenge a wrong answer', description: 'Think a report is wrong? Stake double its bond on the right outcome. Each challenge doubles the bond again and restarts the appeal period.',
-    status: 'Challenge received', state: 'active', answerLabel: 'Current answer · new appeal period', outcome: 'NO', replaced: 'YES',
-    zone: { kind: 'flow', label: 'You challenge', summary: `You challenge: stake ${amount(challenge)}; if your answer holds, you get ${amount(challenge)} back plus ${amount(share)}, most of the bond you challenged.`,
-      stake: { squares: ['bond', 'bond'], caption: 'Double bond', amount: amount(challenge) }, condition: 'Your answer holds',
-      outcome: [{ squares: ['bond', 'bond'], caption: 'Bond back', amount: amount(challenge) }, { squares: ['share'], caption: 'Most of theirs', amount: amount(share) }],
-      note: "If you're overturned, you lose the bond. Most of it goes to whoever was right." } },
+    status: 'Challenge received', state: 'active', answerLabel: 'Current answer', outcome: 'NO',
+    now: { event: 'New appeal period running', detail: 'Another challenge would double the bond again' },
+    zone: { kind: 'flow', label: 'Challenging', stat: `+${percent(share, challenge)}`, statNote: `Stake ${amount(challenge)}, get ${amount(challenge + share)} back if your answer holds`, summary: `You challenge: stake ${amount(challenge)}; if your answer holds, you get ${amount(challenge)} back plus ${amount(share)}, ${percent(share, bond)} of the bond you challenged.`,
+      stake: { squares: ['bond', 'bond'], caption: 'Double bond', amount: amount(challenge) }, condition: 'Answer holds',
+      outcome: [{ squares: ['bond', 'bond'], caption: 'Bond back', amount: amount(challenge) }, { squares: ['share'], caption: `${percent(share, bond)} of theirs`, amount: amount(share) }],
+      note: `If your answer is overturned, you lose your bond, and ${percent(share, bond)} of it goes to whoever was right.` } },
   { title: "Get paid when it's final", description: 'When an appeal period ends without a new challenge, the latest answer is final. Winners are paid, and apps act on the answer.',
-    status: 'Final answer', state: 'final', answerLabel: 'Final answer · appeal period ended', outcome: 'NO', replaced: 'YES',
-    zone: { kind: 'receipt', label: 'You receive', summary: `You receive: your ${amount(challenge)} bond back, ${amount(share)} from the losing bond, and the reward, because you were first to back No.`,
-      outcome: [{ squares: ['bond', 'bond'], caption: 'Bond back', amount: amount(challenge) }, { squares: ['share'], caption: 'From the Yes bond', amount: amount(share) }, { ...reward, detail: 'First to back No' }],
-      note: `The other ${amount(burned)} is burned.` } },
+    status: 'Final answer', state: 'final', answerLabel: 'Final answer', outcome: 'NO',
+    zone: { kind: 'receipt', label: 'Payout', stat: amount(challenge + share), statNote: `back on your ${amount(challenge)} bond, plus the reward for staking on NO first`, summary: `You receive: your ${amount(challenge)} bond back, ${amount(share)} from the losing bond, and the reward, because you were first to stake on NO.`,
+      outcome: [{ squares: ['bond', 'bond'], caption: 'Bond back', amount: amount(challenge) }, { squares: ['share'], caption: 'From the YES bond', amount: amount(share) }, { ...reward, detail: 'First to stake on NO' }],
+      note: `The other ${amount(burned)} of the losing bond is burned.` } },
 ];
 
-/** Activity rows. Each icon names what happened to the REP: a fee paid, a bond
- * locked, the answer made final (Phosphor Bold, see docs/icon-provenance.json).
- * The zone is the payoff; Activity is the history. */
-export const ledger = [
-  { event: 'Query opened · fee paid', amount: amount(fee), icon: 'coins' },
+/** Activity, one entry per step, oldest first: what happened, a plain line on what
+ * it means, and the REP involved with what it is (a fee, or a bond on an outcome). `stake` marks a bond on an outcome, which the
+ * card's Stakes bar sums; the REP panel under the steps is the payoff, Activity the
+ * history. No addresses or times: the card is illustrative (no invented addresses). */
+export const ledger: readonly { event: string; detail: string; amount?: number; stake?: 'YES' | 'NO'; you?: boolean; replacedAt?: number }[] = [
+  { event: 'Query opened', detail: 'An app asked and paid the fee', amount: fee },
   // The challenge replaces this report: from step 2 the card strikes it through.
-  { event: 'Reported Yes · bond locked', amount: amount(bond), icon: 'lock-simple', replacedAt: 2 },
-  { event: 'You challenged with No · bond locked', amount: amount(challenge), icon: 'lock-simple' },
-  { event: 'Appeal period ended · No is final', amount: '', icon: 'seal-check' },
-] as const;
+  { event: 'Reported YES', detail: 'First report, staked equal to the fee', amount: bond, stake: 'YES', replacedAt: 2 },
+  { event: 'Challenged with NO', detail: 'Double the bond, new appeal period', amount: challenge, stake: 'NO', you: true },
+  { event: 'NO is final', detail: 'Appeal period ended with no new stake' },
+];
+/** Bonds on each outcome after step `step`, largest first. */
+export const stakesAt = (step: number) => {
+  const totals = new Map<'YES' | 'NO', number>();
+  for (const entry of ledger.slice(0, step + 1)) if (entry.stake) totals.set(entry.stake, (totals.get(entry.stake) ?? 0) + entry.amount!);
+  return [...totals].map(([outcome, value]) => ({ outcome, value })).sort((a, b) => b.value - a.value);
+};
+export { amount };
 
-/** For anyone holding REP, under the walkthrough. */
+/** For anyone holding REP, under the walkthrough: two points, each a lead-in and one line.
+ * The fork point follows the whitepaper §4.2.2 (REP that isn't migrated is effectively destroyed). */
 export const holder = {
   title: 'Holding REP?',
-  text: 'You never have to report or challenge. If a dispute ever climbs to a fork, holders choose the universe they believe reflects reality.',
+  points: [
+    { lead: 'Optional.', text: 'You never have to report or challenge.' },
+    { lead: 'In a fork, act.', text: 'Move your REP to the universe you believe reflects reality, or it loses its value.' },
+  ],
 };

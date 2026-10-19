@@ -16,6 +16,7 @@ export const links = {
   x: { url: "https://x.com/AugurProject", verified: true, source: "Owner brief \u00a711 and official Augur footer." },
   foundation: { url: "https://lituus.foundation/", verified: true, source: "Official Augur footer." },
   moonFork: { url: "https://www.augur.net/blog/post-fork-announcements/", verified: true, source: "Official Augur blog, The Augur Moon Fork Is Complete, 5 August 2026." },
+  repToken: { url: "https://etherscan.io/token/0xCf6A0A7826fa124B7705d6f3c675eAD76f1e540D", verified: true, source: "Etherscan token page for REPv2_Yes_1 (Reputation, 18 decimals, source verified), the address in the Lituus Foundation's REP contract reference on augur.net/rep (updated 13 August 2026) and its FAQ; read 19 October 2026." },
   q2Report: { url: "https://www.augur.net/blog/q2-2026-progress-report/", verified: true, source: "Official Augur blog, Q2 2026: The Fork and What Comes Next, 1 October 2026." },
   reboot: { url: "https://www.augur.net/blog/augur-reboot-2025/", verified: true, source: "Official Augur blog, Augur Reboot 2025 Roadmap, 1 April 2025." },
   generalized: { url: "https://www.augur.net/blog/generalized-augur/", verified: true, source: "Official Augur blog, Generalized Augur, 13 May 2025." },

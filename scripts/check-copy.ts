@@ -10,9 +10,9 @@ function normalize(value: string): string {
 }
 
 // Independent read-only Figma extraction, not imported from the rendering data. Section 06
-// holds the website draft of 19 Oct 2026 (REP folded in) until Figma is updated.
+// holds the website draft of 19 Oct 2026 (REP folded in) and section 09 the Learn more draft (blog and FAQ merged) until Figma is updated.
 // Compare the default desktop state; state transitions have separate browser QA.
-const selectors = ['.announcement', '.site-header', '.home-hero', '.tenets', '.applications', '.how-it-works', '.roadmap', '.home-blog', '.home-faq', '.site-footer'];
+const selectors = ['.announcement', '.site-header', '.home-hero', '.tenets', '.applications', '.how-it-works', '.roadmap', '.home-learn', '.site-footer'];
 const excluded = [
   'script', 'style', 'svg', 'noscript', '[hidden]', '.sr-only', 'dialog', '.nav-panel',
   '.application-tab[aria-selected="true"] .app-question', '.app-plus', '.roadmap-plus',

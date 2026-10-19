@@ -81,14 +81,14 @@ export function initRepZone(){
   let stop:(()=>void)|undefined;
   const start=()=>{
    stop?.();
-   const zone=root.querySelector<HTMLElement>('[role="tabpanel"]:not([hidden]) [data-rep-zone]');
+   const zone=root.querySelector<HTMLElement>('.rep-panel:not([hidden]) [data-rep-zone]');
    stop=zone?loopScene(zone,animate=>{
     const find=(id:string)=>zone.querySelector(`[data-motion="${id}"]`);
     const from=find('zone-ghost')?.getBoundingClientRect(),to=zone.querySelector('[data-bond-back] .squares')?.getBoundingClientRect();
     const dx=from&&to?to.left-from.left:0,dy=from&&to?to.top-from.top:0;
     for(const track of repZoneTracks(zone.dataset.repZone as 'meter'|'flow'|'receipt',zone.querySelectorAll('[data-motion^="zone-pop-"]').length)){
      const measured=track.prop==='translate'?{...track,keys:track.keys.map(key=>({...key,v:[(key.v as readonly number[])[0]!*dx,(key.v as readonly number[])[1]!*dy] as const}))}:track;
-     const animation=animate(find(track.id),keyframes(measured,repCycle,undefined,{individual:false}),{duration:repCycle});
+     const animation=animate(track.target?zone.querySelector(track.target):find(track.id),keyframes(measured,repCycle,undefined,{individual:false}),{duration:repCycle});
      if(animation)animation.id='rep-loop';
     }
    }):undefined;

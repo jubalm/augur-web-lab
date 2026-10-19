@@ -3,11 +3,15 @@ import { motionTime } from './debug';
 const initialized = new WeakSet<HTMLElement>();
 
 /** Shared ARIA tabs: roving focus, automatic or manual activation, Home/End.
- * Server-rendered aria-selected and hidden attributes define the no-JS state. */
+ * Server-rendered aria-selected and hidden attributes define the no-JS state.
+ * A tab's aria-controls may list more than one panel: the first is its panel and
+ * animates; the rest (the walkthrough's REP panel) show and hide with it. */
 export function setupTabs(root: HTMLElement) {
   if(initialized.has(root)) return; initialized.add(root);
   const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]')).filter(tab=>tab.closest('[data-tabs]')===root);
-  const panels = tabs.map(tab=>document.getElementById(tab.getAttribute('aria-controls') ?? ''));
+  const controlled = tabs.map(tab=>(tab.getAttribute('aria-controls') ?? '').split(/\s+/).map(id=>document.getElementById(id)));
+  const panels = controlled.map(list=>list[0] ?? null);
+  const show = (index:number) => controlled.forEach((list,i)=>list.forEach(panel=>{if(panel)panel.hidden=i!==index;}));
   let selected = Math.max(0,tabs.findIndex(tab=>tab.getAttribute('aria-selected')==='true'));
   let transition = 0;
   let panelMotion: Animation | undefined;
@@ -16,7 +20,7 @@ export function setupTabs(root: HTMLElement) {
     transition++;
     root.getAnimations({subtree:true}).forEach(animation=>{try{animation.finish();}catch{/* A canceled effect is already settled. */}animation.cancel();});
     panelMotion=undefined;
-    panels.forEach((panel,i)=>{if(panel)panel.hidden=i!==selected;});
+    show(selected);
     root.dispatchEvent(new Event('tabssettled'));
   };
   reduced.addEventListener('change',()=>{if(reduced.matches)settle();});
@@ -45,10 +49,10 @@ export function setupTabs(root: HTMLElement) {
     root.dispatchEvent(new CustomEvent('tabschange',{detail:{index,previous},bubbles:false}));
     // Panels that share one layout (the query card) swap in place; their
     // controller animates only the parts that change.
-    if(root.hasAttribute('data-panel-swap')){panels.forEach((panel,i)=>{if(panel)panel.hidden=i!==index;});root.dispatchEvent(new Event('tabspanelshown'));return;}
+    if(root.hasAttribute('data-panel-swap')){show(index);root.dispatchEvent(new Event('tabspanelshown'));return;}
     await animatePanel(outgoing,false,opacity);
     if(current!==transition)return;
-    panels.forEach((panel,i)=>{if(panel)panel.hidden=i!==index;});
+    show(index);
     root.dispatchEvent(new Event('tabspanelshown'));
     await animatePanel(panels[index]??null,true);
   };

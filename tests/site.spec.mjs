@@ -52,7 +52,8 @@ test('all tabs support focus movement, manual activation and roving tabindex', a
     await expect(tabs.last()).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(tabs.last()).toHaveAttribute('aria-selected', 'true');
-    const panel = page.locator(`[id="${await tabs.last().getAttribute('aria-controls')}"]`);
+    // The first controlled id is the tab's panel (the walkthrough also lists its REP panel).
+    const panel = page.locator(`[id="${(await tabs.last().getAttribute('aria-controls')).split(' ')[0]}"]`);
     await expect(panel).toBeVisible();
     await page.keyboard.press('Home');
     await expect(tabs.first()).toBeFocused();
@@ -278,7 +279,7 @@ test('entrance scenes play once per session and F5 keeps them settled', async ({
 
 test('opening a FAQ question animates; the open question on load does not', async ({ page }) => {
   await page.goto('/');
-  const items = page.locator('.home-faq .faq-item');
+  const items = page.locator('.home-learn .faq-item');
   await items.first().scrollIntoViewIfNeeded();
   expect(await items.first().locator('.faq-answer p').evaluate(element => element.getAnimations().length)).toBe(0);
   const started = await items.nth(2).evaluate(item => {
@@ -343,9 +344,12 @@ test('walkthrough crosses off completed steps and strikes the replaced answer', 
   const done = page.locator('.walkthrough-steps .step-done');
   expect(await done.evaluateAll(marks => marks.map(mark => getComputedStyle(mark).opacity))).toEqual(['1', '1', '0', '0']);
   const panel = page.locator('#walkthrough-panel-2');
-  await expect(panel.locator('.outcome-chip.is-replaced s')).toHaveText('YES');
+  // Owner (19 Oct 2026): once an outcome is picked, the others step back alike; only a final answer strikes them.
   await expect(panel.locator('.outcome-chip.is-selected')).toContainText('NO');
-  await expect(panel.locator('.query-ledger [data-replaced-at] s')).toHaveText('Reported Yes · bond locked');
+  await expect(panel.locator('.outcome-chip.is-other')).toHaveCount(2);
+  await expect(panel.locator('.outcome-chip s')).toHaveCount(0);
+  await expect(page.locator('#walkthrough-panel-3 .outcome-chip.is-out s')).toHaveText(['YES', 'Invalid']);
+  await expect(panel.locator('.query-ledger [data-replaced-at] s')).toHaveText('Reported YES');
   await expect(page.locator('#walkthrough-panel-1 .query-ledger s')).toHaveCount(0);
 });
 
@@ -446,7 +450,7 @@ test('newsletter field validates locally and never sends or claims a subscriptio
 
 test('closed FAQ questions respond to hover and keyboard focus', async ({ page }) => {
   await page.goto('/');
-  const item = page.locator('.home-faq .faq-item').nth(1);
+  const item = page.locator('.home-learn .faq-item').nth(1);
   await item.scrollIntoViewIfNeeded();
   const before = await item.evaluate(element => getComputedStyle(element).backgroundColor);
   await item.locator('summary').hover();
@@ -579,9 +583,13 @@ test('each use case reads as a question, Augur Lituus\'s answer and the app\'s a
   await expect(governance.locator('.case-pick')).toHaveText('No');
   await expect(governance.locator('.case-act > p')).toHaveText(['Hold the upgrade.', 'The proposal goes live once a later review passes.']);
   await expect(governance.locator('.case-by')).toHaveText('Decided in the open, not by the team behind the upgrade.');
-  await expect.poll(() => governance.evaluate(panel => panel.getAnimations({ subtree: true }).length), { timeout: 6000 }).toBe(0);
+  // The play only reveals what is rendered (owner, 19 Oct 2026 polish pass): once it ends, the action,
+  // the chip's check and the picture are all at rest, and the other answer steps back.
+  await expect.poll(() => governance.evaluate(panel => panel.getAnimations({ subtree: true }).length), { timeout: 8000 }).toBe(0);
   await expect(governance.locator('.case-action')).toHaveCSS('opacity', '1');
-  await expect(governance.locator('.case-option.is-other')).toHaveCSS('opacity', '0.5');
+  await expect(governance.locator('.case-check polyline')).toHaveCSS('stroke-dashoffset', '0px');
+  await expect(governance.locator('.case-graphic')).toHaveCSS('opacity', '1');
+  await expect(governance.locator('.case-option.is-other')).toHaveCSS('opacity', '0.4');
 });
 
 // Owner (19 Oct 2026: "clear and organized"): the cases are a list beside one worked example; each row
@@ -597,13 +605,18 @@ test('the use-case tabs show one case at a time on a steady stage', async ({ pag
   for (const name of ['Prediction markets', 'Insurance & payments', 'DAOs & governance']) await expect(page.getByRole('tab', { name, exact: true })).toHaveCount(1);
   await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
   await expect(tabs.first().locator('.case-icon')).toHaveCSS('background-color', 'rgb(42, 231, 168)');
-  await expect(tabs.first()).toHaveCSS('background-color', await page.locator('.case-stage').evaluate(stage => getComputedStyle(stage).backgroundColor));
+  // The picked row's surface is one marker in the stage's colour that glides to the row picked (owner,
+  // 19 Oct 2026 polish pass); reduced motion moves it at once.
+  const marker = page.locator('.case-marker');
+  await expect(marker).toHaveCSS('background-color', await page.locator('.case-stage').evaluate(stage => getComputedStyle(stage).backgroundColor));
   const stage = page.locator('.case-stage');
   const heights = [];
   for (const name of ['Insurance & payments', 'DAOs & governance', 'Prediction markets']) {
-    await page.getByRole('tab', { name }).click();
+    const tab = page.getByRole('tab', { name });
+    await tab.click();
     await expect(page.locator('.case-panel:not([hidden])')).toHaveCount(1);
     heights.push(Math.round((await stage.boundingBox()).height));
+    expect(Math.abs((await marker.boundingBox()).y - (await tab.boundingBox()).y)).toBeLessThanOrEqual(1);
   }
   expect(new Set(heights).size).toBe(1);
   await expect(page.locator('.case-fallback')).toHaveCount(1);
@@ -686,58 +699,97 @@ test('walkthrough activity is a timeline with the latest event in Green', async 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('#walkthrough-tab-3').click();
   const panel = page.locator('#walkthrough-panel-3');
+  // Owner (19 Oct 2026): newest first, the current state on top as a highlighted row; tiny Green squares, no icons.
   await expect(panel.locator('.query-ledger li')).toHaveCount(4);
-  await expect(panel.locator('.ledger-node .web-icon')).toHaveCount(4);
-  expect(await panel.locator('[data-ledger-latest] .ledger-node').evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgb(42, 231, 168)');
+  await expect(panel.locator('.query-ledger .web-icon')).toHaveCount(0);
+  await expect(panel.locator('.query-ledger li').first()).toHaveAttribute('data-ledger-current', '');
+  await expect(panel.locator('.query-ledger li').last().locator('.ledger-amount')).toHaveText('15 REPFee');
+  // Struck or faded, never both: the overturned report keeps Paper; ruled-out chips are struck on a plain tile.
+  expect(await panel.locator('[data-replaced-at] .ledger-title').evaluate(node => getComputedStyle(node).color)).toBe('rgb(245, 245, 248)');
+  await expect(panel.locator('.outcome-chip.is-other')).toHaveCount(0);
+  await expect(panel.locator('[data-ledger-current]')).toHaveCount(1);
+  expect(await panel.locator('[data-ledger-current] .ledger-node').evaluate(node => [getComputedStyle(node).backgroundColor, getComputedStyle(node).width]))
+    .toEqual(['rgb(42, 231, 168)', '8px']);
+  await expect(panel.locator('.stakes-legend li')).toHaveText(['NO30 REP', 'YES15 REP']);
+  await expect(panel.locator('.stakes-total strong')).toHaveText('45 REP');
+  // While a query is open, Activity leads with what is happening now.
+  await expect(page.locator('#walkthrough-panel-1 .query-ledger li').first()).toHaveClass(/ledger-now/);
+  await expect(page.locator('#walkthrough-panel-1 .ledger-now .ledger-title')).toContainText('Appeal period running');
+  await expect(panel.locator('.ledger-now')).toHaveCount(0);
 });
 
 // Owner + Augus (19 Oct 2026): How it works and the REP section are one section about taking part.
-test('How it works walks through taking part on one steady card, with no separate REP section', async ({ page }) => {
+test('How it works keeps Your REP under the steps, out of the example card, with no separate REP section', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   const section = page.locator('#how-it-works');
   await expect(section.getByRole('heading', { level: 2 })).toHaveText(/Know what happened\?\s*Get paid to report it\./);
   await expect(page.locator('section.rep, .stake-row, [data-bonds]')).toHaveCount(0);
+  // Owner (19 Oct 2026): the explanation stays out of the product-style card.
+  await expect(section.locator('.query-card .your-rep')).toHaveCount(0);
   const tabs = section.getByRole('tab');
   await expect(tabs).toHaveCount(4);
   const zones = [
     ['Reward offered', null],
-    ['If you report', 'If you report: stake 15 REP; if no one challenges, you get 15 REP back plus the reward.'],
-    ['You challenge', 'You challenge: stake 30 REP; if your answer holds, you get 30 REP back plus 12 REP, most of the bond you challenged.'],
-    ['You receive', 'You receive: your 30 REP bond back, 12 REP from the losing bond, and the reward, because you were first to back No.'],
+    ['Reporting', "If you report: stake 15 REP; if no one challenges, you get 15 REP back plus the reward, 2.5 REP in the whitepaper's example."],
+    ['Challenging', 'You challenge: stake 30 REP; if your answer holds, you get 30 REP back plus 12 REP, 80% of the bond you challenged.'],
+    ['Payout', 'You receive: your 30 REP bond back, 12 REP from the losing bond, and the reward, because you were first to stake on NO.'],
   ];
   const heights = new Set();
   for (const [i, [label, summary]] of zones.entries()) {
     await tabs.nth(i).click();
     await expect(section.locator('[role="tabpanel"]:visible')).toHaveCount(1);
-    const panel = page.locator(`#walkthrough-panel-${i}`);
+    const panel = page.locator(`#walkthrough-panel-${i}`), zone = page.locator(`#walkthrough-rep-${i}`);
+    await expect(tabs.nth(i)).toHaveAttribute('aria-controls', `walkthrough-panel-${i} walkthrough-rep-${i}`);
     await expect(panel).toBeVisible();
-    await expect(panel.locator('.query-example')).toHaveText('Example');
-    await expect(panel.locator('.zone-title')).toHaveText(label);
-    if (summary) await expect(panel.getByRole('img', { name: summary })).toBeVisible();
-    else await expect(panel.locator('.meter-block')).toHaveAttribute('aria-hidden', 'true');
+    await expect(zone).toBeVisible();
+    await expect(section.locator('.rep-panel:visible')).toHaveCount(1);
+    await expect(panel.locator('.query-example')).toHaveCount(0);
+    await expect(zone.locator('.zone-title')).toHaveText(label);
+    if (summary) await expect(zone.getByRole('img', { name: summary })).toBeVisible();
+    else await expect(zone.locator('.meter-block')).toHaveAttribute('aria-hidden', 'true');
     heights.add(Math.round((await panel.boundingBox()).height));
+    heights.add(`zone ${Math.round((await zone.boundingBox()).y)}`);
     heights.add(Math.round((await section.boundingBox()).height));
   }
-  expect(heights.size).toBe(2);
-  await expect(page.locator('#walkthrough-panel-2 .zone-note')).toHaveText("If you're overturned, you lose the bond. Most of it goes to whoever was right.");
+  expect(heights.size).toBe(3);
+  await expect(page.locator('#walkthrough-rep-2 .zone-note')).toHaveText("If your answer is overturned, you lose your bond, and 80% of it goes to whoever was right.");
+  // Each panel leads with its payoff (owner, 19 Oct 2026), and every REP square shows its amount.
+  await expect(section.locator('.rep-panel .zone-stat strong')).toHaveText(['Up to 15 REP', '+17%', '+40%', '42 REP']);
+  expect(await page.locator('#walkthrough-rep-2 .squares i.bond, #walkthrough-rep-2 .squares i.share').allTextContents()).toEqual(['15', '15', '15', '15', '12', '15', '15']);
+  // The cutoff, its Unix time and the description sit in one dropdown that opens on every card at once.
+  const details = page.locator('#walkthrough-panel-3 .query-details');
+  await expect(details).not.toHaveAttribute('open', '');
+  await details.locator('summary').click();
+  await expect(details).toContainText('1820361600');
+  await expect(details.locator('.details-body p')).toHaveCount(3);
+  expect(await page.locator('.query-details').evaluateAll(all => all.every(item => item.open))).toBe(true);
+  // Opening the details grows the card, never the REP panel beside it.
+  const panelHeight = await page.locator('#walkthrough-rep-3 .your-rep').evaluate(node => node.getBoundingClientRect().height);
+  await details.locator('summary').click();
+  expect(await page.locator('#walkthrough-rep-3 .your-rep').evaluate(node => node.getBoundingClientRect().height)).toBe(panelHeight);
   await expect(section.locator('.holder').getByRole('link', { name: 'Learn about REP' })).toHaveAttribute('href', '/rep/');
-  await expect(section.locator('.holder').getByRole('link', { name: /Read the whitepaper/ })).toHaveClass(/text/);
+  await expect(section.locator('.holder').getByRole('link')).toHaveCount(1);
+  await expect(page.locator('.zone-source')).toHaveCount(0);
+  // The whitepaper's §4.5 example: the reporter takes 2.5 REP; a challenger's reward stays “up to” the fee.
+  await expect(page.locator('#walkthrough-rep-1 .squares i.reward')).toHaveText('2.5');
+  await expect(page.locator('#walkthrough-rep-3 .squares i.reward')).toHaveText('≤15');
+  await expect(page.locator('#how-heading .paid-mark')).toHaveCount(1);
 });
 
 test("only the shown step's Your REP zone loops, while on screen, and its bond lands on the bond back", async ({ page }) => {
   await page.goto('/');
-  const running = () => page.evaluate(() => [...new Set(document.getAnimations().filter(a => a.id === 'rep-loop' && a.playState === 'running').map(a => a.effect.target.closest('[role="tabpanel"]').id))]);
+  const running = () => page.evaluate(() => [...new Set(document.getAnimations().filter(a => a.id === 'rep-loop' && a.playState === 'running').map(a => a.effect.target.closest('.rep-panel').id))]);
   expect(await running()).toEqual([]);
-  await page.locator('#walkthrough-panel-0 .your-rep').scrollIntoViewIfNeeded();
-  await expect.poll(running).toEqual(['walkthrough-panel-0']);
+  await page.locator('#walkthrough-rep-0 .your-rep').scrollIntoViewIfNeeded();
+  await expect.poll(running).toEqual(['walkthrough-rep-0']);
   await page.locator('#walkthrough-tab-2').click();
-  await expect.poll(running).toEqual(['walkthrough-panel-2']);
+  await expect.poll(running).toEqual(['walkthrough-rep-2']);
   expect(await page.evaluate(() => document.getAnimations().filter(a => a.id === 'rep-loop').every(a => a.effect.getTiming().iterations === Infinity))).toBe(true);
-  // First send 600 + travel 1200 (rep-choreography.ts): the copy covers the bond that comes back.
+  // First send 600 + travel 1300 (rep-choreography.ts): the copy covers the bond that comes back.
   const landed = await page.evaluate(() => {
-    document.getAnimations().filter(a => a.id === 'rep-loop').forEach(a => { a.pause(); a.currentTime = 1800; });
-    const zone = document.querySelector('#walkthrough-panel-2 .your-rep'), ghost = zone.querySelector('.flow-ghost .squares').getBoundingClientRect(), back = zone.querySelector('[data-bond-back] .squares').getBoundingClientRect();
+    document.getAnimations().filter(a => a.id === 'rep-loop').forEach(a => { a.pause(); a.currentTime = 1900; });
+    const zone = document.querySelector('#walkthrough-rep-2 .your-rep'), ghost = zone.querySelector('.flow-ghost .squares').getBoundingClientRect(), back = zone.querySelector('[data-bond-back] .squares').getBoundingClientRect();
     return [Math.round(ghost.left - back.left), Math.round(ghost.top - back.top)];
   });
   expect(landed).toEqual([0, 0]);
@@ -763,7 +815,7 @@ test('only the Peer mesh glows', async ({ page }) => {
 
 test('the footer links to brand assets, whose downloads resolve and whose colors copy', async ({ page, context }) => {
   await page.goto('/');
-  await page.getByRole('navigation', { name: 'Footer Augur' }).getByRole('link', { name: 'Brand assets' }).click();
+  await page.getByRole('navigation', { name: 'Footer' }).getByRole('link', { name: 'Brand assets' }).click();
   await expect(page).toHaveURL(/\/brand\/$/);
   const downloads = await page.locator('main a[download]').evaluateAll(links => [...new Set(links.map(link => link.getAttribute('href')))]);
   expect(downloads.length).toBe(27);
@@ -777,5 +829,44 @@ test('the footer links to brand assets, whose downloads resolve and whose colors
   for (const width of [1024, 768, 390, 360]) {
     await page.setViewportSize({ width, height: 900 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${width}px`).toBe(true);
+  }
+});
+
+// REP page rebuilt (19 Oct 2026): the contract reference, the comparison, the lineage and holders' questions.
+test('/rep/ is the token page and the contract reference', async ({ page, context }) => {
+  const address = '0xCf6A0A7826fa124B7705d6f3c675eAD76f1e540D';
+  await page.goto('/rep/');
+  await expect(page.locator('h1')).toHaveText('REP makes lying expensive.');
+  const card = page.locator('#contract');
+  await expect(card.getByRole('heading', { level: 2 })).toHaveText('REPv2_Yes_1');
+  await expect(card.locator('.token-address')).toHaveText(address);
+  await expect(card.getByRole('link', { name: /View on Etherscan/ })).toHaveAttribute('href', `https://etherscan.io/token/${address}`);
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const copy = card.getByRole('button', { name: 'Copy address' });
+  const width = (await copy.boundingBox()).width;
+  await copy.click();
+  await expect(page.locator('[data-copy-address-status]')).toHaveText('Contract address copied');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(address);
+  expect((await copy.boundingBox()).width).toBeCloseTo(width, 0);
+  // In-page anchors from the hero.
+  for (const id of ['versions', 'fork', 'taking-part']) await expect(page.locator(`#${id}`)).toHaveCount(1);
+  // Hold, Report, Challenge: the gains are the whitepaper's §4.5 example.
+  await expect(page.locator('.option h3')).toHaveText(['Hold', 'Report', 'Challenge']);
+  await expect(page.locator('.option-cell strong.gain')).toHaveText(['+2.5 REP', '+12 REP']);
+  // Four versions, one current, and only the current one shows an address.
+  await expect(page.locator('.version h3')).toHaveText(['REPv1', 'REPv2', 'REPv2_Yes_1', 'REPv2_No_1']);
+  await expect(page.locator('.version.is-current h3')).toHaveText('REPv2_Yes_1');
+  expect(await page.locator('main').evaluate(node => (node.textContent.match(/0x[0-9a-fA-F]{40}/g) ?? []).every(match => match === '0xCf6A0A7826fa124B7705d6f3c675eAD76f1e540D'))).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Migration is closed' })).toBeVisible();
+  // Holders' questions; the answer that links to /rep/ itself shows no link here.
+  await expect(page.locator('#questions summary')).toHaveText(['What role does REP play?', 'Do I earn anything just for holding REP?', 'Is AUGUR the same token as REPv2_Yes_1?', "Why doesn't my wallet show my REP?", "I didn't move my REP in the Moon Fork. Can I still?", 'Why would REP holders choose the honest fork?']);
+  await expect(page.locator('#faq-rep-role .faq-answer a')).toHaveCount(0);
+  // Settled without motion, and no horizontal overflow at any width.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  expect(await page.evaluate(() => document.getAnimations().filter(a => a.effect?.target?.closest?.('[data-ladder],[data-fork-diagram]')).length)).toBe(0);
+  for (const viewport of [1440, 1280, 1024, 768, 390, 360]) {
+    await page.setViewportSize({ width: viewport, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `${viewport}px`).toBe(true);
   }
 });

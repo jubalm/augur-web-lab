@@ -748,3 +748,297 @@ How it works is now the consumer pitch: “How do I take part, and how do I get 
 **Checks run:** `astro check` (0 errors, 105 files) and `bun run build` pass. `check:copy` passes for How it works; sections 04, 05 and 11 still fail, as they did before this change (website copy ahead of the Figma extraction). `bun test tests/copy-check.test.ts`: the new How it works test passes; the two that check the whole page fail on the same three sections. In headless Edge over CDP against the static preview: steady card and zone heights across all four steps at 1440, 1280, 1024, 768, 390 and 360; no horizontal overflow at any of those widths in any step (after letting flows wrap at 1024 and below); no console errors; with no JavaScript the first step shows with the meter at rest. Loop: nothing runs off-screen at load; only the shown step's zone loops; a step change restarts it from rest; at 1800 ms the copy covers the bond back exactly (0, 0 px); it pauses off-screen and recovers after a resize; reduced motion runs nothing and the meter rests at a sixth. Main thread: about 2 ms of task time per 5 s with the zone on screen.
 
 **Not done:** Playwright still can't launch a browser on this machine, so the updated and new tests in `tests/site.spec.mjs` were written but not run (their assertions were checked by hand over CDP, above). Phone widths were measured for overflow and steady height only; the owner asked to skip the mobile visual review for now. `check:budgets` passes and `check:links` passes (27 pages, 2,050 destinations). `check:launch` stays blocked, as before, and now also lists the new `walkthroughReview` flag. Lighthouse, forced colours and keyboard runs were not redone. Figma waits on “update figma” (pending list).
+
+## Your REP moves out of the query card — 19 October 2026 (owner: “mixing the section with the query UI … might be a little confusing”)
+
+The “Your REP” zone sat between the answer and Activity, inside the card that is meant to look like product UI. “If you report” and “You challenge” read as part of the app, and the card mixed the section's explanation with the example. Considered: a separate box under the card (still in the product column, still reads as attached), a flow inside the open step tab (Pewter and Green squares on a Green fill, and a tab button makes its content presentational to screen readers), and a full-width strip under both columns (far from the step it explains, and the steps column stands empty again).
+
+Built: the panel sits under the steps. The left column is now yours (what you do, then what you get) and the right column is only the example query, so each step's payoff sits next to the text that explains it.
+- **Markup:** each step has a `.rep-panel` (`role="group"`, labelled “Your REP: …”). The tab's `aria-controls` lists its card and its panel. `tabs.ts` now treats the first id as the tab's panel and shows or hides the others with it. The loop finds the shown panel, not the shown card.
+- **Holder note:** back on its own row under the walkthrough (the brief's original place), on the heading grid with a full-width hairline. The steps column is no longer empty, so the earlier reason for moving it is gone.
+- **Layout:** the panel is a Navy tile like the steps, marked as yours by the 2 px Green rule. It is a size container: in a flow each group is squares, caption, then its REP tag, which fits one line from about 420 px of content (1440 and 1280). Narrower (1024 and phones), it stacks with one line per group.
+- **Steady height:** the four panels share one grid cell like the cards. The left column now sets the section height, and the open step's description runs 2–3 lines, so the walkthrough controller measures the tallest open step (each step opened in turn with transitions off, read in one frame) and reserves it, on load, after fonts load and when the tabs settle. Measured in headless Edge: section, card and panel positions identical across all four steps at 1440, 1280 and 1024.
+
+**Checks run:** `astro check` and the build pass. In headless Edge over CDP: no horizontal overflow at 1440, 1280, 1024, 768, 390 or 360 in any step; no console errors; no JavaScript shows step 1 with the meter at rest. The loop runs only for the shown panel, restarts from rest on a step change, lands exactly on the bond back, pauses off-screen and runs nothing with reduced motion (about 4 ms of task time per 5 s). Playwright still can't launch here, so the updated spec was not run. The phone layout was checked for overflow only, not reviewed visually.
+
+## How it works polish — 19 October 2026 (owner's list, then “more selly … use %”, then details in a dropdown)
+
+- **Card:** the “Example” tag is gone (owner). Flagged: the card now relies on its numbers and missing addresses to read as illustrative. The criteria's Invalid sentence is removed. Evidence cutoff, its Unix time (1820361600, `Date.UTC(2027, 8, 8) / 1000`) and a three-paragraph description sit in one “Question details” disclosure under the question; it replaces “Resolution criteria”. The description is illustrative resolution terms written for the example (who must replicate, what counts, the 20 °C / 293 K threshold, when it resolves NO or Invalid), not a claim about the science. The status chip is larger, with a slow live dot while open and Green with a check when final. Once an outcome is picked, the others look alike (outlined); a final answer strikes them both.
+- **Stakes and Activity (after the owner's reference screenshot):** kept the total staked, a split bar by outcome and the legend. Left out the wallet addresses and the “23h ago” times, which would be invented. Activity is rewritten: newest first, 8 px Green squares instead of icons, each entry a title over a plain line with its REP tag, a “You” tag on your challenge, and a hollow “now” entry while the query is open (“Waiting for a report”, “Appeal period running”). The old colour hand-off animation is gone (it animated colours, which the motion rules don't allow).
+- **REP panels, “selly”:** each leads with its role and a large Green payoff, then one line on what you lock, what has to happen and what comes back, then the flow, then the risk. The figures follow from the whitepaper rules and the example amounts. An unchallenged report gets up to +100% on its bond, because the bond equals the fee and Reporter Pay can reach the whole fee (§2, §4.1, §4.4.3). A challenge that holds gets +40%: 80% of the 15 REP bond it overturned, on 30 REP (§4.3.1). The payout is 42 REP back on 30, plus the reward. Visible copy now says “80%”, where it used to say “most”, because the owner asked for percentages. Pushed back on: no yield, rate or annualised figure, no price, and the loss sits in the same panel. Every bond and share square shows its amount; the reward's tag says “Up to 15 REP”, because it rises until someone reports.
+- **Motion:** the flow now tells a story instead of a copy sliding over a static row. What comes back waits dimmed, the bond lifts off the stake and glides along the arrow, and as it lands the outcome lights up, the returned bond and the payoff figure bump and the winnings pop. The receipt lights its three groups one by one. Keys are in `motion.md`.
+- **Heading and holder:** “paid” keeps a Green underline that draws in once per visit. The holder is one slim line with a single text link; the whitepaper link was dropped, since the hero already has one.
+
+**Checks run:** `astro check` (0 errors) and the build pass; `check:copy` passes for How it works (04, 05 and 11 still fail, as before). In headless Edge over CDP: steady section, card and panel heights across the four steps at 1440, 1280 and 1024; no horizontal overflow at 1440, 1280, 1024, 768, 390 or 360; no console errors; no JavaScript shows step 1. The flow loop, sampled: rest at 0, outcome dimmed by 450, bond mid-glide at 1200, landed and lit by 2100, stake restored by 5000, rest at 12 s; the copy lands exactly on the returned bond; the loop pauses off-screen and runs nothing with reduced motion; about 9 ms of task time per 5 s. The updated spec assertions were checked by hand in Edge (payoff figures, square amounts, stakes legend and total, chips, Activity order, “now” entry, aria-controls, details sync, Unix time). Playwright still can't launch here. Phones were checked for overflow only.
+
+**Tightened the same day (owner: “still weird, polish”):** the panels' pitch paragraph repeated the step text and made the left column about 60 px taller than the card, which left empty room under Activity. Each pitch is now folded into the payoff line, as “if you lock X, you get Y back”: “Up to +100% · Lock 15 REP, get up to 30 REP back if no one challenges”; “+40% · Lock 30 REP, get 42 REP back if your answer holds”. REP tags now appear only where they add something, a two-square total or the reward, since every square shows its own amount. The Stakes header is one line (“45 REP staked”). Measured at 1440: panel 314 px (was 375), card 738 px (was 799), still identical across the four steps.
+
+## How it works: copy pass and Activity order — 19 October 2026 (owner ran /ux-copy, “improve, then maybe the UI”)
+
+Compared against Augus's notes first: participation, “how do I get rewarded”, and the merged REP section were met. Buying REP wasn't, and can't be until maintainers confirm where REP can be obtained (`links.ts` has no exchange or migration link; the REP page is flagged). The project's “own UI” point has no source, and the card now runs without its “Example” label (flagged). Credibility had lost its only source cue.
+
+- **Copy:** one verb (“stake”) for putting REP on an outcome and one noun (“bond”) for it, in place of a mix of lock, stake and back. YES and NO are in caps everywhere, as on the chips. The lead and summaries say 80% instead of “most”. Step 1 says the fee funds the reward (it said “Part of that fee”, contradicting “up to 100% of the fee”). The answer labels no longer repeat the status chip (“Reported answer”, “Current answer”, “Final answer”). “If your answer is overturned” replaces “If you're overturned”, and “reaches a fork” replaces the idiom “climbs to”.
+- **UI:** each REP panel ends with “Payouts follow the Augur Lituus whitepaper ↗” (the verified registry link), so the figures read as rules, not promises. The step tabs are 6 px slimmer, which gives back the height, and the connector line moves with them (40 + 70 per step).
+- **Activity (owner: oldest first, fade what isn't relevant, highlight the current state, show REP better):** oldest at the top, ending on the current state: the “now” entry, with a Green “Now” tag, while open, or the final answer. Past entries step back to Pewter with dimmed squares. That's colour, not opacity, so their small text keeps AA contrast. Each amount is a bold figure over what it is (“15 REP / Fee”, “30 REP / Bond on NO”), after the owner's reference, in place of grey tags. Details now say what the amount can't (“An app asked and paid the fee”, “First report, staked equal to the fee”).
+
+**Checks run:** build passes; section, card and panel heights are identical across the four steps at 1440 (1235 / 746 / 348 px); no horizontal overflow at 1440. Playwright still can't launch here; the spec was updated to match.
+
+**Second pass the same day (owner):** the whitepaper line under each panel is removed. Faded or struck, never both: ruled-out chips on the final step are struck through on a plain tile without the outline, and the report a challenge replaced is struck through in Paper rather than dimmed. The REP panels no longer stretch with the card (`align-self: start`), so opening Question details grows only the card. Activity is newest first again, with the current state on top as a highlighted row (Dark 2 tint, 2 px Green rule, 15/22 title, 16/22 amount, full square). The panel's diagram (meter, or flow and risk) now sits in an inset under the headline, so the headline sells and the inset shows how; the inset is the size container. The reward square is now a full bond-size dashed Green outline marked “≤15”, in place of a small filled square with a tag. The Challenging condition is shortened to “Answer holds”, since the payoff line above already says “if your answer holds”, so the flow fits on one row at 1280 as well as 1440. Measured: section 1213 px at 1440; panel height unchanged with details open; no overflow at 1440, 1024 or 390.
+
+**Never both, enforced (owner, 19 Oct 2026: “either strike or faded, never both”):** completed step tabs no longer turn Pewter; they keep Paper text with their strike and Green check. Ruled-out outcome chips keep Paper text with their strike. The report a challenge replaced was already in Paper. Faded alone (Pewter, no strike) is still used for older Activity rows, unpicked chips while the answer can change, and earlier progress segments. The current Activity row is now much stronger: a 9% Green-tinted fill inside a 40% Green outline with a 3 px Green edge, a 16/24 title, an 18/24 amount, its detail in Paper, and a 10 px square that pulses with the status chip while the query is open (CSS opacity, shown card only, off with reduced motion and in print).
+
+## Section dividers removed — 19 October 2026 (owner: “i hate this divisor … remove them from this website”)
+
+Removed every full-width hairline that separated blocks on the open page, 22 rules, keeping the spacing each one sat in (where a rule's padding and margin stacked, the two became one gap): the header's bottom edge; the tenets section's top and bottom; the builder's-case top (36 + 32 → 72); the blog grid top; the roadmap top; the How it works holder line (48 + 20 → 56); the footer directory top; the `.ruled` section tops on About, Brand, Learn, Products and REP; About's principles top; the Brand logo-rules row; the FAQ page, guide body and blog archive tops; the archive's category underline; the article end; the contact page's narrow-screen split; and the REP roles top. Kept: rules that structure something rather than divide the page. That means table rows (REP versions, prose tables), list rows (FAQ accordion items, roadmap evidence, Learn guides, glossary, brand minimums and do/don't), card interiors (query card, tenet tiles, logo captions, typefaces), form field underlines and vertical column rules. Checked: build passes; full-page captures at 1440 of the homepage, REP, About, FAQ, Learn, Products, Brand and Contact show no overflow and no blocks running together.
+
+## REP and earning claims checked against the whitepapers — 19 October 2026 (owner: “make sure our statements and assumptions are correct”)
+
+Read the January 2026 Augur Lituus whitepaper in full text (pdftotext; the file matches the one linked from the site) and the Augur v2 whitepaper for context. Searched the web for anything newer (none on the Lituus mechanics) and for the Moon Fork migration.
+
+Correct as written, with sources: the fee is paid entirely in REP (§4.4.2), and Invalid is always added as an outcome (§4.0.1). The first report's bond equals the fee (§2, §4.1; strictly “a minimum size equal to the Query Fee”). Each challenge backs a different outcome with twice the previous stake, and an appeal period with no new stake makes the latest outcome final (§4.1). Winners receive 80% of the stakes on other outcomes, pro rata, and the 20% remainder is destroyed (§4.3.1). The first party to stake on the winning outcome also gets the Reporter Pay (§4.3.1), so the challenger collecting it in step 4 is right. Reporter Pay is a clock auction from 0 up to the whole fee, and anyone may add a tip (§4.4.3). Any unpaid part of the fee is burned (§4.4.4). An unchallenged reporter gets the bond back plus their pay (§4.0.2). The +40% (12 REP on 30) and 42 REP figures follow for one challenge with one staker per side. With no report within 3 days the question resolves Invalid (§4.3). In v2, REP earned reporting fees only by taking part (participation tokens, stakes), consistent with “holding REP alone does not earn reporting rewards”. The site's example numbers are the paper's own §4.5 example: a 15 REP fee, the reward taken at a sixth of the fee (2.5 REP) after 12 hours, a 15 REP bond and a 30 REP appeal.
+
+Fixed:
+- **“Up to +100%” for reporting** was the ceiling, not what the design pays. The clock auction exists so that reporters compete to “accept the lowest possible REP payment” (§4.4.3), and the paper's example pays 2.5 REP on a 15 REP bond. The headline is now “+17% · Stake 15 REP, get 17.5 REP back if no one challenges”, and the flow's reward square shows 2.5. The Reward offered panel keeps “Up to 15 REP”, now “plus any tips”, and its caption cites the example.
+- **Forks:** “holders choose / can move their REP” implied migration is optional. §4.2.2 says REP whose holder chooses inaction is “effectively destroyed”, and the v2 Moon Fork coverage said the same of unmigrated REP. The holder line, the FAQ and the REP page now say holders need to move their REP to the universe they believe reflects reality, and that REP left behind loses its value. “You never have to report or challenge” stays.
+- **“A larger bond”** is now “double the bond” on the REP page and in the FAQ (§4.1).
+- **“Any app can ask”** is now “Anyone can ask” in step 1 (§2: “Anyone may pay a fee”).
+
+Unchanged on purpose: no line says burning raises REP's value, even though §4.4.4 argues it, because the site makes no price or “value goes up” claims; and §4.5's “dividend” wording stays off the site. The Learn guides and blog posts using “a larger bond” are placeholders already flagged for review.
+
+**Holder note reworked (owner, 19 Oct 2026: “this section sucks”):** the one-line note had become a two-line wall of text once the fork caveat joined it. It is now a compact note bar under the walkthrough: a Navy tile like the steps, holding “Holding REP?”, two short points and the link. The points are “Optional. You never have to report or challenge.” and “In a fork, act. Move your REP to the universe you believe reflects reality, or it loses its value.” Each has the Activity squares as its marker (solid: nothing to do; hollow: act). It stacks on phones.
+
+## Section settle in place of one-tick section paging — 19 October 2026 (owner: “make scrolling easier like maybe a tiny scroll just moves to next section”)
+
+Not built as asked: paging a whole section per wheel tick is scrolljacking (NN/g: users lose control, heuristic 3, and it breaks the scrolling every other site has, Jakob's Law). At 1440 × 900 five of the seven homepage sections are taller than the screen (Tenets 1183 px, Use cases 1382, How it works 1254, Roadmap 926, Blog 922), so a one-tick jump would skip content, and trackpads fire dozens of small wheel events per swipe. CSS `scroll-snap` was also rejected: `mandatory` has the same problems, and `proximity` pulls the page back against the scroll when a nudge stops near a section edge.
+
+Built instead (`src/motion/section-settle.ts`, homepage only): scrolling stays native, and when a wheel, trackpad or touch scroll comes to rest with the next section's top within a third of the screen of the top edge, the page glides the rest of the way so the section starts framed. It only continues the way the page was moving, so a nudge away from a section top stays put. The page top stands in for the hero, which sits under the header. Keyboard (arrows, Page Down, Space), link, focus and find-in-page scrolls are left alone; reduced motion turns it off; Safari, which lacks `scrollend`, uses a 160 ms rest.
+
+**Checked:** in Chromium at 1440 × 900 with real wheel ticks: one tick from the top stays at 100; scrolling on to 600 glides to the Tenets top (900); one tick on from there stays at 1000; three up stay at 700; five more up glide to 0; Page Down lands natively at 766. No console errors. `astro check` and the build pass; homepage JS is 19,495 of 20,480 gzip bytes. Not checked: touch momentum on a real phone, Safari's fallback, Firefox.
+
+## Learn more: the blog and the FAQ in one section — 19 October 2026 (owner, after Augus found the page too long)
+
+From the blog (922 px at 1440) and Frequently asked questions (861 px) are now one band section, “Learn more about Augur.”, which is 1,000 px tall. That makes the homepage 783 px shorter at 1440, with the same five questions and four posts (`src/components/home/LearnMore.astro`; `Blog.astro` and `FAQ.astro` are gone).
+
+- **Considered:** tabs (Questions | Blog) would have been shortest. They hide one of the two, though, and a hidden tab gets far fewer looks (heuristic 6, recognition rather than recall). A plain index of links (Guides, Blog, FAQ) would lose the inline answers beginners come for. Side by side keeps both visible.
+- **Order:** the answers lead, in the wide column, and come first in the DOM and on phones, because they serve traders and beginners. At 1440 the answers column is 704 px, enough for every homepage question to fit on one line with answers at their 572 px measure. The posts column is 464 px (420 below 1440). The heading row keeps the H2 on the left, so the shared 500 / 80 / 668 row still holds.
+- **Both columns end on one line:** the posts column stretches to the answers. The featured post holds the top edge, and the list with “View all posts” holds the bottom edge, where its bottom hairline continues the FAQ frame's. Any slack falls between those two groups (16 px at 1440, about 30 at 1280, about 50 at 1200), which reads as a gap between groups rather than a hole before the last row. The posts are stand-ins; if real titles run longer, check this again.
+- **Closing rows:** “View all questions” is the accordion's last row, and “View all posts” mirrors it. Each has a 32 px arrow tile shaped like the FAQ toggle. On hover the row lifts a tone, the tile takes the half-Green hover edge and the arrow nudges 2 px. These rows replace the old Outline “View all posts” above the posts. A right-aligned link in the heading row would have sat next to the other column's title (law of proximity).
+- **Beginner path:** the heading row ends with “New to oracles?” and the Outline “Start here” to `/learn/`, the same words the Learn page opens with. A section called Learn more should lead to the guides.
+- **Stacks below 1200:** with two columns at 1024, the questions wrapped to two or three lines beside a short posts column, which left a 100 px hole. Stacked, the featured post sits beside its cover from 768 to 1199 with three posts in a row below. Phones get one column, answers first.
+- **States:** with the default (first answer open), both columns end on one line. With a short answer open, the frame ends about 66 px above the posts; with all questions closed, about 200 px above. Accepted, because the reader chose those states and the default is level.
+- **FAQ motion:** during the FAQ view transition both closing rows are named, so they slide with the frame instead of stretching inside it or jumping.
+- **Fixed in passing:** the second question had no top hairline, here and on the old homepage FAQ. Astro puts FaqItem's script after the first question, so `.faq-item+.faq-item` skipped the second one; the rule now uses `~`.
+- **Copy:** new copy is “Learn more about Augur.”, “New to oracles?”, “Start here” (as on `/learn/`) and “View all questions”. “Frequently asked questions”, “From the blog” and “View all posts” are kept, now as column headings and a row. The internal rows use the Phosphor arrow, like the header's “Explore Augur Lituus”, and are flagged with the new copy in `launch-checklist.md`. `check-copy.ts` reads sections 09 and 10 as one website-draft section until Figma is updated.
+
+**Checks run:** the build passes. It was built into a scratch folder because `dist` was locked by another process. `check:copy` passes for Learn more; 04, 05 and 11 fail as they did before. `check:budgets` passes (homepage JS 19,495 and CSS 19,824 gzip bytes), and the Impeccable detector reports nothing. In headless Edge over CDP at 1440, 1366, 1280, 1200, 1024, 768, 390 and 360: no horizontal overflow and no console errors, with the default, short-answer and all-closed states captured at 1440. In the browser pane: the hover states, tab order (Start here, questions, View all questions, posts, View all posts) and focus rings. `astro check` reports one error, in `src/components/rep/Participation.astro`, and `check:links` fails on `/rep/#taking-part` and `/rep/#contract`. Both come from the REP work going on in parallel, not from this change. Not run: Playwright (it can't launch here; its two selectors now point at `.home-learn`), forced colours, reduced motion, no-JavaScript. Figma waits on “update figma”.
+
+## About page rebuilt (19 October 2026)
+
+The owner said the About page "was entirely vibe coded" and asked for its UI, copy and UX to be worked out from research. The old page (and Figma About `218:45`) was a generic template:
+- three unsourced principles;
+- organization cards;
+- a date list;
+- a closing "Three products, one goal" panel that repeated the header's Products menu.
+
+Its copy broke house rules ("the next generation", "not from a company, a committee or a multisig", rules of three). One line was out of date: "Testing and audits come next", while the Q2 2026 report shows testing already underway.
+
+**Research.** Primary sources only, read on 19 October 2026:
+- the augur.net mission page;
+- the reboot roadmap (1 April 2025);
+- Generalized Augur (13 May 2025);
+- whitepaper §1 and §2;
+- the testing post (21 July 2026);
+- the Moon Fork report (5 August 2026);
+- the Q2 2026 report (1 October 2026);
+- lituus.foundation.
+
+The facts used are registered in `sources.md`.
+
+**Reader and job.** People arrive from the header's About link and the roadmap's "Read the mission". They want to know:
+- what Augur is;
+- whether it is the project they remember;
+- who is behind it now;
+- whether any of it can be checked.
+
+A decentralized project also faces a question a company About page doesn't: if a foundation funds it, who decides the answers? The page is built to answer that.
+
+**Structure.** Each section has its own format, following the homepage rhythm map.
+- *Hero:* what Augur is in plain words (an oracle that tells apps on the blockchain what happened in the real world), then where it came from.
+- *Mission (`#mission`):* the founding position is the heading, in the shared 500 column: "No company or committee should hold the final word on what happened." It comes from the testing post. The 668 column gives the whitepaper's reasoning (§1, dispersed knowledge) with its citation.
+- *The story so far:* seven dated entries, from the 2015 crowdsale to now. Each has a title, one or two sentences and its primary source.
+  - Date and title sit on the left. Text and source sit on the right. Both start from the row's top, so neither column stands empty.
+  - One Mist line runs through square stops. It is dashed across the quiet 2018 to 2025 stretch, and the current stop is Green.
+  - The Moon Fork carries the page's one figure: 99.97% of migrated REP moved to Yes. On desktop it sits under its title. On phones it comes after the text (grid areas), so phones read the story before the number.
+  - The section ends on "See what comes next" (→ `/#roadmap`) instead of repeating the roadmap.
+- *Who does what:* three builder cards (role, name, what they do, link). Then a Green-outlined panel for the one role no organization holds: "Decides the answers · Anyone with REP at stake". It rests on whitepaper §2: questions resolve "without any centralized backstops or vetoes".
+- *How the work is done:* three practices in divided columns. Each carries its public evidence: the code repositories, the whitepaper and the Q2 report.
+- *Removed:* the closing products panel. Products is in the header, and the footer's contact band follows directly.
+
+**Layout passes.** The first build had two problems:
+- Role labels and timeline titles stood alone in the 500 column beside 170 px blocks. This is the dead-space pattern flagged on 19 October.
+- Source links and the figure stacked up on the right.
+
+Fixes:
+- The builders became cards.
+- The timeline text became top-aligned, with its source directly under it.
+- The Decides heading was set on two lines, so the panel's columns balance.
+- The principles moved from tiles to divided columns, so they don't repeat the cards above.
+
+**Copy rules applied.**
+- No em dashes, no "trust", no "designed to", and no rules of three or "X, not Y".
+- "Augur Lituus" in full, described as "one of the next versions" of Augur's oracle.
+- Holding REP never implies taking part ("Anyone can report…").
+- Off-site links alone carry ↗.
+
+**Figure.** 99.97% holds under both published totals:
+- 6,545,760.43 of 6,547,546.66 REP (Moon Fork report);
+- 6,398,081.41 of 6,399,867.64 REP (Q2 report).
+
+`history.ts` computes it from the first total and rounds down.
+
+**Flagged, not resolved.**
+- *Dark Florist and Augur Stratoblast.* The page says Dark Florist builds Augur Stratoblast on Zoltar, following `products.ts` (owner brief, `needsReview`). No primary source read today says so.
+  - The testing post calls Dark Florist an independent, Foundation-funded team building a censorship-resistant prediction market with its own oracle research.
+  - Dark Florist's GitHub never mentions Zoltar or Statoblast.
+  - To confirm with maintainers (launch checklist).
+- *"Next generation" on the homepage.* The homepage hero and the FAQ's Augur Lituus answer still say "the next generation of Augur's oracle", against house rule 5. That copy is approved, so it is unchanged here.
+- *Launch year.* augur.net posts disagree on it; the 29 January 2026 whitepaper post says 2016.
+  - The page follows the newest, the 21 July 2026 post: crowdsale in 2015, mainnet in 2018.
+  - It avoids "founded in 2015", because that post dates the crowdsale, not the founding.
+- *People.* NN/g's About-page research favors showing the people behind an organization. No names were added. Listing Foundation leadership is the owner's call.
+
+**Checks run.**
+- `astro check`: 0 errors.
+- Design-system integrity passes.
+- Build passes. It was built into a scratch folder, leaving `dist` alone.
+- Link check on that build passes: 27 pages, every anchor resolves, including `/#roadmap` and `/#how-it-works`.
+- Headless Edge over CDP at 1440, 1280, 1024, 768, 390 and 360: no horizontal overflow, and no console errors on the page.
+- Sections were reviewed for dead space at 1440, 1024, 768 and 390.
+- Browser pane:
+  - headings run h1 → h2 → h3 with no skips;
+  - every link is at least 24 px tall;
+  - the text has none of the banned words.
+- The dev server once served a stale style module, until the file was touched, as noted for the applications heading.
+
+**Not run.**
+- Playwright and axe: they can't launch here.
+- Forced colours: styles were added but not viewed.
+- Budgets: the page adds no script.
+- Figma comparison: the frame is still the old design. Figma waits on "update figma".
+
+## REP page rebuilt — 19 October 2026 (owner: “the /rep was entirely vibe coded … research, figure out the UI, copy, UX, everything”)
+
+**Research.**
+- *Whitepaper:* the January 2026 Augur Lituus whitepaper was read again for the fork rules (§2.2, §§4.2.1–4.2.4, 4.3.3).
+- *Official pages:* the Lituus Foundation's REP contract reference (augur.net/rep) and FAQ (augur.net/faq), the Moon Fork and Q2 reports, and the Etherscan token page.
+- *Other token pages:* ethereum.org (ETH, the Merge, staking), UMA, Chainlink staking and token contracts, Kleros PNK, Reality.eth, Polygon MATIC→POL, Sky, Aave, Synthetix, Lido and ENS.
+- *Patterns kept:*
+  - a role sentence before any reward;
+  - holding and taking part as parallel choices ordered by commitment;
+  - the downside beside the upside, as a worked example rather than a rate;
+  - “check the address, not the name”;
+  - a calm, dated account of the fork;
+  - an explicit closed door for migration scams.
+- *Anti-patterns avoided:* APR headlines, risk buried in docs, an address hidden inside a URL, jokes or fear in notices about funds, and contradictory facts across pages.
+
+**What was wrong.**
+- *Hero:* the title was the bare word “REP” beside a large empty column.
+- *Roles:* “What REP does” repeated the homepage's report and challenge steps in three columns.
+- *Holder note:* a wall of text.
+- *Version table:* every Contract cell said “Not yet verified”, although the Foundation publishes the current contract.
+- *Fork section:* Augur v2 history and the proposed Augur Lituus rules were mixed in numbered tiles.
+- *Missing:* nothing answered what holders ask since the Moon Fork: is AUGUR the same token, why is it missing from my wallet, can I still migrate, and is this offer real.
+- *Lost role:* the page dropped the job that augur.net/rep does today. Exchanges, wallets and price trackers were pointed there to confirm the current contract, and this site is to replace it.
+
+**Built** (copy in `src/data/rep.ts`, components in `src/components/rep/`). The story runs from what REP is for to what it asks of the reader.
+1. **Hero:** “REP makes lying expensive.”, a lead saying holding never requires taking part, and two in-page anchors for the two holder worries. The token card is the contract reference, where reviewers look first:
+   - symbol, on-chain name, listing name, chain, chain ID and decimals;
+   - the full address, its first six and last four characters in Paper (the parts people compare with a wallet);
+   - Copy (polite status, steady width) and the Etherscan link.
+2. **Lying gets more expensive every round:** the escalation as squares that double in area, in three panels (Report, Challenges, Fork) on one baseline, ending at the dashed fork threshold. Then the payout line (80% to winners, 20% burned). It replaces the three role columns and explains why the design is meant to keep answers honest.
+3. **Taking part is optional:** Hold, Report and Challenge side by side, each with what you stake, get and risk, from the whitepaper's §4.5 example via `walkthrough.ts`.
+   - Gains are the only Green figures.
+   - Holding comes first and is marked as where most readers stand.
+   - The button leads to the homepage walkthrough rather than repeating it.
+4. **If a fork happens:** the four proposed Augur Lituus steps on a rail; the step that asks something of holders has the hollow Green “act” mark from the homepage holder note. Beside them:
+   - the split as a picture, labelled as an illustration;
+   - the Moon Fork as dated Augur v2 history (Artemis II, 8 April to 3 August 2026, 60-day window), with its rules kept apart from the proposal.
+5. **Which REP do you hold?:** a lineage rail like a commit graph. REPv1 and REPv2 sit on the main lane, the Moon Fork splits it, REPv2_Yes_1 carries the main lane on (Green, current) and REPv2_No_1 takes a side lane. Each row says what the token is and what holding it means. The “Migration is closed” notice follows, with the Foundation's own scam guidance.
+6. **Questions about REP:** six questions. Four are new, shared with `/faq/`: holding rewards, AUGUR vs REPv2_Yes_1, a token missing from the wallet, and a missed migration. `FaqItem` now leaves out an answer's link when it points at the page the reader is on.
+
+**Decisions and departures.**
+- *Contract address:* the earlier rule was “no contract address published by this build”. The REPv2_Yes_1 address is now shown, because:
+  - it is the Foundation's published reference, checked on Etherscan, not an invented value;
+  - the explorer link must match it (a build-time guard in `rep.ts`);
+  - REPv1, REPv2 and REPv2_No_1 show none, because no official source lists one.
+
+  Maintainers still confirm before launch (checklist).
+- *No value claims:* the augur.net FAQ's “expected to be worthless” stays off the site. Rows say where development continues instead. No prices, yields or exchange links.
+- *Terminology:* the site keeps “challenge” and “appeal period” (the approved homepage words), although the whitepaper says “appeal”.
+- *No dead space:* checked at 1440, 1280, 1024, 768, 390 and 360.
+  - The first ladder put the stage captions on the round grid, which left a hole after “Challenges” and squeezed “Report” into four lines; it became three panels.
+  - The fork steps ended about 140 px above the right column; they now spread along their rail to its height.
+  - The FAQ is stacked full width.
+
+**Checks run.**
+- `bun run check` (pinned integrity and `astro check`: 0 errors) and `bun run build` (27 pages) pass.
+- `check:links` passes: 2,078 destinations; the new Etherscan link is in the registry.
+- `check:budgets` passes: /rep is 12.3 KB CSS and 7.8 KB JS gzipped.
+- `check:copy` still fails only on the homepage sections that failed before; /rep isn't in its scope.
+- `check:launch` stays blocked, and now also lists `repPageReview`, `currentRep` and the four new FAQ flags.
+- In headless Edge over CDP:
+  - no horizontal overflow at the six widths, including with every FAQ answer open at 360;
+  - no console errors;
+  - the anchors resolve, and every external link carries ↗;
+  - Copy puts the exact address on the clipboard, announces it, keeps its width and resets after 2 s; where the clipboard is refused, the fallback message shows;
+  - both entrance scenes stay idle until in view, run 14 and 9 animations, then leave none;
+  - a reload, reduced motion and no JavaScript all show the final state;
+  - the keyboard order runs hero anchors → Copy → Etherscan → the matrix links.
+- Forced colours were viewed, and the missing tile, chip and rail borders were added.
+
+**Not run.** Playwright and axe (they can't launch here; a REP test was added to `tests/site.spec.mjs` but not run), Lighthouse, Safari and Firefox, and real phones. Figma waits on “update figma” (pending list, “REP page rebuilt”).
+
+## What can Augur Lituus power? motion polish — 19 October 2026 (owner: the animations were "awful, simple and weird"; "free to make any changes")
+
+The audit found five faults. The whole panel faded and slid 8 px, then each part faded and slid 6 px on top of that, so every pick moved twice. The answer was a scaled pop with nothing before it. The market picture was a flat cover wiped off at a constant speed over a zigzag that alternated every 40 units. The flight and governance squares slid on a generic curve. The picked row's surface jumped from row to row. Rebuilt as one sentence played top to bottom (ask, answer, act), with one easing family: `settle` (expo out) for things that land, `travel` for marks that move from rest to rest, and `approach` for a mark that brakes into a stop (`timelines.ts`).
+
+- **List:** the picked row's surface is now one marker (`.case-marker`) that glides to the row picked (560 ms, transform only). The name and the Green tile catch up as it lands (120 and 140 ms later). A hairline gives way at once to the arriving marker and shows again only after it has passed. Below 1024 each row keeps its own surface. Forced colours hide the marker, and the picked row keeps its outline.
+- **Pick:** the tabs controller now swaps these panels in place (`data-panel-swap`). The shown case fades out over 160 ms while it is still in the shared cell, and then the picked one plays. From 1024 up the panels overlap, so the fade animates `visibility` with `fill: none`, and the hidden case is invisible again afterwards. Below 1024 it simply swaps.
+- **Sentence** (`applicationTimeline`): the question rises 14 px over 640 ms. Both chips rise in as equals, in Paper, so neither gives the answer away. At 760 ms the Green fill sweeps across the picked chip (scaleX, 520 ms). The chip gives under it (to 0.96 and back), its label shows, and its check draws as a stroke on Phosphor Bold's own centreline (same geometry, so the end state matches the icon). The other chip steps back to 40% (was 50% in Pewter, so it now starts in Paper). Then the line saying who did not decide rises. The action, its explanation and the picture follow, and Insurance's note comes last.
+- **Market:** a price chart. Three grid lines (1, ½, 0) draw in. The Yes price is a smoother, believable walk with a faint Green area under it, and No is its mirror (the two prices add up to 1). The prices draw through a window that slides open while the art inside slides back, with each price's head (8 px square) riding the window's edge. The draw shares one keyframe list, placed on the line's own corners, across the window, the art and both heads, so the heads never leave their lines. The prices slow into the answer, wait while the dashed answer line rises, jump to settled (the Yes head pops, and a Green ring marks the moment), and run out to the edge. The end labels sit on the grid lines.
+- **Flight:** the delay is now Paper up to +2 hours and Green past it, drawn with the arrival through the same sliding window. When the arrival passes the limit, a ring marks it and the insured seats fill column by column (14 ms a column, 28 a seat across, scale from 0.2). Until then they show as outlines, so the payout reads as those seats being paid. A new "Landed" label rises as the arrival stops.
+- **Governance:** the proposal brakes into the review (`approach`) as the two pause bars rise from their centres. It squashes against them on contact (scaleX 0.86 from its leading edge) and settles: held. The later lane then rises in, a Paper check draws where its review passes (it replaced the Mist pause bars, which read as "held" in both lanes), and the proposal runs all the way to Live, where a Paper ring marks its arrival.
+- **Kept:** transform, opacity and two stroke draws only, with no library. Every picture renders final, so no JavaScript, reduced motion and print show the end state. Prediction markets still plays once in view (playOnce), and every case plays when picked. A pick, a resize, print or reduced motion settles it. Green still marks only where the answer acts.
+
+Checked in headless Edge over CDP against the dev server: keyframes for each case at 1440 (pick fade, chip sweep, the market draw with its hold, jump and ring, the flight crossing and seat wave, the gate bump, the later lane and the marker mid-glide). Final states at 1440, 1024, 768 and 390: no dead blocks, and the stage keeps one height from 1024 up (717 px at 1440). No horizontal overflow on fresh loads at 390 and 1024, and no console errors or exceptions. The first in-view play starts at 60% in view and settles. Switching to reduced motion mid-play settles everything, and a pick under reduced motion runs nothing (marker in place, other chip at 0.4). `astro check` is clean. `tests/site.spec.mjs` follows the marker and the 0.4 chip but was not run (Playwright can't launch a browser here). Not checked: forced colours, Safari and Firefox, and the main-thread cost of the seat wave on a slow machine.
+
+## Footer on the site grid — 19 October 2026 (owner: “the footer definitely can be improved, figure out too”)
+
+An audit of the footer at 1440, 1280, 1024, 768, 390 and 360 found these problems:
+- The newsletter started at x 736 and the link columns at 496 / 720 / 944 / 1168. Neither matched the other, nor the 500 / 80 / 668 heading row every section above uses (676).
+- The contact band's 424 px minimum height left about 116 px of empty Navy under its content.
+- The email address sat under the funding line, where it read as the Foundation's, away from the “Talk to us” button.
+- The funding line named the Lituus Foundation without linking its verified site (`links.foundation`).
+- There were four separate footer nav landmarks (“Footer Augur”, “Footer Products”…), and their h3 headings sat under the contact h2.
+- Below 1024 the identity row left the right half empty.
+
+What changed (`SiteFooter.astro`):
+- **Grid.** At 1280 and up both rows use the 500 / 80 / 668 columns. The newsletter, the first link column and the sections' heading column now share one edge (measured: 676 at 1440, 601 at 1280). The four link columns split the 668 column with 32 px gaps; “Augur Stratoblast” fits on one line down to 1280. Below 1280 the contact row is 1fr / 1fr and the links are four equal columns, both with 48 px gaps, so the newsletter's edge lands on the third column. The identity row splits on that same edge, so the logo sits left and the funding line on the newsletter's edge. Phones stack, with the links in two columns.
+- **Contact band.** The minimum height is gone; the band has 96 px padding (64 on phones). The title wraps balanced, so “team.” no longer sits alone on phones. The email moved beside “Talk to us”, so both ways to reach the team sit together. Its text comes from `links.contact`.
+- **Identity.** The logo heads the first column, level with the link headings. At 1280 and up the funding line closes the column as a colophon, its last baseline on the last link row (measured: same bottom as “Whitepaper”). “Lituus Foundation ↗” links to `links.foundation`.
+- **Newsletter.** On phones the field and Subscribe stay on one row; they stack only under 375 px, where the placeholder would clip. Validation, status text and the local-only behaviour are unchanged.
+- **Semantics.** There is one `nav` labelled “Footer”, and every footer heading is an h2. The contact wrapper is a plain `div` rather than a region labelled with only the contact title. `tests/site.spec.mjs` follows the new landmark name.
+- **Considered, not kept.** A “Back to top” link. It sat alone below the columns at every width, and the full directory already ends the page. It also added copy that isn't in Figma.
+
+No copy changed. The phrases are the same, with the email and the Foundation link in new places.
+
+**Checks run:** `bun run check` (0 errors, warnings or hints; 105 files), `bun run build` (27 pages), `check:links` (27 pages, 2,076 destinations), `check:budgets` (exit 0). `check:copy` reports for the footer only the owner-approved contact line still waiting on the Figma sync, as before. Headless Edge over CDP: footer captures at 1440, 1280, 1024, 768, 390 and 360, checked for dead space and alignment. Edges and baselines were measured as above, with no link wrapping and no horizontal overflow at 1440, 1280, 1200, 1024, 768, 390, 375 and 360. In the app's browser pane: an empty submit shows “Enter your email address.”, and a valid one shows the not-connected status. One “Footer” nav landmark. The only console errors were the dev server's HMR socket.
+
+**Not done:** Playwright can't launch here, so the updated test wasn't run. Forced colours, a keyboard pass by hand and Lighthouse were not run. Figma waits on “update figma” (pending list).
+
+## Parallel chats merged into one change — 19 October 2026 (owner: “aggregate everything in a single commit”)
+
+Two chats ran in worktrees (use-case motion polish, footer) while the others edited this folder directly. Their work is combined here. Where they met, the owner's sitewide “Section dividers removed” decision wins, because neither worktree had seen it:
+- **Use cases:** the motion polish had turned the hairline above “what the app does” into its own `.case-rule` that drew in. That rule is gone again, and so are its timeline keys and its test check. The gap stays the 72 px left by the divider removal, and the rest of the motion polish is unchanged.
+- **Footer:** the footer redesign kept the directory's top border. It is dropped; the 48 / 64 px padding stays.
+- **Docs:** each chat's entries are kept in order here and in `figma-workflow.md`.

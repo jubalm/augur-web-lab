@@ -1,57 +1,96 @@
 ---
-import { walkthrough, query, ledger, holder } from '../../data/walkthrough';
-import { links } from '../../data/links';
+import { walkthrough, query, ledger, holder, stakesAt, amount, rep } from '../../data/walkthrough';
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import RepFlow from '../art/RepFlow.astro';
 ---
 <section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading"><div class="container">
- <div class="section-heading"><h2 id="how-heading">Know what happened?<br/>Get paid to report it.</h2><p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win most of its bond. Taking part is optional, and a wrong call costs your bond.</p></div>
+ <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2><p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. Taking part is optional, and a wrong call costs your bond.</p></div>
  <div class="walkthrough" data-tabs data-walkthrough data-panel-swap data-active="0">
   <div class="walkthrough-steps" role="tablist" aria-label="How taking part works" aria-orientation="vertical">
-   {walkthrough.map((step,i)=><button type="button" role="tab" id={`walkthrough-tab-${i}`} aria-label={step.title} aria-controls={`walkthrough-panel-${i}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1}><span class="step-head"><span class="step-title">{step.title}</span><span class="step-done" aria-hidden="true"><Icon name="check"/></span></span><span class="step-description">{step.description}</span></button>)}
+   {walkthrough.map((step,i)=><button type="button" role="tab" id={`walkthrough-tab-${i}`} aria-label={step.title} aria-controls={`walkthrough-panel-${i} walkthrough-rep-${i}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1}><span class="step-head"><span class="step-title">{step.title}</span><span class="step-done" aria-hidden="true"><Icon name="check"/></span></span><span class="step-description">{step.description}</span></button>)}
+  </div>
+  <div class="rep-panels">
+   {walkthrough.map((step,i)=><div class="rep-panel" role="group" id={`walkthrough-rep-${i}`} aria-label={`Your REP: ${step.zone.label}`} hidden={i!==0}><RepFlow zone={step.zone}/></div>)}
   </div>
   <div class="query-panels">
-   {walkthrough.map((step,i)=><div class="query-card" role="tabpanel" id={`walkthrough-panel-${i}`} aria-labelledby={`walkthrough-tab-${i}`} hidden={i!==0} tabindex="0" style={`--connector-top:${43+i*80}px`}>
-    <div class="query-header"><span class="query-name"><strong>Augur Lituus</strong><span class="query-example">Example</span></span><span class:list={["query-status",`is-${step.state}`]}><span aria-hidden="true"></span>{step.status}</span></div>
+   {walkthrough.map((step,i)=><div class="query-card" role="tabpanel" id={`walkthrough-panel-${i}`} aria-labelledby={`walkthrough-tab-${i}`} hidden={i!==0} tabindex="0" style={`--connector-top:${40+i*70}px`}>
+    <div class="query-header"><strong class="query-name">Augur Lituus</strong><span class:list={["query-status",`is-${step.state}`]}>{step.state==='final'?<Icon name="check"/>:<span class="status-dot" aria-hidden="true"></span>}{step.status}</span></div>
     <div class="query-progress" aria-hidden="true">{walkthrough.map((_,part)=><span class:list={{'is-complete':part<i,'is-current':part===i}}></span>)}</div>
-    <div class="query-body"><h3>{query.question}</h3><p class="query-cutoff"><Icon name="clock"/>{query.cutoff}</p><details class="criteria"><summary><Icon name="list-checks"/><span>Resolution criteria</span><Icon name="chevron-down"/></summary><div class="criteria-body"><dl><div><dt>Question</dt><dd>{query.question}</dd></div><div><dt>Evidence cutoff</dt><dd>{query.cutoffDate}</dd></div><div><dt>Outcomes</dt><dd>{query.outcomes}</dd></div></dl></div></details>
-     <div class="query-outcomes"><p>{step.answerLabel}</p><div class="outcome-list" aria-label={step.outcome?`${step.outcome} selected`:'No outcome selected'}>{['YES','NO','Invalid'].map(outcome=>step.replaced===outcome?<span class="outcome-chip is-replaced" data-replaced-at="2"><s>{outcome}</s><span class="sr-only"> — replaced</span></span>:<span class:list={['outcome-chip',{'is-selected':step.outcome===outcome}]}>{step.outcome===outcome&&<Icon name="check"/>}{outcome}{step.outcome===outcome&&<span class="sr-only"> — selected</span>}</span>)}</div></div>
+    <div class="query-body"><h3>{query.question}</h3><details class="query-details"><summary><Icon name="list-checks"/><span>Question details</span><Icon name="chevron-down"/></summary><div class="details-body"><dl class="details-facts"><div><dt>Evidence cutoff</dt><dd>{query.cutoffDate}</dd></div><div><dt>Unix time</dt><dd class="details-unix">{query.cutoffUnix}</dd></div></dl><h4 class="details-label">Description</h4>{query.description.map(text=><p>{text}</p>)}</div></details>
+     <div class="query-outcomes"><p>{step.answerLabel}</p><div class="outcome-list" aria-label={step.outcome?`${step.outcome} selected`:'No outcome selected'}>{['YES','NO','Invalid'].map(outcome=>{const picked=step.outcome===outcome,other=!!step.outcome&&!picked,out=other&&step.state==='final';return <span class:list={['outcome-chip',{'is-selected':picked,'is-other':other&&!out,'is-out':out}]} data-out={out?'':undefined}>{picked&&<Icon name="check"/>}{out?<><s>{outcome}</s><span class="sr-only"> — ruled out</span></>:outcome}{picked&&<span class="sr-only"> — selected</span>}</span>;})}</div></div>
     </div>
-    <RepFlow zone={step.zone}/>
-    <div class="query-activity"><p class="ledger-label" id={`walkthrough-ledger-${i}`}>Activity</p><ol class="query-ledger" aria-labelledby={`walkthrough-ledger-${i}`}>{ledger.slice(0,i+1).map((entry,index)=>{const replaced='replacedAt' in entry&&i>=entry.replacedAt;return <li data-ledger-latest={index===i?'':undefined} data-replaced-at={replaced?entry.replacedAt:undefined}><span class="ledger-node" aria-hidden="true"><Icon name={entry.icon}/></span><span class="ledger-event">{replaced?<><s>{entry.event}</s><span class="sr-only"> (replaced by the challenge)</span></>:entry.event}</span>{entry.amount&&<span class="ledger-amount">{entry.amount}</span>}</li>;})}</ol></div>
+    <div class="query-activity">{(()=>{const stakes=stakesAt(i),total=stakes.reduce((sum,part)=>sum+part.value,0);return <div class="stakes"><div class="stakes-head"><h4 class="ledger-label">Stakes</h4><p class="stakes-total"><strong>{amount(total)}</strong> staked</p></div><div class="stakes-bar" aria-hidden="true">{stakes.map(part=><span class:list={['stakes-part',{'is-current':part.outcome===step.outcome}]} style={`flex-grow:${part.value}`}></span>)}</div>{stakes.length?<ul class="stakes-legend">{stakes.map(part=><li class:list={{'is-current':part.outcome===step.outcome}}><i aria-hidden="true"></i>{part.outcome}<span>{amount(part.value)}</span></li>)}</ul>:<p class="stakes-legend">No bonds yet. The first report stakes {amount(rep.bond)}.</p>}</div>;})()}
+     <h4 class="ledger-label" id={`walkthrough-ledger-${i}`}>Activity</h4><ol class="query-ledger" aria-labelledby={`walkthrough-ledger-${i}`}>{step.now&&<li class="ledger-now" data-ledger-current><span class="ledger-node" aria-hidden="true"></span><span class="ledger-event"><span class="ledger-title">{step.now.event}<span class="ledger-tag">Now</span></span><span class="ledger-detail">{step.now.detail}</span></span></li>}{ledger.slice(0,i+1).map((entry,index)=>({entry,index})).reverse().map(({entry,index})=>{const replaced=entry.replacedAt!==undefined&&i>=entry.replacedAt;return <li data-ledger-latest={index===i?'':undefined} data-ledger-current={index===i&&!step.now?'':undefined} data-replaced-at={replaced?entry.replacedAt:undefined}><span class="ledger-node" aria-hidden="true"></span><span class="ledger-event"><span class="ledger-title">{replaced?<><s>{entry.event}</s><span class="sr-only"> (replaced by the challenge)</span></>:entry.event}{entry.you&&<span class="ledger-you">You</span>}</span><span class="ledger-detail">{entry.detail}</span></span>{entry.amount!==undefined&&<span class="ledger-amount"><strong>{amount(entry.amount)}</strong><small>{entry.stake?`Bond on ${entry.stake}`:'Fee'}</small></span>}</li>;})}</ol></div>
    </div>)}
   </div>
-  <div class="holder">
-   <h3>{holder.title}</h3>
-   <p>{holder.text}</p>
-   <div class="holder-actions"><Button href="/rep/" variant="outline">Learn about REP</Button><Button href={links.whitepaper.url} variant="text" external>Read the whitepaper</Button></div>
-  </div>
+ </div>
+ <div class="holder">
+  <h3>{holder.title}</h3>
+  <ul class="holder-points">{holder.points.map((point,i)=><li><i class:list={['holder-mark',{'is-action':i===1}]} aria-hidden="true"></i><span><strong>{point.lead}</strong> {point.text}</span></li>)}</ul>
+  <Button href="/rep/" variant="text">Learn about REP</Button>
  </div>
 </div></section>
 <style>
- /* One section answers “How do I take part, and how do I get paid?” (owner + Augus, 19 Oct 2026):
-    the walkthrough's steps say what you do, the card's “Your REP” zone what you get. The REP
-    section that repeated steps 2–3 is folded in; its holder note sits under the steps, where the
-    steps column would otherwise stand empty beside the taller card. */
+ /* One section answers “How do I take part, and how do I get paid?” (owner + Augus, 19 Oct 2026).
+    The left column is yours: each step says what you do and its “Your REP” panel, right under
+    the steps, what you get. The right column is only the example query, so the explanation
+    never reads as product UI (owner, 19 Oct 2026). The REP section that repeated steps 2–3 is
+    folded in; its holder note is the row under the walkthrough. */
  .how-it-works{background:var(--web-band);padding-block:96px}.section-heading{margin-bottom:48px}
- .walkthrough{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);grid-template-rows:auto 1fr;grid-template-areas:"steps panels" "holder panels";column-gap:80px;row-gap:48px;position:relative}
- .walkthrough-steps{grid-area:steps;display:flex;flex-direction:column;gap:8px}.walkthrough-steps button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:var(--background);color:var(--foreground);border:0;padding:21px 24px;min-height:68px;cursor:pointer;transition:background 180ms ease-out,color 180ms ease-out}.step-title{font:600 20px/26px var(--font-heading)}.step-description{display:grid;grid-template-rows:0fr;max-height:0;opacity:0;overflow:hidden;font:400 16px/24px var(--font-body);transition:max-height calc(320ms * var(--motion-factor,1)),opacity calc(320ms * var(--motion-factor,1)),margin calc(320ms * var(--motion-factor,1))}.walkthrough-steps button[aria-selected="true"]{background:var(--primary);color:var(--background);padding-block:28px}.walkthrough-steps button[aria-selected="true"] .step-title{font-size:24px;line-height:32px}.walkthrough-steps button[aria-selected="true"] .step-description{max-height:150px;opacity:1;margin-top:12px}.walkthrough-steps button:hover:not([aria-selected="true"]){background:var(--web-raised)}.walkthrough-steps button:hover:not([aria-selected="true"]):not(:focus-visible){outline:1px solid var(--web-hover-edge);outline-offset:-1px}
+ /* “paid” is the promise, so it keeps a Green underline; it draws in once per visit as the
+    heading scrolls into view (home-interactions.ts) and is simply there otherwise. */
+ .paid{position:relative;display:inline-block}
+ .paid-mark{position:absolute;left:0;right:0;bottom:.02em;height:.1em;min-height:3px;background:var(--primary);transform-origin:left}
+ .walkthrough{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);grid-template-rows:auto 1fr;grid-template-areas:"steps panels" "rep panels";column-gap:80px;row-gap:24px;position:relative}
+ /* A step's tab controls its card and its REP panel together (aria-controls lists both). The
+    four panels share one grid cell like the cards, so the panel keeps one height. */
+ .rep-panels{grid-area:rep;display:grid;align-self:start;min-width:0}.rep-panel{grid-area:1/1;min-width:0}.rep-panel[hidden]{display:block!important;visibility:hidden}
+ .walkthrough-steps{grid-area:steps;display:flex;flex-direction:column;gap:8px}.walkthrough-steps button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:var(--background);color:var(--foreground);border:0;padding:18px 24px;min-height:62px;cursor:pointer;transition:background 180ms ease-out,color 180ms ease-out}.step-title{font:600 20px/26px var(--font-heading)}.step-description{display:grid;grid-template-rows:0fr;max-height:0;opacity:0;overflow:hidden;font:400 16px/24px var(--font-body);transition:max-height calc(320ms * var(--motion-factor,1)),opacity calc(320ms * var(--motion-factor,1)),margin calc(320ms * var(--motion-factor,1))}.walkthrough-steps button[aria-selected="true"]{background:var(--primary);color:var(--background);padding-block:24px}.walkthrough-steps button[aria-selected="true"] .step-title{font-size:24px;line-height:32px}.walkthrough-steps button[aria-selected="true"] .step-description{max-height:150px;opacity:1;margin-top:12px}.walkthrough-steps button:hover:not([aria-selected="true"]){background:var(--web-raised)}.walkthrough-steps button:hover:not([aria-selected="true"]):not(:focus-visible){outline:1px solid var(--web-hover-edge);outline-offset:-1px}
  /* Every step's card shares one grid cell, hidden ones kept in layout but invisible, and each
-    card is a subgrid of the same five rows (header, progress, question, Your REP, Activity), so
-    every row is as tall as its tallest step at any width: switching never moves the page or the
-    zone, and spare room falls under the Activity list at the card's foot
+    card is a subgrid of the same four rows (header, progress, question, Activity), so every row
+    is as tall as its tallest step at any width: switching never moves the page, and spare room
+    falls under the Activity list at the card's foot
     (overrides the global [hidden] rule for these cards only). */
- .query-panels{grid-area:panels;display:grid;grid-template-rows:auto auto auto auto 1fr;min-width:0}
+ .query-panels{grid-area:panels;display:grid;grid-template-rows:auto auto auto 1fr;min-width:0}
  .query-card{grid-row:1/-1;grid-column:1;display:grid;grid-template-rows:subgrid;background:var(--background);min-width:0;position:relative}.query-card[hidden]{display:grid!important;visibility:hidden}
- .query-header{min-height:68px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;font:600 14px/20px var(--font-heading);position:relative}
- .query-name{display:flex;align-items:center;gap:10px}
- /* The card is an illustrative example, not a shipped app (no source for an Augur Lituus UI). */
- .query-example{padding:1px 8px;border:1px solid var(--web-outline);font:400 12px/18px var(--font-body);color:var(--muted-foreground)}
- .query-progress{display:flex;gap:4px;height:2px}.query-progress>span{flex:1;background:var(--web-outline);transform-origin:left}.query-progress>.is-complete{background:var(--primary)}.query-header::before{content:'';position:absolute;width:80px;height:2px;left:-80px;top:var(--connector-top,43px);background:var(--primary)}.query-status{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--web-outline);font:600 13px/18px var(--font-heading);white-space:nowrap}.query-status>span{width:6px;height:6px;flex:none;background:var(--primary)}.query-status.is-pending>span{background:transparent;border:1px solid var(--muted-foreground)}.query-status.is-final{background:var(--primary);border-color:var(--primary);color:var(--background)}.query-status.is-final>span{background:var(--background)}
- .query-body{padding:24px 24px 0}.query-body h3{font:400 22px/31px var(--font-heading);margin:0 0 10px;letter-spacing:-.01em}.query-cutoff{display:flex;align-items:center;gap:6px;font-size:13px;line-height:18px;color:var(--muted-foreground);margin:0}.query-cutoff :global(.web-icon),.query-cutoff :global(svg){width:14px;height:14px}.criteria summary{display:inline-flex;gap:8px;align-items:center;cursor:pointer;min-height:44px;font:400 13px/18px var(--font-body);list-style:none;text-underline-offset:4px}.criteria summary:hover>span{text-decoration:underline}.criteria summary :global(.web-icon:last-child){transition:transform 180ms var(--ease-reveal)}.criteria summary::-webkit-details-marker{display:none}.criteria summary :global(.web-icon){width:14px;height:14px}.criteria summary :global(svg){width:14px;height:14px}.criteria[open] summary :global(.web-icon:last-child){transform:rotate(180deg)}.criteria-body{margin:0 0 12px;padding:14px 16px;background:var(--web-quiet);border-left:2px solid var(--web-outline)}.criteria-body dl{display:grid;gap:10px;margin:0}.criteria-body dl>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px}.criteria-body dt{font-size:13px;line-height:20px;color:var(--muted-foreground)}.criteria-body dd{margin:0;font-size:14px;line-height:20px;color:var(--foreground)}
- .query-outcomes{border-top:1px solid var(--web-outline);margin-top:10px;padding:20px 0}.query-outcomes>p{font-size:13px;line-height:18px;color:var(--muted-foreground);margin:0 0 12px}.outcome-list{display:flex;gap:8px}.outcome-chip{display:inline-flex;align-items:center;gap:8px;border:0;font:600 16px/24px var(--font-heading);padding:12px 20px;background:var(--web-tile);color:var(--muted-foreground)}.outcome-chip.is-selected{color:var(--background);background:var(--primary);padding-left:16px}.outcome-chip :global(.web-icon),.outcome-chip :global(svg){width:18px;height:18px}
- .query-activity{padding:16px 24px 24px}
+ .query-header{min-height:68px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative}
+ .query-name{font:600 14px/20px var(--font-heading)}
+ /* The status carries the card (owner, 19 Oct 2026: more emphasis on it): a larger chip with a
+    live dot while the query is open, Green with a check once the answer is final. The dot's
+    slow opacity pulse runs only on the shown card and not with reduced motion or in print. */
+ .query-status{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;background:var(--web-tile);box-shadow:inset 0 0 0 1px var(--web-outline);font:600 15px/20px var(--font-heading);white-space:nowrap}
+ .status-dot{width:8px;height:8px;flex:none;background:var(--primary)}
+ .query-status.is-pending .status-dot{background:transparent;box-shadow:inset 0 0 0 2px var(--primary)}
+ .query-card:not([hidden]) .status-dot{animation:status-live 1.6s ease-in-out infinite}
+ @keyframes status-live{50%{opacity:.25}}
+ .query-status.is-final{background:var(--primary);box-shadow:none;color:var(--background)}
+ .query-status :global(.web-icon),.query-status :global(svg){width:16px;height:16px}
+ .query-progress{display:flex;gap:4px;height:2px}.query-progress>span{flex:1;background:var(--web-outline);transform-origin:left}.query-progress>.is-complete{background:var(--primary)}.query-header::before{content:'';position:absolute;width:80px;height:2px;left:-80px;top:var(--connector-top,43px);background:var(--primary)}
+ .query-body{padding:24px 24px 0}.query-body h3{font:400 22px/31px var(--font-heading);margin:0 0 10px;letter-spacing:-.01em}
+ /* Question details (owner, 19 Oct 2026): the evidence cutoff, its Unix time and the full
+    description sit in one disclosure under the question, so the card shows status, question,
+    answer and stakes at a glance. Every card opens and closes together (home-interactions.ts),
+    so the shared row never leaves a gap on another step. */
+ .query-details summary{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;list-style:none;font:600 13px/18px var(--font-heading);text-underline-offset:4px}
+ .query-details summary::-webkit-details-marker{display:none}
+ .query-details summary:hover>span{text-decoration:underline}
+ .query-details summary :global(.web-icon),.query-details summary :global(svg){width:14px;height:14px}
+ .query-details summary :global(.web-icon:last-child){transition:transform 180ms var(--ease-reveal)}
+ .query-details[open] summary :global(.web-icon:last-child){transform:rotate(180deg)}
+ .details-body{display:grid;gap:10px;margin:0 0 12px;padding:16px;background:var(--web-quiet);border-left:2px solid var(--web-outline)}
+ .details-facts{display:flex;flex-wrap:wrap;gap:8px 32px;margin:0 0 6px}
+ .details-facts dt{font-size:12px;line-height:16px;color:var(--muted-foreground)}
+ .details-facts dd{margin:2px 0 0;font:600 14px/20px var(--font-heading);font-variant-numeric:tabular-nums}
+ .details-label{font:400 12px/16px var(--font-body);color:var(--muted-foreground);margin:0}
+ .details-body p{font-size:14px;line-height:22px;margin:0;max-width:64ch}
+ .query-outcomes{border-top:1px solid var(--web-outline);margin-top:8px;padding:20px 0}.query-outcomes>p{font-size:13px;line-height:18px;color:var(--muted-foreground);margin:0 0 12px}.outcome-list{display:flex;gap:8px}.outcome-chip{display:inline-flex;align-items:center;gap:8px;border:0;font:600 16px/24px var(--font-heading);padding:12px 20px;background:var(--web-tile);color:var(--muted-foreground)}.outcome-chip.is-selected{color:var(--background);background:var(--primary);padding-left:16px}.outcome-chip :global(.web-icon),.outcome-chip :global(svg){width:18px;height:18px}
+ /* Once an outcome is picked, the others step back alike: outlined while the answer can still
+    change, struck through on a plain tile once it is final. Faded or struck, never both
+    (owner, 19 Oct 2026). */
+ .outcome-chip.is-other{background:transparent;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
+ .outcome-chip.is-out{color:var(--foreground)}
+ .query-activity{padding:20px 24px 24px;border-top:1px solid var(--web-outline)}
  /* Earlier stages recede (owner feedback, 5 Oct 2026): completed steps are crossed
     off with a Green check, the answer a challenge replaced is struck through,
     and older activity and progress dim behind the current stage. */
@@ -59,42 +98,81 @@ import RepFlow from '../art/RepFlow.astro';
  .step-title{position:relative}
  .step-title::after{content:'';position:absolute;left:0;right:0;top:52%;height:1.5px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform calc(320ms * var(--motion-factor,1)) cubic-bezier(.45,0,.2,1)}
  .step-done{display:flex;color:var(--primary);opacity:0;transform:scale(.6);transition:opacity 180ms ease-out,transform calc(320ms * var(--motion-factor,1)) cubic-bezier(.45,1.45,.8,1)}.step-done :global(.web-icon),.step-done :global(svg){width:18px;height:18px}
- .walkthrough-steps button:has(~[aria-selected="true"]){color:var(--muted-foreground)}
+ /* Struck or faded, never both (owner, 19 Oct 2026): a completed step keeps Paper text with its
+    strike and Green check. */
  .walkthrough-steps button:has(~[aria-selected="true"]) .step-title::after{transform:scaleX(1)}
  .walkthrough-steps button:has(~[aria-selected="true"]) .step-done{opacity:1;transform:none}
- .walkthrough-steps button:has(~[aria-selected="true"]):hover{color:var(--foreground)}
  .query-progress>.is-current{background:var(--primary)}.query-progress>.is-complete{opacity:.4}
- .outcome-chip.is-replaced{background:transparent;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
- :is(.outcome-chip,.ledger-event) s{position:relative;text-decoration:none}
- :is(.outcome-chip,.ledger-event) s::after{content:'';position:absolute;left:-2px;right:-2px;top:52%;height:1.5px;background:currentColor;transform-origin:left}
- .ledger-event s{white-space:nowrap}
- /* Activity as a timeline (owner feedback, 6 Oct 2026: “weird”, needs polish): square
-    nodes on a rail name what happened to the REP, amounts sit in tags, and only the
-    latest event is Green. Earlier events step back to Pewter rather than fading, and
-    the report the challenge replaced keeps a hollow node and its strike. */
- .ledger-label{font-size:13px;line-height:18px;color:var(--muted-foreground);margin:0 0 6px}
+ :is(.outcome-chip,.ledger-title) s{position:relative;text-decoration:none}
+ :is(.outcome-chip,.ledger-title) s::after{content:'';position:absolute;left:-2px;right:-2px;top:52%;height:1.5px;background:currentColor;transform-origin:left}
+ .ledger-title s{white-space:nowrap}
+ /* Stakes (after the owner's reference, 19 Oct 2026): the total, one bar split by outcome and a
+    legend. The current answer is Green, others Mist. No addresses or times: the card is an
+    illustration and those would be invented. */
+ .stakes{margin-bottom:20px}
+ .stakes-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:10px}
+ .stakes-head .ledger-label{margin:0}
+ .stakes-total{margin:0;font-size:13px;line-height:18px;color:var(--muted-foreground)}
+ .stakes-total strong{font:600 16px/22px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
+ .stakes-bar{display:flex;gap:3px;height:8px;background:var(--web-tile)}
+ .stakes-part{flex-basis:0;background:var(--mark-participant);transform-origin:left}
+ .stakes-part.is-current{background:var(--primary)}
+ .stakes-legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin:10px 0 0;padding:0;list-style:none;font-size:13px;line-height:18px;color:var(--muted-foreground)}
+ .stakes-legend li{display:flex;align-items:center;gap:6px}
+ .stakes-legend i{width:8px;height:8px;background:var(--mark-participant)}
+ .stakes-legend .is-current i{background:var(--primary)}
+ .stakes-legend li span{font:600 13px/18px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
+ /* Activity (owner, 19 Oct 2026): newest first, tiny Green squares, no icons. The top row is the
+    current state (the “now” entry while open, else the final answer) and stands out as a tinted
+    block with a Green rule, a larger title and full squares. Older entries step back to Pewter
+    (colour, not opacity, so small text keeps AA contrast); the report a challenge replaced is
+    struck through instead of faded, never both. Each amount is a bold figure over what it is. */
+ .ledger-label{font:400 13px/18px var(--font-body);color:var(--muted-foreground);margin:0 0 4px}
  .query-ledger{position:relative;list-style:none;padding:0;margin:0}
- .query-ledger::before{content:'';position:absolute;left:11.5px;top:20px;bottom:20px;width:1px;background:var(--web-outline)}
- .query-ledger li{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;column-gap:14px;min-height:40px;font-size:14px;line-height:20px;color:var(--muted-foreground)}
- .ledger-node{position:relative;display:grid;place-items:center;width:24px;height:24px;background:var(--web-tile);border:1px solid var(--web-outline);color:var(--muted-foreground)}
- .ledger-node :global(.web-icon),.ledger-node :global(svg){width:14px;height:14px}
- .ledger-amount{grid-column:3;padding:2px 8px;background:var(--web-tile);font:600 14px/20px var(--font-heading);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted-foreground)}
- .query-ledger [data-ledger-latest]{color:var(--foreground)}
- .query-ledger [data-ledger-latest] .ledger-node{background:var(--primary);border-color:var(--primary);color:var(--background)}
- .query-ledger [data-ledger-latest] .ledger-amount{color:var(--foreground);background:var(--web-raised)}
- .query-ledger [data-replaced-at] .ledger-node{background:var(--background);border-style:dashed}
- .query-ledger [data-replaced-at] .ledger-amount{background:transparent;box-shadow:inset 0 0 0 1px var(--web-outline)}
- /* Holding REP? Beside the card's foot, under a hairline: holders never have to take part. */
- .holder{grid-area:holder;align-self:end;border-top:1px solid var(--web-outline);padding-top:32px}
- .holder h3{font:600 32px/40px var(--font-heading);letter-spacing:-.01em;margin:0 0 12px}
- .holder p{font-size:18px;line-height:28px;color:var(--muted-foreground);margin:0;max-width:44ch}
- .holder-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;margin-top:24px}
- @media(forced-colors:active){.query-ledger [data-ledger-latest] .ledger-node{forced-color-adjust:none;background:Highlight;color:HighlightText}}
- @media(max-width:1279px){.walkthrough{column-gap:40px}.query-header::before{width:40px;left:-40px}.query-header{padding-inline:20px}.query-body{padding:20px 20px 0}.query-activity{padding:16px 20px 20px}.query-body h3{font-size:20px}.walkthrough-steps button{padding-inline:20px}.holder h3{font-size:28px;line-height:36px}}
- @media(max-width:1023px){.walkthrough{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:24px;row-gap:40px}.query-header::before{display:none}.query-header{flex-wrap:wrap;gap:8px}.step-title{font-size:18px}.walkthrough-steps button[aria-selected="true"] .step-title{font-size:20px;line-height:28px}.step-description{font-size:15px;line-height:23px}.holder h3{font-size:24px;line-height:32px}.holder p{font-size:16px;line-height:24px}}
- @media(max-width:767px){.how-it-works{padding-block:64px}.walkthrough{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"steps" "panels" "holder";row-gap:24px}.holder{margin-top:16px;padding-top:28px}.walkthrough-steps button[aria-selected="true"] .step-description{min-height:69px;max-height:200px}.query-header{font-size:12px}.query-body h3{font-size:20px;line-height:29px}.outcome-chip{padding:12px 16px}.query-ledger li{column-gap:10px;font-size:13px}.ledger-amount{font-size:12px;padding-inline:6px}}
+ .query-ledger::before{content:'';position:absolute;left:3.5px;top:24px;bottom:24px;width:1px;background:var(--web-outline)}
+ .query-ledger li{position:relative;display:grid;grid-template-columns:8px minmax(0,1fr) auto;align-items:center;column-gap:16px;padding-block:8px;color:var(--muted-foreground)}
+ .ledger-node{width:8px;height:8px;background:var(--primary);opacity:.45}
+ /* The latest row leads (owner, 19 Oct 2026: “should be more highlighted”): a Green-tinted fill
+    inside a Green outline with a 3 px Green edge, a larger title and amount, its detail in
+    Paper, and a larger square that pulses with the status chip while the query is open. */
+ .query-ledger [data-ledger-current]{column-gap:14px;margin:0 -12px 10px;padding:14px 12px 14px 15px;background:color-mix(in srgb,var(--primary) 9%,var(--background));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--primary) 40%,transparent),inset 3px 0 0 var(--primary)}
+ .query-ledger [data-ledger-current] .ledger-node{width:10px;height:10px;opacity:1;margin-left:-1px}
+ .query-ledger [data-ledger-current] .ledger-title{font-size:16px;line-height:24px}
+ .query-ledger [data-ledger-current] .ledger-detail{color:var(--foreground)}
+ .query-ledger [data-ledger-current] .ledger-amount strong{font-size:18px;line-height:24px}
+ .query-ledger [data-ledger-current] .ledger-amount small{color:var(--foreground)}
+ .query-card:not([hidden]) .ledger-now .ledger-node{animation:status-live 1.6s ease-in-out infinite}
+ .query-ledger :is([data-ledger-current],[data-replaced-at]) :is(.ledger-title,.ledger-amount strong){color:var(--foreground)}
+ .query-ledger [data-replaced-at] .ledger-node{opacity:1;background:var(--background);box-shadow:inset 0 0 0 1.5px var(--primary)}
+ .ledger-event{display:flex;flex-direction:column;min-width:0}
+ .ledger-title{display:flex;align-items:center;gap:8px;font:600 14px/20px var(--font-heading)}
+ .ledger-detail{font-size:13px;line-height:18px;color:var(--muted-foreground)}
+ .ledger-you,.ledger-tag{padding:0 6px;font:600 11px/16px var(--font-heading);color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary)}
+ .ledger-tag{background:var(--primary);color:var(--background)}
+ .ledger-amount{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+ .ledger-amount strong{font:600 15px/20px var(--font-heading);font-variant-numeric:tabular-nums;white-space:nowrap}
+ .ledger-amount small{font-size:12px;line-height:16px;color:var(--muted-foreground);white-space:nowrap}
+ /* The “now” entry sits on a hollow square: something still pending. */
+ .ledger-now .ledger-node{background:var(--background);box-shadow:inset 0 0 0 1.5px var(--primary)}
+ /* Holding REP? A compact note bar under the walkthrough (owner, 19 Oct 2026: the one-line version
+    read as a wall of text). A Navy tile like the steps: the question, two short points with the
+    Activity squares as markers (solid: nothing to do; hollow: act in a fork), and the link. */
+ .holder{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:40px;row-gap:12px;margin-top:56px;padding:20px 24px;background:var(--background)}
+ .holder h3{font:600 18px/26px var(--font-heading);margin:0;white-space:nowrap}
+ .holder-points{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+ .holder-points li{display:flex;align-items:baseline;gap:12px;font-size:15px;line-height:23px;color:var(--muted-foreground)}
+ .holder-points strong{font-weight:600;color:var(--foreground)}
+ .holder-mark{flex:none;width:8px;height:8px;background:var(--primary);transform:translateY(-1px)}
+ .holder-mark.is-action{background:transparent;box-shadow:inset 0 0 0 1.5px var(--primary)}
+ .holder>:global(a){justify-self:end}
+ @media(forced-colors:active){.holder{border:1px solid CanvasText}.holder-mark{forced-color-adjust:none;background:Highlight}.holder-mark.is-action{background:transparent;box-shadow:inset 0 0 0 1.5px Highlight}.query-ledger [data-ledger-current]{border:2px solid Highlight}.query-ledger [data-ledger-current] .ledger-node,.stakes-part.is-current,.stakes-legend .is-current i,.status-dot{forced-color-adjust:none;background:Highlight}}
+ @media(max-width:1279px){.walkthrough{column-gap:40px}.query-header::before{width:40px;left:-40px}.query-header{padding-inline:20px}.query-body{padding:20px 20px 0}.query-activity{padding:20px}.query-body h3{font-size:20px}.walkthrough-steps button{padding-inline:20px}}
+ @media(max-width:1023px){.walkthrough{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:24px;row-gap:24px}.query-header::before{display:none}.query-header{flex-wrap:wrap;gap:8px}.step-title{font-size:18px}.walkthrough-steps button[aria-selected="true"] .step-title{font-size:20px;line-height:28px}.step-description{font-size:15px;line-height:23px}}
+ @media(max-width:767px){.how-it-works{padding-block:64px}.walkthrough{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"steps" "rep" "panels";row-gap:24px}.holder{margin-top:40px;grid-template-columns:minmax(0,1fr);padding:20px}.holder>:global(a){justify-self:start}.holder h3{white-space:normal}.walkthrough-steps button[aria-selected="true"] .step-description{min-height:69px;max-height:200px}.query-status{font-size:14px;padding:6px 12px}.query-body h3{font-size:20px;line-height:29px}.outcome-chip{padding:12px 16px}.query-ledger li{column-gap:12px}.ledger-amount strong{font-size:14px}}
+ @media(prefers-reduced-motion:reduce),print{.status-dot,.ledger-now .ledger-node{animation:none!important}}
  /* Phones: the open step keeps room for the longest description (2–3 lines, 5 below 480), so the card under the steps barely moves. */
  @media(max-width:480px){.walkthrough-steps button[aria-selected="true"] .step-description{min-height:115px}}
- @media(prefers-reduced-motion:reduce){.walkthrough-steps button,.step-description,.criteria summary :global(.web-icon:last-child),.step-title::after,.step-done{transition:none}}
+ .walkthrough-steps.is-measuring :is(button,.step-description,.step-title::after,.step-done){transition:none!important}
+ @media(prefers-reduced-motion:reduce){.walkthrough-steps button,.step-description,.query-details summary :global(.web-icon:last-child),.step-title::after,.step-done{transition:none}}
  @media(forced-colors:active){:is(.outcome-chip,.ledger-event) s{text-decoration:line-through}:is(.outcome-chip,.ledger-event) s::after{display:none}}
 </style>
