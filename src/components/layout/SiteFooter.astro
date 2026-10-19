@@ -24,7 +24,7 @@ const email=links.contact.url.replace(/^mailto:/,'');
   </div>
   <div class="container footer-grid directory">
     <div class="identity"><a href="/" aria-label="Augur home"><Brand /></a><p>Augur's work is funded and coordinated by the <a href={links.foundation.url}>Lituus Foundation<Icon name="arrow-up-right"/></a>.</p></div>
-    <nav class="footer-links" aria-label="Footer">{navigationGroups.map(group=><div><h2>{group.label}</h2><ul>{group.items.map(item=><li><a href={item.href}>{(item as NavigationItem).logo&&<Icon name={(item as NavigationItem).logo!} class="social-logo"/>}{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div>)}</nav>
+    <nav class="footer-links" aria-label="Footer">{navigationGroups.map(group=><div><h2>{group.label}</h2><ul>{group.items.map(item=><li><a class="line-link" href={item.href}>{(item as NavigationItem).logo&&<Icon name={(item as NavigationItem).logo!} class="social-logo"/>}<span class="button-label">{item.label}</span>{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div>)}</nav>
   </div>
 </footer>
 <script>
@@ -69,7 +69,7 @@ const email=links.contact.url.replace(/^mailto:/,'');
 .identity p a{color:var(--foreground);white-space:nowrap}.identity p a:hover{text-decoration-thickness:2px}.identity p :global(.web-icon),.identity p :global(.web-icon svg){width:12px;height:12px}.identity p :global(.web-icon){margin-left:2px;vertical-align:-1px}
 .footer-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
 .footer-links h2{font:600 14px/20px var(--font-heading);letter-spacing:0;color:var(--muted-foreground);margin-bottom:16px}.footer-links ul{list-style:none;padding:0;margin:0}
-.footer-links li a{display:flex;align-items:center;gap:4px;min-height:38px;line-height:24px;text-decoration:none}.footer-links li a:hover{text-decoration:underline}.footer-links :global(.web-icon),.footer-links :global(.web-icon svg){width:14px;height:14px}
+.footer-links li a{display:flex;align-items:center;gap:4px;min-height:38px;line-height:24px}.footer-links :global(.web-icon),.footer-links :global(.web-icon svg){width:14px;height:14px}
 /* Community destinations carry their logo before the name. */
 .footer-links :global(.social-logo),.footer-links :global(.social-logo svg){width:18px;height:18px}.footer-links :global(.social-logo){margin-right:6px;color:var(--muted-foreground);transition:color 180ms ease-out}.footer-links a:hover :global(.social-logo){color:var(--foreground)}
 /* Below 1280 a 1fr / 1fr contact row over four equal link columns with the same gap, so the

@@ -22,23 +22,68 @@ const rise = (node: Element | null, animate: Animate, delay: number, from = 'tra
 const draw = (node: Element | null, animate: Animate, delay: number, duration: number) =>
   animate(node, [{ strokeDashoffset: 1.05 }, { strokeDashoffset: 0 }], { delay, duration, easing: easing.settle, fill: 'backwards' });
 
-/** Prices trade, wait for the answer, jump to settled and run out to the edge. The draw is one set of
- * keyframes shared by the window, the art and both heads, placed on the price line's own corners, so
- * each head stays on its line the whole way. */
-function market(graphic: HTMLElement, animate: Animate, at: number) {
-  const m = t.market;
-  graphic.querySelectorAll('[data-market-grid]').forEach((line, i) => animate(line, [{ transform: 'scaleX(0)' }, { transform: 'none' }], { delay: at + i * m.gridStagger, duration: m.grid, easing: easing.settle, fill: 'backwards' }));
+/** The market's Yes price line, read from the drawn polyline (a 600 × 120 space; a price of 1 at y 8,
+ * 0 at y 112): its corners, where the answer lands (the last traded corner), where it is settled (the
+ * next) and the line's height at any x. */
+function marketPrices(graphic: HTMLElement) {
   const yes = (graphic.querySelector('[data-market-yes]')?.getAttribute('points') ?? '').trim().split(/\s+/).map(pair => pair.split(',').map(Number) as [number, number]);
-  if (yes.length < 4) return;
-  const width = yes[yes.length - 1]![0], height = 120;
-  // The answer lands where the price leaves its last traded corner; it is settled at the next one.
-  const answer = yes[yes.length - 3]![0], settled = yes[yes.length - 2]![0];
+  if (yes.length < 4) return null;
   const priceAt = (x: number) => {
     const next = yes.findIndex(([px]) => px >= x);
     if (next <= 0) return yes[Math.max(next, 0)]![1];
     const [x0, y0] = yes[next - 1]!, [x1, y1] = yes[next]!;
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
   };
+  return { yes, width: yes[yes.length - 1]![0], height: 120, answer: yes[yes.length - 3]![0], settled: yes[yes.length - 2]![0], priceAt };
+}
+
+/** Hover on the market chart (fine pointers): a crosshair follows the pointer with a dot on each price
+ * and a readout of both as chances out of 100, or "Settled: Yes" past the answer. One update per frame,
+ * transform only; it stays hidden while the chart is still playing in. */
+export function bindMarketScrub(graphic: HTMLElement) {
+  const plot = graphic.querySelector<HTMLElement>('.market-plot'), scrub = graphic.querySelector<HTMLElement>('[data-market-scrub]'), prices = marketPrices(graphic);
+  if (!plot || !scrub || !prices || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const line = scrub.querySelector<HTMLElement>('.scrub-line')!, yesDot = scrub.querySelector<HTMLElement>('.scrub-dot.is-yes')!, noDot = scrub.querySelector<HTMLElement>('.scrub-dot.is-no')!;
+  // The readout exists only where it can be used, so its words never show without a mouse or script.
+  const read = document.createElement('span');
+  read.className = 'scrub-read';
+  read.innerHTML = '<span class="scrub-prices"><span class="is-yes">Yes <b data-scrub-yes></b></span><span>No <b data-scrub-no></b></span></span><span class="scrub-settled">Settled: <b>Yes</b></span>';
+  scrub.append(read);
+  const yesOut = read.querySelector<HTMLElement>('[data-scrub-yes]')!, noOut = read.querySelector<HTMLElement>('[data-scrub-no]')!;
+  let pointer: number | null = null, frame = 0;
+  const draw = () => {
+    frame = 0;
+    if (pointer === null) return;
+    const box = plot.getBoundingClientRect(), share = Math.min(1, Math.max(0, (pointer - box.left) / box.width));
+    const x = share * prices.width, y = prices.priceAt(x), px = share * box.width;
+    line.style.transform = `translateX(${px}px)`;
+    yesDot.style.transform = `translate(${px}px, ${y / prices.height * box.height}px)`;
+    noDot.style.transform = `translate(${px}px, ${(prices.height - y) / prices.height * box.height}px)`;
+    const settled = x >= prices.answer;
+    read.classList.toggle('is-settled', settled);
+    if (!settled) { const chance = Math.round((112 - y) / 104 * 100); yesOut.textContent = `${chance}%`; noOut.textContent = `${100 - chance}%`; }
+    const width = read.offsetWidth;
+    read.style.transform = `translateX(${px + 12 + width > box.width ? px - 12 - width : px + 12}px)`;
+  };
+  plot.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse') return;
+    if (graphic.getAnimations({ subtree: true }).some(animation => animation.playState === 'running')) { scrub.classList.remove('is-on'); return; }
+    pointer = event.clientX;
+    if (!frame) frame = requestAnimationFrame(draw);
+    scrub.classList.add('is-on');
+  });
+  plot.addEventListener('pointerleave', () => { pointer = null; scrub.classList.remove('is-on'); });
+}
+
+/** Prices trade, wait for the answer, jump to settled and run out to the edge. The draw is one set of
+ * keyframes shared by the window, the art and both heads, placed on the price line's own corners, so
+ * each head stays on its line the whole way. */
+function market(graphic: HTMLElement, animate: Animate, at: number) {
+  const m = t.market;
+  graphic.querySelectorAll('[data-market-grid]').forEach((line, i) => animate(line, [{ transform: 'scaleX(0)' }, { transform: 'none' }], { delay: at + i * m.gridStagger, duration: m.grid, easing: easing.settle, fill: 'backwards' }));
+  const prices = marketPrices(graphic);
+  if (!prices) return;
+  const { yes, width, height, answer, settled, priceAt } = prices;
   const stretches = [
     { from: 0, to: answer, start: 0, end: m.arrive, curve: easing.travel },
     { from: answer, to: settled, start: m.hold, end: m.settle, curve: 'linear' },

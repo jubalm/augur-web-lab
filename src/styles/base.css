@@ -59,10 +59,14 @@ body { position:relative }
 .button.text:hover,.aug-button--ghost:hover,.aug-button--link:hover { background:transparent }
 .button.text:active,.aug-button--ghost:active,.aug-button--link:active { color:var(--muted-foreground) }
 /* Text actions: like the header line, a 2 px line under the label (not its icons) draws in from
-   the left on hover and retracts back to it, where the underline used to sit (6 px below the baseline). */
-.button-label { position:relative }
-.button.text .button-label::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform 240ms var(--ease-reveal) }
-.button.text:is(:hover,:active) .button-label::after { transform:none }
+   the left on hover and retracts back to it, where the underline used to sit (6 px below the baseline).
+   Every other underlined action shares it (owner, 19 Oct 2026): `.line-link` on the link, `.button-label`
+   round its words; `.is-ruled` keeps a quiet 1 px rule at rest for a link set among plain text. */
+.button-label { position:relative; display:inline-block }
+.line-link { text-decoration:none }
+.button-label::after { content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform 240ms var(--ease-reveal) }
+.line-link.is-ruled .button-label::before { content:''; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--web-outline) }
+:is(.button.text,.line-link):is(:hover,:active) .button-label::after { transform:none }
 .button.destructive,.aug-button--destructive { background:var(--destructive);color:var(--destructive-foreground) }
 .button.destructive:hover,.aug-button--destructive:hover { background:var(--web-danger-hover) }
 .button.destructive:active,.aug-button--destructive:active { background:var(--web-danger-pressed) }
@@ -103,4 +107,4 @@ html.dark .field :is(input,textarea):disabled { background:var(--web-quiet);colo
 @media(prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important} }
 @media(prefers-reduced-motion:reduce) { html.dark .aug-button[aria-busy=true] .aug-button-spinner-icon { animation:none } }
 @media print { *,*::before,*::after{animation:none!important;transition:none!important} }
-@media(forced-colors:active) { .field-error::before,.button.text .button-label::after{forced-color-adjust:none;background:CanvasText} .button,.tile,.outcome-chip{border:1px solid ButtonText} :focus-visible{outline:2px solid Highlight} .field input,.field textarea{border:1px solid ButtonText} }
+@media(forced-colors:active) { .field-error::before,.button-label::after{forced-color-adjust:none;background:CanvasText} .line-link.is-ruled .button-label::before{forced-color-adjust:none;background:GrayText} .button,.tile,.outcome-chip{border:1px solid ButtonText} :focus-visible{outline:2px solid Highlight} .field input,.field textarea{border:1px solid ButtonText} }

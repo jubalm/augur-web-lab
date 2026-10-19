@@ -66,3 +66,13 @@ export const caseGraphicTimeline = { fade:420, pulse:820, market:{grid:700, grid
 /** FAQ: the question box eases to its new height over `transition`; the toggle,
  * Green edge and answer text follow over `panel`, the answer lines `stagger` apart. */
 export const faqTimeline = { transition:380, panel:timing.panel, stagger:50 } as const;
+/** How it works outcome board, on a step forward: each new bond square drops in from `drop`,
+ * `dropStagger` apart, over `dropIn` (newcomer); then, `frameAfter` the last square, the standing
+ * frame appears at its outcome (over `appear`) or glides to it from the outcome it left (over
+ * `glide`, draw easing), and the check pops over `check` as the frame lands.
+ * When the answer turns final (`resolve`): the ruled-out tiles switch off where they stood by `out`
+ * (shrinking to 92%), the frame and the answer widen from `widenAt` over `widen` (draw easing, the
+ * name growing from its old size), the ruled-out outcomes return as small chips from `backAt` over
+ * `back`, and their strikes draw from `strikeAt`, 60 apart. */
+export const outcomeTimeline = { drop:60, dropStagger:90, dropIn:timing.panel, frameAfter:200, appear:timing.panel, glide:520, check:timing.panel,
+  resolve:{ out:180, widenAt:120, widen:560, backAt:480, back:300, strikeAt:760 } } as const;

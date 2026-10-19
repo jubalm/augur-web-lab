@@ -21,7 +21,7 @@ const tagged = (squares: Square[]) => squares.length > 1;
 const outcome = zone.kind === 'meter' ? [] : (() => { let pops = 0; return zone.outcome.map(group => ({ ...group, motion: zone.kind === 'receipt' || group.squares.some(square => square === 'share' || square === 'reward') ? `zone-pop-${pops++}` : undefined })); })();
 ---
 <div class:list={['your-rep', `is-${zone.kind}`]} data-rep-zone={zone.kind}>
- <p class="your-rep-head"><span class="your-rep-label">Your REP</span><span class="zone-title">{zone.label}</span></p>
+ <p class="zone-title">{zone.label}</p>
  <p class="zone-stat"><strong>{zone.stat}</strong><span>{zone.statNote}</span></p>
  <div class="zone-diagram">
  {zone.kind === 'meter' ? <>
@@ -43,18 +43,17 @@ const outcome = zone.kind === 'meter' ? [] : (() => { let pops = 0; return zone.
 </div>
 <style>
  /* A panel of its own under the steps: a Navy tile like the steps, marked as yours by the
-    criteria body's 2 px Green rule. It is a size container, so the flow picks its layout
-    from the panel's width rather than the viewport's. */
- .your-rep{--bond:32px;--share:29px;--reward:16px;display:flex;flex-direction:column;gap:16px;height:100%;box-sizing:border-box;padding:20px 18px 20px 16px;background:var(--background);border-left:2px solid var(--primary)}
- /* The diagram's inset: the headline sells, the inset shows how. It is the size container, so the
-    flow picks its layout from the inset's width rather than the viewport's. */
- .zone-diagram{container:rep / inline-size;display:flex;flex-direction:column;gap:14px;padding:14px;background:var(--web-quiet);box-shadow:inset 0 0 0 1px var(--web-outline)}
- .your-rep-head{display:flex;align-items:baseline;gap:12px;margin:0;min-width:0}
- .your-rep-label{font-size:13px;line-height:18px;color:var(--muted-foreground)}
- .zone-title{font:600 16px/22px var(--font-heading);color:var(--foreground)}
- /* The payoff leads (owner, 19 Oct 2026: “more selly”): a large Green figure, then one line
-    on what you lock, what has to happen and what comes back. */
- .zone-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin:-4px 0 0}
+    criteria body's 2 px Green rule, so it needs no “Your REP” kicker (owner, 19 Oct 2026:
+    “too noisy”); the label says whose REP and when. */
+ .your-rep{--bond:32px;--share:29px;--reward:16px;display:flex;flex-direction:column;gap:14px;height:100%;box-sizing:border-box;padding:20px 20px 22px 18px;background:var(--background);border-left:2px solid var(--primary)}
+ /* The headline sells, the diagram under it shows how, on the panel itself rather than in an
+    inset box. It is the size container, so the flow picks its layout from its own width
+    rather than the viewport's. */
+ .zone-diagram{container:rep / inline-size;display:flex;flex-direction:column;gap:12px;padding-top:4px}
+ .zone-title{margin:0;font:600 16px/22px var(--font-heading);color:var(--foreground)}
+ /* The payoff leads (owner, 19 Oct 2026: “more selly”): a large Green figure and a few words on
+    what it is. */
+ .zone-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px;margin:-6px 0 0}
  .zone-stat strong{display:inline-block;font:600 40px/44px var(--font-heading);letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--primary);transform-origin:left center}
  .zone-stat span{font-size:14px;line-height:20px;color:var(--foreground)}
  .zone-note{display:flex;align-items:center;gap:10px;margin:0;font-size:14px;line-height:20px;color:var(--muted-foreground)}
@@ -62,7 +61,7 @@ const outcome = zone.kind === 'meter' ? [] : (() => { let pops = 0; return zone.
  /* Reward offered: a meter from 0 toward the fee, resting at about a sixth. Only its fill
     moves, as scaleX, so the loop never animates a width. */
  .meter-scale{display:flex;justify-content:space-between;margin:6px 0 0;font:600 12px/16px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
- .zone-caption{margin:0;font-size:14px;line-height:20px;color:var(--foreground)}
+ .zone-caption{margin:0;font-size:14px;line-height:20px;color:var(--foreground);text-wrap:pretty}
  .zone-note .reward{width:12px;height:12px;flex:none;margin-inline:2px;border-width:1px}
  .meter{position:relative;height:8px;background:var(--web-tile);box-shadow:inset 0 0 0 1px var(--web-outline);overflow:hidden}
  .meter-fill,.meter-fill>span{position:absolute;inset:0}.meter-fill>span{background:var(--primary);transform:scaleX(.1667);transform-origin:left}
@@ -104,8 +103,7 @@ const outcome = zone.kind === 'meter' ? [] : (() => { let pops = 0; return zone.
   .flow-ghost{top:0}
   .flow-caption,.flow-detail{white-space:normal}
  }
- @media(max-width:1439px){.zone-diagram{padding:12px}}
  @media(max-width:1279px){.zone-stat strong{font-size:34px;line-height:40px}}
- @media(max-width:767px){.zone-stat strong{font-size:30px;line-height:36px}.squares i{font-size:10px}.your-rep{--bond:28px;--share:25px;--reward:14px;padding:18px 16px 20px 14px;gap:14px}.your-rep-head{flex-wrap:wrap;row-gap:4px}}
+ @media(max-width:767px){.zone-stat strong{font-size:30px;line-height:36px}.squares i{font-size:10px}.your-rep{--bond:28px;--share:25px;--reward:14px;padding:18px 16px 20px 14px;gap:12px}}
  @media(forced-colors:active){.bond,.share,.reward{forced-color-adjust:none;background:CanvasText}.share{background:Highlight}.reward{background:transparent;border-color:Highlight;color:Highlight}.lost{border-color:CanvasText}.flow-arrow{stroke:CanvasText}.meter-fill>span{forced-color-adjust:none;background:Highlight}.your-rep{border-left-color:Highlight}}
 </style>

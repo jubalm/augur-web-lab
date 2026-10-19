@@ -11,7 +11,7 @@ import { links } from '../../data/links';
  <div class="option-labels" aria-hidden="true"><span></span>{participation.fields.map(field => <span>{field.label}</span>)}</div>
  {participation.options.map(option => <article class:list={['option', `option-${option.id}`]} aria-labelledby={`option-${option.id}`}>
   <header><h3 id={`option-${option.id}`}>{option.title}</h3><p>{option.summary}</p></header>
-  {participation.fields.map(field => { const cell: Cell = option[field.key]; return <dl class="option-cell"><dt>{field.label}</dt><dd><strong class:list={{ gain: cell.gain }}>{cell.figure}</strong><span>{cell.note}</span>{option.id === 'hold' && field.key === 'risk' && <a href="#fork">What happens in a fork</a>}</dd></dl>; })}
+  {participation.fields.map(field => { const cell: Cell = option[field.key]; return <dl class="option-cell"><dt>{field.label}</dt><dd><strong class:list={{ gain: cell.gain }}>{cell.figure}</strong><span>{cell.note}</span>{option.id === 'hold' && field.key === 'risk' && <a class="line-link" href="#fork"><span class="button-label">What happens in a fork</span></a>}</dd></dl>; })}
  </article>)}
 </div>
 <div class="options-foot">
@@ -34,7 +34,7 @@ import { links } from '../../data/links';
  .option-cell dd{margin:0;display:flex;flex-direction:column;gap:6px}
  .option-cell strong{font:600 26px/32px var(--font-heading);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
  .option-cell strong.gain{color:var(--primary)}
- .option-cell span{font-size:15px;line-height:22px;color:var(--muted-foreground)}
+ .option-cell dd>span{font-size:15px;line-height:22px;color:var(--muted-foreground)}
  .option-cell a{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;margin-bottom:-12px;font:600 14px/20px var(--font-heading);color:var(--foreground);text-underline-offset:5px}
  /* Holding is where most readers stand: the column is marked with the Green rule of “yours”. */
  .option-hold{box-shadow:inset 0 0 0 1px var(--web-outline),inset 0 2px 0 var(--primary)}

@@ -32,7 +32,7 @@ const gapAfter = (index: number) => index < history.length - 1 && history[index 
    <div class="mission-copy">
     <p class="lead">Augur was built on that position from the start, and Augur Lituus is too.</p>
     <p>Knowledge of the world is spread across many people, and no central authority can gather all of it without bias. So Augur’s answers come from the people who know, with something to lose if they are wrong.</p>
-    <a class="cite" href={links.whitepaper.url}>Augur Lituus whitepaper, §1<span aria-hidden="true"> ↗</span></a>
+    <a class="cite line-link is-ruled" href={links.whitepaper.url}><span class="button-label">Augur Lituus whitepaper, §1</span><span aria-hidden="true">↗</span></a>
    </div>
   </div>
  </section>
@@ -48,7 +48,7 @@ const gapAfter = (index: number) => index < history.length - 1 && history[index 
      </div>
      <p class="event-text">{entry.text}</p>
      {entry.figure && <p class="event-figure"><strong>{entry.figure.value}</strong><span>{entry.figure.caption}</span></p>}
-     <a class="cite" href={links[entry.source.key].url}>{entry.source.label}<span aria-hidden="true"> ↗</span></a>
+     <a class="cite line-link is-ruled" href={links[entry.source.key].url}><span class="button-label">{entry.source.label}</span><span aria-hidden="true">↗</span></a>
     </li>
    ))}
   </ol>
@@ -97,9 +97,8 @@ const gapAfter = (index: number) => index < history.length - 1 && history[index 
  .hero-more{max-width:780px;margin-top:16px;font-size:18px;line-height:28px;color:var(--muted-foreground)}
  /* Mission: the statement is the heading; its reasoning fills the lead column. */
  .ruled .mission{margin-bottom:0}.mission h2{text-wrap:balance}.mission-copy p:not(.lead){margin-top:20px;font-size:18px;line-height:28px;color:var(--muted-foreground)}
- .cite{display:inline-flex;align-items:center;min-height:32px;margin-top:4px;font:400 14px/20px var(--font-heading);color:var(--muted-foreground);text-decoration:underline;text-decoration-color:var(--web-outline);text-underline-offset:4px;transition:color 180ms ease-out,text-decoration-color 180ms ease-out}
- .cite span{white-space:pre}
- .cite:hover{color:var(--foreground);text-decoration-color:currentColor}
+ .cite{display:inline-flex;align-items:center;gap:4px;min-height:32px;margin-top:4px;font:400 14px/20px var(--font-heading);color:var(--muted-foreground);transition:color 180ms ease-out}
+ .cite:hover{color:var(--foreground)}
  /* Story: one line through square stops, dashed where years pass between them.
     Date and title on the left, what happened and its source on the right, both from the row's top. */
  .timeline{list-style:none;margin:0;padding:0}

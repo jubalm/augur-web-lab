@@ -21,7 +21,7 @@ const before = rows.slice(0, versions.fork.after + 1), after = rows.slice(versio
   </li>
   {after.map((row, index) => <li class:list={['version', { 'is-current': row.current, 'is-branch': index > 0 }]}><span class:list={['rail', index === 0 ? 'rail-main-end' : 'rail-branch-end']} aria-hidden="true"><i class="node"></i></span>
    <div class="version-name"><h3>{row.name}</h3><span class="version-status">{row.status}</span></div>
-   {versions.fields.map(field => <dl class="version-cell"><dt>{field.label}</dt><dd>{row[field.key]}{row.current && field.key === 'holder' && <> <a href="#contract">Contract {shortAddress}</a></>}</dd></dl>)}
+   {versions.fields.map(field => <dl class="version-cell"><dt>{field.label}</dt><dd>{row[field.key]}{row.current && field.key === 'holder' && <> <a class="line-link is-ruled" href="#contract"><span class="button-label">Contract {shortAddress}</span></a></>}</dd></dl>)}
   </li>)}
  </ol>
  <aside class="safety" aria-labelledby="safety-title"><Icon name="warning-circle"/><div><h3 id="safety-title">{versions.safety.title}</h3><p>{versions.safety.text}</p></div></aside>

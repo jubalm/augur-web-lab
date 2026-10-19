@@ -345,10 +345,20 @@ test('walkthrough crosses off completed steps and strikes the replaced answer', 
   expect(await done.evaluateAll(marks => marks.map(mark => getComputedStyle(mark).opacity))).toEqual(['1', '1', '0', '0']);
   const panel = page.locator('#walkthrough-panel-2');
   // Owner (19 Oct 2026): once an outcome is picked, the others step back alike; only a final answer strikes them.
-  await expect(panel.locator('.outcome-chip.is-selected')).toContainText('NO');
-  await expect(panel.locator('.outcome-chip.is-other')).toHaveCount(2);
-  await expect(panel.locator('.outcome-chip s')).toHaveCount(0);
-  await expect(page.locator('#walkthrough-panel-3 .outcome-chip.is-out s')).toHaveText(['YES', 'Invalid']);
+  await expect(panel.locator('.outcome-tile.is-selected')).toContainText('NO');
+  await expect(panel.locator('.outcome-tile.is-other')).toHaveCount(2);
+  await expect(panel.locator('.outcome-tile s')).toHaveCount(0);
+  await expect(page.locator('#walkthrough-panel-3 .outcome-tile.is-out s')).toHaveText(['YES', 'Invalid']);
+  // The outcome board (owner, 19 Oct 2026): one Green frame marks the answer standing now, on YES after
+  // the report and NO after the challenge; once final, the answer takes the board and the ruled-out
+  // outcomes become small struck chips with no squares (owner: “take them out of focus”).
+  await expect(page.locator('#walkthrough-panel-0 .standing-frame')).toHaveCount(0);
+  expect(await page.locator('.walkthrough .standing-frame').evaluateAll(frames => frames.map(frame => frame.dataset.standing))).toEqual(['0', '1', '1']);
+  expect(await page.locator('#walkthrough-panel-2 .outcome-tile [data-bond-at]').evaluateAll(squares => squares.map(square => square.dataset.bondAt))).toEqual(['1', '2', '2']);
+  await expect(page.locator('.outcome-board.is-final')).toHaveCount(1);
+  await expect(page.locator('#walkthrough-panel-3 .outcome-board.is-final')).toHaveCount(1);
+  await expect(page.locator('#walkthrough-panel-3 .outcome-tile.is-out')).toHaveCount(2);
+  expect(await page.locator('#walkthrough-panel-3 .outcome-tile.is-out .outcome-bonds').evaluateAll(rows => rows.map(row => getComputedStyle(row).display))).toEqual(['none', 'none']);
   await expect(panel.locator('.query-ledger [data-replaced-at] s')).toHaveText('Reported YES');
   await expect(page.locator('#walkthrough-panel-1 .query-ledger s')).toHaveCount(0);
 });
@@ -699,23 +709,24 @@ test('walkthrough activity is a timeline with the latest event in Green', async 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('#walkthrough-tab-3').click();
   const panel = page.locator('#walkthrough-panel-3');
-  // Owner (19 Oct 2026): newest first, the current state on top as a highlighted row; tiny Green squares, no icons.
+  // Owner (19 Oct 2026): newest first, the latest event on top as a highlighted row; tiny Green squares, no icons, one line per event.
   await expect(panel.locator('.query-ledger li')).toHaveCount(4);
   await expect(panel.locator('.query-ledger .web-icon')).toHaveCount(0);
   await expect(panel.locator('.query-ledger li').first()).toHaveAttribute('data-ledger-current', '');
-  await expect(panel.locator('.query-ledger li').last().locator('.ledger-amount')).toHaveText('15 REPFee');
-  // Struck or faded, never both: the overturned report keeps Paper; ruled-out chips are struck on a plain tile.
+  await expect(panel.locator('.query-ledger li').last().locator('.ledger-amount')).toHaveText('15 REP fee');
+  // Struck or faded, never both: the overturned report keeps Paper; ruled-out outcomes are struck, not muted.
   expect(await panel.locator('[data-replaced-at] .ledger-title').evaluate(node => getComputedStyle(node).color)).toBe('rgb(245, 245, 248)');
-  await expect(panel.locator('.outcome-chip.is-other')).toHaveCount(0);
+  await expect(panel.locator('.outcome-tile.is-other')).toHaveCount(0);
   await expect(panel.locator('[data-ledger-current]')).toHaveCount(1);
   expect(await panel.locator('[data-ledger-current] .ledger-node').evaluate(node => [getComputedStyle(node).backgroundColor, getComputedStyle(node).width]))
-    .toEqual(['rgb(42, 231, 168)', '8px']);
-  await expect(panel.locator('.stakes-legend li')).toHaveText(['NO30 REP', 'YES15 REP']);
+    .toEqual(['rgb(42, 231, 168)', '10px']);
+  // One home per fact (owner, 19 Oct 2026: “too noisy”): the outcome board carries the stakes, the status
+  // chip the current state, the steps the progress.
+  await expect(panel.locator('.outcome-tile .outcome-stake')).toHaveText(['15 REP', '30 REP', '0 REP']);
   await expect(panel.locator('.stakes-total strong')).toHaveText('45 REP');
-  // While a query is open, Activity leads with what is happening now.
-  await expect(page.locator('#walkthrough-panel-1 .query-ledger li').first()).toHaveClass(/ledger-now/);
-  await expect(page.locator('#walkthrough-panel-1 .ledger-now .ledger-title')).toContainText('Appeal period running');
-  await expect(panel.locator('.ledger-now')).toHaveCount(0);
+  await expect(page.locator('.query-progress, .stakes-bar, .ledger-now')).toHaveCount(0);
+  await expect(page.locator('#walkthrough-panel-1 .query-ledger li').first()).toHaveAttribute('data-ledger-current', '');
+  await expect(page.locator('#walkthrough-panel-1 .query-status')).toHaveText('Open to challenge');
 });
 
 // Owner + Augus (19 Oct 2026): How it works and the REP section are one section about taking part.
@@ -731,9 +742,9 @@ test('How it works keeps Your REP under the steps, out of the example card, with
   await expect(tabs).toHaveCount(4);
   const zones = [
     ['Reward offered', null],
-    ['Reporting', "If you report: stake 15 REP; if no one challenges, you get 15 REP back plus the reward, 2.5 REP in the whitepaper's example."],
-    ['Challenging', 'You challenge: stake 30 REP; if your answer holds, you get 30 REP back plus 12 REP, 80% of the bond you challenged.'],
-    ['Payout', 'You receive: your 30 REP bond back, 12 REP from the losing bond, and the reward, because you were first to stake on NO.'],
+    ['If you report', "If you report: stake 15 REP; if no one challenges, you get 15 REP back plus the reward, 2.5 REP in the whitepaper's example."],
+    ['If you challenge', 'You challenge: stake 30 REP; if your answer holds, you get 30 REP back plus 12 REP, 80% of the bond you challenged.'],
+    ['Your payout', 'You receive: your 30 REP bond back, 12 REP from the losing bond, and the reward, because you were first to stake on NO.'],
   ];
   const heights = new Set();
   for (const [i, [label, summary]] of zones.entries()) {
@@ -757,12 +768,17 @@ test('How it works keeps Your REP under the steps, out of the example card, with
   // Each panel leads with its payoff (owner, 19 Oct 2026), and every REP square shows its amount.
   await expect(section.locator('.rep-panel .zone-stat strong')).toHaveText(['Up to 15 REP', '+17%', '+40%', '42 REP']);
   expect(await page.locator('#walkthrough-rep-2 .squares i.bond, #walkthrough-rep-2 .squares i.share').allTextContents()).toEqual(['15', '15', '15', '15', '12', '15', '15']);
-  // The cutoff, its Unix time and the description sit in one dropdown that opens on every card at once.
+  // The information cutoff shows at a glance under the title; the description, the resolution criteria
+  // and the cutoff's Unix time sit in one dropdown that opens on every card at once.
+  await expect(page.locator('#walkthrough-panel-3 .query-cutoff')).toHaveText(/Information cutoff\s*8 Sep 2027, 00:00 UTC/);
+  await expect(page.locator('#walkthrough-panel-3 .query-cutoff time')).toHaveAttribute('datetime', '2027-09-08T00:00:00Z');
   const details = page.locator('#walkthrough-panel-3 .query-details');
   await expect(details).not.toHaveAttribute('open', '');
   await details.locator('summary').click();
   await expect(details).toContainText('1820361600');
-  await expect(details.locator('.details-body p')).toHaveCount(3);
+  // The five question fields (owner, 19 Oct 2026): description, one sentence per outcome; criteria, a numbered process.
+  await expect(details.locator('.details-field p')).toHaveCount(3);
+  await expect(details.locator('.details-criteria li')).toHaveCount(3);
   expect(await page.locator('.query-details').evaluateAll(all => all.every(item => item.open))).toBe(true);
   // Opening the details grows the card, never the REP panel beside it.
   const panelHeight = await page.locator('#walkthrough-rep-3 .your-rep').evaluate(node => node.getBoundingClientRect().height);

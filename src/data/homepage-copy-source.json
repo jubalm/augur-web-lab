@@ -207,7 +207,7 @@
     },
     {
       "id": "207:1590",
-      "name": "06 · How it works (website draft of 19 Oct 2026: REP panels under the steps, query details, stakes; Figma pending)",
+      "name": "06 · How it works (website draft of 19 Oct 2026: REP panels under the steps, query details, the five question fields, the outcome board, one home per fact; Figma pending)",
       "text": [
         [
           "draft:how/title",
@@ -215,7 +215,7 @@
         ],
         [
           "draft:how/lead",
-          "Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. Taking part is optional, and a wrong call costs your bond."
+          "Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond."
         ],
         [
           "draft:how/step-1",
@@ -238,10 +238,6 @@
           "Get paid when it's final"
         ],
         [
-          "draft:how/zone",
-          "Your REP"
-        ],
-        [
           "draft:how/zone-1",
           "Reward offered"
         ],
@@ -251,7 +247,7 @@
         ],
         [
           "draft:how/zone-1-stat-note",
-          "to report the answer: up to 100% of the fee, plus any tips"
+          "plus any tips"
         ],
         [
           "draft:how/zone-1-min",
@@ -259,11 +255,11 @@
         ],
         [
           "draft:how/zone-1-max",
-          "15 REP"
+          "15 REP fee"
         ],
         [
           "draft:how/zone-1-caption",
-          "Starts at 0 REP and rises until someone reports. In the whitepaper's example, a reporter takes it at 2.5 REP after 12 hours."
+          "In the whitepaper's example, a reporter takes it at 2.5 REP after 12 hours."
         ],
         [
           "draft:how/zone-1-note",
@@ -280,6 +276,14 @@
         [
           "I207:1597;145:249",
           "Has room-temperature superconductivity been independently demonstrated at ambient pressure?"
+        ],
+        [
+          "draft:how/cutoff",
+          "Information cutoff"
+        ],
+        [
+          "draft:how/cutoff-date",
+          "8 Sep 2027, 00:00 UTC"
         ],
         [
           "draft:how/details",
@@ -302,40 +306,24 @@
           "Invalid"
         ],
         [
-          "draft:how/stakes",
-          "Stakes"
-        ],
-        [
-          "draft:how/stakes-total",
-          "staked"
-        ],
-        [
-          "draft:how/stakes-total-value",
+          "draft:how/outcome-yes-stake",
           "0 REP"
         ],
         [
-          "draft:how/stakes-empty",
-          "No bonds yet. The first report stakes 15 REP."
+          "draft:how/outcome-no-stake",
+          "0 REP"
+        ],
+        [
+          "draft:how/outcome-invalid-stake",
+          "0 REP"
         ],
         [
           "I207:1597;387:880",
           "Activity"
         ],
         [
-          "draft:how/now-1",
-          "Waiting for a report"
-        ],
-        [
-          "draft:how/now-1-detail",
-          "The reward rises until someone reports"
-        ],
-        [
           "draft:how/ledger-1",
           "Query opened"
-        ],
-        [
-          "draft:how/ledger-1-detail",
-          "An app asked and paid the fee"
         ],
         [
           "I207:1597;145:270",
@@ -343,11 +331,7 @@
         ],
         [
           "draft:how/ledger-1-kind",
-          "Fee"
-        ],
-        [
-          "draft:how/now-tag",
-          "Now"
+          "fee"
         ],
         [
           "draft:how/holder",
@@ -487,19 +471,11 @@
     },
     {
       "id": "35:75",
-      "name": "09 · Learn more (website draft of 19 Oct 2026: From the blog and FAQ in one section; Figma pending)",
+      "name": "09 · Learn more (website draft of 19 Oct 2026: three questions and the two latest posts, without type or date, each column ending on a button; Figma pending)",
       "text": [
         [
           "draft:learn/title",
           "Learn more about Augur."
-        ],
-        [
-          "draft:learn/start-lead",
-          "New to oracles?"
-        ],
-        [
-          "draft:learn/start",
-          "Start here"
         ],
         [
           "166:1078",
@@ -522,16 +498,8 @@
           "What role does REP play?"
         ],
         [
-          "I166:1081;166:599;166:542",
-          "Can I build with Augur today?"
-        ],
-        [
           "I166:1081;166:619;166:542",
           "What if the question cannot be answered?"
-        ],
-        [
-          "I166:1081;166:639;166:542",
-          "Why would REP holders choose the honest fork?"
         ],
         [
           "draft:learn/faq-all",
@@ -542,10 +510,6 @@
           "From the blog"
         ],
         [
-          "154:777",
-          "Research · 24 September 2026"
-        ],
-        [
           "154:778",
           "Why disagreement makes\nan oracle stronger"
         ],
@@ -554,28 +518,8 @@
           "How bonds and open challenges reward honest reporting."
         ],
         [
-          "154:792",
-          "Guide · 10 September 2026"
-        ],
-        [
           "154:793",
           "Writing questions an oracle can answer"
-        ],
-        [
-          "154:809",
-          "Explainer · 27 August 2026"
-        ],
-        [
-          "154:810",
-          "What happens when a fork begins"
-        ],
-        [
-          "154:841",
-          "Community · 13 August 2026"
-        ],
-        [
-          "154:842",
-          "Notes from the community call"
         ],
         [
           "I156:405;29:7",

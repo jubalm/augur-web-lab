@@ -48,6 +48,7 @@ const check = '40 144 96 200 224 72';
     <span class="market-head is-no" data-market-head="no" style={`transform:translateY(${(120 - price(1)) / 1.2}%)`}><i></i></span>
    </span>
    <span class="g-pulse market-pulse" data-graphic-pulse></span>
+   <span class="market-scrub" data-market-scrub><span class="scrub-line"></span><i class="scrub-dot is-no"></i><i class="scrub-dot is-yes"></i></span>
   </div>
   <div class="market-ends">
    <span class="g-end is-strong is-top" data-graphic-end>Yes</span>
@@ -111,6 +112,21 @@ const check = '40 144 96 200 224 72';
  .market-head{position:absolute;inset:0;pointer-events:none}
  .market-head i{position:absolute;right:0;top:-4px;width:8px;height:8px;background:var(--primary)}.market-head.is-no i{background:var(--augur-color-surface-dark-mist)}
  .market-pulse{left:var(--settled);top:calc(8 / 120 * 100%)}
+ /* Hover, fine pointers only (owner, 19 Oct 2026: "a little interactive when hovering"): a crosshair
+    reads the two prices under the pointer, as a trading chart does, as chances out of 100; past the
+    answer it reads "Settled: Yes". It rests hidden, moves on transform only (case-graphics.ts), and its
+    readout sits in the space above the plot, flipping left near the right edge. */
+ .market-scrub{position:absolute;inset:0;opacity:0;transition:opacity 160ms ease-out;pointer-events:none}
+ .market-scrub.is-on{opacity:1}
+ .scrub-line{position:absolute;left:0;top:0;bottom:0;width:1px;margin-left:-.5px;background:var(--augur-color-surface-dark-mist)}
+ .scrub-dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;background:var(--augur-color-surface-dark-mist)}
+ .scrub-dot.is-yes{background:var(--primary)}
+ .market-scrub :global(.scrub-read){position:absolute;left:0;top:-30px;display:flex;padding:4px 8px;background:var(--background);box-shadow:inset 0 0 0 1px var(--web-outline);font:400 12px/16px var(--font-body);color:var(--muted-foreground);white-space:nowrap}
+ .market-scrub :global(.scrub-read b){font:600 12px/16px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
+ .market-scrub :global(.scrub-prices){display:flex;gap:12px}.market-scrub :global(.scrub-prices .is-yes b){color:var(--primary)}
+ .market-scrub :global(.scrub-settled),.market-scrub :global(.scrub-read.is-settled .scrub-prices){display:none}.market-scrub :global(.scrub-read.is-settled .scrub-settled){display:inline}
+ @media(hover:hover) and (pointer:fine){.market-plot{cursor:crosshair}}
+ @media(prefers-reduced-motion:reduce){.market-scrub{transition:none}}
  .market-ends{position:relative;min-width:24px}
  .market-ends .g-end{position:absolute;left:0;margin-top:-8px}.market-ends .is-top{top:calc(8 / 120 * 100%)}.market-ends .is-bottom{top:calc(112 / 120 * 100%)}
  /* Flight and gate: a track with labelled ticks; the moving square rides the end of a run that slides
@@ -163,5 +179,5 @@ const check = '40 144 96 200 224 72';
  .gate-pulse{left:calc(100% - 8px);top:32px;border-color:var(--foreground)}
  @media(max-width:1023px){.case-graphic{flex:none;padding-top:28px}.market{flex:none}.market-plot{height:120px}}
  @media(max-width:767px){.cabin-side{grid-template-columns:repeat(16,minmax(0,14px))}.g-seat:nth-child(n+33){display:none}}
- @media(forced-colors:active){.market-line{stroke:CanvasText}.market-area,.g-pulse{display:none}.market-grid i,.g-seat,.g-base,.g-item,.g-tick,.gate-path,.g-end i,.market-head i,.flight-progress i{forced-color-adjust:none;background:CanvasText}.g-seat.is-insured{forced-color-adjust:none;background:Canvas;box-shadow:inset 0 0 0 1px CanvasText}.gate-goal{border-color:CanvasText}.market-answer{border-color:CanvasText}.g-seat>span,.flight-progress i.is-late,.gate-bars i,.market-head.is-yes i{forced-color-adjust:none;background:Highlight}.gate-check{forced-color-adjust:none;background:Canvas;color:CanvasText}}
+ @media(forced-colors:active){.market-line{stroke:CanvasText}.market-area,.g-pulse,.market-scrub{display:none}.market-grid i,.g-seat,.g-base,.g-item,.g-tick,.gate-path,.g-end i,.market-head i,.flight-progress i{forced-color-adjust:none;background:CanvasText}.g-seat.is-insured{forced-color-adjust:none;background:Canvas;box-shadow:inset 0 0 0 1px CanvasText}.gate-goal{border-color:CanvasText}.market-answer{border-color:CanvasText}.g-seat>span,.flight-progress i.is-late,.gate-bars i,.market-head.is-yes i{forced-color-adjust:none;background:Highlight}.gate-check{forced-color-adjust:none;background:Canvas;color:CanvasText}}
 </style>
