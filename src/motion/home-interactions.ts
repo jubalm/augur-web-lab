@@ -2,6 +2,7 @@ import {setupAllTabs} from './tabs';
 import {bindMarketScrub,playCaseGraphic} from './case-graphics';
 import {motionTime} from './debug';
 import {playOnce,type Animate} from './play-once';
+import {bindWalkthroughScroll} from './walkthrough-scroll';
 import {easing,applicationTimeline,roadmapTimeline,outcomeTimeline,timing} from './timelines';
 const enhanced=new WeakSet<HTMLElement>();
 export function initHomeInteractions(){
@@ -112,6 +113,8 @@ export function initHomeInteractions(){
    steps.style.minHeight=`${tallest}px`;
   };
   reserve();document.fonts?.ready.then(reserve,()=>undefined);root.addEventListener('tabssettled',reserve);
+  // Scrolling moves through the steps where the walkthrough fits the screen.
+  bindWalkthroughScroll(root);
   // Every card's Question details open and close together: the cards share their rows, so
   // open details on a hidden card would leave a gap under the shown one.
   const descriptions=[...root.querySelectorAll<HTMLDetailsElement>('.query-details')];

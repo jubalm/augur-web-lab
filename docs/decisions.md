@@ -1096,3 +1096,7 @@ Remaining, by design: the card keeps one height across steps, so switching steps
 - **Considered, not kept.** Hover effects on the builder's reasons (they aren't interactive, so a hover would promise a click), and hover readouts on the flight and gate pictures (no reading there worth a tooltip; their plays already tell them).
 
 **Checks run:** `astro check` (0 errors). Built-in browser at 1440: hover surface on rows 2 and 3 (glide measured mid-transition), keyboard ArrowDown shows it on the focused row, it hides once a row is picked; chart readout before the answer (“Yes 50%  No 50%”) and after (“Settled: Yes”, flipped left); panel entrance offsets +14 going down and −14 going up, the leaving case +6 going up. **Not done:** reduced motion and forced colours by hand, widths below 1024 (the hover surface and readout are off there by design: no marker below 1024, fine pointers only), Playwright (can't launch here). Figma waits on “update figma”.
+
+## Section settle removed — 19 October 2026 (owner: “the scroll on this page is a hell … remove it, leave it normal page”)
+
+`src/motion/section-settle.ts` is deleted and the homepage no longer starts it. Scrolling is plain native scrolling again: nothing glides to a section top after a wheel, trackpad or touch scroll stops. `scroll-behavior: smooth` on `html` stays, so in-page anchor links still glide (instantly under reduced motion). Section paging stays off the table for the reasons in the entry above.

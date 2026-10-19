@@ -11,6 +11,7 @@ const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1)
 ---
 <section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading"><div class="container">
  <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2><p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.</p></div>
+ <div class="walkthrough-track" data-walkthrough-track>
  <div class="walkthrough" data-tabs data-walkthrough data-panel-swap data-active="0">
   <div class="walkthrough-steps" role="tablist" aria-label="How taking part works" aria-orientation="vertical">
    {walkthrough.map((step,i)=><button type="button" role="tab" id={`walkthrough-tab-${i}`} aria-label={step.title} aria-controls={`walkthrough-panel-${i} walkthrough-rep-${i}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1}><span class="step-head"><span class="step-title">{step.title}</span><span class="step-done" aria-hidden="true"><Icon name="check"/></span></span><span class="step-description">{step.description}</span></button>)}
@@ -28,6 +29,8 @@ const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1)
     <div class="query-activity"><h4 class="ledger-label" id={`walkthrough-ledger-${i}`}>Activity</h4><ol class="query-ledger" aria-labelledby={`walkthrough-ledger-${i}`}>{ledger.slice(0,i+1).map((entry,index)=>({entry,index})).reverse().map(({entry,index})=>{const replaced=entry.replacedAt!==undefined&&i>=entry.replacedAt;return <li data-ledger-current={index===i?'':undefined} data-replaced-at={replaced?entry.replacedAt:undefined}><span class="ledger-node" aria-hidden="true"></span><span class="ledger-title">{replaced?<><s>{entry.event}</s><span class="sr-only"> (replaced by the challenge)</span></>:entry.event}{entry.you&&<span class="ledger-you">You</span>}</span>{entry.amount!==undefined&&<span class="ledger-amount"><strong>{amount(entry.amount)}</strong> {entry.stake?'bond':'fee'}</span>}</li>;})}</ol></div>
    </div>)}
   </div>
+ </div>
+ <div class="walkthrough-run" aria-hidden="true"></div>
  </div>
  <div class="holder">
   <h3>{holder.title}</h3>
@@ -47,6 +50,13 @@ const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1)
  .paid{position:relative;display:inline-block}
  .paid-mark{position:absolute;left:0;right:0;bottom:.02em;height:.1em;min-height:3px;background:var(--primary);transform-origin:left}
  .walkthrough{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);grid-template-rows:auto 1fr;grid-template-areas:"steps panels" "rep panels";column-gap:80px;row-gap:24px;position:relative}
+ /* Scrolling steps through it (owner, 19 Oct 2026): where it fits the screen, the walkthrough pins
+    while the page scrolls past a run under it, and the step follows the scroll
+    (walkthrough-scroll.ts sets the run, the pin and is-pinned). Elsewhere the run is empty. */
+ .walkthrough-run{height:0}
+ .walkthrough-track.is-pinned .walkthrough{position:sticky;top:var(--pin-top,24px)}
+ .walkthrough-track.is-pinned .walkthrough-run{height:var(--pin-run,0)}
+ @media print{.walkthrough-track.is-pinned .walkthrough{position:relative}.walkthrough-track.is-pinned .walkthrough-run{height:0}}
  /* A step's tab controls its card and its REP panel together (aria-controls lists both). The
     four panels share one grid cell like the cards, so the panel keeps one height. */
  .rep-panels{grid-area:rep;display:grid;align-self:start;min-width:0}.rep-panel{grid-area:1/1;min-width:0}.rep-panel[hidden]{display:block!important;visibility:hidden}
