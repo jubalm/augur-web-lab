@@ -41,10 +41,8 @@ export function repZoneTracks(kind: 'meter' | 'flow' | 'receipt', gains: number)
   }
   if (kind === 'receipt') {
     const r = t.receipt, lights = (k: number) => r.windows.map(at => at + r.dim + r.first + k * r.stagger);
-    return [scaleTrack('zone-stat', lights(gains - 1).map(at => at + r.light), '.zone-stat strong', t.bump.scale, [t.bump.rise, t.bump.fall]), ...Array.from({ length: gains }, (_, k): Track[] => [
-      { id: `zone-group-${k}`, prop: 'opacity', keys: close([{ t: 0, v: 1 }, ...r.windows.flatMap((at, w): Key[] => [{ t: at, v: 1 }, { t: at + r.dim, v: t.rest, e: 'crossfade' }, { t: lights(k)[w]!, v: t.rest }, { t: lights(k)[w]! + r.light, v: 1, e: 'reveal' }])], repCycle) },
-      scaleTrack(`zone-pop-${k}`, lights(k)),
-    ]).flat()];
+    // The groups no longer dim (owner, 19 Oct 2026: the faded squares read as missing); they only pop in turn.
+    return [scaleTrack('zone-stat', lights(gains - 1).map(at => at + r.light), '.zone-stat strong', t.bump.scale, [t.bump.rise, t.bump.fall]), ...Array.from({ length: gains }, (_, k) => scaleTrack(`zone-pop-${k}`, lights(k)))];
   }
   const lands = t.sends.map(at => at + t.travel);
   const outcome: Track = { id: 'zone-outcome', target: '.flow-outcome', prop: 'opacity', keys: close([{ t: 0, v: 1 }, ...t.sends.flatMap((at, i): Key[] => [{ t: at - t.dim, v: 1 }, { t: at, v: t.rest, e: 'crossfade' }, { t: lands[i]!, v: t.rest }, { t: lands[i]! + t.land, v: 1, e: 'reveal' }])], repCycle) };

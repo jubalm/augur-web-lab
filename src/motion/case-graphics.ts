@@ -67,10 +67,11 @@ export function bindMarketScrub(graphic: HTMLElement) {
   };
   plot.addEventListener('pointermove', event => {
     if (event.pointerType !== 'mouse') return;
-    if (graphic.getAnimations({ subtree: true }).some(animation => animation.playState === 'running')) { scrub.classList.remove('is-on'); return; }
+    // Only the play-in counts: the scrub's own fade is a transition and looping pulses never end, and
+    // counting either switched the scrub off on every move, so it flickered.
+    if (graphic.getAnimations({ subtree: true }).some(animation => animation.playState === 'running' && !(animation instanceof CSSTransition) && animation.effect?.getTiming().iterations !== Infinity)) { scrub.classList.remove('is-on'); return; }
     pointer = event.clientX;
-    if (!frame) frame = requestAnimationFrame(draw);
-    scrub.classList.add('is-on');
+    if (!frame) frame = requestAnimationFrame(() => { draw(); scrub.classList.add('is-on'); });
   });
   plot.addEventListener('pointerleave', () => { pointer = null; scrub.classList.remove('is-on'); });
 }

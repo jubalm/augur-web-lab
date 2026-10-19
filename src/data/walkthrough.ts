@@ -117,6 +117,6 @@ export const holder = {
   title: 'Holding REP?',
   points: [
     { lead: 'Optional.', text: 'You never have to report or challenge.' },
-    { lead: 'In a fork, act.', text: 'Move your REP to the universe you believe reflects reality, or it loses its value.' },
+    { lead: 'But never passive.', text: 'Holding REP is a duty to the truth. In a fork, move it to the universe that reflects reality, or it loses its value.' },
   ],
 };
