@@ -33,25 +33,24 @@ export const heroTimeline = {
 /** Each word of the statement rises `rise` em into place, in Navy, as the
  * ribbon's front reaches it (owner, 6 Oct 2026: the text should move too). */
 export const ribbonTimeline = { threshold: .6, duration: 900, edgeFade: 180, word: { duration: 420, rise: .45 } } as const;
-export const bondTimeline = [{start:300,end:900,offset:16},{start:500,end:1100,offset:32},{start:700,end:1300,offset:64},{start:900,end:1500,offset:128}] as const;
-/** REP stake flows: line draws, bond travels to the outcome, winnings appear. */
-export const repTimeline = { rowStagger:160, line:{start:0,duration:400}, condition:{start:150,duration:250}, travel:{start:300,duration:520}, gain:{start:780,duration:320}, lost:{start:700,duration:300,fade:200} } as const;
 export const roadmapTimeline = {track:1000,stopStagger:110,stopDuration:320,evidence:850} as const;
-export const applicationTimeline = { signalFade:100, signalTravel:800, signalDistance:60, oracle:250 } as const;
-/** Prediction markets query (owner, 6 Oct 2026): each stage starts at `stages[i]`;
- * its line draws over `draw`, the status hands over in `fade`, the answer's check
- * pops in over `check`; the signal leaves for the Augur Lituus band `signal` after Final. */
-export const marketQueryTimeline = { stages:[0,600,1300,2000], draw:400, fade:200, check:320, label:.4, signal:200, threshold:.6 } as const;
-/** Insurance (owner, 6 Oct 2026: subtle motion): `delay` after the tab's fade (as the
- * incoming panel lands), the
- * arrival marker leaves the scheduled-arrival tick and slides to the actual arrival
- * over `travel`, the delay line growing behind it; the summary brightens from `label`
- * as the marker passes +2 hours; the signal leaves `signal` after it lands. */
-export const flightTimeline = { delay:320, travel:900, fade:200, label:.4, signal:200 } as const;
-/** DAOs & grants (owner, 6 Oct 2026: subtle motion): Team B shows as a plain tile
- * until `win` (a beat after the panel lands), then turns Green over `fade` as its check pops in over `check`; the
- * caption rises in `caption` later; the signal leaves `signal` after it. */
-export const prizeTimeline = { win:600, fade:240, check:320, caption:360, signal:200 } as const;
+/** Use cases (owner, 18–19 Oct 2026): from the moment a case shows, its two answers rise in from `options`
+ * over `fade`; at `decide` the picked one fills Green over `pop` (its check `check` later) and the other
+ * steps back over `fade`; the action, its explanation and any note rise from `act`, `stagger` apart.
+ * Prediction markets first plays once `threshold` of it is in view. */
+export const applicationTimeline = { options:0, fade:320, decide:520, pop:320, check:120, act:760, stagger:80, threshold:.6 } as const;
+/** Sitewide field (owner, 19 Oct 2026): cells within `margin` px of text or an object stay empty; full-width
+ * bands darker than `bandLuminance` count as background. A `density` share of the rest hold a 3 px square,
+ * `green` of them Green, in `steps` opacity steps across `paperOpacity` / `greenOpacity`; redrawn `debounce`
+ * ms after a size change. Trail: `pool` squares of `size` px, every `greenEvery`th Green, growing from `from`
+ * to full by `rise` of `fade` and peaking at `greenPeak` / `paperPeak`. */
+export const fieldTimeline = { margin:12, bandLuminance:.06, density:.22, green:.18, steps:4, paperOpacity:[.05,.12], greenOpacity:[.12,.26], debounce:200, pool:24, greenEvery:3, size:5, from:.4, rise:.18, fade:800, greenPeak:.5, paperPeak:.22 } as const;
+/** Case graphics (owner, 19 Oct 2026): from `start` after a case shows (once its answer is picked).
+ * Market: the cover reveals the prices over `reveal`, then the side labels rise, `stagger` × 2 apart.
+ * Flight: the arrival travels over `travel`; once it is `passes` of the way the insured seats fill, each
+ * cabin row `wave` after the one in front. Gate: the proposal travels over `travel`, then nudges
+ * the gate over `bump`; then the later lane runs to Live over `later`. */
+export const caseGraphicTimeline = { start:940, pop:320, stagger:45, market:{reveal:900}, flight:{travel:1000, passes:.92, wave:18}, gate:{travel:900, bump:280, later:1100} } as const;
 /** FAQ: the question box eases to its new height over `transition`; the toggle,
  * Green edge and answer text follow over `panel`, the answer lines `stagger` apart. */
 export const faqTimeline = { transition:380, panel:timing.panel, stagger:50 } as const;

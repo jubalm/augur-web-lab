@@ -49,7 +49,7 @@ const { entry, open = false, name = 'page-faq', pageQuestion = false }=Astro.pro
  /* The Green edge draws down from the question when it opens. */
  .faq-item::before{content:'';position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--primary);transform:scaleY(0);transform-origin:top;transition:transform var(--faq-answer-time,320ms) cubic-bezier(.22,.61,.36,1)}
  .faq-item[open]::before{transform:scaleY(1)}
- .faq-item:not([open]):has(>summary:hover){background:var(--web-tile);border-left-color:var(--border)}.faq-item[open]{background:var(--card)}
+ .faq-item:not([open]):has(>summary:hover){background:var(--web-tile);border-left-color:var(--web-hover-edge)}.faq-item[open]{background:var(--card)}
  .faq-item:has(>summary:focus-visible){outline:2px solid var(--ring);outline-offset:-2px}.faq-item:not([open]):has(>summary:focus-visible){background:var(--web-tile)}summary:focus-visible{outline:0}
  summary{display:flex;justify-content:space-between;align-items:center;gap:24px;list-style:none;padding:24px 0;cursor:pointer;font:600 18px/26px var(--font-heading)}summary::-webkit-details-marker{display:none}
  /* Plus to minus: the toggle turns half a revolution while its upright bar lies flat. */

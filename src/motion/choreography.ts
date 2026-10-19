@@ -13,6 +13,8 @@ export interface Key { t: number; v: Value; e?: Ease }
  * open on the static artwork and end where the cycle begins, so an element
  * waiting for its turn keeps moving instead of holding the static frame. */
 export interface Track { id: string; prop: 'opacity' | 'translate' | 'scale'; keys: Key[]; delay?: number; lead?: Key[] }
+/* A `scale` value may be a pair, written as scale(x, y): the REP zone's reward meter
+   fills with scaleX only (rep-choreography.ts). */
 export interface Pulse { start: number; rise: number; hold: number; fall: number; peak?: number }
 
 /** Ends a track on the cycle boundary with the value it began with. */

@@ -10,8 +10,9 @@ Do not mutate source originals in the optional external reference directory. Nev
 
 - Fixed Navy, Paper text, Green action fills with Navy labels; `color-scheme: dark`. No theme toggle, alternate compositions or hidden chooser.
 - No section numbers or decorative kickers. Shared left-aligned 500 / 80 / 668 heading row at 1440; 1248 content width, 96 margins, square corners, no shadows. Only Peer mesh has a glow.
-- At 1440×900, 40 px announcement + 96 px header + hero fill the first viewport. Answer band is exactly “With Augur, no party controls the answer.”
+- At 1440×900, 40 px announcement + 96 px header + hero fill the first viewport. Answer band is exactly “With Augur, users don't rely on parties to control answers.” (owner, 18 Oct 2026)
 - Approved homepage copy is fixed. Always use “Augur Lituus” in full. Do not imply REP holding requires reporting or challenging. No invented partners, readiness, metrics, dates, addresses or guarantees.
+- Write for traders and beginners first (owner, 19 Oct 2026). Never assume the reader owns an app or project ("your app", "your call"): name it ("apps that pay out", "the project", "any app") or scope the line to builders with an explicit cue ("For integrators", "Building on it?", builder guides).
 - Off-site links alone get ↗; internal links use no arrow or their approved →. All external URLs live in `src/data/links.ts`; no fake links.
 - One source per repeated fact. Review flags remain until content is actually approved. Keep proposed design, ongoing implementation, illustrative examples and deployed history distinct.
 - Use Bun and static Astro. No client framework runtime, client hydration directives, animation library, backend, wallet connection or third-party tracking. Exact dependency pins only.

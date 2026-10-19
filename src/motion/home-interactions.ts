@@ -1,10 +1,8 @@
 import {setupAllTabs} from './tabs';
+import {playCaseGraphic} from './case-graphics';
 import {motionTime} from './debug';
-import {setupApplicationLayout} from './application-layout';
 import {playOnce,type Animate} from './play-once';
-import {playMarketQuery} from './market-query';
-import {playFlight,playPrize} from './application-plays';
-import {easing,bondTimeline,applicationTimeline,marketQueryTimeline,roadmapTimeline,timing} from './timelines';
+import {easing,applicationTimeline,roadmapTimeline,timing} from './timelines';
 const enhanced=new WeakSet<HTMLElement>();
 export function initHomeInteractions(){
  setupAllTabs();
@@ -12,47 +10,35 @@ export function initHomeInteractions(){
  const animationsAvailable=typeof Element.prototype.animate==='function';
  document.querySelectorAll<HTMLElement>('[data-applications]').forEach(root=>{
   if(enhanced.has(root))return;enhanced.add(root);
-  setupApplicationLayout(root,reduced);
-  let motion:Animation[]=[];
-  const animate:Animate=(element,keyframes,options={})=>{if(!element)return;const animation=element.animate(keyframes,{easing:easing.reveal,fill:'both',...options,duration:motionTime(Number(options.duration??320)),delay:motionTime(Number(options.delay??0))});motion.push(animation);return animation;};
-  const stop=()=>{motion.forEach(a=>a.cancel());motion=[];};
-  // The chosen application's signal runs down its connector and the Augur Lituus band brightens.
-  const sendSignal=(index:number,add:Animate,delay=0)=>{
-   const signal=root.querySelector(`[data-connector="${index}"] .app-signal`);
-   add(signal,[{opacity:0},{opacity:1}],{delay,duration:applicationTimeline.signalFade,easing:'linear'});
-   add(signal,[{transform:'translateY(-14px)'},{transform:`translateY(${applicationTimeline.signalDistance-14}px)`}],{delay,duration:applicationTimeline.signalTravel});
-   add(root.querySelector('.application-oracle'),[{opacity:.55},{opacity:1}],{delay:delay+applicationTimeline.signalTravel,duration:applicationTimeline.oracle,easing:'linear',fill:'none'});
+  // Each use case plays top to bottom when it is shown: the Yes and No chips rise, the answer lights
+  // up, then what the app does rises in and its picture plays. Prediction markets plays once in
+  // view (once per session, playOnce); every case plays again whenever it is picked.
+  const panels=[...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+  const story=(panel:HTMLElement|undefined,add:Animate,start:number)=>{
+   if(!panel)return;const t=applicationTimeline;
+   // Both answers rise in; the picked one fills Green with its check and the other steps back.
+   add(panel.querySelector('.case-options'),[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{delay:start+t.options,duration:t.fade,fill:'backwards'});
+   add(panel.querySelector('.case-pick'),[{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'none'}],{delay:start+t.decide,duration:t.pop,easing:easing.newcomer,fill:'backwards'});
+   add(panel.querySelector('.case-pick .web-icon'),[{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'none'}],{delay:start+t.decide+t.check,duration:t.pop,easing:easing.newcomer,fill:'backwards'});
+   add(panel.querySelector('.case-option.is-other'),[{opacity:1},{opacity:.5}],{delay:start+t.decide,duration:t.fade,easing:easing.crossfade,fill:'backwards'});
+   // With the check, the line saying who did not decide fades in.
+   add(panel.querySelector('.case-by'),[{opacity:0},{opacity:1}],{delay:start+t.decide+t.check,duration:t.fade,fill:'backwards'});
+   // Then the app acts: its action and explanation rise, and its picture plays.
+   [...panel.querySelectorAll('.case-act>p,.case-fallback')].forEach((node,i)=>add(node,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{delay:start+t.act+i*t.stagger,duration:t.fade,fill:'backwards'}));
+   playCaseGraphic(panel,add,start);
   };
-  // Prediction markets plays its query from asked to final, then sends the answer down:
-  // once when the card scrolls into view, and whenever its tab is chosen.
-  const query=root.querySelector<HTMLElement>('[data-market-query]');
-  const playQuery=(add:Animate,start:number)=>{if(query)sendSignal(0,add,playMarketQuery(query,add,start));};
-  const settleIntro=query?playOnce(query,add=>playQuery(add,0),{threshold:marketQueryTimeline.threshold}):undefined;
-  // Insurance and DAOs & grants are hidden until chosen, so they play whenever their tab is.
-  const flight=root.querySelector<HTMLElement>('[data-play="insurance"]'),prize=root.querySelector<HTMLElement>('[data-play="grants"]');
-  root.addEventListener('tabsbeforechange',()=>settleIntro?.());
+  const settleIntro=panels[0]?playOnce(panels[0],add=>story(panels[0],add,0),{threshold:applicationTimeline.threshold}):undefined;
+  let motion:Animation[]=[];
+  const stop=()=>{motion.forEach(a=>a.cancel());motion=[];};
+  const animate:Animate=(element,keyframes,options={})=>{if(!element)return;const animation=element.animate(keyframes,{easing:easing.reveal,fill:'both',...options,duration:motionTime(Number(options.duration??320)),delay:motionTime(Number(options.delay??0))});motion.push(animation);return animation;};
+  root.addEventListener('tabsbeforechange',()=>{settleIntro?.();stop();});
   root.addEventListener('tabschange',event=>{
-   stop();if(reduced.matches||!animationsAvailable)return;
-   const {index}=(event as CustomEvent<{index:number}>).detail;
-   if(index===0&&query)playQuery(animate,timing.fadeOut);
-   else if(index===1&&flight)sendSignal(index,animate,playFlight(flight,animate,timing.fadeOut));
-   else if(index===2&&prize)sendSignal(index,animate,playPrize(prize,animate,timing.fadeOut));
-   else sendSignal(index,animate);
+   if(reduced.matches||!animationsAvailable)return;
+   story(panels[(event as CustomEvent<{index:number}>).detail.index],animate,timing.fadeOut);
   });
   reduced.addEventListener('change',stop);
   root.addEventListener('tabssettled',stop);
- });
- document.querySelectorAll<HTMLElement>('[data-bonds]').forEach(root=>{
-  if(enhanced.has(root))return;enhanced.add(root);
-  playOnce(root,animate=>root.querySelectorAll('[data-bond-bar]').forEach((bar,i)=>{const t=bondTimeline[i]!;animate(bar,[{transform:`translateY(${t.offset}px)`},{transform:'translateY(0)'}],{delay:t.start,duration:t.end-t.start,easing:'ease-out'});animate(bar,[{opacity:0},{opacity:1}],{delay:t.start,duration:150,easing:'ease-out'});}));
-  root.addEventListener('tabschange',event=>{
-   const {index}=(event as CustomEvent<{index:number}>).detail;
-   root.querySelectorAll<HTMLElement>('[data-bond]').forEach((column,i)=>{
-    column.classList.toggle('is-future',i>index);
-    const bar=column.querySelector<HTMLElement>('[data-bond-bar]');bar?.classList.toggle('is-latest',i===index);
-    if(bar&&!reduced.matches&&animationsAvailable){bar.getAnimations().forEach(a=>a.cancel());bar.animate(i===index?[{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}]:[{opacity:i>index?1:0},{opacity:i>index?0:1}],{duration:motionTime(i===index?timing.panel:timing.fadeOut),easing:easing.reveal});}
-   });
-  });
+  window.addEventListener('pagehide',stop);
  });
  document.querySelectorAll<HTMLElement>('[data-roadmap]').forEach(root=>{
   if(enhanced.has(root))return;enhanced.add(root);

@@ -26,7 +26,7 @@ const style=`--line-duration:${heroTimeline.lines[0].end}ms;--copy-start:${heroT
 const cue=document.querySelector<HTMLElement>('[data-scroll-cue]');
 if(cue){const done=()=>{if(scrollY<=8)return;cue.dataset.scrolled='';removeEventListener('scroll',done);};done();addEventListener('scroll',done,{passive:true});}</script>
 <style>
-.home-hero{position:relative;overflow:hidden;min-height:calc(100svh - 136px);display:flex;align-items:center;padding-block:56px 72px}
+.home-hero{position:relative;overflow:hidden;min-height:calc(100svh - 96px - var(--announcement-height));display:flex;align-items:center;padding-block:56px 72px}
 .hero-inner{position:relative;display:grid;grid-template-columns:minmax(0,620fr) minmax(0,572fr);align-items:center;gap:56px}
 .hero-copy{position:relative;z-index:1}[data-hero-line]{display:block;white-space:nowrap}.hero-dot{color:var(--primary)}
 .hero-support{margin-top:28px}.hero-lead{font-size:22px;line-height:33px}.hero-body{font-size:18px;line-height:28px;color:var(--muted-foreground);margin-top:12px}
@@ -65,5 +65,5 @@ if(cue){const done=()=>{if(scrollY<=8)return;cue.dataset.scrolled='';removeEvent
 @media print{.hero-scroll{display:none}}
 @media(min-width:768px) and (max-height:800px){.home-hero{padding-block:40px}}
 @media(max-width:1200px){.hero-inner{gap:32px}.hero-lead{font-size:20px;line-height:30px}.hero-body{font-size:16px;line-height:24px}.hero-actions{gap:16px}.hero-actions :global(.button){font-size:14px;padding-inline:16px}.hero-actions :global(.text){padding-inline:0}}
-@media(max-width:767px){.hero-scroll{display:none}.home-hero{min-height:calc(100svh - 176px);padding-block:48px}.hero-inner{grid-template-columns:1fr;gap:48px}.hero-copy{max-width:620px}.hero-visual{width:80%;max-width:420px;margin-inline:auto}.hero-actions{flex-wrap:wrap}.hero-support{margin-top:24px}.display{font-size:clamp(34px,7.5vw,54px)}}
+@media(max-width:767px){.hero-scroll{display:none}.home-hero{min-height:calc(100svh - 96px - var(--announcement-height));padding-block:48px}.hero-inner{grid-template-columns:1fr;gap:48px}.hero-copy{max-width:620px}.hero-visual{width:80%;max-width:420px;margin-inline:auto}.hero-actions{flex-wrap:wrap}.hero-support{margin-top:24px}.display{font-size:clamp(34px,7.5vw,54px)}}
 </style>

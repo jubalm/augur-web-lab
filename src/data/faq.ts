@@ -36,6 +36,6 @@ export const faqEntries: FaqEntry[] = [
     answer: 'Reporting and challenging are optional. Each one puts a bond at stake: being right pays, being wrong costs. If a dispute reaches a fork, holders can choose a universe they believe reflects reality.',
     link: { href: '/rep/', label: 'More about REP' } },
   { id: 'talk-to-team', category: 'Building with Augur', homepage: false, needsReview: true, question: 'How do I talk to the team about a project?',
-    answer: 'Share your application, the answers it depends on, and your questions. Compare notes with builders, ask technical questions and follow the discussion on Discord.',
+    answer: 'Share your project, the answers it depends on, and your questions. Compare notes with builders, ask technical questions and follow the discussion on Discord.',
     link: { href: '/contact/', label: 'Talk to us' } },
 ];

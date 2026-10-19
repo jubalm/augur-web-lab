@@ -207,39 +207,43 @@
     },
     {
       "id": "207:1590",
-      "name": "06 · How it works",
+      "name": "06 · How it works (website draft of 19 Oct 2026 with REP folded in; Figma pending)",
       "text": [
         [
-          "207:1594",
-          "How it works"
+          "draft:how/title",
+          "Know what happened?\nGet paid to report it."
         ],
         [
-          "207:1596",
-          "Every answer is backed by a bond in REP, Augur’s token. Anyone who disagrees can challenge it by doubling the bond, so lying keeps getting more expensive."
+          "draft:how/lead",
+          "Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win most of its bond. Taking part is optional, and a wrong call costs your bond."
         ],
         [
-          "I207:1597;145:285",
-          "Ask a question"
+          "draft:how/step-1",
+          "A question opens"
         ],
         [
-          "I207:1597;145:210",
-          "Define what counts, when the question can be answered, and the possible outcomes. Pay a query fee in REP to request resolution."
+          "draft:how/step-1-text",
+          "Any app can ask a multiple-choice question and pay a fee in REP. Part of that fee rewards whoever reports the right answer, and the reward grows the longer the question waits."
         ],
         [
-          "I207:1597;145:216",
-          "Report an outcome"
+          "draft:how/step-2",
+          "Report what happened"
         ],
         [
-          "I207:1597;145:223",
-          "Challenge if needed"
+          "draft:how/step-3",
+          "Challenge a wrong answer"
         ],
         [
-          "I207:1597;145:230",
-          "Use the final answer"
+          "draft:how/step-4",
+          "Get paid when it's final"
         ],
         [
           "I207:1597;145:236",
           "Augur Lituus"
+        ],
+        [
+          "draft:how/example",
+          "Example"
         ],
         [
           "I207:1597;145:240",
@@ -274,6 +278,34 @@
           "Invalid"
         ],
         [
+          "draft:how/zone",
+          "Your REP"
+        ],
+        [
+          "draft:how/zone-1",
+          "Reward offered"
+        ],
+        [
+          "draft:how/zone-1-cap",
+          "Up to 15 REP"
+        ],
+        [
+          "draft:how/zone-1-min",
+          "0 REP"
+        ],
+        [
+          "draft:how/zone-1-max",
+          "15 REP"
+        ],
+        [
+          "draft:how/zone-1-caption",
+          "Starts at 0 REP and rises until someone reports."
+        ],
+        [
+          "draft:how/zone-1-note",
+          "It goes to whoever first reports the answer that becomes final."
+        ],
+        [
           "I207:1597;387:880",
           "Activity"
         ],
@@ -286,190 +318,20 @@
           "15 REP"
         ],
         [
-          "I207:1598;147:381",
-          "Disagreement raises the stakes"
+          "draft:how/holder",
+          "Holding REP?"
         ],
         [
-          "I207:1598;147:385",
-          "Third challenge"
-        ],
-        [
-          "I207:1598;147:386",
-          "A third challenge doubles the bond again, from 60 to 120 REP."
-        ],
-        [
-          "I207:1598;283:817",
-          "1"
-        ],
-        [
-          "I207:1598;283:820",
-          "2"
-        ],
-        [
-          "I207:1598;283:823",
-          "3"
-        ],
-        [
-          "I207:1598;283:826",
-          "4"
-        ],
-        [
-          "I207:1598;147:392",
-          "1×"
-        ],
-        [
-          "I207:1598;147:393",
-          "15 REP"
-        ],
-        [
-          "I207:1598;147:398",
-          "YES"
-        ],
-        [
-          "I207:1598;147:397",
-          "Report"
-        ],
-        [
-          "I207:1598;147:400",
-          "2×"
-        ],
-        [
-          "I207:1598;147:401",
-          "30 REP"
-        ],
-        [
-          "I207:1598;147:406",
-          "NO"
-        ],
-        [
-          "I207:1598;147:405",
-          "Challenge"
-        ],
-        [
-          "I207:1598;147:408",
-          "4×"
-        ],
-        [
-          "I207:1598;147:409",
-          "60 REP"
-        ],
-        [
-          "I207:1598;147:414",
-          "YES"
-        ],
-        [
-          "I207:1598;147:413",
-          "Challenge 2"
-        ],
-        [
-          "I207:1598;147:416",
-          "8×"
-        ],
-        [
-          "I207:1598;147:417",
-          "120 REP"
-        ],
-        [
-          "I207:1598;147:422",
-          "NO"
-        ],
-        [
-          "I207:1598;147:421",
-          "Challenge 3"
-        ]
-      ]
-    },
-    {
-      "id": "304:645",
-      "name": "07 · What can you do with REP",
-      "text": [
-        [
-          "304:648",
-          "What can you do\nwith REP?"
-        ],
-        [
-          "304:650",
-          "Reporting and challenging are optional. Each one puts a bond at stake: being right pays, being wrong costs."
+          "draft:how/holder-text",
+          "You never have to report or challenge. If a dispute ever climbs to a fork, holders choose the universe they believe reflects reality."
         ],
         [
           "I305:1612;29:7",
           "Learn about REP"
         ],
         [
-          "305:550",
-          "Report"
-        ],
-        [
-          "388:590",
-          "Your bond"
-        ],
-        [
-          "388:601",
-          "Bond back"
-        ],
-        [
-          "388:602",
-          "+"
-        ],
-        [
-          "388:606",
-          "Fee share"
-        ],
-        [
-          "388:592",
-          "No challenge"
-        ],
-        [
-          "305:561",
-          "Back an answer with a REP bond. If no one challenges it, you get the bond back plus part of the query fee."
-        ],
-        [
-          "305:570",
-          "Challenge"
-        ],
-        [
-          "388:612",
-          "Double bond"
-        ],
-        [
-          "388:624",
-          "Bond back"
-        ],
-        [
-          "388:625",
-          "+"
-        ],
-        [
-          "388:629",
-          "Most of theirs"
-        ],
-        [
-          "388:614",
-          "Your answer holds"
-        ],
-        [
-          "305:576",
-          "Post double the bond against a wrong answer. If yours holds, you also win most of theirs."
-        ],
-        [
-          "305:580",
-          "Risk"
-        ],
-        [
-          "388:634",
-          "Your bond"
-        ],
-        [
-          "388:645",
-          "Bond lost"
-        ],
-        [
-          "388:636",
-          "Overturned"
-        ],
-        [
-          "305:586",
-          "If your answer is overturned, you lose the bond. Most of it goes to whoever was right."
+          "draft:how/holder-paper",
+          "Read the whitepaper"
         ]
       ]
     },

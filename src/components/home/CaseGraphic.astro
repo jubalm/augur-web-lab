@@ -1,0 +1,119 @@
+---
+/** One picture per use case of what its app does with the answer (owner, 19 Oct 2026, after SEDA's
+ * use-case cards; "figure out a better place and size"). It sits under the action at the full width of
+ * the stage's right column and takes the rest of its height, so it reads as the app's view of the answer.
+ * The three share one scale (2 px tracks, 16 px marks), so no case looks smaller than the market chart.
+ * Labels only name what the explanation above does not (owner, 19 Oct 2026: clear and organized).
+ * Rendered final, so no JavaScript, reduced motion and print show the end state; case-graphics.ts
+ * plays it in. Decorative: the sentence says it. Green marks only where the answer acts. */
+interface Props { kind: 'market' | 'flight' | 'gate' }
+const { kind } = Astro.props;
+// Market prices in a 600 × 120 space: they wander until the answer at x 420, then Yes runs to the top
+// and No to the bottom. No mirrors Yes around the middle.
+const yes = [[0,64],[40,56],[80,62],[120,50],[160,56],[200,46],[240,54],[280,44],[320,52],[360,42],[400,48],[420,46],[436,8],[600,8]];
+const points = (rows: number[][]) => rows.map(([x, y]) => `${x},${y}`).join(' ');
+// The flight's cabin: 24 rows of four seats across an aisle, seen from above. Only some seats hold a
+// policy (a fixed pattern, so every render matches); those fill Green row by row once the flight passes
+// +2 hours. Each paid seat carries its row so the fill sweeps front to back.
+const rows = Array.from({ length: 24 }, (_, row) => row);
+const insured = (row: number, seat: number) => (row * 5 + seat * 3) % 7 < 3;
+---
+<div class:list={['case-graphic', `is-${kind}`]} aria-hidden="true" data-case-graphic={kind}>
+ {kind === 'market' && <div class="market">
+  <div class="market-plot">
+   <span class="market-lines"><svg viewBox="0 0 600 120" preserveAspectRatio="none" focusable="false">
+    <polyline class="market-line is-no" points={points(yes.map(([x, y]) => [x, 120 - y]))} />
+    <polyline class="market-line is-yes" points={points(yes)} />
+   </svg><span class="market-cover" data-market-cover></span></span>
+   <span class="market-answer"></span>
+  </div>
+  <div class="market-ends">
+   <span class="g-end is-strong" data-graphic-pop><i></i>Yes</span>
+   <span class="g-end" data-graphic-pop><i class="is-muted"></i>No</span>
+  </div>
+ </div>}
+ {kind === 'flight' && <div class="flight">
+  <div class="g-track">
+   <span class="g-base"></span>
+   <span class="flight-delay" data-flight-delay></span>
+   <span class="g-tick"></span><span class="g-tick is-limit"></span>
+   <span class="flight-run" data-flight-run><span class="g-item"></span></span>
+  </div>
+  <div class="g-labels"><span>Due</span><span class="at-limit">+2 hours</span></div>
+  <div class="cabin">{[0, 2].map(side => <div class="cabin-side">{rows.map(row => [0, 1].map(seat => <span class="g-seat">{insured(row, side + seat) && <span data-seat-paid={row}></span>}</span>))}</div>)}</div>
+  <div class="g-row"><span class="g-end is-strong"><i></i>Paid</span><span class="g-end"><i class="is-raised"></i>No policy</span></div>
+ </div>}
+ {kind === 'gate' && <div class="gate">
+  <div class="gate-lane">
+   <span class="gate-caption">This review</span>
+   <div class="g-track">
+    <span class="gate-path"></span><span class="gate-ahead"></span>
+    <span class="gate-bars"></span><span class="gate-goal"></span>
+    <span class="gate-run" data-gate-run><span class="g-item" data-gate-item></span></span>
+   </div>
+  </div>
+  <div class="gate-lane is-later">
+   <span class="gate-caption">A later review</span>
+   <div class="g-track">
+    <span class="gate-path"></span><span class="gate-bars"></span>
+    <span class="gate-run" data-gate-later><span class="g-item"></span></span>
+   </div>
+  </div>
+  <div class="g-labels"><span>Proposal</span><span class="at-gate">Review</span><span class="at-end">Live</span></div>
+ </div>}
+</div>
+<style>
+ /* The picture follows the explanation; the market chart grows to fill the rest of the example, and the
+    flight and gate pictures keep their size, leaving any spare room at the example's foot. */
+ .case-graphic{--limit:62%;--arrival:82%;--gate:62%;flex:1;display:flex;flex-direction:column;width:100%;padding-top:32px;color:var(--muted-foreground);font:400 13px/16px var(--font-body)}
+ .g-end{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+ .g-end.is-strong{color:var(--foreground);font:600 13px/16px var(--font-heading)}
+ .g-end i{width:8px;height:8px;flex:none;background:var(--primary)}.g-end i.is-muted{background:var(--augur-color-surface-dark-mist)}.g-end i.is-raised{background:var(--web-raised)}
+ /* Market: two price lines stretch with the column (strokes stay 2 px); a tile-coloured cover slides
+    off to reveal them, so only transform moves. */
+ .market{flex:1;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:20px;min-height:120px}
+ .market-plot{position:relative;min-height:120px}
+ .market-lines{position:absolute;inset:0;overflow:hidden}
+ .market-plot svg{position:absolute;inset:0;width:100%;height:100%}
+ .market-line{fill:none;stroke-width:2;vector-effect:non-scaling-stroke}
+ .market-line.is-yes{stroke:var(--primary)}.market-line.is-no{stroke:var(--augur-color-surface-dark-mist)}
+ .market-cover{position:absolute;inset:0;background:var(--web-tile);transform:translateX(101%)}
+ .market-answer{position:absolute;left:70%;top:-6px;bottom:-6px;border-left:1px dashed var(--web-outline)}
+ .market-ends{display:flex;flex-direction:column;justify-content:space-between;padding-block:2px}
+ /* Flight and gate: a track with labelled ticks; the moving square rides the end of a run that slides
+    its own width, so it lands exactly where the final layout puts it. */
+ .g-track{position:relative;height:32px}
+ .g-base{position:absolute;left:0;right:0;top:15px;height:2px;background:var(--web-outline)}
+ .g-tick{position:absolute;left:0;top:4px;width:2px;height:24px;background:var(--muted-foreground)}.g-tick.is-limit{left:var(--limit);margin-left:-1px;background:var(--foreground)}
+ .g-item{position:absolute;right:-8px;top:8px;width:16px;height:16px;background:var(--foreground)}
+ .flight-delay{position:absolute;left:0;top:15px;width:var(--arrival);height:2px;background:var(--foreground);transform-origin:left}
+ .flight-run{position:absolute;inset:0 auto 0 0;width:var(--arrival)}
+ .g-labels{position:relative;height:16px;margin-top:10px}
+ .g-labels .at-limit{position:absolute;left:var(--limit);transform:translateX(-50%)}.g-labels .at-gate{position:absolute;left:var(--gate);transform:translateX(-50%)}.g-labels .at-end{position:absolute;right:0}
+ .g-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:20px}
+ /* The cabin spans the track's width: two sides of two seats, an aisle between them; seats stay square
+    and shrink with the column. Phones show the front 16 rows. */
+ .cabin{display:grid;row-gap:12px;margin-top:36px}
+ .cabin-side{display:grid;grid-template-columns:repeat(24,minmax(0,14px));grid-template-rows:auto auto;grid-auto-flow:column;justify-content:space-between;gap:4px}
+ .g-seat{position:relative;aspect-ratio:1;background:var(--web-raised)}
+ .g-seat>span{position:absolute;inset:0;background:var(--primary)}
+ /* Gate, in two lanes that tell the explanation (owner, 19 Oct 2026: no dead space; one lane left the
+    example's foot empty). This review: the path is walked up to the review, where two tall Green bars
+    stand as a pause sign (the upgrade is held), and the rest is dashed to an empty square, Live. A later
+    review: the same path runs past Mist bars all the way to Live. Green marks only this answer's hold. */
+ .gate-lane+.gate-lane{margin-top:20px}
+ .gate-caption{display:block;margin-bottom:8px}
+ .gate .g-track{height:64px}
+ .gate-path{position:absolute;left:0;width:var(--gate);top:31px;height:2px;background:var(--muted-foreground)}
+ .gate-ahead{position:absolute;left:var(--gate);right:16px;top:31px;height:2px;background:repeating-linear-gradient(90deg,var(--web-outline) 0 6px,transparent 6px 12px)}
+ .gate-bars{position:absolute;left:var(--gate);top:0;width:28px;height:64px;margin-left:-14px;border-inline:8px solid var(--primary)}
+ .gate-goal{position:absolute;right:0;top:24px;width:16px;height:16px;border:2px solid var(--web-outline)}
+ .gate-run{position:absolute;inset:0 auto 0 0;width:calc(var(--gate) - 24px)}
+ .gate .g-item{top:24px}
+ .is-later .gate-path{width:auto;right:8px}
+ .is-later .gate-bars{border-color:var(--augur-color-surface-dark-mist)}
+ .is-later .gate-run{width:calc(100% - 8px)}
+ @media(max-width:1023px){.case-graphic{flex:none;padding-top:28px}.market{flex:none}.market-plot{height:120px}}
+ @media(max-width:767px){.cabin-side{grid-template-columns:repeat(16,minmax(0,14px))}.g-seat:nth-child(n+33){display:none}}
+ @media(forced-colors:active){.market-line{stroke:CanvasText}.market-cover{display:none}.g-seat,.g-base,.flight-delay,.g-item,.g-tick,.gate-path,.g-end i{forced-color-adjust:none;background:CanvasText}.gate-goal{border-color:CanvasText}.g-seat>span{forced-color-adjust:none;background:Highlight}.gate-bars{forced-color-adjust:none;border-color:Highlight}}
+</style>

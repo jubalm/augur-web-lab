@@ -33,6 +33,15 @@ img { max-width:100%; height:auto }
 [hidden] { display:none!important }
 :focus-visible { outline:2px solid var(--ring); outline-offset:3px }
 .sr-only { position:absolute; width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0 }
+/* Sitewide heritage field and cursor trail (page-field.ts, owner 19 Oct 2026): one layer above the page,
+   squares only in empty cells, so it shows on every dark background and never on content. */
+body { position:relative }
+.page-field { position:absolute; left:0; top:0; z-index:10; overflow:hidden; pointer-events:none }
+.page-field svg { display:block }
+.page-field .field-light { position:absolute; left:0; top:0; width:5px; height:5px; background:var(--foreground); opacity:0 }
+.page-field .field-light.is-green { background:var(--primary) }
+@media print { .page-field { display:none } }
+@media (forced-colors:active) { .page-field { display:none } }
 .skip-link { position:fixed; top:12px; left:12px; z-index:100; padding:12px 20px; background:var(--primary); color:var(--primary-foreground); transform:translateY(-200%) }
 .skip-link:focus { transform:none }
 .web-icon,.web-icon>span,.web-icon svg { display:inline-block;width:20px;height:20px;flex:none }
@@ -43,7 +52,7 @@ img { max-width:100%; height:auto }
 .button:hover,.button.primary:hover,.aug-button--default:hover { background:var(--web-action-hover) }
 .button:active,.button.primary:active,.aug-button--default:active { background:var(--web-action-pressed) }
 .button.outline,.aug-button--outline { background:transparent;color:var(--foreground);border-color:var(--web-outline) }
-.button.outline:hover,.aug-button--outline:hover { background:var(--web-tile);border-color:var(--border) }
+.button.outline:hover,.aug-button--outline:hover { background:var(--web-tile);border-color:var(--web-hover-edge) }
 .button.outline:active,.aug-button--outline:active { background:var(--web-raised);border-color:var(--border) }
 .button.text,.aug-button--ghost,.aug-button--link { background:transparent;color:var(--foreground);padding-inline:0;border:0;text-underline-offset:6px;text-decoration-thickness:2px }
 .aug-button--link:hover { text-decoration:underline;text-decoration-thickness:2px }
@@ -61,7 +70,7 @@ img { max-width:100%; height:auto }
 /* Website states outrank the pinned registry defaults without editing them. */
 html.dark .aug-button--default:hover:not(:disabled) { background:var(--web-action-hover);color:var(--primary-foreground) }
 html.dark .aug-button--default:active:not(:disabled) { background:var(--web-action-pressed);color:var(--primary-foreground) }
-html.dark .aug-button--outline:hover:not(:disabled) { background:var(--web-tile);color:var(--foreground);border-color:var(--border) }
+html.dark .aug-button--outline:hover:not(:disabled) { background:var(--web-tile);color:var(--foreground);border-color:var(--web-hover-edge) }
 html.dark .aug-button--outline:active:not(:disabled) { background:var(--web-raised);color:var(--foreground);border-color:var(--border) }
 html.dark :is(.aug-button--ghost,.aug-button--link):hover:not(:disabled) { background:transparent;color:var(--foreground) }
 html.dark :is(.aug-button--ghost,.aug-button--link):active:not(:disabled) { background:transparent;color:var(--muted-foreground) }

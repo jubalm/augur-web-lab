@@ -1,0 +1,89 @@
+---
+import type { Zone } from '../../data/walkthrough';
+/** “Your REP”, the foot of each walkthrough step's query card: what taking part
+ * puts at stake and what comes back, in the square vocabulary of the old REP rows
+ * (StakeFlow, retired 19 Oct 2026). A bond is one 32 px Pewter square, a challenge
+ * two; “most of theirs” is Green at 80% of a bond's area and the reward a smaller
+ * Green square; a lost bond is outlined. One flow per step. The flow is one image
+ * with a full-sentence label; the loop (rep-choreography.ts) moves only the copy
+ * marked `data-motion`, which is invisible at rest. */
+interface Props { zone: Zone }
+const { zone } = Astro.props;
+// Green squares pop on the loop; in a receipt every group does, in turn.
+const outcome = zone.kind === 'meter' ? [] : (() => { let pops = 0; return zone.outcome.map(group => ({ ...group, motion: zone.kind === 'receipt' || group.squares.some(square => square === 'share' || square === 'reward') ? `zone-pop-${pops++}` : undefined })); })();
+---
+<div class:list={['your-rep', `is-${zone.kind}`]} data-rep-zone={zone.kind}>
+ <p class="your-rep-head"><span class="your-rep-label">Your REP</span><span class="zone-title">{zone.label}</span>{zone.kind === 'meter' && <span class="flow-amount zone-cap">{zone.cap}</span>}</p>
+ {zone.kind === 'meter' ? <>
+  <div class="meter-block" aria-hidden="true"><div class="meter"><span class="meter-fill" data-motion="zone-meter-fade"><span data-motion="zone-meter"></span></span></div><p class="meter-scale"><span>{zone.scale[0]}</span><span>{zone.scale[1]}</span></p></div>
+  <p class="zone-caption">{zone.caption}</p>
+  <p class="zone-note"><i class="reward" aria-hidden="true"></i>{zone.note}</p>
+ </> : <>
+  <div class="rep-flow" role="img" aria-label={zone.summary}>
+   {zone.kind === 'flow' && <>
+    <span class="flow-group" data-stake><span class="flow-top"><span class="squares">{zone.stake.squares.map(square => <i class={square}></i>)}</span>{zone.stake.amount && <span class="flow-amount">{zone.stake.amount}</span>}</span><span class="flow-caption">{zone.stake.caption}</span></span>
+    <span class="flow-link"><span class="flow-condition">{zone.condition}</span><svg class="flow-arrow" aria-hidden="true"><line class="arrow-x" x1="0" y1="8" x2="100%" y2="8"/><line class="arrow-y" x1="8" y1="0" x2="8" y2="100%"/><svg class="head-x" x="100%" y="8" overflow="visible"><path d="M-7 -6L0 0L-7 6"/></svg><svg class="head-y" x="8" y="100%" overflow="visible"><path d="M-6 -7L0 0L6 -7"/></svg></svg></span>
+   </>}
+   <span class="flow-outcome">{outcome.map((group, index) => <>{index > 0 && <span class="flow-plus" aria-hidden="true">+</span>}<span class="flow-group" data-bond-back={zone.kind === 'flow' && index === 0 ? '' : undefined}><span class="flow-top"><span class="squares" data-motion={group.motion}>{group.squares.map(square => <i class={square}></i>)}</span>{group.amount && <span class="flow-amount">{group.amount}</span>}</span><span class="flow-caption">{group.caption}</span>{group.detail && <span class="flow-detail">{group.detail}</span>}</span></>)}</span>
+   {zone.kind === 'flow' && <span class="flow-ghost" data-motion="zone-glide"><span class="squares" data-motion="zone-ghost">{zone.stake.squares.map(square => <i class={square}></i>)}</span></span>}
+  </div>
+  {zone.note && <p class="zone-note">{zone.kind === 'flow' && <i class="lost" aria-hidden="true"></i>}{zone.note}</p>}
+ </>}
+</div>
+<style>
+ /* Your panel: on the quiet surface with the criteria body's Green rule, full width between the answer and Activity. */
+ .your-rep{--bond:32px;--share:29px;--reward:16px;display:flex;flex-direction:column;gap:16px;padding:20px 24px 24px 22px;background:var(--web-quiet);border-top:1px solid var(--web-outline);border-left:2px solid var(--primary)}
+ .your-rep-head{display:flex;align-items:baseline;gap:12px;margin:0;min-width:0}
+ .your-rep-label{font-size:13px;line-height:18px;color:var(--muted-foreground)}
+ .zone-title{font:600 16px/22px var(--font-heading);color:var(--foreground)}
+ .zone-cap{margin-left:auto;align-self:center}
+ .zone-note{display:flex;align-items:center;gap:10px;margin:0;font-size:14px;line-height:20px;color:var(--muted-foreground)}
+ .zone-note .lost{width:16px;height:16px;flex:none}
+ /* Reward offered: a meter from 0 toward the fee, resting at about a sixth. Only its fill
+    moves, as scaleX, so the loop never animates a width. */
+ .meter-scale{display:flex;justify-content:space-between;margin:6px 0 0;font:600 12px/16px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
+ .zone-caption{margin:0;font-size:14px;line-height:20px;color:var(--foreground)}
+ .zone-note .reward{width:12px;height:12px;flex:none;margin-inline:2px}
+ .meter{position:relative;height:8px;background:var(--web-tile);box-shadow:inset 0 0 0 1px var(--web-outline);overflow:hidden}
+ .meter-fill,.meter-fill>span{position:absolute;inset:0}.meter-fill>span{background:var(--primary);transform:scaleX(.1667);transform-origin:left}
+ /* A flow: stake, then the condition over an arrow, then what comes back. Every square
+    shares one axis; the condition sits above the arrow, which is centred on the squares. */
+ .rep-flow{position:relative;display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px;row-gap:16px;min-width:0;padding-top:10px}
+ .flow-group{display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex:none}
+ .flow-top{display:flex;align-items:center;gap:8px;height:var(--bond)}
+ .squares{display:flex;align-items:center;gap:4px}
+ .squares i{display:block;flex:none}
+ .bond{width:var(--bond);height:var(--bond);background:var(--muted-foreground)}
+ .share{width:var(--share);height:var(--share);background:var(--primary)}
+ .reward{width:var(--reward);height:var(--reward);background:var(--primary)}
+ .lost{width:var(--bond);height:var(--bond);border:1.5px dashed var(--mark-participant)}
+ .flow-amount{padding:1px 8px;background:var(--web-tile);font:600 13px/20px var(--font-heading);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--foreground)}
+ .flow-caption,.flow-detail{font-size:13px;line-height:18px;color:var(--muted-foreground);white-space:nowrap}
+ .flow-caption{color:var(--foreground)}
+ .flow-link{flex:1 0 auto;min-width:64px;display:flex;flex-direction:column;margin-top:-10px}
+ .flow-condition{font:600 13px/18px var(--font-heading);text-align:center;white-space:nowrap;padding-inline:8px 15px}
+ .flow-arrow{display:block;width:0;min-width:100%;height:16px;overflow:visible;fill:none;stroke:var(--mark-participant);stroke-width:1.5;stroke-linecap:square;stroke-linejoin:miter}
+ .arrow-y,.head-y{display:none}
+ .flow-outcome{display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px 10px;flex:0 1 auto;min-width:0}
+ .flow-plus{height:var(--bond);display:flex;align-items:center;font:400 18px/1 var(--font-heading);color:var(--muted-foreground)}
+ .flow-outcome .squares{transform-origin:center}
+ /* The gliding copy rests invisibly over the stake; the loop slides it onto the bond that comes back. */
+ .flow-ghost{position:absolute;left:0;top:10px;height:var(--bond);pointer-events:none}.flow-ghost>.squares{opacity:0}
+ @media(max-width:1279px){.your-rep{padding-inline:18px 20px}}
+ /* Where the card is narrow the outcome wraps below the arrow (the glide is measured, so it still lands). */
+ @media(max-width:1279px) and (min-width:768px){.is-flow .flow-link{min-width:56px}}
+ /* Phones: stake ↓ condition ↓ outcome, the arrow pointing down with the condition beside it. */
+ @media(max-width:767px){
+  .your-rep{--bond:28px;--share:25px;--reward:14px;padding:18px 16px 20px 14px;gap:14px}
+  .your-rep-head{flex-wrap:wrap;row-gap:4px}
+  .rep-flow{flex-direction:column;gap:6px;padding-top:0}
+  .flow-link{flex:none;flex-direction:row-reverse;justify-content:flex-end;align-items:center;gap:10px;margin:0;min-width:0;height:36px}
+  .flow-condition{padding:0;text-align:left}
+  .flow-arrow{width:16px;min-width:0;height:100%}
+  .arrow-x,.head-x{display:none}.arrow-y,.head-y{display:inline}
+  .flow-outcome{flex-wrap:wrap;row-gap:10px}
+  .flow-ghost{top:0}
+  .flow-caption,.flow-detail{white-space:normal}
+ }
+ @media(forced-colors:active){.bond,.share,.reward{forced-color-adjust:none;background:CanvasText}.share,.reward{background:Highlight}.lost{border-color:CanvasText}.flow-arrow{stroke:CanvasText}.meter-fill>span{forced-color-adjust:none;background:Highlight}.your-rep{border-left-color:Highlight}}
+</style>

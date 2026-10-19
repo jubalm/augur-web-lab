@@ -4,12 +4,14 @@ import headlineFont from '@fontsource/sora/files/sora-latin-600-normal.woff2?url
 import { site, indexable } from '../data/site';
 import { createHash } from 'node:crypto';
 import heroArrival from '../motion/hero-arrival.js?raw';
+import announcementState from '../components/layout/announcement-state.js?raw';
 interface Props { title?:string; description?:string; image?:string; article?:boolean; }
 const {title='Augur | The frontier of decentralized truth',description=site.description,image='/og.png',article=false}=Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
 const structuredData = { '@context':'https://schema.org','@type':'Organization',name:'Augur',url:Astro.site?.href,logo:new URL('/brand/horizontal-reversed.svg',Astro.site).href };
 // The streamed CSP meta is emitted before body components render.
+Astro.csp?.insertScriptHash(`sha256-${createHash('sha256').update(announcementState).digest('base64')}`);
 if(Astro.url.pathname==='/')Astro.csp?.insertScriptHash(`sha256-${createHash('sha256').update(heroArrival.replace('__DEV__',String(import.meta.env.DEV))).digest('base64')}`);
 ---
 <!doctype html>
@@ -25,5 +27,5 @@ if(Astro.url.pathname==='/')Astro.csp?.insertScriptHash(`sha256-${createHash('sh
     <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={imageURL} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
-  <body><a class="skip-link" href="#main">Skip to content</a><slot /></body>
+  <body><a class="skip-link" href="#main">Skip to content</a><slot /><div class="page-field" data-page-field aria-hidden="true"></div><script>import {initPageField} from '../motion/page-field';initPageField();</script></body>
 </html>

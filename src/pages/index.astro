@@ -4,18 +4,17 @@ import Hero from '../components/home/Hero.astro';
 import Tenets from '../components/home/Tenets.astro';
 import Applications from '../components/home/Applications.astro';
 import HowItWorks from '../components/home/HowItWorks.astro';
-import Rep from '../components/home/Rep.astro';
 import Roadmap from '../components/home/Roadmap.astro';
 import Blog from '../components/home/Blog.astro';
 import FAQ from '../components/home/FAQ.astro';
 ---
 <PageLayout>
- <Hero/><Tenets/><Applications/><HowItWorks/><Rep/><Roadmap/><Blog/><FAQ/>
+ <Hero/><Tenets/><Applications/><HowItWorks/><Roadmap/><Blog/><FAQ/>
  <script>
   // These sections exist only here, so the page starts them once from one script; each init
   // finds its own sections. One entry instead of five identical ones keeps the JavaScript budget.
-  import {initAnswerRibbon,initTenets,initStakeFlow} from '../motion/home-art';
+  import {initAnswerRibbon,initTenets,initRepZone} from '../motion/home-art';
   import {initHomeInteractions} from '../motion/home-interactions';
-  initAnswerRibbon();initTenets();initHomeInteractions();initStakeFlow();
+  initAnswerRibbon();initTenets();initHomeInteractions();initRepZone();
  </script>
 </PageLayout>

@@ -170,7 +170,7 @@ const view = `${-c.aWidth - pad} ${-c.aHeight - pad} ${c.width + 2 * (c.aWidth +
  .minimums p,.pairings p{display:flex;flex-direction:column;gap:2px}.logo-caption strong,.minimums strong,.pairings strong{font:600 16px/24px var(--font-heading)}.minimums span,.pairings span{font-size:14px;line-height:20px;color:var(--muted-foreground)}
  .downloads{display:flex;gap:8px;flex:none}
  .downloads a{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;border:1px solid var(--web-outline);font:600 14px/20px var(--font-heading);text-decoration:none;color:var(--foreground);transition:background-color 180ms ease-out,border-color 180ms ease-out}
- .downloads a:hover{background:var(--web-raised);border-color:var(--border)}.downloads a:active{background:var(--web-tile)}.downloads :global(.web-icon),.downloads :global(.web-icon svg){width:14px;height:14px}
+ .downloads a:hover{background:var(--web-raised);border-color:var(--web-hover-edge)}.downloads a:active{background:var(--web-tile)}.downloads :global(.web-icon),.downloads :global(.web-icon svg){width:14px;height:14px}
  .token{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);gap:80px;align-items:center;padding-top:56px;border-top:1px solid var(--border-quiet)}
  .token-tile .logo-stage{height:240px}.token-copy h3{margin-bottom:12px}.token-copy p{color:var(--muted-foreground);font-size:18px;line-height:28px;max-width:560px;margin-bottom:24px}
 
@@ -213,6 +213,8 @@ const view = `${-c.aWidth - pad} ${-c.aHeight - pad} ${c.width + 2 * (c.aWidth +
  .pairings li{display:flex;align-items:flex-start;gap:16px;padding:16px;border:1px solid var(--web-outline);background:var(--web-quiet)}
  .pairings .sample{display:grid;place-items:center;flex:none;width:64px;height:64px;font:600 24px/32px var(--font-heading);border:1px solid var(--web-outline)}
  .pairings .note{margin-top:6px}
+ /* Hover edge (owner, 19 Oct 2026): specimen cards light their border in the shared hover Green. */
+ @media(hover:hover) and (pointer:fine){.logo-tile:hover,.pairings li:hover,.typeface:hover,.misuse li:hover{border-color:var(--web-hover-edge)}}
 
  /* Typography specimens. */
  .typefaces{display:grid;grid-template-columns:minmax(0,668fr) minmax(0,500fr);gap:24px}

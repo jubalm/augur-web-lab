@@ -1,10 +1,9 @@
-import {playOnce,type Animate} from './play-once';
 import {loopScene} from './loop-scene';
 import {motionTime} from './debug';
 import {tenetChoreography,tenetCycle} from './tenet-choreography';
 import {keyframes,type Track} from './choreography';
-import {repCycle,repRowTracks} from './rep-choreography';
-import {easing,ribbonTimeline,repTimeline,timeAt} from './timelines';
+import {repCycle,repZoneTracks} from './rep-choreography';
+import {easing,ribbonTimeline,timeAt} from './timelines';
 /** The three tenet diagrams loop while any part is on screen (loop-scene.ts),
  * every element on its own 12 s track from tenet-choreography.ts, a delayed
  * track after a one-off lead-in. SVG elements
@@ -73,62 +72,29 @@ export function initAnswerRibbon(){
  window.addEventListener('beforeprint',settle,{signal:events.signal});
  window.addEventListener('pagehide',settle,{signal:events.signal});
 }
-/** REP stake flows, once per tile as it scrolls into view: the condition line
- * draws, the bond travels along it to the outcome (or is lost), then any
- * winnings appear. Tiles settle on interaction; reduced motion shows the end.
- * Hovering a tile with a mouse plays its flow again (owner feedback, 6 Oct 2026). */
-function stakeFlow(row:HTMLElement,delay:number,animate:Animate){
- const t=repTimeline;
- const line=row.querySelector('[data-line] line'),stake=row.querySelector('[data-stake] .blocks'),moving=row.querySelector('[data-outcome="bond"] .blocks')??row.querySelector('[data-outcome="lost"] .blocks');
- // The arrow's line draws, then its head appears, so the head never stretches.
- animate(line,[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{delay:delay+t.line.start,duration:t.line.duration,easing:easing.draw});
- animate(row.querySelector('[data-line] path'),[{opacity:0},{opacity:1}],{delay:delay+t.line.start+t.line.duration-120,duration:160});
- animate(row.querySelector('[data-condition]'),[{opacity:0},{opacity:1}],{delay:delay+t.condition.start,duration:t.condition.duration});
- const distance=moving&&stake?moving.getBoundingClientRect().left-stake.getBoundingClientRect().left:120;
- const bonds=row.querySelector('[data-outcome="bond"]');
- if(bonds){
-  animate(bonds.querySelector('.blocks'),[{transform:`translateX(${-distance}px)`},{transform:'translateX(0)'}],{delay:delay+t.travel.start,duration:t.travel.duration});
-  animate(bonds.querySelector('.flow-caption'),[{opacity:0},{opacity:1}],{delay:delay+t.travel.start+t.travel.duration-200,duration:200});
- }
- row.querySelectorAll('[data-outcome="gain"] i,[data-outcome="fee"] i').forEach(node=>animate(node,[{opacity:0,transform:'scale(.3)'},{opacity:1,transform:'scale(1)'}],{delay:delay+t.gain.start,duration:t.gain.duration}));
- row.querySelectorAll('[data-gain],[data-outcome="gain"] .flow-caption,[data-outcome="fee"] .flow-caption').forEach(node=>animate(node,[{opacity:0},{opacity:1}],{delay:delay+t.gain.start,duration:t.gain.duration}));
- const lost=row.querySelector('[data-outcome="lost"]');
- if(lost){
-  // A copy of the bond travels to the outcome and fades out as the dashed outline appears.
-  const ghost=document.createElement('i');ghost.className='bond';ghost.setAttribute('aria-hidden','true');ghost.style.cssText='position:absolute;inset:0';
-  const blocks=lost.querySelector<HTMLElement>('.blocks');if(blocks){blocks.style.position='relative';blocks.append(ghost);}
-  const tidy=()=>{ghost.remove();if(blocks)blocks.style.position='';};
-  const travel=animate(ghost,[{opacity:1,transform:`translateX(${-distance}px)`,offset:0},{opacity:1,transform:'translateX(0)',offset:.75},{opacity:0,transform:'translateX(0)',offset:1}],{delay:delay+t.travel.start,duration:t.travel.duration+t.lost.fade});
-  if(travel)travel.finished.then(tidy,tidy);else tidy();
-  animate(lost.querySelector('.lost'),[{opacity:0},{opacity:1}],{delay:delay+t.lost.start,duration:t.lost.duration});
-  animate(lost.querySelector('.flow-caption'),[{opacity:0},{opacity:1}],{delay:delay+t.lost.start,duration:t.lost.duration});
- }
-}
-export function initStakeFlow(){
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- const rows=[...document.querySelectorAll<HTMLElement>('[data-stake-row]')];
- rows.forEach((row,i)=>{
-  playOnce(row,animate=>stakeFlow(row,i*repTimeline.rowStagger,animate));
-  let replay:Animation[]=[];
-  row.addEventListener('pointerenter',event=>{
-   if(event.pointerType!=='mouse'||reduced.matches||typeof row.animate!=='function'||replay.some(a=>a.playState==='running'))return;
-   if(row.getAnimations({subtree:true}).some(a=>a.playState==='running'&&a.id!=='rep-loop'))return;
-   replay=[];
-   stakeFlow(row,0,(element,frames,options={})=>{
-    if(!element)return;
-    const animation=element.animate(frames,{easing:easing.reveal,fill:'backwards',...options,duration:motionTime(Number(options.duration??320)),delay:motionTime(Number(options.delay??0))});
-    replay.push(animation);return animation;
-   });
-  });
+/** “Your REP” in the How it works query card (rep-choreography.ts): only the shown
+ * step's zone loops, from rest, while it is on screen. It restarts from rest when
+ * the step changes and after the tabs settle (resize, print, page hide), since the
+ * glide is measured: the stake-to-bond distance follows the layout. */
+export function initRepZone(){
+ document.querySelectorAll<HTMLElement>('[data-walkthrough]').forEach(root=>{
+  let stop:(()=>void)|undefined;
+  const start=()=>{
+   stop?.();
+   const zone=root.querySelector<HTMLElement>('[role="tabpanel"]:not([hidden]) [data-rep-zone]');
+   stop=zone?loopScene(zone,animate=>{
+    const find=(id:string)=>zone.querySelector(`[data-motion="${id}"]`);
+    const from=find('zone-ghost')?.getBoundingClientRect(),to=zone.querySelector('[data-bond-back] .squares')?.getBoundingClientRect();
+    const dx=from&&to?to.left-from.left:0,dy=from&&to?to.top-from.top:0;
+    for(const track of repZoneTracks(zone.dataset.repZone as 'meter'|'flow'|'receipt',zone.querySelectorAll('[data-motion^="zone-pop-"]').length)){
+     const measured=track.prop==='translate'?{...track,keys:track.keys.map(key=>({...key,v:[(key.v as readonly number[])[0]!*dx,(key.v as readonly number[])[1]!*dy] as const}))}:track;
+     const animation=animate(find(track.id),keyframes(measured,repCycle,undefined,{individual:false}),{duration:repCycle});
+     if(animation)animation.id='rep-loop';
+    }
+   }):undefined;
+  };
+  root.addEventListener('tabspanelshown',start);
+  root.addEventListener('tabssettled',start);
+  start();
  });
- // The ambient loop (rep-choreography.ts) runs on elements of its own (the gliding copy, the
- // winnings' blocks, the lost bond's flash), never on those the entrance or hover replay move.
- const list=rows[0]?.closest('.stake-flows');
- if(list)loopScene(list,animate=>rows.forEach((row,i)=>{
-  const spec={gains:row.querySelectorAll('[data-outcome="gain"] .blocks,[data-outcome="fee"] .blocks').length,lost:!!row.querySelector('[data-outcome="lost"]')};
-  for(const track of repRowTracks(i,spec)){
-   const animation=animate(row.querySelector(`[data-motion="${track.id}"]`),keyframes(track,repCycle,track.prop==='translate'?value=>`${value}%`:undefined,{individual:false}),{duration:repCycle,delay:track.delay??0});
-   if(animation)animation.id='rep-loop';
-  }
- }));
 }

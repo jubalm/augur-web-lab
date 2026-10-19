@@ -9,9 +9,10 @@ function normalize(value: string): string {
     .replace(/\s+/g, ' ').replace(/\s+([.,!?;:])/g, '$1').trim();
 }
 
-// Independent read-only Figma extraction, not imported from the rendering data.
+// Independent read-only Figma extraction, not imported from the rendering data. Section 06
+// holds the website draft of 19 Oct 2026 (REP folded in) until Figma is updated.
 // Compare the default desktop state; state transitions have separate browser QA.
-const selectors = ['.announcement', '.site-header', '.home-hero', '.tenets', '.applications', '.how-it-works', '.rep', '.roadmap', '.home-blog', '.home-faq', '.site-footer'];
+const selectors = ['.announcement', '.site-header', '.home-hero', '.tenets', '.applications', '.how-it-works', '.roadmap', '.home-blog', '.home-faq', '.site-footer'];
 const excluded = [
   'script', 'style', 'svg', 'noscript', '[hidden]', '.sr-only', 'dialog', '.nav-panel',
   '.application-tab[aria-selected="true"] .app-question', '.app-plus', '.roadmap-plus',

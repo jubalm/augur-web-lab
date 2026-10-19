@@ -1,36 +1,43 @@
 import { close, pulses, type Key, type Track } from './choreography';
 import { pulseTiming } from './tenet-choreography';
 
-/** The REP rows' ambient loop (owner, 6 Oct 2026: “more alive”; option B of three
- * sketches, “fine arrow, bond glides”), one source for the website and the Figma
- * keyframes. Every 6 s a row sends its bond: a copy of the stake glides along the
- * arrow and lands on the returned bond, and the winnings pop as it lands. For Risk
- * the copy fades as it reaches the lost bond, whose dashed outline flashes. Rows go
- * 2 s apart, so one row is always moving. Every track opens and closes on the static
- * artwork: the copy and the flash hidden, the winnings at rest. */
+/** The “Your REP” zone's loop in the How it works query card (19 Oct 2026), one
+ * source for the website and the Figma keyframes. It keeps the old REP rows'
+ * language (owner, 6 Oct 2026: option B, “fine arrow, bond glides”), but only the
+ * active step's zone runs, from rest, on one 12 s cycle that opens and closes on
+ * the static artwork:
+ * - flow (Report, Challenge): twice a cycle a copy of the stake fades in, glides
+ *   along the arrow onto the bond that comes back and fades unseen as it covers an
+ *   identical square; the Green winnings pop as it lands.
+ * - receipt (Get paid): what you receive pops group by group, twice a cycle.
+ * - meter (A question opens): the reward fill fades, restarts at 0 and rises back to
+ *   its resting sixth of the fee over most of the cycle (scaleX only).
+ * Glide values are fractions of the stake-to-bond distance, which the page measures. */
 export const repCycle = 12000;
 export const repTiming = {
-  first: 60, every: 6000, stagger: 2000, lead: 1800,
-  fadeIn: 200, travel: 1200, fadeOut: 300, lostFade: 400, peak: .9, popAfter: 40,
-  flash: { before: 150, rise: 120, fall: 480, peak: .9 },
+  sends: [600, 6600], fadeIn: 200, travel: 1200, fadeOut: 300, peak: .9, popAfter: 40, popStagger: 80,
+  receipt: { starts: [600, 6600], stagger: 160 },
+  meter: { rest: 1 / 6, fadeAt: 1400, fade: 300, restart: 200, rise: 9000 },
 } as const;
 
-/** What a row gets back: how many winnings squares, or a lost bond. */
-export interface RepRow { gains: number; lost: boolean }
+const pop = (at: number): Key[] => [{ t: at, v: 1 }, { t: at + pulseTiming.pop[0], v: pulseTiming.scale, e: 'reveal' }, { t: at + pulseTiming.pop[1], v: 1, e: 'crossfade' }];
+const pops = (id: string, starts: readonly number[]): Track => ({ id, prop: 'scale', keys: close([{ t: 0, v: 1 }, ...starts.flatMap(pop)], repCycle) });
 
-/** Tracks for row `index`; ids match the `data-motion` attributes in StakeFlow.astro. */
-export function repRowTracks(index: number, row: RepRow): Track[] {
-  const t = repTiming, id = (part: string) => `rep-${index}-${part}`;
-  const sends = [0, 1].map(k => t.first + index * t.stagger + k * t.every), lands = sends.map(at => at + t.travel);
-  // The glide carries the copy: it jumps back to the stake while the copy is hidden,
-  // then slides home (its static place, over the outcome) along the arrow.
-  const glide: Track = { id: id('glide'), prop: 'translate', delay: t.lead, keys: close([{ t: 0, v: [0, 0] }, ...sends.flatMap((at): Key[] => [{ t: at, v: [-100, 0], e: 'hold' }, { t: at + t.travel, v: [0, 0], e: 'draw' }])], repCycle) };
-  const ghost: Track = { id: id('ghost'), prop: 'opacity', delay: t.lead, keys: pulses(sends.map(start => row.lost
-    ? { start, rise: t.fadeIn, hold: t.travel - t.fadeIn - t.lostFade, fall: t.lostFade, peak: t.peak }
-    : { start, rise: t.fadeIn, hold: t.travel - t.fadeIn, fall: t.fadeOut, peak: t.peak }), repCycle) };
-  // Winnings pop as the copy lands, in the tenets' pulse (owner's choice, 6 Oct 2026).
-  const pop = (at: number): Key[] => [{ t: at, v: 1 }, { t: at + pulseTiming.pop[0], v: pulseTiming.scale, e: 'reveal' }, { t: at + pulseTiming.pop[1], v: 1, e: 'crossfade' }];
-  const gains = Array.from({ length: row.gains }, (_, k): Track => ({ id: id(`gain-${k}`), prop: 'scale', delay: t.lead, keys: close([{ t: 0, v: 1 }, ...lands.flatMap(at => pop(at + t.popAfter))], repCycle) }));
-  const flash: Track[] = row.lost ? [{ id: id('flash'), prop: 'opacity', delay: t.lead, keys: pulses(lands.map(at => ({ start: at - t.flash.before, rise: t.flash.rise, hold: 0, fall: t.flash.fall, peak: t.flash.peak })), repCycle) }] : [];
-  return [glide, ghost, ...gains, ...flash];
+/** Tracks for one zone; ids match the `data-motion` attributes in RepFlow.astro.
+ * `gains` counts the zone's popping groups. */
+export function repZoneTracks(kind: 'meter' | 'flow' | 'receipt', gains: number): Track[] {
+  const t = repTiming;
+  if (kind === 'meter') {
+    const m = t.meter, gone = m.fadeAt + m.fade, back = gone + m.restart;
+    return [
+      { id: 'zone-meter', prop: 'scale', keys: close([{ t: 0, v: [m.rest, 1] }, { t: gone, v: [m.rest, 1] }, { t: gone + 1, v: [0, 1], e: 'hold' }, { t: back, v: [0, 1] }, { t: back + m.rise, v: [m.rest, 1], e: 'linear' }], repCycle) },
+      { id: 'zone-meter-fade', prop: 'opacity', keys: close([{ t: 0, v: 1 }, { t: m.fadeAt, v: 1 }, { t: gone, v: 0, e: 'crossfade' }, { t: gone + 1, v: 1, e: 'hold' }], repCycle) },
+    ];
+  }
+  if (kind === 'receipt') return Array.from({ length: gains }, (_, k) => pops(`zone-pop-${k}`, t.receipt.starts.map(at => at + k * t.receipt.stagger)));
+  const lands = t.sends.map(at => at + t.travel);
+  // The copy jumps back to the stake while hidden, then slides onto the returned bond.
+  const glide: Track = { id: 'zone-glide', prop: 'translate', keys: close([{ t: 0, v: [0, 0] }, ...t.sends.flatMap((at): Key[] => [{ t: at, v: [0, 0] }, { t: at + t.travel, v: [1, 1], e: 'draw' }, { t: at + t.travel + t.fadeOut + 1, v: [0, 0], e: 'hold' }])], repCycle) };
+  const ghost: Track = { id: 'zone-ghost', prop: 'opacity', keys: pulses(t.sends.map(start => ({ start, rise: t.fadeIn, hold: t.travel - t.fadeIn, fall: t.fadeOut, peak: t.peak })), repCycle) };
+  return [glide, ghost, ...Array.from({ length: gains }, (_, k) => pops(`zone-pop-${k}`, lands.map(at => at + t.popAfter + k * t.popStagger)))];
 }

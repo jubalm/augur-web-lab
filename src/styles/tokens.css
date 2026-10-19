@@ -24,6 +24,9 @@
   --web-well: var(--background);
   --web-raised: var(--augur-color-surface-dark-3);
   --web-outline: #383848;
+  /* Hover edge (owner, 19 Oct 2026: "a subtle green border when the user hovers … where it makes sense"):
+     Green at half strength, only on things that can be clicked. */
+  --web-hover-edge: color-mix(in srgb, var(--primary), transparent 50%);
   --web-action-hover: #27d19b;
   --web-action-pressed: #24bc8d;
   --web-danger-hover: #bc264a;
@@ -41,3 +44,8 @@
 }
 @media(max-width:1023px) { :root,html.dark { --page-gutter:32px } }
 @media(max-width:767px) { :root,html.dark { --page-gutter:24px } }
+/* Announcement bar height for first-screen layouts (stacked below 900 px); 0 once dismissed. */
+:root,html.dark { --announcement-height:40px }
+@media(max-width:899px) { :root,html.dark { --announcement-height:64px } }
+@media(max-width:767px) { :root,html.dark { --announcement-height:80px } }
+:root[data-announcement=dismissed] { --announcement-height:0px }

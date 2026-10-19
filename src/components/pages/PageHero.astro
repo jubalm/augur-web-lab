@@ -1,10 +1,8 @@
 ---
-import HeritageField from '../art/HeritageField.astro';
 interface Props { title: string; lead: string; }
 const { title, lead } = Astro.props;
 ---
 <section class="page-hero">
-  <HeritageField seed={2020} width={1440} height={804} />
   <div class="container page-hero-content">
     <h1>{title}</h1>
     <p class="lead">{lead}</p>
