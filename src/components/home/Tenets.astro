@@ -2,6 +2,12 @@
 import CrossAnywhere from '../art/diagrams/CrossAnywhere.astro';
 import PeerMesh from '../art/diagrams/PeerMesh.astro';
 import NoAuthority from '../art/diagrams/NoAuthority.astro';
+import {homeCopy,type HomeVariant,type ReviewVariant} from '../../data/homepage-review';
+import {reviewInline} from './review-inline';
+// A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
+// "/" use, stays byte-identical.
+interface Props { variant?:HomeVariant; }
+const {variant='v1'}=Astro.props;const copy=homeCopy(variant);
 // Draft copy (owner, 18 Oct 2026): the claim is new; each body keeps the approved facts, reworded so it
 // no longer repeats the claim. The struck "without" chips were removed on 19 Oct (decisions.md).
 const tenets=[
@@ -18,30 +24,41 @@ const closer={statement:'The answer is nobody’s call.',paths:[
  {who:'For traders',line:['Payouts follow what actually happened,','with no authority deciding alone.']},
  {who:'For integrators',line:['Focus on building and growing your platform.','Leave resolution to Augur Lituus.']},
 ]};
+// Review versions (/2/ to /4/): the version's three cards and reader lines (v2: Augus's cards and Ryan's
+// reader lines, homepage-v2.ts), on the same markup. The heading and the closer statement stay; v1's
+// arrays above stay as they are.
+const diagrams={cross:CrossAnywhere,mesh:PeerMesh,authority:NoAuthority};
+const cards=copy?copy.why.tenets.map(card=>({...card,diagram:diagrams[card.diagram]})):tenets;
+const paths=copy?copy.why.paths:closer.paths;
+// v3 (Ryan 6): a card with a `tip` gets a "?" toggletip beside its title. The title and the button share a
+// head row (a button inside the <h3> would join the heading's name); the definition is a native popover
+// (click, tap, Enter, Space, Esc and click-outside need no script), described by the button, and anchored
+// under the tab (home-v3.css). The version's `tips` script (tenet-tips-v3.js) adds hover and focus.
+const tips=copy&&cards.some(card=>'tip' in card)?reviewInline[variant as ReviewVariant].scripts.tips:undefined;
 ---
 <section class="tenets" id="why-augur" aria-label="Why Augur" data-tenets>
  <div class="container">
-  <div class="section-heading"><h2 id="tenets-heading">Smart contracts<br/>can't see the world.</h2><p class="lead">Whoever tells them what happened controls who gets paid.</p></div>
+  <div class="section-heading"><h2 id="tenets-heading">Smart contracts<br/>can't see the world.</h2><p class="lead">{copy?copy.why.lead:'Whoever tells them what happened controls who gets paid.'}</p></div>
  </div>
- <div class="answer-band" data-answer-band><p class="container" data-answer>With Augur, users don't rely on parties to control answers.</p></div>
+ <div class="answer-band" data-answer-band>{copy?<p class="container" data-answer>{copy.why.answer}</p>:<p class="container" data-answer>With Augur, users don't rely on parties to control answers.</p>}</div>
  <div class="container tenet-grid">
-  {tenets.map(({title,diagram:Diagram,claim,body})=><article class="tenet-card" data-tenet-card>
-   <h3 class="tenet-tab">{title}</h3>
+  {cards.map(card=>{const {title,diagram:Diagram,claim,body}=card;const tip='tip' in card?card.tip:undefined;return <article class="tenet-card" data-tenet-card>
+   {tip?<div class="tenet-head" style={`anchor-name:--${tip.id}`}><h3 class="tenet-tab">{title}</h3><button type="button" class="tenet-tip" popovertarget={tip.id} aria-label={tip.label} aria-describedby={tip.id} data-tenet-tip><span class="tenet-tip-mark" aria-hidden="true">?</span></button><p class="tenet-tip-pop" id={tip.id} popover style={`position-anchor:--${tip.id}`}><strong>{title}:</strong> {tip.text}</p></div>:<h3 class="tenet-tab">{title}</h3>}
    <div class="tenet-visual"><Diagram/></div>
    <div class="tenet-copy">
     <p class="tenet-claim"><span class="setup">{claim[0]}</span><span>{claim[1]}</span></p>
     <p class="tenet-body">{body}</p>
    </div>
-  </article>)}
+  </article>;})}
   <div class="tenet-closer">
    <p class="closer-statement">{closer.statement}</p>
-   {closer.paths.map(({who,line})=><div class="closer-path">
+   {paths.map(({who,line})=><div class="closer-path">
     <p class="closer-who">{who}</p>
     <p class="closer-line"><span class="setup">{line[0]}</span> <span class="payoff">{line[1]}</span></p>
    </div>)}
   </div>
  </div>
-</section>
+</section>{tips&&<script is:inline set:html={tips}></script>}
 <style>
  .tenets{padding-top:64px}.tenets>.container:first-child{padding-top:72px;padding-bottom:56px}.section-heading{margin-bottom:0}.answer-band{position:relative;overflow:hidden;background:var(--primary);color:var(--background);padding:24px 0 28px}.answer-band p{font-family:var(--font-heading);font-size:clamp(26px,2.5vw,36px);font-weight:600;line-height:44px;letter-spacing:-.01em;text-wrap:balance}
  .tenet-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-top:48px;padding-bottom:96px}

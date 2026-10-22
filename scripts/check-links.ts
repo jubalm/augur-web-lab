@@ -1,6 +1,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { links } from '../src/data/links';
+import { reviewVersions } from '../src/data/homepage-review';
 
 const root = resolve('dist');
 const htmlFiles: string[] = [];
@@ -32,5 +33,15 @@ for (const [path, html] of content) {
     }
   }
 }
+// The homepage's review copies (reviewVersions, 21 Oct 2026): each is built, and vercel.json redirects
+// its slashless path (/3 → /3/), as trailingSlash 'always' would otherwise answer 404 there. A numbered
+// redirect for a version no longer in the list fails too, so a removed version leaves nothing behind.
+const vercel = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8')) as { redirects?: { source: string; destination: string }[] };
+const redirects = vercel.redirects ?? [];
+for (const { version } of reviewVersions) {
+  if (!redirects.some(({ source, destination }) => source === `/${version}` && destination === `/${version}/`)) failures.push(`vercel.json: no redirect /${version} → /${version}/ for the review copy`);
+  try { await stat(join(root, version, 'index.html')); } catch { failures.push(`/${version}/: review copy missing from dist`); }
+}
+for (const { source } of redirects) if (/^\/\d+\/?$/.test(source) && !reviewVersions.some(({ version }) => source === `/${version}`)) failures.push(`vercel.json: redirect ${source} names no review copy`);
 if (failures.length) { console.error(failures.join('\n')); process.exitCode = 1; }
-else console.log(`${htmlFiles.length} pages, ${count} anchor destinations resolve and external URLs come from the registry.`);
+else console.log(`${htmlFiles.length} pages, ${count} anchor destinations resolve and external URLs come from the registry; ${reviewVersions.length} review copies built, each with its vercel.json redirect.`);

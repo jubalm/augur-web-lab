@@ -4,6 +4,12 @@
   "installCommand": "bun install --frozen-lockfile",
   "buildCommand": "bun run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {"source":"/1","destination":"/1/","permanent":false},
+    {"source":"/2","destination":"/2/","permanent":false},
+    {"source":"/3","destination":"/3/","permanent":false},
+    {"source":"/4","destination":"/4/","permanent":false}
+  ],
   "headers": [{ "source": "/(.*)", "headers": [
     {"key":"X-Content-Type-Options","value":"nosniff"},
     {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},

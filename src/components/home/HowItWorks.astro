@@ -3,15 +3,26 @@ import { walkthrough, query, ledger, holder, stakesAt, amount, rep } from '../..
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import RepFlow from '../art/RepFlow.astro';
+import {homeCopy,type HomeVariant} from '../../data/homepage-review';
+import {reviewScripts} from './review-inline';
+// A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
+// "/" use, stays byte-identical. All three share v2's collapsed example below (`review`).
+// v2 (Ryan 12) keeps the heading and puts the example behind a click: a one-line lead, a "Walk through
+// an example" toggle and the four steps as a strip, each opening the example at its step. The example
+// is v1's markup minus the scroll pin: without data-walkthrough-track and the run under it,
+// walkthrough-scroll.ts never binds, so nothing reads or drives the example while it is closed. Its
+// open and close script and every v2 rule are review-only strings (review-inline.ts, home-v2.css).
+interface Props { variant?:HomeVariant; }
+const {variant='v1'}=Astro.props,copy=homeCopy(variant),review=copy!==undefined,how=copy?.howItWorks,holderCopy=copy?copy.holder:holder;
 const { outcomes } = query;
 // One square per bond-sized unit (a report's bond, 15 REP), as in the REP panel: a challenge
 // shows two. Each square remembers the Activity entry that staked it, so a step forward drops
 // in only the bonds that step added.
 const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1).flatMap((entry, at) => entry.stake === outcome ? Array.from({ length: entry.amount! / rep.bond }, () => at) : []);
 ---
-<section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading"><div class="container">
- <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2><p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.</p></div>
- <div class="walkthrough-track" data-walkthrough-track>
+<section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading" data-how-v2={review?'':undefined}><div class="container">
+ <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2>{how?<p class="lead">{how.lead}</p>:<p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.</p>}{how&&<button type="button" class="button outline how-toggle" aria-expanded="false" aria-controls="how-demo" data-how-toggle hidden><span class="how-toggle-open">{how.open}</span><span class="how-toggle-close">{how.close}</span><Icon name="chevron-down"/></button>}</div>{how&&<ol class="how-strip" aria-label={how.steps} data-how-strip hidden>{walkthrough.map((step,i)=><li><button type="button" class="how-step" aria-controls="how-demo" aria-expanded="false" data-how-step={i}><span class="how-step-index" aria-hidden="true">{i+1}</span><span class="how-step-title">{step.title}</span></button></li>)}</ol>}
+ <div class="walkthrough-track" data-walkthrough-track={review?undefined:''} id={review?'how-demo':undefined} data-how-demo={review?'':undefined}>
  <div class="walkthrough" data-tabs data-walkthrough data-panel-swap data-active="0">
   <div class="walkthrough-steps" role="tablist" aria-label="How taking part works" aria-orientation="vertical">
    {walkthrough.map((step,i)=><button type="button" role="tab" id={`walkthrough-tab-${i}`} aria-label={step.title} aria-controls={`walkthrough-panel-${i} walkthrough-rep-${i}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1}><span class="step-head"><span class="step-title">{step.title}</span><span class="step-done" aria-hidden="true"><Icon name="check"/></span></span><span class="step-description">{step.description}</span></button>)}
@@ -30,14 +41,14 @@ const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1)
    </div>)}
   </div>
  </div>
- <div class="walkthrough-run" aria-hidden="true"></div>
+ {!review&&<div class="walkthrough-run" aria-hidden="true"></div>}
  </div>
  <div class="holder">
-  <h3>{holder.title}</h3>
-  <ul class="holder-points">{holder.points.map((point,i)=><li><i class:list={['holder-mark',{'is-action':i===1}]} aria-hidden="true"></i><span><strong>{point.lead}</strong> {point.text}</span></li>)}</ul>
+  <h3>{holderCopy.title}</h3>
+  <ul class="holder-points">{holderCopy.points.map((point,i)=><li><i class:list={['holder-mark',{'is-action':i===1}]} aria-hidden="true"></i><span><strong>{point.lead}</strong> {point.text}</span></li>)}</ul>
   <Button href="/rep/" variant="text">Learn about REP</Button>
  </div>
-</div></section>
+</div></section>{review&&<script is:inline set:html={reviewScripts.how}></script>}
 <style>
  /* One section answers “How do I take part, and how do I get paid?” (owner + Augus, 19 Oct 2026).
     The left column is yours: each step says what you do and its “Your REP” panel, right under

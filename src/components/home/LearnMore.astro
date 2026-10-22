@@ -3,14 +3,30 @@ import {getCollection} from 'astro:content';
 import {faqEntries} from '../../data/faq';
 import FaqItem from '../content/FaqItem.astro';
 import BlogCover from '../content/BlogCover.astro';
+import {homeCopy,type HomeVariant} from '../../data/homepage-review';
+// A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
+// "/" use, stays byte-identical.
+interface Props { variant?:HomeVariant; }
+const {variant='v1'}=Astro.props;
 // One section where the page used to end on two (owner, 19 Oct 2026: Augus found the page too long),
 // trimmed the same day to three questions and the two latest posts, without type or date. The two
 // columns are one system: framed lists with the same 24 px text inset, 18 px titles and row height,
 // and each ends on a button whose label sits on that inset, on one shared line.
 const questions=faqEntries.filter(entry=>entry.homepage);
 const [featured,next]=(await getCollection('blog')).sort((a,b)=>b.data.publishedAt.valueOf()-a.data.publishedAt.valueOf()).slice(0,2);
+// Review versions (/2/ to /4/; Ryan 15): no "From the blog" column, so nothing is left to stand beside the questions.
+// One column on the page's grid: the shared heading row (v1's heading on two lines, the /faq/ lead
+// beside it), the three questions full width, then "View all questions" with a plain "Read the blog"
+// link. All questions start closed: the first was open only so that v1's two columns ended level.
+// Layout and spacing are in home-v2.css; v1's frame and answer rules below style both variants.
+const learn=homeCopy(variant)?.learnMore;
 ---
 <section class="home-learn section" id="learn-more" aria-labelledby="learn-heading"><div class="container">
+ {learn?<>
+ <div class="section-heading"><h2 id="learn-heading">Learn more<br/>about Augur.</h2><p class="lead">{learn.lead}</p></div>
+ <div class="faq-accordion">{questions.map(entry=><FaqItem entry={entry} name="home-faq"/>)}</div>
+ <div class="learn-foot"><a class="button outline" href="/faq/">View all questions</a><a class="button text" href={learn.blog.href}><span class="button-label">{learn.blog.label}</span></a></div>
+ </>:<>
  <h2 id="learn-heading" class="learn-title">Learn more about Augur.</h2>
  <div class="learn-grid">
   <div class="learn-column">
@@ -27,6 +43,7 @@ const [featured,next]=(await getCollection('blog')).sort((a,b)=>b.data.published
    <div class="learn-foot"><a class="button outline" href="/blog/">View all posts</a></div>
   </div>
  </div>
+ </>}
 </div></section>
 <style>
  .home-learn{background:var(--web-band);padding-block:72px 96px}

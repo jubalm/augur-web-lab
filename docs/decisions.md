@@ -1100,3 +1100,990 @@ Remaining, by design: the card keeps one height across steps, so switching steps
 ## Section settle removed — 19 October 2026 (owner: “the scroll on this page is a hell … remove it, leave it normal page”)
 
 `src/motion/section-settle.ts` is deleted and the homepage no longer starts it. Scrolling is plain native scrolling again: nothing glides to a section top after a wheel, trackpad or touch scroll stops. `scroll-behavior: smooth` on `html` stays, so in-page anchor links still glide (instantly under reduced motion). Section paging stays off the table for the reasons in the entry above.
+
+## Homepage v1 and v2 for review — 21 October 2026 (owner: put Ryan's notes, as Augus marked them, into a v2 beside the current homepage)
+
+`/` stays the live homepage, byte for byte. `/1/` is the same homepage for side-by-side review; `/2/` is the v2 variant, built from the same components rather than a copy of the site. This entry is the setup; the v2 sections follow in their own entries.
+
+**The feedback (source of truth for v2).** Ryan's notes, as Augus marked them (dash = do, X = don't, 1–3 = Augus rewrote it): 1 hero headline and art fine (no mark); 2 the hero's cost-of-lying line is too weak, stress the attack cost (do); 3 “Whoever controls the oracle decides who gets paid.” (do); 4 a better word than “parties” in the answer band (do); 5 “Anyone can ask. Anyone can answer.” (do); 6 “?” tooltips on the tenets (X); 7 tell traders plainly that markets do misresolve (do); 8 for integrators, less liability first and less work second (do, Augus note 1); 9 the use-case lead in one sentence, “Any protocol or app that needs to know what happened in the world.” (do); 10 the DAO example checks an upgrade against the DAO's mission or constitution (do); 11 remove “Good for users. Easier on the project.” (X, Augus note 1: keep it, rewritten); 12 How it works has too much detail for the main scroll, put it behind a click (do); 13 “Holding REP?” should say what REP can do and that it is not passive (do, Augus note 2); 14 roadmap fine (no mark); 15 drop “From the blog” for a plain blog link, keep the FAQ (do); 16 split the phone page into about three intents (X); 17 make the differentiators explicit: highest attack cost, no multisigs, no governance (do, Augus note 3). Augus's worry: v2 may become too technical. Augus's notes, verbatim:
+
+1. Good for users. Easier for projects. / "Want Augur in a platform you use? Or one you're building? Talk to us ->" / "Win user trust. Give users independent outcomes they can verify and challenge themselves." / "No team to hire. Pay per question instead of running resolution in-house." / "Stay out of the middle. When outcomes get contentious, Augur's dispute process makes the call - not you."
+2. "Holding REP? Utility: Use REP to earn from participating in the oracle. Non-Passivity: Check actively for forks or risk losing the token."
+3. Use the first section (the three cards): Permissionless: "Any app can ask. Anyone can answer." / "Report, challenge, or build on Augur. No approvals, no gatekeepers." Trustless: "No governance. No multisigs. No admin keys." / "No company, committee, or even Augur's creators can override an outcome." Robust: "Harder to game. Costlier to manipulate." / "Designed with one of the highest economic barriers to attack among decentralized oracles."
+
+All v2 copy lives in `src/data/homepage-v2.ts`, each entry citing its note. It starts from the reviewed proposal and is draft copy, not approved. It is not flagged `needsReview`: `/2/` is a review route, and the flag would add launch blockers.
+
+**Routes.** `src/pages/index.astro` stays the `/` page and becomes the shared composition: it takes `variant` (`'v1'` by default) and `noindex`, forwards a `version` slot, puts `home-v2` on `<main>` for v2 and passes `variant` to Hero, Tenets, Applications, How it works and Learn more (the roadmap doesn't change). Its init `<script>` is untouched, so the bundle keeps its name and hash. `/1/` and `/2/` come from one dynamic route, `src/pages/[version].astro`, whose `getStaticPaths` gives `1 → v1` and `2 → v2`; it imports `./index.astro` and renders it. Why not `src/pages/1/` and `src/pages/2/`: Astro 7 writes one CSP hash list for the whole build into every page's `<meta http-equiv="content-security-policy">` (every inlined CSS chunk and processed script of every page), in route order. Static routes “1” and “2” sort before “404”, so they would reorder the style hashes on `/` too. A dynamic route sorts after every static route and just before `/`, so the list keeps its order.
+
+**What only `/1/` and `/2/` load.** For the same reason, no v2 or switch code may be a component `<style>`, a stylesheet import or a small processed `<script>`: each would add its hash to `/`. They are imported as strings in `src/components/home/review-inline.ts` (`?inline` gives processed, minified CSS; `?raw` gives the script, from which comment lines are dropped) and rendered `is:inline`; `[version].astro` hashes each string into its own page's CSP. v2 rules go in `src/styles/home-v2.css`, every rule under `.home-v2`. The sheet renders on `/2/` only, before the announcement bar, so it follows the page's own styles and wins ties (its header explains how Astro's scoped selectors count). A small v2 script goes in `v2Inline.scripts` and renders right after its markup. v2 components may import only components `/` already uses (another page's component would split that page's CSS chunk), and must not import modules already bundled into `/`'s scripts (`heritage-glow`, `home-art`, `home-interactions`), which would re-split them. Shared components branch on `variant` in markup only, and v1 output must stay byte-identical.
+
+**Search and safety.** `noindex` is a new `PageLayout` → `BaseLayout` prop: the robots meta reads `indexable && !noindex`, so `/1/` and `/2/` stay `noindex, nofollow` even once the site is indexable; every other page is unchanged. Each gets its own canonical and `og:url` (from its path, as before). The sitemap's fixed list never had them. `robots.txt` doesn't change: a `Disallow` would stop crawlers from reading the noindex. The hero's arrival script hash, inserted only on `/` until now, is now inserted on `/`, `/1/` and `/2/`; without it the CSP would block the script there and the hero would never settle. `vercel.json` gains temporary (307) redirects `/1 → /1/` and `/2 → /2/`; the global `trailingSlash` option would change every route.
+
+**Version switch** (`VersionSwitch.astro`, `version-switch.css`, `version-switch.js`, on `/1/` and `/2/` only). A small fixed pill, “v1 · v2”, in a `nav` labelled “Homepage version”, 24 px in from the bottom-right corner (on phones, on the page gutter) and clear of the safe area. Two 44 × 44 cells; the current version is `aria-current="page"`, in Paper over a 2 px Green rule; the other is muted and brightens on hover. Plain links, so it works without JavaScript and opens the other version at the top. With JavaScript, on pointerdown, focus and click, both links take the section in view: the last of `why-augur`, `applications-heading`, `how-it-works`, `roadmap`, `learn-more` and `contact-title` whose top is in the top third of the screen. v1's use-case section has no id of its own, so both versions use its heading's; v2 must keep all six ids. It renders before the announcement bar, because dismissing the bar slides every element after it and its state script reads the element before it. That makes it second in the tab order, after the skip link. On phones it slides out while the page scrolls down and comes back on any scroll up, near the top and at the end (a passive listener, read once per frame; anchor jumps never hide it; it stays while focused; instant under reduced motion). On wider screens it stays in the corner. The mobile menu is a modal in the top layer and covers it; a `:has()` rule hides it then as well. It is left out of print, gets a border in forced colours, and holds still through the `/1/ ↔ /2/` crossfade (its own view-transition name). At the end of the page it clears the footer's links at 1440, 390 and 360 (measured).
+
+**Considered, not kept.** Static `src/pages/1/` and `src/pages/2/` (reorder `/`'s CSP, above). A switch in the page flow above the announcement bar: it never covers anything, but it scrolls away, and the point of carrying the section is to switch where you are reading. Hiding it on scroll at every width: on desktop the corner is out of the reading line, and a control that is always there is quicker to hit (Fitts's law).
+
+**Checks run:** `astro check` (0 errors, 0 warnings, 2 hints, the two unused imports in `RepFlow.astro` as before; 116 files). Build: 29 pages. All 85 files of the baseline build (`/` at `4884a66`) are byte-identical in the new build, `dist/index.html` and every `_astro` file included; only `1/index.html` and `2/index.html` are new. `/` against `/1/` differs only in the canonical, `og:url`, one extra script hash and one extra style hash in the CSP (the switch), and the switch block (style, nav, script). `/1/` against `/2/` differs only in the canonical, `og:url`, which link has `aria-current`, `class="home-v2"` on `<main>`, and the v2 sheet with its hash once it has rules. A build with `PUBLIC_SITE_INDEXABLE=true`: `/` and `/about/` `index, follow`, `/1/` and `/2/` `noindex, nofollow`, 25 sitemap URLs, none of them `/1/` or `/2/`. `check:links`: 29 pages, 2,277 destinations. `check:copy` gives the same output on `/` and `/1/` as on the baseline (sections 04, 05, 06 and 11 fail, as before). `check:budgets`: `/` unchanged (CSS 20,875 B, JS 22,232 B gzip); `/1/` and `/2/` each CSS 21,506 B and JS 22,595 B, so the switch costs about 360 B of JS and 630 B of CSS, and `/2/` ships nothing more than `/1/`. Headless Edge over CDP with reduced motion: on `/1/` and `/2/` the hero script ran (`data-hero-arrival="settled"`, copy visible), the CSP allowed the switch's style and script, the links carry each of the six anchors (and none at the top), and a probe rule in the v2 sheet applied on `/2/` only (removed again). Scrolling down at 390 hides the pill and scrolling up brings it back; at 1440 it stays; while a link holds focus it stays at 360. Real Tab presses at 390 and 1440: skip link, v1, v2, then the announcement, each with the 2 px focus ring. With the mobile menu open at 360 the pill is `display: none`. At the end of the page no footer link overlaps it at 1440, 390 or 360 (at 360 GitHub ends 22 px above it), and its edge sits on the 24 px gutter, level with the menu button. No horizontal overflow at 1440, 390 or 360; page heights unchanged (8,596 at 1440, 11,996 at 390).
+
+**Not done:** Playwright can't launch here, so `tests/site.spec.mjs` (which picks up `/1/` and `/2/` from `dist`) wasn't run; the CSP was checked by its effects, because the CDP probe doesn't report CSP violations. Forced colours weren't checked by hand. The `check:budgets` homepage JS gate still never fires on Windows (it compares `dist/index.html` with `dist\index.html`), and `/` is over its 20 KB budget as before.
+
+## Homepage v2: hero body and Why Augur — 21 October 2026 (Claude, `/2/` only, draft copy)
+
+From Ryan's notes 2–8 and 17 and Augus's note 3 (quoted in the entry above). `/` and `/1/` are unchanged byte for byte. The v2 strings live in `src/data/homepage-v2.ts`, each with its note and whitepaper section; `Hero.astro` and `Tenets.astro` branch on `variant` in markup only, and every v2 rule is in `src/styles/home-v2.css`.
+
+**Copy, v1 → v2.**
+- Hero body ending (Ryan 2): “…and lying is designed to cost more than it pays.” → “…and every challenge doubles the cost of a lie.” The mechanism makes the attack cost concrete: each challenge doubles the bond (whitepaper §2.1 p2, §4.1 p5). The proposal's “doubles what a lie costs” reads less naturally. As a mechanism it needs no “designed to” hedge; the handoff doc had flagged that hedge in the v1 hero. The ranking below keeps “designed to”, because it is an estimate (house rules for this review: “designed to”, never guarantees). The rest of the hero is unchanged (Ryan 1), including “the next generation” (see open questions). Line counts and hero height match v1 at every width.
+- Lead (Ryan 3, verbatim): “Whoever tells them what happened controls who gets paid.” → “Whoever controls the oracle decides who gets paid.”
+- Band (Ryan 4): “With Augur, users don't rely on parties to control answers.” → “With Augur, no one controls the oracle.” This answers the lead in its own words. It is one line from 768 up and two on phones (v1 takes three on phones). The ribbon splits it into seven words and plays as before.
+- Cards (Augus 3: his titles and the facts in each; Ryan 5 and 17):
+  - Permissionless: “Any app can ask. / Anyone can answer.” + “Ask, answer or push back. No one has to let you in.” → “Anyone can ask. / Anyone can answer.” + “Projects plug in without asking. No approvals, no gatekeepers.”
+  - Decentralized → **Trustless**: “No one in charge. / No one to pressure.” + “Answers come from people with something to lose, not from a back room.” → “No governance. / No one has a veto.” + “No multisigs. Not even Augur’s creators can override an answer.”
+  - Bribery-resistant → **Robust**: “Money behind every answer. / Lying is built to lose.” + “Paying for a false answer is designed to cost more than it brings in.” → “Hard to corrupt. / Lies get expensive fast.” + “Designed to cost attackers more than almost any other oracle.”
+- Closer: the statement stays (“The answer is nobody’s call.”).
+  - For traders (Ryan 7): “Payouts follow what actually happened, / with no authority deciding alone.” → “Seen a market settle the wrong way? / Here, no one decides alone.”
+  - For integrators (Ryan 8, Augus 1): “Focus on building and growing your platform. / Leave resolution to Augur Lituus.” → “One bad call can cost a platform its users. / Leave it to Augur Lituus.”
+
+**Where it departs from the reviewed proposal, and why.**
+- Permissionless body. The proposal had “Report, challenge or build on Augur Lituus.” That is a rule of three (house rule), and it repeats “Augur Lituus” in the section. The claim already covers asking and answering, so the body adds projects: permissionless use by third parties (§2 p2).
+- Trustless claim. The proposal had “No one can override an answer.” At 24 px that line is 375 px and doesn't fit the 336 px column. Even at v1's 22 px it wraps at 1440 (343 px). “No one has a veto.” is the whitepaper's own word (§2 p2: “without any centralized backstops or vetoes”). Augus's “override” moves to the body.
+- Trustless body. The proposal had “No multisigs, no admin keys. Not a company, a committee or even Augur’s creators.” “No admin keys” is out: the whitepaper never mentions admin keys or upgradeability, and Lituus-CS isn't shipped. The house rules also allow no promises about unshipped features. “A company, a committee” is out as a rule of three. What remains is two plain sentences that are sourced: no multisigs (Abstract p1), and “or anyone else”, which includes Augur's creators.
+- Robust claim and body. The proposal had “Money behind every answer.” and “Every challenge doubles the bond, so…”.
+  - Ryan 17 asks for the highest attack cost, and Augus wrote it as a ranking (“one of the highest economic barriers to attack among decentralized oracles”). The whitepaper does make that claim, as the authors' modelled estimate: Abstract p1, “significantly more resistant to attack than all current offerings”; §3 p3, the most expensive to attack of the designs surveyed, about 134% of FDV, “contingent upon the underlying assumptions”; §8 p20. So the body states it once, hedged twice: “Designed to cost attackers more than almost any other oracle.”
+  - The claim follows Augus's “Harder to game. Costlier to manipulate.” in plain words, without comparatives that lack a referent.
+  - “Money” and “bond” leave the section (house rule: nothing may suggest money buys the answer). The doubling fact stays in the hero.
+  - “Money behind every answer.” (341 px at 24 px) wouldn't fit the column either.
+- Traders. The proposal had “Here any answer can be challenged, and no one decides alone.” That is two clauses, and “any answer can be challenged” stops being true once an appeal period runs out (§4.1 p5). The question form says plainly that markets misresolve, without the unsourced “many”.
+- Integrators.
+  - The proposal had “A bad call can turn users against a platform. / Let Augur Lituus make the call, not your team.” “Not your team” is both “X, not Y” and “teams” for projects (house rules). “Make the call” also contradicts “nobody’s call” in the cell beside it.
+  - “One bad call can cost a platform its users.” puts the backlash first (Ryan 8). The less-work point stays in the payoff.
+  - v1's payoff “Leave resolution to Augur Lituus.” is 323 px, and the last closer cell is 12 px narrower than the middle one (subgrid half-gutters). So it wrapped at 1280, leaving a 30 px empty foot under the traders' line; v1 has the same gap.
+  - “Leave it to Augur Lituus.” (it: the call) fits, and both payoffs now wrap at the same widths.
+- No tooltips (Ryan 6, X).
+
+**Diagrams.** Permissionless keeps Cross anywhere. Trustless takes No authority, and Robust takes the Peer mesh: one data line each, with no JavaScript or art change, since the loops find their scenes by selector. No authority's lanes fire straight across an empty middle, and the scene was first drawn and named for “Trustless” (`tenet-choreography.ts`). Beside “No governance. / No one has a veto.” it shows that no one stands between question and answer. The mesh, with no centre and a relay running every link, shows why the system is hard to corrupt: there's no single point to buy. Kept in v1's order, the lanes would sit under “Hard to corrupt. / Lies get expensive fast.” and illustrate neither line. The research brief recommended keeping v1's order because Figma 28:7 pairs No authority with the cost copy. That pairing came with “Money behind every answer”, which v2 drops. No existing diagram shows escalating cost, and BondLadder is an HTML panel on `/rep/`, not a tenet scene.
+
+**UI pass (v2 only; type and weight, nothing new).**
+- Claims move from v1's off-scale 22/30 to DESIGN.md's H3 24/32 wherever every claim line still fits one line (≥1200 and 768–1023), and to H4 20/26 elsewhere.
+- Both claim lines are Paper. In v2 the first line is a differentiator itself (“No governance.”), so the 18 Oct setup/payoff two-tone would mute the point Ryan asked to stress. The closer keeps its two tones, because there the setup is a question and the payoff its answer.
+- The tab is back to 184 / 168 px: “Permissionless” is the longest label again (the 200 px tab was for “Bribery-resistant”).
+- Bodies and the lead balance, so no line ends on a stray “No” (it did at 1440) and “paid.” is never left alone (it was at 1024).
+- 1024–1199: the three-column row has a 229–300 px column. The card insets tighten to 24, the closer text stays on the card text edge (24 + 12) and the reader lines step down to 18/27, as on phones.
+- Tablet (≤1023): the shorter copy would leave the copy column's foot empty beside the diagram (17–46 px), so it centres against the diagram, which already centres.
+- Phones: the closer statement in H4 fits one line from 375 px; the card gap is 16 and the diagram padding 12/24/16.
+- Measured with a width sweep (1024–1440 every 20–40 px, 1023, 900, 768, 700, 600, 480, 414, 390, 375, 360). The three cards and the two reader cells have equal line counts everywhere, so no card or cell has an empty foot. The one exception is 601–655 px, where the side-by-side reader cells are equal width and the traders' payoff wraps a step before the integrators'. That range is not a review width. Measured the same way, v1 leaves empty feet under its cards at 1024–1180 (up to 54 px) and under a reader cell at 1023 and 1280 (30 px).
+- Why Augur height, v1 → v2: 1,185 → 1,189 at 1440 (24 px claims), 1,194 → 1,168 at 1280, 1,192 → 1,079 at 1024, 1,613 → 1,533 at 768, 2,231 → 2,080 at 390 and 2,322 → 2,061 at 360. Page: 8,596 → 8,600 at 1440, 11,996 → 11,845 at 390.
+
+**Open questions for Augus.**
+1. The ranking line. Is the whitepaper's own estimate fine on the homepage as “Designed to cost attackers more than almost any other oracle.”? `docs/source-material.md` bars new security claims inferred from the papers. This one is stated by the paper, not inferred, but it is modelled and for an undeployed design. The hero could carry it instead: “…and an attack is designed to cost more than on any oracle before it” (§7.5 p20: 46% more than Augur v2's design).
+2. “No admin keys”: true for Lituus-CS? If yes, the best-fitting body measured is “No multisigs or admin keys. Not even Augur’s creators can step in.” It keeps two lines at every width measured except 1024, where it takes three and leaves a 24 px foot under the other two cards. “…can override an answer.” takes three lines from 1200 down.
+3. “No governance” is sourced for deciding answers (Abstract p1). The paper names tunable parameters (fork threshold, auction timing) without saying who sets them. Is it true for the protocol as a whole?
+4. “Trustless” reverses the 18 Oct choice of “Bribery-resistant” (made to keep “trust” out of section 04). The paper uses both words. Keep Augus's?
+5. The hero's “the next generation” breaks the handoff rule “one of the next versions”. v2 keeps it, since Ryan likes the hero (note 1).
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints, as before.
+- Build: 29 pages. All 85 baseline files are byte-identical, `dist/index.html` included. `/1/` is byte-identical to the step 1 build. Its `<main>` matches `/` once the `<main>` attributes and inline styles are set aside.
+- `check:copy` gives the same output on `/` and `/1/` as on the baseline. `check:links`: 29 pages, 2,277 destinations.
+- `check:budgets`: `/` CSS 20,875 B and JS 22,232 B (unchanged). `/1/` CSS 21,515 B (the step 1 build's own figure) and JS 22,595 B. `/2/` CSS 21,859 B (+344 B for these rules) and JS 22,595 B, so there is no new JavaScript.
+- Headless Edge over CDP:
+  - Section and hero captures at 1440, 1280, 1024 and 768 (plus the heading row at 1024), and at 390 and 360, all looked at.
+  - With motion on, the hero arrival runs on `/2/` (CSP allows it), and the band arms with seven `.ribbon-word` spans and settles after its sweep. All three diagram loops run in their new cards. There were no console errors.
+  - No horizontal overflow at 1440, 1024, 390 or 360.
+
+**Not done.** Playwright can't launch here. Forced colours and print weren't checked by hand; no rule in this pass touches them. Figma is unchanged: `/2/` is a review copy.
+
+## Homepage v2: What can Augur Lituus power? — 21 October 2026 (Claude, `/2/` only, draft copy)
+
+From Ryan's notes 8–11 and Augus's note 1 (quoted in the setup entry above). `/` and `/1/` are unchanged byte for byte. The strings live in `src/data/homepage-v2.ts` (`homeV2.applications`). `Applications.astro` branches on `variant` in its frontmatter and markup only, and v1's lead stays a literal element. The DAO case is spread over v1's object, so it keeps the same id, icon, title, outcomes and picture. `CaseGraphic.astro` takes optional gate `labels` that default to v1's. Every v2 rule is in `src/styles/home-v2.css`. No JavaScript changed: the gate's play drives data attributes only.
+
+**Copy, v1 → v2.**
+- Lead (Ryan 9): “Any app that needs to know what happened in the world. / It asks a question and acts on the answer.” → “Any protocol or app that needs to know what happened in the world.”
+- DAOs & governance (Ryan 10):
+  - Summary: “Proposals and grants that wait on real-world facts: an audit result or a milestone met.” → “Upgrades and proposals checked against a DAO’s written rules: its constitution and mission.”
+  - Question and answer: “Did the upgrade pass its safety review?” No → “Does this upgrade break a rule in the DAO’s constitution?” **Yes**. The picked Green chip now comes first, as in the other two cases. The screen-reader line reads “Answer: Yes.”
+  - Who: “Decided in the open, not by the team behind the upgrade.” → “Decided in the open, not by the upgrade’s own developers.”
+  - Action: “Hold the upgrade.” → “Block the upgrade.”
+  - Explanation: “The proposal goes live once a later review passes.” → “Changes within the constitution can still go live.”
+  - Picture labels: “This review” / “A later review” / “Review” → “This upgrade” / “Another change” / “Constitution check”. “Proposal” and “Live” stay.
+- Builder's case (Ryan 8 and 11, Augus 1):
+  - Title: “Good for users. / Easier on the project.” → “Good for users. / Easier for projects.” (Augus).
+  - Ask: “Exploring how it could fit a platform, or just curious? / Ask the team anything.” → “Want Augur Lituus in a platform you use? / Or one you’re building?” It sits beside the same outline “Talk to us” (`/contact/`, no arrow because it is an internal link).
+  - Reasons, v1: “No team to hire. The project pays a fee per question instead of staffing resolution.” / “Never the judge. Anyone who disagrees challenges the answer, not the project.” / “Proof, not promises. Every outcome is public, so users can verify it themselves.”
+  - Reasons, v2, liability first (Ryan 8):
+    1. scales: “Stay out of the middle. Disputes settle in the open. The project never picks a side.”
+    2. puzzle-piece: “No team to hire. Pay per question instead of running resolution in-house.”
+    3. eye: “Win user trust. Users can check and challenge independent outcomes.”
+  - The icons keep their approved meanings (an impartial dispute; it slots in; anyone can see) and move with their reasons.
+
+**Where it departs from the reviewed proposal, and why.**
+- Question. The proposal had “Does this upgrade break the DAO’s constitution?”. The whitepaper frames queries as checkable facts (§5 p12, “objective ground truth”), and a question that can't be resolved resolves Invalid (§4.0.1 p3). “A rule in” points at a written clause someone can check, not at a reading of the whole document. It takes two lines at 1024–1440 and three on phones, the same as the proposal's line.
+- Explanation. The proposal had “The DAO can still change anything, just not against its own mission.” “Anything… just not” contradicts itself, and the mission is the part open to interpretation. The new line says exactly what the picture's second lane shows: another change passes the check and goes live. v1's explanation described its later lane the same way. It keeps Ryan's “DAOs stay open-ended”, on one line from 1024 up. The alternative “Changes that follow the constitution can still go live.” left “go live.” alone at 1024.
+- Who. The proposal had “the developers behind it”. Once the line wraps on phones, “it” sits far from the upgrade. “The upgrade’s own developers” mirrors “the market’s own team” and keeps Ryan's “developers can't rug”.
+- Summary. The proposal only said to update it. The new summary keeps Ryan's “mission or constitution”, and “written rules” keeps it checkable. It takes three lines at 1440, like the other two tabs.
+- Stay out of the middle. The proposal had “When an outcome is contested, the dispute process makes the call, not you.” Four problems:
+  - “Not you” is the “your call” wording AGENTS.md rules out for traders-first copy; this block already moved from “you” to “the project” on 19 Oct.
+  - “Makes the call” is the idiom the owner replaced here the same day.
+  - “X, not Y” is the negative parallelism the house rules avoid.
+  - It measured 3 lines at 1280 and 1100 and 4 at 1024, beside neighbours of two lines.
+
+  The new line works because the project never picking a side keeps a bad resolution from landing on it (Ryan's liability point). Disputes escalate in public (§2.1–2.2 p2), and “in the open” echoes each case's “Decided in the open”. It takes two lines at every width from 1024 to 1440 and on phones. The research draft, “Contested outcomes go to the dispute process, not to the project.”, took three lines at 1100 and 1024.
+- Win user trust. The proposal had “Outcomes users can check and challenge themselves.” That is a fragment, and it drops Augus's key word, “independent”. His own sentence trimmed, “Give users independent outcomes they can check and challenge.”, took three lines at 1024–1100. “Users can check and challenge independent outcomes.” keeps his word and stays on two lines from 1024 up.
+- The title, the ask, “No team to hire.” and the order are the proposal's: Augus's words, with liability first, then work, then trust.
+
+**Picture.**
+- Yes now blocks, so every string and mark agrees with “Block the upgrade.”:
+  - This upgrade brakes at the constitution check, and its path to Live stays dashed and empty.
+  - Another change passes the check (its tick draws) and runs on to Live, where the ring marks the moment.
+  - Green marks only the answer acting.
+- v1's pause sign (two 8 px bars, “Hold”) becomes one 16 px Green wall centred on the check: a stop, not a pause.
+- Two bars butted together rose 70 ms apart, and in frames captured with motion on they showed a stepped top for a moment as the wall closed. So v2 hides the second bar and widens the first; the script animates whichever bars it finds.
+- The proposal brakes 2 px short of the wall, as it did before the bars, so its bump still meets it.
+- “Constitution check” stays 22 px clear of “Live” at 360.
+
+**UI pass (v2 only; no new colours, type or effects).**
+- The lead balances (`text-wrap: balance`). Unbalanced, “world.” sat alone at 1440. It now runs 341 + 351 px at 1024–1440, one line at 768–1023, two lines at 390 and three even lines at 360.
+- From 1024 the stage keeps the tallest case's height (Insurance), so the gate picture had a 48 px empty foot. It now centres in the space under its explanation. At 1440 that is 56 px above it and 72 px under its labels (the panel's own 48 included), instead of 32 and 96.
+- Phones (≤767) take the page's phone rhythm from `layout.css`: 64 px section padding and 32 px under the heading row, instead of v1's 72 / 48 at every width.
+- The builder lines were chosen by measurement so the three reason columns end level from 1024 to 1440, at two lines each. v1 itself runs 3 / 3 / 2 at 1024.
+- The ask stays the title's lead from 1024: two short lines with the button 32 px to the right, so the ask and its action read as one unit. Below 1024 it follows the reasons, with the button right under its text.
+- Tap targets: tabs are 56 px on phones and 64 px on tablets; the button is 127 × 48.
+- Section height with the default tab, v1 → v2:
+
+  | Width | v1 | v2 |
+  | --- | --- | --- |
+  | 1440 | 1,378 | 1,378 |
+  | 1280 | 1,343 | 1,343 |
+  | 1024 | 1,393 | 1,319 |
+  | 768 | 1,580 | 1,547 |
+  | 390 | 1,876 | 1,734 |
+  | 360 | 1,926 | 1,814 |
+
+  The DAO tab on phones grows from 909 to 942 px, because its question takes three lines.
+- Page `/2/` height:
+
+  | Width | `/2/` | v1 |
+  | --- | --- | --- |
+  | 1440 | 8,600 | 8,596 |
+  | 1024 | 9,240 | 9,427 |
+  | 390 | 11,703 | 11,996 |
+  | 360 | 11,991 | 12,364 |
+
+  At 390, `/2/` was 11,845 after the Why Augur step.
+
+**Exceptions to earlier rules, kept on purpose.**
+- “Augur Lituus” shows twice in the section's default view: in the heading and in the ask. That breaks the 19 Oct one-mention rule (`tests/site.spec.mjs`, which tests `/` only). The name is the ask's object, and on phones the ask follows the reasons, where “it” would have nothing to point to. This is the same exception as the Insurance note.
+- “Trust” was kept out of this section (Augus, 18 Oct; `Applications.astro`; the regex in the `/` test). Augus's own rewrite now says “Win user trust.”, and the v2 Why Augur card says “Trustless”, so v2 follows his newer note. `/` and its test are untouched. “Blame”, “liable”, “protect” and “backstop” stay out.
+
+**Open questions for Augus.**
+1. The DAO example. Is a constitution check a fair use case for an oracle that answers checkable facts? It works when the rule is written and checkable; an unclear one would resolve Invalid (§4.0.1). The summary keeps Ryan's “mission”; it can be dropped if only written rules should show.
+2. “Win user trust.” reverses his own 18 Oct “no trust” for this section. Can he confirm it?
+3. The ask adds a second “Augur Lituus” to the section. Is that fine?
+4. “Disputes settle in the open. The project never picks a side.” replaces “…makes the call - not you.” Does it carry Ryan's liability point strongly enough?
+5. “Users can check and challenge independent outcomes.” Challenging takes a REP bond within an appeal period (§4.1). Is the line plain enough as a claim, or should it say “check, and challenge if wrong”?
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints (the two unused imports in `RepFlow.astro`, as before).
+- Build: 29 pages. All 85 baseline files are byte-identical, `dist/index.html` and every `_astro` file included. `/1/` is byte-identical to the step 1 build.
+- `check:copy` gives the same output on `/` and `/1/` as before. `check:links`: 29 pages, 2,277 destinations.
+- `check:budgets`:
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/1/`: CSS 21,515 B and JS 22,595 B.
+  - `/2/`: CSS 21,988 B (+129 B for these rules) and JS 22,595 B, so there is no new JavaScript.
+- Headless Edge over CDP, with reduced motion:
+  - Captures of the section with each of the three tabs selected, the builder block and the heading row, at 1440, 1280, 1024, 1023, 768, 390 and 360. All looked at.
+  - A sweep over the same widths and each tab measured line counts, panel feet, the gate's spacing and label clearance, the reason columns and the ask.
+  - No horizontal overflow at any of these widths (`scrollWidth` equals the width), and no console errors.
+- With motion on, at 1440, the DAO story was frozen at 1.5, 2.25, 2.44, 2.6, 3.3, 3.9 and 4.6 s after its start. In order: the proposal brakes into the check as the wall rises and bumps it; the second lane rises; its tick draws; its proposal runs on to Live.
+
+**Not done.**
+- Playwright can't launch here, so no `/2/` test was added to `tests/site.spec.mjs`; it couldn't have been run.
+- Forced colours and print weren't checked by hand. The wall keeps v1's forced-colours rule (Highlight), and print shows the same final state as before.
+- The launch checklist is unchanged, as in the earlier v2 entries: `/2/` is a review route, and an unchecked item there would become a launch blocker.
+- Figma is unchanged.
+
+## Homepage v2: How it works and Holding REP — 21 October 2026 (Claude, `/2/` only, draft copy)
+
+From Ryan's notes 12 and 13 and Augus's note 2 (quoted in the setup entry above). `/` and `/1/` are unchanged byte for byte. The strings live in `src/data/homepage-v2.ts` (`homeV2.howItWorks`, `homeV2.holder`). `HowItWorks.astro` branches on `variant` in its frontmatter and markup only; its scoped `<style>` is untouched. Every v2 rule is in `src/styles/home-v2.css`. The open and close script is `src/components/home/how-it-works-v2.js`, imported as a string in `review-inline.ts` (`v2Inline.scripts.how`), rendered inline right after the section on `/2/` only and hashed into `/2/`'s CSP by `[version].astro`. It imports nothing, so no chunk is shared with `/`.
+
+**Copy, v1 → v2.**
+- Heading, kept: “Know what happened? / Get paid to report it.” with its Green “paid” mark. Ryan 12 asks to move the detail behind a click, not to change the promise, and the lead under it now carries the risk.
+- Lead (Ryan 12): “Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.” → “Stake REP on what you saw. A wrong call costs your bond.” A no-break space keeps “A” with “wrong”.
+- New controls: the toggle “Walk through an example” / “Hide the example”, and the step strip (list name “Steps in the example”) with the four step names from `walkthrough.ts`, one source: “A question opens”, “Report what happened”, “Challenge a wrong answer”, “Get paid when it's final”.
+- Holding REP? (Ryan 13, Augus 2):
+  - v1: “Optional. You never have to report or challenge.” / “But never passive. Holding REP is a duty to the truth. In a fork, move it to the universe that reflects reality, or it loses its value.”
+  - v2: “Put it to work, if you want. Stake it to report or challenge answers, and earn when your answer holds.” / “Don’t leave it unattended. In a fork, Augur Lituus is designed to give you two weeks to move your REP to the universe that reflects reality. REP left behind loses its value.”
+  - “Learn about REP” stays, the only link in the bar.
+
+**Where it departs from the reviewed proposal, and why.**
+- Holding REP, first point. The proposal had “Report or challenge answers to earn rewards. Nothing requires it.” “To earn rewards” reads as a promise (house rule: no guarantees); rewards go only to an answer that holds (§4.3.1 p6; `rep.ts`). “Stake” is Ryan's word and the mechanism: staking a bond is how you report or challenge (§4.1 p5), and the paper has no other staking. “If you want” already says it's optional, so “Nothing requires it” goes (one home per fact); next to the fork point it also read as a contradiction.
+- Holding REP, second point. The proposal had “If a fork happens, there’s a two-week window to move your REP to the universe that matches reality, or it loses its value.” That states a proposed design as fact: the two weeks are the whitepaper's summary (§2.2 p2; its specification, §4.2.2 p5, says “a time-frame of weeks”), Lituus-CS forking isn't built, and the Moon Fork's real window was longer (to 3 August 2026). “Augur Lituus is designed to give you” hedges it and says whose design it is. “Reflects reality” is v1's approved wording for the same fact. The loss gets its own sentence about the REP (“REP left behind”), which also keeps clear that a fork never takes the token (Augus's note said “risk losing the token”; the guardrail is value, not token).
+- Lead. The proposal left it to this step. v1's three sentences become how you take part and what it risks, ending on v1's own approved sentence. The payout figures (the first reporter's reward, 80% of a wrong bond, exact only for a single challenger, §4.3.1) stay in the example, where the numbers have context. “Stake REP on what you saw” echoes the heading's “Know what happened?” and step 2's “the outcome you saw”.
+- A collapse control. The proposal only expanded. The toggle closes it again (APG disclosure pattern; NN/g user control and freedom): the hero's “See how it works” opens the example for anyone who only wanted the gist, and they can fold it away. Closing costs nothing for anyone else.
+- No scroll pin in v2. On `/` the example pins and the step follows the scroll (owner, 19 Oct 2026). In v2 it doesn't, and steps are picked by hand. Keeping the pin would need visibility guards in `walkthrough-scroll.ts`, shared code that would change `/`'s script chunk. Bound to a closed example, the pin picks step 2 and can scroll the page when the example is revealed (measured in the research pass). The reader has also already opted in with a click, and the pin's 1,418 px run (at 1440) would give back most of the length this note saves. v2 drops `data-walkthrough-track` and the run, so `bindWalkthroughScroll` returns early; no shared motion code changed. To be confirmed by the owner.
+- How it closes. The research plan rendered the example `hidden="until-found"` in the HTML and showed it again under `@media (scripting: none)`. Instead the script closes it while the page parses, right after the section, before it is painted. Without JavaScript, with the script blocked by the CSP, or if it fails, the example simply stays open and the controls stay hidden, so content is never hidden behind script.
+- The transition. The plan had a crossfade in which the new snapshot stretched to the box (`block-size: 100%`). Frames showed two problems, so the shipped version differs. The incoming view keeps its natural height and is clipped by the growing box. The strip and the example fade through rather than cross: a crossfade laid the strip's titles over the example's step titles at 40–60 ms at 1440 and 390, and the strip's 8 px gutters flashed the Green step at t0. The band and the sections below are named too, so closing doesn't drop the roadmap onto the shrinking example.
+- `docs/launch-checklist.md` is unchanged, as in the earlier v2 entries: `/2/` is a review route, and an unchecked item would become a launch blocker.
+
+**Behaviour.**
+- Closed by default: heading, lead, toggle, strip, holder bar.
+- The toggle is a native `button` with `aria-expanded` and `aria-controls="how-demo"`. Focus stays on it when it opens or closes the example (a disclosure), and the next Tab goes into the example's step tabs. Its words say what a press does next; `aria-expanded` carries the state; the chevron turns.
+- The strip is an `ol` named “Steps in the example”. Each step is a button with `aria-controls` and `aria-expanded="false"`; it only shows while the example is closed. A step opens the example at that step and moves focus to that step's tab (`preventScroll`), because the pressed button disappears with the strip.
+- The example is v1's markup with `id="how-demo"`: the tabs, the REP panels and their choreography, the step-height reservation and the Question details sync all run unchanged. Opening dispatches `tabssettled` on it, which re-measures the reserved step height and restarts the REP loop on the laid-out example. While closed, nothing reads or drives it: scrolling past it at 1440 and 390 never changes the step (always step 1), and no REP loop runs.
+- Closed, the example is `hidden="until-found"`, so find in page and text fragments can open it (Chromium, Firefox 148+). `beforematch` syncs the toggle and the strip. `base.css`'s `[hidden]{display:none!important}` would defeat that, so `home-v2.css` gives that one element its box back; the browser keeps its content unrendered. In Safari the same assignment makes it plainly hidden.
+- Arrivals open it at once, with no transition, because the page is scrolling there: the hero's “See how it works” (a delegated click, since the hero's markup is shared with `/`), any other link to `#how-it-works`, a load with that hash and a hash change to it.
+- Print shows the example without the toggle or the strip. Forced colours give every strip tile and its index square a border. Presses during the 380 ms transition are ignored, so a double click opens once.
+
+**Motion** (see `docs/motion.md`). A same-document view transition like the FAQ's, 380 ms on the reveal ease. The strip's box eases to the example's height (or back) and clips the live example, so it unrolls where the strip was. The band grows or shrinks with it and paints its own colour, so a shrinking band never shows the page behind it. The holder bar, the roadmap and Learn more slide with it. The outgoing view fades out over 120 ms and the incoming one fades in over 240 ms from 100 ms. Instant with reduced motion, without view transitions, and on arrivals. Frames were captured with motion on at 0, 40, 60, 120, 140, 190, 250, 280 and 380 ms: opening and closing at 1440, opening at step 3 at 390. No text doubles up, nothing jumps, and `data-how-transition` is gone afterwards.
+
+**UI pass (v2 only; brand tokens and type, nothing new).**
+- Heading row from 1024: the toggle sits under the lead in the right column, so the action stays with its text (law of proximity). At 1440 the right column is 33 + 24 + 48 = 105 px against the heading's 96, so neither column ends early. Below 1024 the row stacks: heading, lead, toggle.
+- The lead is one line from 1200 up. Where it wraps (1024–1199, phones) it balances into its two sentences; before that it left “your bond.” alone at 1024 and “A” at the end of a line at 390.
+- The toggle is an outline button, like the builder's “Talk to us”: one action per section, and a Green fill mid-page would compete with the hero's “See how it works”, which opens the same example.
+- The step strip is the example's four steps in order. Each tile is a Navy tile like the example's own step tabs, with the same fill, hover and edge, so they read as the same steps (consistency and standards, NN/g #4; Jakob's law). Each is numbered in the outlined square of the question's criteria list, so the order reads at a glance (recognition rather than recall). Label type (16/24) keeps every step on one line: the longest, “Challenge a wrong answer”, measures 216 px. Four across from 1280 (16 px insets at 1280–1359 keep it on one line), two by two from 768 to 1279, one column on phones, where the open example's steps also stack. Tiles are 60 px tall, 56 on phones (44 px minimum).
+- Phones take the page's phone rhythm under the heading row: 32 px, as in the v2 use cases, instead of v1's 48. The section keeps v1's 64 px padding there and 96 from 768.
+- The holder bar keeps v1's layout. With the v2 copy it is 115 px tall at 1440 and 1280 (v1: 115 at 1440), 161 at 1024, 207 at 768 and 324 at 390 and 360 (v1: 278 at 390): the fork point is one sentence longer.
+- Section and page heights, closed (the default) and open:
+
+  | Width | v1 section | v2 closed | v2 open | `/2/` page, closed | `/` page |
+  | --- | --- | --- | --- | --- | --- |
+  | 1440 | 2,639 | 576 | 1,194 | 6,537 | 8,596 |
+  | 1280 | 2,663 | 576 | 1,218 | 6,460 | 8,573 |
+  | 1024 | 2,806 | 723 | 1,407 | 7,157 | 9,427 |
+  | 768 | 2,911 | 832 | 1,545 | 8,219 | 10,411 |
+  | 390 | 2,370 | 1,036 | 2,352 | 10,369 | 11,996 |
+  | 360 | 2,450 | 1,036 | 2,402 | 10,577 | 12,364 |
+
+  Open, v2 is shorter than v1 from 768 up because the pin's run is gone; on phones v1 never pinned.
+
+**Known limit, kept on purpose** (superseded by the review fixes entry below, A11Y-3: it reached steps 2 to 4, not only step 4, and the tab now comes into view once the example lands). Opening at step 4 when the strip sits at the very bottom of a desktop screen leaves step 4's tab below the fold, since focus moves with `preventScroll`. A scripted scroll would break the native-scroll rule (19 Oct 2026). On phones the strip and the open example's tabs line up, so the tab lands where it was pressed.
+
+**Open questions for Augus.**
+1. “Two weeks”: print the number? It is the whitepaper's summary (§2.2 p2); its specification says “a time-frame of weeks” (§4.2.2 p5), and the Moon Fork's window was different. Fallback without it: “In a fork, move your REP to the universe that reflects reality before migration closes. REP left behind loses its value.”
+2. “Stake it to report or challenge answers”: is “stake” plain enough for beginners? His own note said “Use REP to earn from participating in the oracle.”
+3. The main scroll no longer shows the payout figures (the first reporter's reward, 80% of a wrong bond); they are in the example. Fine?
+4. For the owner: in v2 the example doesn't pin to the scroll (the 19 Oct v1 decision), and steps are picked by hand.
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints (the two unused imports in `RepFlow.astro`, as before).
+- Build: 29 pages. All 85 baseline files are byte-identical, `dist/index.html` and every `_astro` file included. `/1/` is byte-identical to the build before this step. Every inline script and style on `/2/` has its hash in the page's CSP.
+- `check:budgets`:
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/1/`: CSS 21,515 B and JS 22,595 B.
+  - `/2/`: CSS 23,050 B (+1,062 B for these rules) and JS 23,070 B, so the collapse costs 475 B over `/1/`. The script alone is 1,451 B, 663 B gzip.
+- `check:links`: 29 pages, 2,277 destinations. `check:copy` gives the same output as on the baseline.
+- Headless Edge over CDP:
+  - Captures of the section at 1440, 1280, 1024, 768, 390 and 360: closed, opened by the toggle, closed again, opened at each of the four steps (`data-active` k, focus on `#walkthrough-tab-k`), and after the hero's “See how it works” (the section lands 24 px from the top, open). All looked at.
+  - Motion frames as above.
+  - Keyboard: Tab reaches the toggle with a focus ring, Enter opens and keeps focus, Tab goes into the step tabs, Shift+Tab returns, and Enter closes. Tab to step 4 and Space opens there with focus on its tab. Arrow keys still move the tabs.
+  - Arrivals from fresh loads: `/2/#how-it-works` opens; a text fragment inside the closed example (`#:~:text=independently%20demonstrated`) opens it through `beforematch` and scrolls to the text; a hash change opens it.
+  - No JavaScript (script execution disabled): the example is open and the toggle and the strip are hidden. Print media: the example is shown and the controls are hidden. Forced colours: tiles and index squares are bordered.
+  - axe-core 4.13 (the suite's WCAG 2.0/2.1/2.2 A and AA tags), injected over CDP: no violations on `/2/` closed, open and at step 3, at 1440 and 390, and none on `/1/` or the baseline `/`.
+  - No horizontal overflow at any of the six widths, and no console errors, including after rapid presses.
+
+**Not done.**
+- Playwright can't launch here, so `tests/site.spec.mjs` wasn't run. Its per-route test covers `/2/` (axe, console errors), which the CDP run above approximates.
+- Safari and Firefox aren't installed here. Find in page was not pressed by hand; the text fragment exercises the same `beforematch` path.
+- No screen reader was used.
+- Figma is unchanged.
+
+## Homepage v2: Learn more, page rhythm and phones — 21 October 2026 (Claude, `/2/` only, draft copy)
+
+From Ryan's notes 14–16 (quoted in the setup entry above). `/` and `/1/` are unchanged byte for byte. `LearnMore.astro` branches on `variant` in its frontmatter and markup only: v1's markup stays literal in the else branch, and its scoped `<style>` is untouched, so its frame and answer rules style both variants. The one new string is in `src/data/homepage-v2.ts` (`homeV2.learnMore.lead`). Every v2 rule is in `src/styles/home-v2.css`. No JavaScript was added.
+
+**Copy, v1 → v2.**
+- Learn more (Ryan 15):
+  - The “From the blog” column is gone: the column heading, the featured post with its cover and description, the second post, and “View all posts”.
+  - The “Frequently asked questions” column heading is gone too. The new lead and “View all questions” already say what the list is.
+  - New lead beside the heading: “Short answers, each with a link to go deeper.” This is the published `/faq/` lead (`faq.astro`), so it is not new copy for the site.
+  - New link beside “View all questions”: “Read the blog” (`/blog/`), a text link with no arrow because it is internal.
+  - Unchanged: the heading “Learn more about Augur.” (now on two lines, like “The road to / Augur Lituus.”), the three questions and their answers.
+- No other copy changes in this step. The roadmap is untouched (Ryan 14). The page is not split into intents (Ryan 16, X).
+
+**Learn more layout.** One column on the page's shared heading row: heading, lead, the three questions at full width, then the foot. This replaces v1's two columns, which are no longer needed.
+- Why not the 500 / 668 split. Measured in the research pass, it would put the heading, lead and actions (about 266 px) beside the questions: 244 px with all closed, 378–456 px with one open. That leaves 112–190 px empty under the heading whenever an answer is open (owner: no short column beside a tall one).
+- Full-width rows are what `/rep/` and `/faq/` already do. The whole row is the control, and answers keep v1's 628 px measure.
+- All questions now start closed. v1 opened the first one only so its two columns ended level (19 Oct entry); with one column there is nothing to level. Closing it saves 212 px at 1440 and 342 at 390, and the three questions read as a list you can scan (the questions are the information scent).
+- The foot copies `/rep/`. The outline “View all questions” sits on the list's left edge, so its label lines up with the questions' 25 px text inset (DESIGN.md). “Read the blog” sits 32 px after it. Side by side the two need 345 px, so on phones they stack 16 apart, the same gap as the hero's two actions. The text link is padded 25 px so its label sits on the same inset. Both are 48 px tall.
+- The FAQ morph names the foot (`faq-more`), so it slides under the list instead of jumping. Frames were captured with motion on at 0, 120, 240 and 380 ms at 1440 and at 0, 190 and 380 ms at 390; the 120 ms and 190 ms frames show the foot sliding under the growing list, with no overlap.
+- Print shows every answer (`::details-content`) and hides the toggles, as print already shows the How it works example. Browsers without `::details-content` print the questions only.
+- Measured with all closed / one open:
+
+  | Width | v1 | v2 closed | v2 with an answer open |
+  | --- | --- | --- | --- |
+  | 1440 | 846 | 660 | 794–872 |
+  | 1280 | 841 | 649 | 783–861 |
+  | 1024 | 1,350 | 636 | 770–848 |
+  | 768 | 1,291 | 645 | 779–857 |
+  | 390 | 1,634 | 760 | 972–1,102 |
+  | 360 | 1,670 | 760 | 998–1,154 |
+
+**Page rhythm** (`home-v2.css`, top block). In v1 each section sets its own space, much of it left over from the removed hairlines (19 Oct): 136 above the Tenets and roadmap headings, 72 around the use cases, 96 around How it works, 72 / 96 around Learn more, and 48 under every heading row even on phones. v2 uses three tokens on `main.home-v2`:
+- `--section-space`: 96 from 1024, 72 from 768, 64 on phones (DESIGN.md's section scale), at both edges of every section after the hero. Every gap between two sections is therefore 192 / 144 / 128, at a band edge or between two Navy sections alike. No dividers were added (owner, 19 Oct).
+- `--heading-gap`: 48, or 32 on phones (layout.css's phone value, which v1's scoped rules overrode). It runs from a heading row to what it introduces. In Why Augur it also sits between the answer band and the cards (v1: 56 and 48).
+- `--block-gap`: 64, or 48 on phones, above a section's second block: the builder's case (v1: 80 / 56) and the REP holder bar (v1: 56 / 40).
+- The hero keeps its own fit to the first screen. Print sets the section space to layout.css's 32, which v1's scoped paddings override.
+- Specificity: ids beat v1's longer scoped selectors (`.tenets[…]>.container[…]:first-child` is 0,5,0); class rules tie and win because the sheet comes later. Step 3's and 4's phone-only spacing rules were folded into the tokens.
+
+**Roadmap (consistency only).**
+- The page rhythm above, and the lead balanced like every other v2 lead.
+- Below 1024 each panel fits its own milestone instead of reserving 630 / 720 px, as the use-case stage already does from the same width. This removes empty feet of up to 61 px at 768 and 91 at 390. Only what follows the panel moves when the tab changes. The default Now tab is unchanged on phones (725 px, already above 720) and 45 px shorter at 768.
+- Where a milestone's two links wrap (phones), they stack 16 apart instead of 24, like the hero's actions and the Learn more foot (law of proximity).
+- 768–919 px (iPad portrait): “Implementation” (116 px at 14 px) ran 23 px past its tab at 768, butting into “Testing & audits” and the Now box's edge. This also happens on `/` and `/1/`. In v2 the stop labels step down to 12/18 with 10 px insets in that range, so the longest one ends 8 px inside its box (measured at 768, 820, 900, 919 and 920). Weight and colour still set the labels apart from the 12 px dates. Hyphenation was tried, but headless Edge doesn't hyphenate.
+- “From the blog” stays as the reboot milestone's evidence label. Ryan's note 15 is about Learn more, and note 14 says the roadmap is fine.
+
+**How it works holder (whole-page pass).**
+- Below 1024 the holder bar stacks, as it does on phones: question, points, link. With the longer v2 points, v1's three-part bar squeezed them into a 300 px column at 768 (seven lines), with the title and the link each floating alone at mid-height. Stacked, it is 236 px tall at 768 (was 207) and has no empty columns.
+- From 1280 the fork point is balanced. It ran about 115 characters on its first line at 1440 (844 px at 15 px); balanced, both lines stay under 90. It is not balanced below 1280, because the lines are already under 75 and balancing only widened the gap before “Learn about REP”.
+
+**UI principles.** One shared heading row in every section (consistency and standards, NN/g #4; Jakob's law). Heading, then a one-line lead, then the proof (aesthetic and minimalist design, NN/g #8). One outline action per section, with the blog as a lighter text link. Actions sit next to the list they continue (law of proximity). Spacing comes from one scale, so equal gaps mean equal relationships (law of common region and law of proximity). Nothing is left half empty in any state, and the page is shorter (less scrolling on phones; the owner's no-dead-space rule).
+
+**Heights** (default states, How it works closed, Now tab):
+
+| Section | v1 1440 | `/2/` 1440 | v1 390 | `/2/` 390 |
+| --- | --- | --- | --- | --- |
+| Hero | 764 | 764 | 797 | 797 |
+| Why Augur | 1,185 | 1,141 | 2,231 | 2,016 |
+| What can Augur Lituus power? | 1,378 | 1,410 | 1,876 | 1,726 |
+| How it works | 2,639 | 584 | 2,370 | 1,044 |
+| Roadmap | 926 | 886 | 1,615 | 1,567 |
+| Learn more | 846 | 660 | 1,634 | 760 |
+| Page | 8,596 | 6,303 | 11,996 | 9,383 |
+
+- The homepage sections alone, without the shared announcement, header and footer:
+  - 1440: 7,738 → 5,445 (−30%).
+  - 390: 10,523 → 7,910 (−25%, 2,613 px).
+- Whole page:
+  - 1280: 8,573 → 6,220
+  - 1024: 9,427 → 6,387
+  - 768: 10,411 → 7,365
+  - 360: 12,364 → 9,555
+- After step 4 (`/2/` before this step) the page was 6,537 at 1440 and 10,369 at 390.
+- Applications grows 32 px at 1440, because 72 + 72 becomes 96 + 96 while the builder gap goes from 80 to 64.
+- On phones the footer (1,293 px at 390) is now the tallest block after Why Augur. It is shared by every page, so it is left for its own pass.
+
+**Open questions for Augus.**
+1. Is the `/faq/` lead (“Short answers, each with a link to go deeper.”) right for the homepage too? It makes Learn more read like every other section.
+2. All three questions now start closed (v1 opens the first). Is that fine?
+3. “Read the blog” is a text link beside the outline “View all questions”. Is that the “normal blog link” Ryan meant?
+
+**For the owner.**
+- The roadmap label collision at 768–919 px is on `/` too. The same two declarations would fix it there.
+- The announcement bar's dismiss button (32 × 32) and “Catch up →” (20 px tall), and the footer's contact email (24 px) and directory links (38 px at 768), are under 44 px on every page. They are shared chrome, so they are out of this step.
+- In forced colours the FAQ toggle's plus and minus bars disappear (FaqItem, every page).
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints, as before.
+- Build: 29 pages. All 85 baseline files are byte-identical, `dist/index.html` and every `_astro` file and CSP meta included. `/1/` is byte-identical to the build before this step. Every inline script and style on `/2/` has its hash in the page's CSP (the JSON-LD block is not script and is unhashed on `/` too).
+- `check:budgets`:
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/1/`: CSS 21,515 B and JS 22,595 B.
+  - `/2/`: CSS 23,453 B (+403 B over step 4) and JS 22,892 B. That is 297 B over `/1/`, the How it works script. `/2/` no longer loads BlogCover's script.
+- `check:links`: 29 pages, 2,275 destinations (two fewer: the post links left `/2/`). `check:copy` gives the same output on `/` and `/1/` as on the baseline.
+- Headless Edge over CDP, with reduced motion:
+  - Every `/2/` section at 1440 and 390, and Learn more and the roadmap at 1024, 768 and 360. Learn more was captured with each question open. The full page was captured at 1440, 390 and 360. All looked at.
+  - Width sweeps:
+    - Learn more in four states at 1440, 1280, 1200, 1024, 1023, 768, 390 and 360.
+    - Roadmap panels for all six tabs at 1440, 1280, 1024, 1023, 768, 390 and 360.
+    - Stop labels at 768–920.
+    - The holder at 768, 1023, 1024 and 1280.
+    - Section paddings and heading gaps at 1440, 1280, 1024, 768, 390 and 360.
+  - No horizontal overflow at any width (`scrollWidth` equals the width at 360), and no console errors.
+  - Every homepage control is at least 44 × 44 px at 390, 360 and 768. The only smaller ones are in the shared announcement and footer, as listed above.
+  - Print, no JavaScript and forced colours for Learn more and the roadmap.
+  - FAQ morph frames with motion on.
+  - axe-core: no violations on `/2/` at 1440, 768 and 390, as loaded, with the example open and at step 3.
+
+**Not done.**
+- Playwright can't launch here.
+- No screen reader was used.
+- Figma is unchanged.
+
+## Homepage v2: verification pass — 21 October 2026 (Claude, `/2/` only)
+
+A full check of `/`, `/1/` and `/2/` after the five v2 steps above, with fixes to `/2/` where something was wrong. `/` and `/1/` are unchanged byte for byte. No copy changed.
+
+**Fixed (v2 only).**
+- Empty page under the footer after closing the example. `page-field.ts` sizes the sitewide field layer from `document.documentElement.scrollHeight`, and that height counts the absolutely positioned layer itself. So the layer can grow but never shrink. On `/2/`, opening the example and closing it again (or opening it at a step, then closing it) left the page at its open height: 1,316 px of empty field under the footer at 390 (10,699 instead of 9,383) and 618 px at 1440 (6,921 instead of 6,303). An FAQ answer or a shorter use case left less. `how-it-works-v2.js` now watches `<body>`. When the content's height changes, it drops the layer to the content's height (it sets the height to 0, reads `scrollHeight` and sets it back in the same task, so nothing paints in between) before `page-field.ts`'s debounced re-measure runs. Measured: closing returns the page to 9,383 / 6,303, after an FAQ answer or a tab change too, with motion on and off; the field still redraws to the full page when the example opens (6,921 at 1440). This adds 62 B gzip. `/` has the same bug (a use-case tab change leaves about 100 px at 390). The fix belongs in `page-field.ts`, which can't change while `/` must stay byte-identical: see “For the owner”.
+- Stray last words, found by a scan of every multi-line text in every tab and state at 360, 390, 768, 1024, 1280 and 1440, and fixed with `text-wrap: balance` (line counts never grow):
+  - The use cases' “Decided in the open…” line and the action's explanation on phones (“…and close the / No side.”, “…can still / go live.”, “…market’s / own team.”).
+  - The builder's third reason at 360 (“…challenge independent / outcomes.”), which v1's `pretty` didn't catch. From 1024 each reason now breaks at its sentence (“Disputes settle in the open. / The project never picks a side.”).
+  - The roadmap's Now status at 390 and 1024 (“…completed in July / 2026”), and the Now title at 360 (“Building Augur / Lituus.” is now “Building / Augur Lituus.”).
+  - The hero lead at 1200–1300 (“…controlled by no / one.”). Every other v2 lead already balanced; the hero keeps its copy and layout (Ryan 1).
+
+**Looked at and kept.**
+- Roadmap evidence boxes end 20–90 px above their story column (every tab, 1024–1440). Story columns end 112 px lower on the Now tab at 1024, where the two links wrap. This is v1's layout, unchanged by Ryan 14.
+- “The design, published.” and “Ready for applications.” break before their last word at 360 only. That's v1 copy at the narrowest width; fixing it would mean a smaller roadmap title.
+- The open example on phones keeps v1's reserved step height, so a short step description has room under it in the Green step. This is v1's example unchanged (no jump between steps).
+- Roadmap stop labels “Testing & / audits” wrap at 768–1023, as in v1.
+- The use-case section changes height between tabs on phones (1,726 / 1,940 / 1,861 at 390), as in v1 (1,876 / 2,090 / 1,978).
+
+**Open questions, all v2 entries in one place** (details in each entry above).
+- For Augus:
+  1. The ranking line, “Designed to cost attackers more than almost any other oracle.”: is the whitepaper's own modelled estimate fine on the homepage (Robust card)?
+  2. “No admin keys”: is it true for Lituus-CS? It's left out until it is sourced.
+  3. Does “No governance” hold for the protocol as a whole, or only for deciding answers?
+  4. Keep “Trustless” (his) over the 18 Oct “Bribery-resistant”? And “Win user trust.” reverses his own 18 Oct “no trust”.
+  5. The hero keeps “the next generation” (handoff rule: “one of the next versions”).
+  6. Is the DAO constitution check a fair oracle use case, and should “mission” stay in its summary?
+  7. A second “Augur Lituus” in the use-case section (the builder's ask): is that fine?
+  8. Does “Disputes settle in the open. The project never picks a side.” carry Ryan's liability point strongly enough?
+  9. “Users can check and challenge independent outcomes.”: plain enough, given that a challenge takes a bond within an appeal period?
+  10. Print the fork's “two weeks” (the whitepaper's summary; its specification says “weeks”)?
+  11. Is “Stake it to report or challenge answers” plain enough for beginners?
+  12. The payout figures now live only in the example: fine?
+  13. The `/faq/` lead in Learn more, all questions starting closed, and “Read the blog” as a text link: is that what Ryan meant?
+- For the owner:
+  1. In v2 the example doesn't pin to the scroll (a departure from the 19 Oct v1 decision).
+  2. The page-field bug on `/`: change `measure()` in `page-field.ts` to zero the layer's height before reading `scrollHeight` (or read the height of `<body>`), then drop the v2 workaround. This changes `/`'s BaseLayout chunk, so it waits until `/` may change.
+  3. Also on `/`: the roadmap label collision at 768–919, the 32 px announcement dismiss button, and the FAQ toggle bars in forced colours (step 5 entry).
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints (the unused imports in `RepFlow.astro`, as before). Build: 29 pages, no warnings.
+- `/` against the baseline (`4884a66`): `cmp` identical. All 85 baseline files are byte-identical, every `_astro` asset and every page's CSP meta included; `1/index.html` and `2/index.html` are the only new files. `/1/` is byte-identical to the build before step 4.
+- `/` against `/1/`: the canonical and `og:url` (`/1/`), two more hashes in the CSP (the switch's style and script), and the switch block (style, nav, script) before the announcement bar. The robots meta is `noindex, nofollow` on all three in a normal build. With `PUBLIC_SITE_INDEXABLE=true`, `/` is `index, follow` and `/1/` and `/2/` are `noindex, nofollow`; the sitemap has 25 URLs, none of them `/1/` or `/2/`. `/1` and `/2` redirect to `/1/` and `/2/` on the local server. `vercel.json` parses and has both redirects (`permanent: false`, 307).
+- `check:budgets` (gzip): `/` JS 22,232 B and CSS 20,875 B (the baseline's own figures). `/1/` JS 22,595 B and CSS 21,515 B. `/2/` JS 22,954 B (359 B over `/1/`: the How it works script and the field fix) and CSS 23,497 B. `/2/` doesn't load BlogCover's script.
+- `check:links`: 29 pages, 2,275 destinations (baseline: 27 pages, 2,099). `check:copy`: output identical to the baseline's on `/` and `/1/` (the same known failures).
+- Headless Edge over CDP, with reduced motion: captures of every section of `/1/` and `/2/` at 1440 and 390, every use-case tab, How it works closed, opened and at each step on `/2/`, each step on `/1/`, the roadmap, Learn more closed and with an answer open, and the footer. Also `/2/` at 1280 and 1024, the whole page at 360 in readable slices, and the version switch's focus ring after real Tab presses on both pages at 1440 and 390. All looked at.
+- Heights: `/1/` 8,596 at 1440 and 11,996 at 390 (equal to `/`). `/2/` 6,303 and 9,383 closed, 6,921 and 10,699 with the example open. No horizontal overflow at 1440, 1280, 1024, 390 or 360. No console errors.
+- Keyboard and arrivals at 390 and 1440 (toggle, step 4, arrow keys, `#how-it-works` load, text fragment, hash change) as in step 4. axe-core: no violations on `/2/` at 1440 and 390, as loaded, open, and at step 3. Every inline script and style on `/2/` has its hash in the CSP.
+
+**Not done.** Playwright can't launch here. No screen reader. Figma is unchanged. Nothing committed.
+
+## Homepage v3 and v4 for review — 21 October 2026 (owner: add a Ryan-only version and an Augus-marks version beside v1 and v2)
+
+Two more review copies of the homepage, built from the same components as `/1/` and `/2/`. `/` is unchanged byte for byte, and so is every other baseline file. This entry covers the wiring only: `/3/` and `/4/` render exactly like `/2/` for now. Their sections follow in their own entries.
+
+**The four versions.**
+- `/1/` (v1): the homepage as it is, frozen.
+- `/2/` (v2, recommended): Ryan's notes as Augus marked them, with fact checks and wording fixes (the entries above).
+- `/3/` (v3): Ryan's 17 notes only, all applied, with Augus's marks and notes set aside. Ryan's exact words are used verbatim. Where he gave only a direction, the line says it the most direct way, in his spirit.
+- `/4/` (v4): Augus's marks, literal. A dash means do it (in Ryan's words where he gave them), an X means don't, and notes 1–3 are used verbatim. Where neither gave exact words, v4 reuses v2's line.
+- v3 and v4 keep the reviewers' own words even where the facts or house rules change them in v2: Ryan's “check in at least once a month”, Augus's “No admin keys” and “risk losing the token”, “Augur” for “Augur Lituus”, “you”. Each such line gets a `FLAG:` comment in its data file and goes into the flag list of its section's entry. Neither version adds a money claim beyond the reviewers' words.
+- v3 and v4 share v2's UI system: its rhythm tokens, the collapsed How it works with its step strip, Learn more with the FAQ and the blog link, and the version switch. So the comparison is about content and structure.
+
+**Data.** `src/data/homepage-review.ts` is the one place that lists the versions and hands out their copy:
+- `HomeVariant` is now `'v1' | 'v2' | 'v3' | 'v4'`. It moved here from `homepage-v2.ts`.
+- `reviewVersions` (`1 → v1` … `4 → v4`) feeds both the route's `getStaticPaths` and the switch's links.
+- `homeCopy(variant)` returns `homeV2`, `homeV3` or `homeV4`, or `undefined` for v1.
+- `pageClass(variant)` gives `<main>` its class.
+
+`src/data/homepage-v3.ts` and `homepage-v4.ts` spread `homeV2` and override one section at a time, so a section a version doesn't override yet reads v2's copy. A field that only some versions have (v3's intent links; the builder block in v2 and v4) is tested where it is read, with `'field' in copy.section`.
+
+**Components.** Hero, Tenets, Applications, How it works and Learn more now branch on the family instead of on `variant === 'v2'`: `const copy = homeCopy(variant)`, then the review markup when `copy` exists and v1's literal markup otherwise. How it works keeps a `review` flag for its attributes and script. v1 output is byte-identical (`/` and `/1/`, below), and `/2/` renders as before.
+
+**Styles and scripts.** `<main>` is `home-v2` on `/2/`, `home-v2 home-v3` on `/3/` and `home-v2 home-v4` on `/4/`, so v2's rules apply to all three.
+- v3-only rules go in `src/styles/home-v3.css` and v4-only rules in `home-v4.css`, every rule prefixed `.home-v3` or `.home-v4`.
+- `review-inline.ts` now exports `reviewInline`, with each review version's sheets in order and every script its page renders. v2 gets `[home-v2]`, v3 gets `[home-v2, home-v3]` and v4 gets `[home-v2, home-v4]`. It also exports `reviewScripts`, the shared v2-system scripts (`how`).
+- `[version].astro` hashes only its own version's sheets and scripts into the page's CSP and renders the sheets in the `version` slot, after the switch, as before. An empty sheet renders nothing and adds no hash.
+- A probe build with a marker rule in each new sheet showed v3's marker only on `/3/` and v4's only on `/4/`, and neither on `/2/`. The markers were then removed.
+- The `/2/`-only `v2Inline` export is gone.
+
+**Route, search, redirects.**
+- `getStaticPaths` maps `reviewVersions`, so `/3/` and `/4/` come from the same dynamic route, and `/`'s CSP list keeps its order (setup entry above). `Astro.props` is now typed from `getStaticPaths`, so the route has no `Props` interface; `astro check` flagged one as unused.
+- All four review copies are `noindex, nofollow`, each with its own canonical and `og:url`.
+- The hero's arrival-script hash in `BaseLayout.astro` now covers `/`, `/1/`, `/2/`, `/3/` and `/4/` (`/^\/(?:[1-4]\/)?$/`).
+- `vercel.json` adds temporary (307) redirects `/3 → /3/` and `/4 → /4/`, in the same form as `/1` and `/2`.
+- The sitemap's fixed list never had the review copies: an indexable build lists 25 URLs, none of them `/1/` to `/4/`.
+
+**Version switch: “v1 · v2 · v3 · v4”.**
+- Four links in one `nav` labelled “Homepage version”, built from `reviewVersions`, with `aria-current="page"` on the current one. Plain links, same behaviour as before: it carries the section in view, hides on scroll down below 768, comes back on scroll up and at the ends of the page, and stays while focused.
+- It stays small (Fitts's law): every cell is the 44 × 44 minimum, and the dots between cells take no width. Each dot sits centred on the seam between two cells and lets taps through. Four versions fit in 178 × 46 px, about 11 px narrower than with the dots in the flow. It keeps its corner, 24 px from the bottom and right, on the page gutter at phone widths (consistency, NN/g #4). Showing all four versions beats a previous/next control: the reader sees every option and where they are (recognition rather than recall, NN/g #6; visibility of system status, NN/g #1).
+- Carried anchors: the list holds only ids that every version renders (`why-augur`, `applications-heading`, `how-it-works`, `roadmap`, `learn-more`, `contact-title`), so a carried anchor always resolves. A block only some versions have carries the nearest shared anchor above it: the builder block in v2 and v4 carries `#applications-heading`, and v3's planned intent links under the hero carry nothing, which opens the other version at the top. Checked on all four pages: every id exists once on each, and from the builder block the links carry `#applications-heading`. Section ids that only one version has must not be added to the list.
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints (the unused imports in `RepFlow.astro`, as before; 120 files).
+- Build: 31 pages.
+- All 85 baseline files are byte-identical (`cmp` loop), `dist/index.html` and every `_astro` file included. The four new files are `1/`, `2/`, `3/` and `4/index.html`.
+- Against the build before this entry (wf1), `/1/` and `/2/` differ only in the switch: its style, that style's CSP hash, and the two new links. The switch script's hash is unchanged.
+- `/3/` and `/4/` against `/2/`: only the canonical, `og:url`, which link has `aria-current`, and the `<main>` class.
+- Every inline script and style on `/1/` to `/4/` has its hash in the page's CSP (the JSON-LD block is unhashed, as on `/`).
+- Indexable build: `/` and `/about/` are `index, follow`; `/1/` to `/4/` are `noindex, nofollow`; the sitemap has 25 URLs and none of the review copies.
+- `check:budgets` (gzip):
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/1/`: CSS 21,537 B (+22 B for the switch) and JS 22,595 B.
+  - `/2/`, `/3/` and `/4/`: CSS 23,519 B and JS 22,954 B each.
+- `check:links`: 31 pages, 2,457 destinations. `check:copy`: output identical to the baseline's (the same known failures).
+- Local server: `/3` and `/4` redirect to `/3/` and `/4/`.
+- Headless Edge over CDP:
+  - `/3/` first screen at 1440, 390 and 360, the hero at 390, and the end of the page at 1440, 390 and 360. All looked at.
+  - Switch geometry at 1440, 390 and 360: four 44 × 44 cells, the pill 178 × 46 px and 24 px from both edges. A tap on each dot lands on the next link.
+  - With motion on, `/3/` and `/4/` at 1440 and 390: the hero settles (the CSP allows its script) and the How it works script runs (toggle shown, example closed). Real Tab presses go: skip link, v1, v2, v3, v4, then the announcement, each with the focus ring. No console or log errors.
+  - Phone hiding at 390: hidden on scroll down, back on scroll up.
+  - No horizontal overflow at 1440, 390 or 360. Page heights equal `/2/`'s (6,303 at 1440, 9,383 at 390).
+  - axe-core: no violations on `/3/` and `/4/` at 1440 and 390 (as loaded, with the example open, and at step 3), or on `/1/`.
+
+**For the owner.** At the end of the page, below 380 px wide (360 and 375), the wider pill covers the blank right end of the footer's last left-column row (“Whitepaper ↗”): 10 × 22 px of tap area at 360 and 2.5 px at 375. The label stays 32 px clear, and from 380 up the pill clears it (5 px at 390; GitHub ends 22 px above it). Kept as is. Padding the footer on the review copies would add dead space and change `/1/`'s layout; moving the pill off the 24 px gutter, or hiding it at the end of the page, would undo the 21 Oct choices above.
+
+**Not done.** Playwright can't launch here, so `tests/site.spec.mjs` (which picks up `/1/` to `/4/` from `dist`) wasn't run. Forced colours and print weren't checked by hand; the switch's rules for both are unchanged. Figma is unchanged. Nothing committed.
+
+## Homepage v4: Augus's marks, literal — 21 October 2026 (Claude, `/4/` only, draft copy)
+
+Augus's marks on Ryan's notes, with his notes 1–3 word for word (all quoted in “Homepage v1 and v2 for review” above). `/`, `/1/`, `/2/` and `/3/` are unchanged byte for byte. The strings are in `src/data/homepage-v4.ts`. It spreads `homeV2` and overrides four things: the hero ending, the three cards, the builder block and the holder bar. The v4 rules are in `src/styles/home-v4.css`, which is 507 B inline and hashed into `/4/`'s CSP only. No component, script or shared stylesheet changed.
+
+**What each mark does on `/4/`.**
+- No mark on 1 and 14: the hero headline and art and the roadmap stay as in v1.
+- Dash, in Ryan's words: 2 (the hero ending), 3 (the lead) and 9 (the use-case lead). v2 already uses 3 and 9 verbatim.
+- Dash where neither reviewer gave exact words: 4 (the band), 7 (traders), 8 (the integrators' closer line), 10 (the DAO case), 12 (the How it works collapse) and 15 (Learn more). These are v2's implementations, unchanged.
+- Dash plus Augus's note, verbatim: 13 with note 2 (the holder bar) and 17 with note 3 (the cards).
+- X on 6: no tooltips. X on 16: no intent split. X on 11: the builder block stays, in note 1's words.
+
+**Copy, `/2/` → `/4/`.**
+- Hero ending (Ryan 2, his own example): “…and every challenge doubles the cost of a lie.” → “…and lying is designed to cost more than ever before.”
+- Permissionless (Augus 3). The claim stays “Anyone can ask. / Anyone can answer.” The body changes from “Projects plug in without asking. No approvals, no gatekeepers.” to “Report, challenge, or build on Augur. No approvals, no gatekeepers.”
+- Trustless (Augus 3):
+  - Claim: “No governance. / No one has a veto.” → “No governance. No multisigs. / No admin keys.”
+  - Body: “No multisigs. Not even Augur’s creators can override an answer.” → “No company, committee, or even Augur’s creators can override an outcome.”
+- Robust (Augus 3):
+  - Claim: “Hard to corrupt. / Lies get expensive fast.” → “Harder to game. / Costlier to manipulate.”
+  - Body: “Designed to cost attackers more than almost any other oracle.” → “Designed with one of the highest economic barriers to attack among decentralized oracles.”
+- Builder block (note 1, in his order):
+  - The title stays “Good for users. / Easier for projects.”
+  - Ask: “Want Augur Lituus in a platform you use? / Or one you’re building?” → “Want Augur in a platform you use? / Or one you’re building?” It sits beside the same “Talk to us” button. His “->” is that button, which has no arrow because it is an internal link.
+  - The reasons move from v2's order (liability, work, trust) to his order (trust, work, liability):
+    1. Eye: “Win user trust. Give users independent outcomes they can verify and challenge themselves.”
+    2. Puzzle piece: “No team to hire. Pay per question instead of running resolution in-house.” (unchanged)
+    3. Scales: “Stay out of the middle. When outcomes get contentious, Augur’s dispute process makes the call—not you.”
+  - The icons keep their approved meanings (anyone can see, it slots in, an impartial dispute) and move with their reasons.
+- Holder bar (note 2):
+  - “Put it to work, if you want. …” → “Utility: Use REP to earn from participating in the oracle.”
+  - “Don’t leave it unattended. …” → “Non-Passivity: Check actively for forks or risk losing the token.”
+  - The title, the two marks (solid, then hollow for acting in a fork) and “Learn about REP” stay.
+
+**Where the words differ from his note (typography and one carried-over line).**
+- “Anyone can ask.” replaces note 3's “Any app can ask.”. He dashed Ryan 5 (“Anyone can ask. Anyone can answer.”), and his note carried the old v1 line over. Flagged below.
+- Apostrophes are curly, as on the rest of the site (“Augur’s”, “you’re”). His spaced hyphen (“the call - not you”) is set as a closed em dash.
+- No-break spaces only control line breaks. They sit inside each Trustless claim sentence, in “No approvals” (at 1024 the body broke “…Augur. No / approvals”) and in “ever before” (at 1440 the hero left “before.” alone).
+
+**Flags (kept on purpose).** Each has a `FLAG:` comment in `homepage-v4.ts`.
+1. “No admin keys.” is unsourced. The whitepaper never mentions admin keys or upgradeability, and Lituus-CS isn't shipped (v2 open question 2).
+2. “No governance.” is sourced only for deciding answers (Abstract p1), not for the protocol as a whole (v2 open question 3).
+3. “Risk losing the token” is inaccurate. In a fork, REP left in the universe that doesn't reflect reality loses its value (§4.2.2 p5); nothing takes the token. The line also leaves out the window to act, which is two weeks in the proposed design (§2.2 p2); Lituus-CS forking isn't built.
+4. “Use REP to earn” states no condition (house rule: no guarantees). Rewards go only to a report or challenge whose answer holds (§4.3.1 p6), and holding REP earns nothing by itself.
+5. “Augur” for “Augur Lituus” (AGENTS.md) in three places: “build on Augur”, “Want Augur in…” and “Augur’s dispute process”. “Augur’s creators” is the project, as in v2.
+6. “You” (AGENTS.md: traders first, no “your call”) in two places. The ask is scoped to builders by “Or one you’re building?”, as in v2. “Not you” in the third reason is not scoped.
+7. “Makes the call—not you” breaks three house rules: it is an “X, not Y” construction, it uses an em dash, and it uses “makes the call”, the idiom the owner replaced on 19 Oct. It also follows the closer's “The answer is nobody’s call.”
+8. Rules of three: “Report, challenge, or build”, “No company, committee, or even Augur’s creators” and the three-sentence Trustless claim.
+9. “Harder to game. Costlier to manipulate.” are comparatives with nothing to compare against, which is why v2 rewrote them.
+10. “Economic barriers” brings money into Why Augur (v2 house rule for this section).
+11. “Win user trust.” reverses Augus's own 18 Oct “no trust” for this section, as in v2.
+12. “Augur’s creators” is implied only by the paper's “or anyone else” (Abstract p1), as in v2.
+13. The ranking appears twice: in the hero (“more than ever before”) and in the Robust body (“one of the highest economic barriers to attack”); v2 says it once.
+    - Both are the whitepaper's modelled estimates: Abstract p1 (“unprecedented security”); §3 p3 (134% of FDV against 26–92% for the designs surveyed); §7.5 p20 (46% more than Augur's previous design); §8 p20.
+    - Both are hedged by “designed”, and the paper hedges them too: §3 (“contingent upon the underlying assumptions”) and §7.0.2 (“no protocol is strictly more secure than another”).
+
+**Layout (v4 only, `home-v4.css`; no word changed).**
+- **Why Augur cards from 1024.** Augus's copy can't end level in three equal columns:
+  - Trustless's claim takes three lines.
+  - Robust's body is 672 px at 16 px, so it takes three lines in a 245–336 px column.
+  - Permissionless is the shortest at every width.
+
+  With v2's order (picture, rule, copy), the shorter cards got empty feet under their copy: 32 px (Permissionless) and 8 px (Robust) at 1280–1440, 26 px under two cards at 1024, and up to 56 px at 1200. Now the copy comes first under the tab, and the picture fills the rest of the card, sitting on its foot.
+  - Every claim starts on one line across the row.
+  - Each body stays 12 px under its claim (law of proximity).
+  - The three pictures share one bottom edge (alignment).
+  - The difference falls above the picture, inside its own area. Measured from 1024 to 1440 every 20–40 px, the copy has no foot, and the space above the picture runs 16–72 px.
+  - The rule between picture and copy goes, because with copy of different heights it couldn't stay level.
+  - This follows the v2 gate picture's precedent: the picture takes the room, not an empty foot.
+  - The pictures are `aria-hidden`, so the reading order is unchanged. The diagram loops still run (checked with motion on).
+  - Tablet and phones keep v2's layout, one card per row.
+
+  Tried and dropped:
+  - Pinning each body to the card foot: claims stayed level, but a 38–68 px gap opened between a claim and its body (measured).
+  - Centring the copy: claims would sit up to 28 px apart across the row (half the 56 px difference at 1200).
+- **Trustless split.** The setup is “No governance. No multisigs.”, the two points the whitepaper sources (Abstract p1). The payoff is “No admin keys.”, the unsourced one, so it is easy to drop. With no-break spaces inside each sentence, the setup breaks only between them, so every review width shows one sentence per line. The setup fits on one line only just under 1200 px and at 414–600 px. Both lines are Paper, as in v2.
+- **Builder reasons.**
+  - From 1280 they sit on the page's three-up grid (DESIGN.md: three tiles 400 wide with 24 px gaps, the cards' grid) instead of v1's 80 px gutters. Each reason takes two lines, so the columns end level. With 80 px gutters at 1440, the third reason took three lines beside two (“When outcomes get contentious, Augur’s” is 370 px; the column is now 379–400 px). Principles: consistency and standards (NN/g #4) and similarity.
+  - From 1024 to 1279 no column width keeps them level (3 / 2 / 3 lines, or 3 / 2 / 4 at 1024). So each reason is a row, as below 1024: the icon tile beside the claim and point, every point on one line. The title and the ask keep their heading row.
+  - Phones and tablet keep v2's rows.
+- **Looked at and kept: the holder bar.** It keeps v2's layout (title, points, link). Augus's points are shorter, so at 1280–1440 about 450 px separate them from “Learn about REP”, more than in v2, whose longer fork point fills more of the bar. I tried the two points side by side: at 1440 one took a line and the other two, and at 1280 the balanced lines left gaps in three places. The link stays at the bar's end, as in v1 and v2 (consistency, Jakob's law for notice bars). The bar is 92 px tall from 1024, 190 at 768 and 236 on phones (v2: 115–161 and 236–328).
+- **Hero.** At 1440 the body runs to three lines (v2: two), and the hero's height is unchanged at every width (764, 764, 764, 740, 805 and 786 at the six review widths).
+
+**Heights, `/2/` → `/4/`** (fresh loads, reduced motion, default states):
+
+| Width | Why Augur | Builder block | Holder bar | Page |
+| --- | --- | --- | --- | --- |
+| 1440 | 1,141 → 1,132 | 289 → 289 | 115 → 92 | 6,303 → 6,271 |
+| 1280 | 1,120 → 1,111 | 277 → 277 | 115 → 92 | 6,220 → 6,188 |
+| 1024 | 1,031 → 1,048 | 271 → 355 | 161 → 92 | 6,387 → 6,419 |
+| 768 | 1,461 → 1,501 | 427 → 483 | 236 → 190 | 7,365 → 7,415 |
+| 390 | 2,016 → 2,090 | 559 → 611 | 328 → 236 | 9,403 → 9,437 |
+| 360 | 1,997 → 2,095 | 585 → 637 | 328 → 236 | 9,579 → 9,637 |
+
+**Open questions for Augus.**
+1. Note 3 says “Any app can ask.”, but he dashed Ryan 5's “Anyone can ask.”. `/4/` shows “Anyone”. Is that right?
+2. “No admin keys.”: is there a source? Without one, the line can be dropped and the claim ends on “No multisigs.”
+3. “Risk losing the token”: the token stays and its value goes. Would he take “…or risk losing its value”?
+4. Should “Use REP to earn” carry its condition (only when the answer holds)?
+5. “Makes the call—not you”, the em dash and “Augur” for “Augur Lituus” break house rules. Keep them as his voice?
+
+**For the owner.** From 1024, `/4/`'s cards put the copy above the picture, where `/2/` puts the picture first. This is a response to Augus's longer verbatim copy, not part of his notes. If the review should compare identical card layouts, the alternative is v2's order with the empty feet measured above.
+
+**Checks run.**
+- Build: 31 pages, `astro check` 0 errors, 0 warnings, 2 hints (as before).
+- All 85 baseline files are byte-identical (`cmp` loop), and the only new files are `1/` to `4/index.html`. `/1/`, `/2/` and `/3/` are byte-identical to the build before this step.
+- Every inline script and style on `/4/` has its hash in the CSP; the JSON-LD block is unhashed, as on `/`.
+- `check:budgets` (gzip):
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/2/` and `/3/`: CSS 23,519 B and JS 22,954 B.
+  - `/4/`: CSS 23,787 B (+268 B) and JS 22,954 B, so no new JavaScript.
+- `check:links`: 31 pages, 2,457 destinations. `check:copy`: output identical to the baseline's (the same known failures).
+- Headless Edge over CDP, reduced motion. Captures of the hero, Why Augur, the use cases (all three tabs), the builder block, How it works (closed and open) and the holder bar at 1440, 1280, 1024, 768, 390 and 360, all looked at.
+- Width sweeps:
+  - Card line counts, claim tops, picture bottoms and copy feet: every 20–40 px from 1024 to 1440, then 1023, 900, 768, 600, 480, 414, 390, 375 and 360.
+  - Builder reason lines: at the same widths.
+  - Stray single last words: at 1440, 1280, 1200, 1100, 1024, 768, 600, 414, 390, 375 and 360. Nothing in the v4 copy; the only hits are in sections shared with `/2/`, which shows the same ones.
+- No horizontal overflow on fresh loads at the six review widths, and no console errors.
+- With motion on at 1440: the hero settles, the band's ribbon settles, all three diagram loops move, and the How it works toggle shows with the example closed.
+- axe-core: no violations on `/4/` at 1440, 1024 and 390, as loaded, with the example open, and at step 3.
+
+**Not done.** Playwright can't launch here. Forced colours and print weren't checked by hand: the new rules apply from 1024 px and change no colours. Safari and Firefox aren't installed here. The 1280 builder fit has an 8 px margin (the 370 px line in a 379 px column). No screen reader. Figma is unchanged. Nothing committed.
+
+## Homepage v3: Ryan's notes, literal — 21 October 2026 (Claude, `/3/` only, draft copy)
+
+Ryan's 17 notes, all applied, with Augus's marks and notes set aside (quoted in “Homepage v1 and v2 for review” above). Part 1 covers the hero (notes 1, 2 and 16) and Why Augur (notes 3–8 and 17). Part 2, at the end of this entry, covers notes 9–15 and a pass over the whole page. `/`, `/1/`, `/2/` and `/4/` are unchanged byte for byte.
+
+Where the work lives:
+- The strings are in `src/data/homepage-v3.ts`, each with its note, its whitepaper section and any `FLAG:`.
+- `Hero.astro` and `Tenets.astro` branch on the copy: a `hero.paths` field renders the fork, and a card `tip` renders the “?”.
+- The rules are in `src/styles/home-v3.css`.
+- The toggletip's hover and focus script is `src/components/home/tenet-tips-v3.js`. It is hashed into `/3/`'s CSP only (`reviewInline.v3.scripts.tips`).
+
+v3 starts from v1, not from v2. Where Ryan said nothing about a line, it keeps v1's approved words.
+
+**What each note does on `/3/` so far.**
+- 1, no change: the hero headline and art.
+- 2: the hero ending, in his words.
+- 3: the lead, in his words (v2 already uses them).
+- 4: one word in the band.
+- 5: the Permissionless claim, in his words.
+- 6: a “?” definition on each card title.
+- 7 and 8: the two reader lines in the closer.
+- 16: the three-way fork in the hero.
+- 17: the Decentralized and Bribery-resistant cards. v1's titles stay, so each title has a tooltip.
+
+**Copy, v1 → `/3/`.**
+- Hero ending (Ryan 2, his own example): “…and lying is designed to cost more than it pays.” → “…and lying is designed to cost more than ever before.”
+- Hero actions (Ryan 16): “See how it works” → three links: “For traders” (`#why-augur`), “For REP holders” (`#how-it-works`) and “For builders” (`#applications-heading`). “Read the whitepaper ↗” stays. Part 2 points the three links at their sections' headings (`#tenets-heading`, `#how-heading`, `#applications-heading`); see “Part 2: where the fork lands”.
+- Lead (Ryan 3, verbatim): “Whoever tells them what happened controls who gets paid.” → “Whoever controls the oracle decides who gets paid.”
+- Band (Ryan 4): “With Augur, users don't rely on parties to control answers.” → “With Augur, users don’t rely on middlemen to control answers.”
+- Cards: v1's titles, order and pictures (Cross anywhere, Peer mesh, No authority).
+  - Permissionless (Ryan 5): claim “Any app can ask. / Anyone can answer.” → “Anyone can ask. / Anyone can answer.” The body stays v1's: “Ask, answer or push back. No one has to let you in.”
+  - Decentralized (Ryan 17):
+    - Claim: “No one in charge. / No one to pressure.” → “No governance. / No multisigs.”
+    - Body: “Answers come from people with something to lose, not from a back room.” → “Fully trustless: no one holds a veto over any answer.”
+  - Bribery-resistant (Ryan 17):
+    - Claim: “Money behind every answer. / Lying is built to lose.” → “Built to cost attackers / more than ever before.”
+    - Body: “Paying for a false answer is designed to cost more than it brings in.” → “Every challenge doubles the cost of defending a lie.”
+- “?” definitions (Ryan 6, new). Each box starts with its term in Paper:
+  - Permissionless: “Open to anyone. No one approves who asks a question or who answers it.”
+  - Decentralized: “No one is in charge, so there is no one to pressure. Answers come from many independent people.”
+  - Bribery-resistant: “Paying for a false answer is designed to cost more than it brings in.” This is v1's approved body, moved here so the fact keeps one home.
+- Closer. The statement stays: “The answer is nobody’s call.”
+  - For traders (Ryan 7): “Payouts follow what actually happened, / with no authority deciding alone.” → “Many traders have already seen markets misresolve. / Here, no authority decides.”
+  - For integrators (Ryan 8): “Focus on building and growing your platform. / Leave resolution to Augur Lituus.” → “A bad resolution can mean PR disasters and backlash. / Let Augur Lituus answer.”
+
+**Why these words.**
+- “Middlemen” (Ryan 4 gave no word). It is what a reader already calls whoever stands between a market and its answer. “Parties” reads as legal jargon, and “intermediaries” and “third parties” are no plainer. Nothing else in v1's sentence changes. The ribbon splits it into ten words and plays as before (checked with motion on).
+- Decentralized claim. Ryan's own words for his differentiators. Abstract p1: truth “is not decided by token holders, governance, multisigs, or anyone else”.
+- Decentralized body. Ryan asked for “no-holds-barred decentralization and trustlessness”, so the body uses the paper's words: “trustless” (Abstract; §2) and no “centralized backstops or vetoes” (§2 p2). “Fully” carries his “no-holds-barred”. Augus's “Augur's creators” is left out: the line is his, and the paper implies it only through “or anyone else”.
+- Bribery-resistant claim. Ryan's “attack cost higher than ever before”, in his hero words. It is hedged as v1 hedged this card (“built to lose”): “built to” means “designed to”. It is the whitepaper's modelled estimate:
+  - Abstract p1: “unprecedented security”.
+  - §3 p3: the most expensive to attack of the designs surveyed (134% of FDV).
+  - §7.5 p20: 46% more than Augur's previous design.
+  - §8 p20.
+- Bribery-resistant body. The why, stated as a mechanism, so it needs no hedge: each challenge doubles the bond (§2.1 p2, §4.1 p5). “Money”, “bond” and “stake” stay out of Why Augur, as in v2.
+- Definitions. One or two sentences each, in plain words from the paper:
+  - Permissionless: anyone may ask (Abstract, §2, §4.0.1, §4.4.1) and anyone can report (§2).
+  - Decentralized: v1's own claim words, plus dispersed knowledge (§1).
+  - Bribery-resistant: v1's approved body.
+- Traders. Ryan's framing (“a good number of traders… have already seen misresolved markets”) and his word “misresolve”. The payoff is v1's “with no authority deciding alone”, said outright as he asks.
+- Integrators. Liability first, in his words (PR disasters, backlash from bad resolutions), with “can” so it reads as a risk. Labour second: the payoff hands the answering to the oracle.
+  - v1's payoff, “Leave resolution to Augur Lituus.” (323 px), can't end level with any trader line. The last closer cell is 12 px narrower than the middle one (subgrid half-gutters), so the two payoffs wrap at different widths. A trader line would need to wrap at 1280 (327 px cell) but not at 1023 (324 px cell).
+  - “Let Augur Lituus answer.” (240 px) fits every two-column width. Unlike “Leave it to Augur Lituus.” (v2's), it has no “it” to misread after “backlash” as handling the PR.
+  - Also tried: “Augur Lituus does the work.”, which is 248 px at 18 px in a 245 px cell at 1024.
+  - “A bad resolution can mean a PR disaster and user backlash.” took 3 lines beside 2 at 1200, 1024 and 768. Dropping “user” fixed that, and “backlash” stays his word.
+  - Measured: both reader cells take 2 + 1 lines at every width from 655 to 1440 (every 20–60 px) and on phones. At 601–654, which is not a review width, they take 3 + 2 beside 3 + 1, as in v2's 601–655 exception.
+
+**Flags (kept on purpose).** Each has a `FLAG:` comment in `homepage-v3.ts` where it is a reviewer's word.
+1. “Many traders” is Ryan's framing and has no source. It is kept unquantified.
+2. “No governance.” is sourced for deciding answers (Abstract p1), not for the protocol as a whole (v2 open question 3).
+3. The ranking appears twice: in the hero (“more than ever before”) and in the Bribery-resistant claim. Ryan's notes 2 and 17 each ask for it; v2 says it once. Both are modelled estimates for an undeployed design, and the paper hedges them itself: §3 (“contingent upon the underlying assumptions”) and §7.0.2 (“no protocol is strictly more secure than another”).
+4. “Fully trustless”: the paper says “trustless”; “fully” is the intensifier for Ryan's “no-holds-barred”.
+
+**The “?” toggletips (Ryan 6).**
+- Markup (v3 only; v1, v2 and v4 render the same `<h3>` as before):
+  - The title and a `<button>` share a head row. A button inside the `<h3>` would join the heading's accessible name.
+  - The button's visible “?” is a 20 px outlined square, like the How it works step numbers. It sits in a 44 × 44 target, 12 px after the word, overhanging the 36 px tab by 4 px at each edge instead of growing it.
+  - Its accessible name is “What does permissionless mean?”. `aria-describedby` points at the definition, so a screen reader reads the definition when the button takes focus, open or not.
+  - The definition is a native popover (`popovertarget`), so a click, a tap, Enter and Space open and close it, and Esc and a click outside close it, all with no script. The browser exposes `aria-expanded`.
+- Script (`tenet-tips-v3.js`, 1,062 B raw):
+  - On a mouse, resting on the “?” for 150 ms shows the definition.
+  - Moving off both the “?” and the box hides it after 300 ms, so the pointer can cross the 4 px gap onto the box.
+  - Keyboard focus shows it, and leaving hides it.
+  - A press while it shows that way keeps it open; without this the native toggle would close it. A second press closes it.
+  - It meets WCAG 1.4.13: dismissible (Esc), hoverable and persistent.
+  - `interestfor` would give hover and focus with no script, but only Chromium supports it. Polyfills would mean CDN imports, which the CSP blocks, or bundled code over the JS budget.
+- Position: CSS anchor positioning, with each anchor name set on the element (`style-src-attr` allows it).
+  - The box hangs 8 px under the tab, on the card's text edge, no wider than the text column or 336 px. Without the 336 px cap, tablets got 617–696 px boxes holding one 90-character line.
+  - It flips above the tab when there is no room below (`position-try-fallbacks: flip-block`).
+  - It is in the top layer, so the folder card's clip never cuts it.
+  - Browsers without anchor positioning get the browser's centred popover.
+  - The open “?” fills Green (Highlight in forced colours), so the state shows (visibility of system status, NN/g #1). The “?” is hidden in print.
+- Tab: the title is “Bribery-resistant” again, so the tab is 232 px (216 on phones). That is the room v1's 200 / 184 px tab left after the word, measured past the mark: the mark ends 203 px in (195 at a 24 px inset). It is one width for all three cards, as in v1.
+- Principles:
+  - Help and documentation where it's needed, and recognition rather than recall: the definition sits beside the term (NN/g #10, #6).
+  - Law of proximity: the box sits under its own term and never covers it.
+  - Fitts's law: 44 px targets.
+  - Consistency (NN/g #4): the step-number square.
+
+**The fork (Ryan 16).**
+- Placement: in the hero's action area, not as a band under the hero.
+  - The hero fills the first screen at every width (DESIGN.md), so a band under it would always start below the fold. Phones, where Ryan finds the page too long, are included.
+  - In the action area it is on the first screen everywhere. At 390 × 844 and 360 × 740 all three links end by 658 px, and at 1024 × 768 by 627 px.
+- It replaces “See how it works” instead of adding to it:
+  - Hick's law: three choices plus the whitepaper link, instead of five.
+  - Jakob's law: it sits where a hero's actions are expected.
+  - “See how it works” targeted `#how-it-works`, which the REP link now takes. Any link there opens the example (`how-it-works-v2.js`), so REP holders land on the walkthrough of reporting and getting paid. (Changed in part 2: the REP link now lands on the closed section.)
+- Hierarchy:
+  - Traders' link is the view's one Green action (DESIGN.md: one Primary per view; AGENTS.md: traders first). The other two are outline links.
+  - All three are 48 px tall and 12 px apart, so they read as one group. The whitepaper link takes the next row, 16 px below, as it already did on phones in v1.
+  - The labels match the closer's “For traders” (consistency, NN/g #4).
+  - The nav is labelled “Jump to”. The links are plain anchors with no script, each to an id every version renders.
+- Layout: a container query on the copy column puts the three on one row wherever they fit (402 px needed at 14 px labels, 410 allowed for font differences). Narrower (768, and 414 down to 360), traders' link takes the full row and the other two split the next. No link is left alone on a row (no dead space), and every link is a wide thumb target (Fitts's law).
+
+**Heights, `/2/` → `/3/`** (fresh loads, reduced motion, default states):
+
+| Width | Hero | Why Augur | Page |
+| --- | --- | --- | --- |
+| 1440 | 764 → 764 | 1,141 → 1,141 | 6,303 → 6,303 |
+| 1280 | 764 → 764 | 1,120 → 1,120 | 6,220 → 6,220 |
+| 1024 | 764 → 764 | 1,031 → 1,031 | 6,387 → 6,387 |
+| 768 | 740 → 740 | 1,461 → 1,505 | 7,365 → 7,409 |
+| 390 | 805 → 865 | 2,016 → 2,049 | 9,403 → 9,497 |
+| 360 | 786 → 846 | 1,997 → 2,030 | 9,579 → 9,673 |
+
+The fork's second row adds 60 px to the hero on phones. v1's longer band takes two lines at 768 (v2's takes one) and three on phones.
+
+**Measured for dead space.**
+- Width sweep at 1440, 1360, 1280, 1200, 1199, 1100, 1024, 1023, 900, 768, 767, 600, 480, 414, 390, 375 and 360.
+- The three cards keep 1 + 1 claim lines and 2 body lines with no copy foot from 1024 up. Tablet copy centres against the picture, as in v2. Phones stack the cards.
+- Both reader cells end level (above).
+- The definitions take 2–4 lines open at 360–1440, none ending on one word.
+- Stray last words: none in any string this step changed, at 1440, 1280, 1200, 1100, 1024, 768, 600, 414, 390, 375 and 360. The hits are in sections shared with `/2/`.
+
+**Open questions.**
+1. “Middlemen” for “parties”: Ryan named no word. Is it the one he meant?
+2. “Many traders have already seen markets misresolve.” has no source. Keep it as his framing, or say “Seen a market settle the wrong way?” as v2 does?
+3. “No governance.” and “Fully trustless”: true for the protocol as a whole, or only for deciding answers?
+4. The ranking twice (hero and card): fine for Ryan's “explicit, even radical”?
+5. The integrators' payoff “Let Augur Lituus answer.” replaces v1's approved “Leave resolution to Augur Lituus.” because the closer cells must end level. “User” left “user backlash” for the same reason.
+6. The fork replaces “See how it works”. Is a reader fork in the hero what Ryan meant? (Part 2 changed where “For REP holders” lands; see its open questions.)
+7. A definition opened by a press stays open when focus moves on, until Esc or a click elsewhere. Is that fine, or should leaving the card close it?
+
+**Checks run.**
+- `astro check`: 0 errors, 0 warnings, 2 hints (as before; 121 files). Build: 31 pages.
+- All 85 baseline files are byte-identical (`cmp` loop), `dist/index.html` included; the only new files are `1/` to `4/index.html`. `/1/`, `/2/` and `/4/` are byte-identical to a rebuild of the step-B sources, whose `/1/`, `/2/` and `/3/` match step A's final build.
+- Every inline script and style on `/3/` has its hash in the CSP; the JSON-LD block is unhashed, as on `/`.
+- `check:budgets` (gzip):
+  - `/`: CSS 20,875 B and JS 22,232 B (unchanged).
+  - `/2/`: CSS 23,519 B and JS 22,954 B.
+  - `/3/`: CSS 24,468 B and JS 23,264 B. That is +310 B of JS over `/2/`, all of it the toggletip script; a hand-minified version gzips no smaller.
+- `check:links`: 31 pages, 2,459 destinations. `check:copy`: output identical to the baseline's (the same known failures).
+- Headless Edge over CDP, reduced motion: captures of the hero, Why Augur, the cards with each definition open, and the closer at 1440, 1024, 768, 390 and 360, and first screens at 390 × 844, 360 × 740, 768 × 1024 and 1024 × 768. All looked at. No horizontal overflow and no console errors.
+- Real input over CDP at 1440 and 390:
+  - Keyboard: Tab opens a definition and Enter keeps it. Tab to the next closes the first and opens the second. Esc closes, and Enter opens and closes again. Space keeps it open. Shift+Tab works.
+  - Mouse at 1440: closed after 80 ms of hover, open after 480 ms. It stays open with the pointer on the box and closes 300 ms after leaving. Hover then click keeps it open after leaving; a click outside closes it. A quick click opens it and a second click closes it.
+  - Touch at 390: a tap opens it, a second tap closes it, and a tap outside closes it.
+  - Near the foot of the screen the box flips above the tab.
+  - In every state the box stays clear of its term and its button, and inside its card's edges (32 px in, 24 on phones).
+  - Accessibility tree: role button, the name above, the definition as its description, and `expanded` following the state.
+- With JavaScript off, a real click opens the definition, and the fork's three links are plain anchors.
+- With motion on: the hero settles, and the band's ribbon arms with ten word spans and settles.
+- Forced colours (the cards with a definition open, and the hero) and print (the “?” hidden) were captured and looked at.
+- Tap targets: every `/3/` homepage control is at least 44 × 44 px at 360, 390, 768 and 1440: the “?” buttons are 44 × 44 and the fork links 48 px tall. The only smaller ones are shared chrome: the announcement and footer items listed in the v2 entries, and the header's 40 px nav items at 1440.
+- axe-core: no violations on `/3/` at 1440 and 390: as loaded, with the example open, at step 3, and with each definition open.
+
+**Not done.**
+- Playwright can't launch here. No screen reader.
+- Safari and Firefox aren't installed here, so the centred-popover fallback (no anchor positioning) wasn't seen.
+- Figma is unchanged. Nothing committed.
+
+**Part 2: notes 9–15 and the whole page.** `/`, `/1/`, `/2/` and `/4/` are unchanged byte for byte. The strings are in `src/data/homepage-v3.ts` (`applications`, `holder`, and the fork's `href`s). `Applications.astro` renders the builder block only when the copy has one (`'builder' in copy.applications`); v1's `builderCase` stays literal and renders the same bytes. No CSS or JavaScript was added, so `/3/`'s budgets and CSP hashes are unchanged.
+
+**What each note does on `/3/`.**
+- 9: the use-case lead, in his words. v2 already uses the line, so v3 reads it from `homeV2`.
+- 10: the DAO case in his framing (a change against the DAO's mission statement or constitution; DAOs stay open-ended; developers can't rug), with the picture relabelled to agree.
+- 11: the builder block is gone: title, reasons, ask and its “Talk to us”.
+- 12: v2's collapse, strip, toggle and lead, unchanged.
+- 13: “Holding REP?” says what REP can do and that it isn't passive, with his cadence verbatim.
+- 14: the roadmap is unchanged (v2's rhythm only, as on `/2/`).
+- 15: v2's Learn more, unchanged.
+
+**Copy, v1 → `/3/`.**
+- Lead (Ryan 9, verbatim): “Any app that needs to know what happened in the world. / It asks a question and acts on the answer.” → “Any protocol or app that needs to know what happened in the world.”
+- DAOs & governance (Ryan 10):
+  - Summary (the tab's blurb; the panel's first line below 1024): “Proposals and grants that wait on real-world facts: an audit result or a milestone met.” → “Proposed improvements and protocol changes checked against a DAO’s mission statement or constitution.”
+  - Question and answer: “Did the upgrade pass its safety review?” **No** → “Does this change conflict with the DAO’s mission statement?” **Yes**. The picked Green chip comes first, as in the other two cases.
+  - Who: “Decided in the open, not by the team behind the upgrade.” → “Decided in the open, not by the DAO’s own developers.”
+  - Action: “Hold the upgrade.” → “Block the change.”
+  - Explanation: “The proposal goes live once a later review passes.” → “Developers can’t rug the DAO. Changes that fit its mission still go live.”
+  - Picture labels: “This review” / “A later review” / “Review” → “This change” / “Another change” / “Mission check”. “Proposal” and “Live” stay. The check holds v2's one Green wall (a stop, not v1's pause).
+- Builder block (Ryan 11), removed: “Good for users. / Easier on the project.”, the three reasons (“No team to hire.”, “Never the judge.”, “Proof, not promises.”), the ask “Exploring how it could fit a platform, or just curious? / Ask the team anything.” and its outline “Talk to us”.
+- How it works (Ryan 12): v2's. The heading stays; v1's three-sentence lead → “Stake REP on what you saw. A wrong call costs your bond.”, then “Walk through an example” and the four-step strip.
+- Holding REP? (Ryan 13). The title and “Learn about REP” stay.
+  - v1: “Optional. You never have to report or challenge.” / “But never passive. Holding REP is a duty to the truth. In a fork, move it to the universe that reflects reality, or it loses its value.”
+  - `/3/`: “Put it to work. Stake it to report what happened and earn extra.” / “Never passive. In the event of a fork, you have to check in at least once a month. Move your REP to the universe that reflects reality, or it loses its value.”
+- Learn more (Ryan 15): v2's. No “From the blog” column; the three questions under the `/faq/` lead “Short answers, each with a link to go deeper.”, then “View all questions” and “Read the blog”.
+- Hero fork (Ryan 16, part 1's links): `#why-augur` → `#tenets-heading` and `#how-it-works` → `#how-heading` (below). No visible word changes.
+
+**Why these words.**
+- Question. “Conflict” and “mission statement” are his; “this change” is the picture's first lane word for word, so the question, the lane and “Block the change.” name one thing. His two kinds of change (“proposed improvement or protocol change”) and his two documents sit in the summary. “Does this protocol change conflict with the DAO’s mission statement?” took three lines at 1024 and four at 390; this one takes two from 1024 up, one at 1023, three at 390 and four at 360–375.
+- Who. “The DAO’s own developers” are the people his “developers can't rug” is about, and it reads like the other cases' “the market’s own team”.
+- Explanation. His two points, one sentence each, so it breaks between them wherever it wraps from 375 up: “developers can't rug” as he said it (jargon is fine for him), then “DAOs stay open-ended” said the way the picture's second lane shows it: a change that fits the mission passes the check and goes live.
+- “Mission check”. The question asks about the mission statement; “Constitution check” would point at the other document.
+- Holder, first point. His “report to earn extra” and “stake” in one clause: staking a bond is how you report (§4.1 p5), and the paper has no other staking, so it can't read as staking for a yield. Challenging isn't in his note; the example and “Learn about REP” cover it.
+- Holder, second point. His reminder verbatim, with a comma after “fork”, then v1's approved sentence for what checking in is for: without it “check in” has no object. “Never passive.” is v1's “But never passive.” without “But”, since “Optional.” went with his rewrite.
+
+**Flags (kept on purpose)**, continuing part 1's list. Each has a `FLAG:` comment in `homepage-v3.ts`.
+5. The question asks about a mission statement, which is open to interpretation. The whitepaper wants questions with an objective ground truth (§5 p12), and one that can't be resolved resolves Invalid (§4.0.1 p3). v2 asks about “a rule in the DAO’s constitution” for that reason.
+6. “Developers can’t rug the DAO.” is a guarantee (house rule: “designed to”, never guarantees). It holds only where the DAO's upgrade path waits on the answer, as the case sets up. “Rug” is crypto slang.
+7. “At least once a month” is Ryan's cadence and doesn't match the paper: a fork opens a two-week, one-way migration window (§2.2 p2; “a time-frame of weeks”, §4.2.2 p5), a proposed design (Lituus-CS forking isn't built). A monthly check could miss the window, and REP left behind loses its value. The paper sets no check-in cadence. v2 says “designed to give you two weeks”.
+8. “Earn extra” states no condition (house rule: no guarantees). Rewards go only to a report or challenge whose answer holds (§4.3.1 p6), and holding REP earns nothing by itself (§4.4.4; `rep.ts`).
+9. “You have to” states a duty, and “you” addresses the reader (AGENTS.md: traders first). The bar is scoped to REP holders by its title. With v1's “Optional.” gone, nothing on the page says reporting and challenging are optional any more (house rule: never imply holders must report or challenge); nothing says they're required either.
+
+**Without the builder block.** The use cases now end the section: the stage, then the section's own space (96 / 72 / 64, measured equal to `/2/`'s at 1440, 1024, 768, 390 and 360). From 1024 the tab list and the stage share one height, so the section ends on one edge; below 1024 it ends on the picked case's panel. The block's points are where Ryan says they started: the liability point in the closer's integrators line (part 1: “A bad resolution can mean PR disasters and backlash. / Let Augur Lituus answer.”), and the contact ask in the header's “Talk to us” and the footer's “Building on it? Tell us what your project needs.” The version switch needs nothing: in v2 and v4 the block carries `#applications-heading`, which `/3/` still renders. `check:links` counts one destination fewer (the block's `/contact/`).
+
+**Part 2: where the fork lands (Ryan 16, revisited).** Measured with part 1's links at 1440 × 900 and 390 × 844:
+- “For traders” (`#why-augur`, the section) put its heading 120 / 88 px down, while “For builders” (`#applications-heading`, a heading) put its heading at 24 px.
+- “For REP holders” (`#how-it-works`) opened the example, because `how-it-works-v2.js` opens it for any link to that anchor. On phones “Holding REP?”, Ryan 13's bar for exactly these readers, then ended 2,297 px down.
+
+Each link now targets its section's heading: `#tenets-heading`, `#how-heading` and `#applications-heading`, ids every version renders.
+- All three land the same way, with the heading 24 px from the top (base.css scroll padding). Consistency (NN/g #4): one link, one kind of landing.
+- REP holders land on the closed section. At 390 × 844 the heading, the lead, the toggle, the four steps and “Holding REP?” with both points are in view (the bar ends at 917 px, so “Learn about REP” sits just under the fold). At 1440 the whole section ends at 416 px. Progressive disclosure, as Ryan 12 asks, and information scent: the reader sees the overview and their own bar first, and one press opens the example at any step (user control and freedom, NN/g #3).
+- No script changed. `how-it-works-v2.js` is shared with `/2/` and `/4/`, and editing it would change their CSP hash.
+- A real Enter on each link lands the same, and the next Tab goes to the section's first control: the first “?”, the toggle, the first use-case tab. Without JavaScript the anchors land the same, with the example open, as on `/2/`.
+- The version switch still carries the section: `#why-augur`, `#how-it-works` and `#applications-heading` after the three landings (checked at 1440 and 390).
+
+**Whole-page pass.**
+- Rhythm: section paddings, the 96 / 72 / 64 section space and the 48 / 32 heading gaps match `/2/` at 1440, 1024, 768, 390 and 360.
+- DAO tab: from 1024 the stage keeps the Insurance case's height, as on `/2/` (721, 709, 687, 685 and 704 px at 1440, 1280, 1200, 1100 and 1024), and the gate centres under the explanation. The tab's blurb takes three lines at 1280–1440 and four at 1024, like Prediction's; the three rows keep one height.
+- Typography: no-break spaces only, no word changed:
+  - “or constitution.” The summary left “constitution.” alone on the tab's fourth line at 1024 and on the panel's at 360.
+  - “once a month.” The fork point broke “once a / month.” at 1024–1440 and at 390. From 1280 its balanced lines now break between the two sentences; at 390 it takes five lines (four before).
+- Stray last words: scanned at 1440, 1280, 1200, 1100, 1024, 768, 600, 414, 390, 375 and 360, every tab and state. None in a `/3/` string; the remaining hits are in sections shared with `/2/` (the same list as `/2/`'s).
+- No horizontal overflow at 1440, 1024, 768, 390 or 360. Page height returns to its closed value after opening and closing the example and switching tabs (5,950 at 1440, 8,847 at 390).
+- Tap targets: every homepage control is at least 44 × 44 px at 1440, 768, 390 and 360. The smaller ones are the shared chrome listed in the v2 entries.
+
+**Considered, not kept.**
+- “Does this protocol change conflict with the DAO’s mission statement?”: three lines at 1024, four at 390.
+- Keeping part 1's open landing for REP holders: above.
+- “Constitution check” on the gate: the question names the mission statement.
+- Balancing the holder's points below 1280 too: at 768 and 1200 it would break at the sentence, but at 1024, 600 and on phones it gave worse breaks (“In the event of / a fork”). v2's balance from 1280 stays.
+
+**Heights, `/2/` → `/3/`** (shoot.ts fresh loads, reduced motion; use cases with each tab, How it works closed):
+
+| Width | Use cases (tabs 1 / 2 / 3) | How it works | Holder bar | Page |
+| --- | --- | --- | --- | --- |
+| 1440 | 1,410 → 1,057 | 584 → 584 | 115 → 115 | 6,303 → 5,950 |
+| 1280 | 1,375 → 1,034 | 584 → 584 | 115 → 115 | 6,220 → 5,879 |
+| 1024 | 1,351 → 1,016 | 731 → 708 | 161 → 138 | 6,387 → 6,029 |
+| 768 | 1,555 / 1,705 / 1,689 → 1,064 / 1,214 / 1,198 | 821 → 798 | 236 → 213 | 7,365 → 6,895 |
+| 390 | 1,726 / 1,940 / 1,861 → 1,123 / 1,337 / 1,258 | 1,044 → 1,021 | 324 → 301 | 9,383 → 8,847 |
+| 360 | 1,806 / 2,050 / 1,917 → 1,177 / 1,421 / 1,368 | 1,044 → 1,021 | 324 → 301 | 9,555 → 8,993 |
+
+From 1024 the three tabs share one height. Against `/` (v1), the page is 8,596 → 5,950 at 1440 and 11,996 → 8,847 at 390 (−26%), the fork's extra row in the hero included.
+
+**Open questions (part 2).**
+8. The DAO question asks about a mission statement, Ryan's framing, which isn't an objective fact in the whitepaper's sense (v2 asks about a written rule). Keep his?
+9. “Developers can’t rug the DAO.”: fine as a claim, and is “rug” plain enough for a general reader?
+10. “At least once a month” can miss a two-week migration window. Keep his cadence, or say the window as v2 does?
+11. “Earn extra” carries no condition, and with “Optional.” gone nothing says reporting is optional. Fine for Ryan's version?
+12. Without the builder block, builders who follow “For builders” reach the use cases and then only the header's “Talk to us” and the footer's “Building on it?”. Enough?
+13. For the owner: the fork links now land on headings, so the address bar shows `#tenets-heading` and `#how-heading` rather than `#why-augur` and `#how-it-works`. Fine?
+
+**Checks run (part 2).**
+- `astro check`: 0 errors, 0 warnings, 2 hints (as before; 121 files). Build: 31 pages.
+- All 85 baseline files are byte-identical (`cmp` loop), `dist/index.html` included; the only new files are `1/` to `4/index.html`. `/1/`, `/2/` and `/4/` are byte-identical to part 1's build, so `/1/` still equals wf1 apart from the switch, and `/2/` and `/4/` are unchanged.
+- Every inline script and style on `/3/` has its hash in the CSP; the JSON-LD block is unhashed, as on `/`.
+- `check:budgets` (gzip), unchanged by part 2: `/` CSS 20,875 B and JS 22,232 B; `/2/` 23,519 and 22,954; `/3/` 24,468 and 23,264; `/4/` 23,787 and 22,954.
+- `check:links`: 31 pages, 2,458 destinations. `check:copy`: output identical to part 1's (the baseline's known failures).
+- Headless Edge over CDP, reduced motion:
+  - Captures of the hero, Why Augur, the use cases with each tab, How it works closed and open, the holder bar, the roadmap, Learn more and the full page at 1440, 1024, 768, 390 and 360. All at 1440 and 390 looked at, plus the DAO tab and the holder bar at 1024, 768 and 360.
+  - Line measurements of every new DAO string and the holder points at 12 widths, and of the candidates above.
+  - The three landings by click and by real Enter at 1440 and 390, with the next Tab and the switch's carried anchor.
+  - No JavaScript (landing, example open, no builder block), forced colours (the DAO tab's wall in Highlight, the holder bar) and print (example shown, controls hidden) at 1440 and 390.
+- axe-core: no violations on `/3/` at 1440 and 390: as loaded, with the example open, at step 3, and with each definition open.
+
+**Not done (part 2).** Motion wasn't re-captured: no animated element changed, only the gate's label text. Playwright can't launch here. No screen reader. Safari and Firefox aren't installed. Figma is unchanged. Nothing committed.
+
+## Homepage v1 to v4: verification before review — 21 October 2026 (Claude, checks only)
+
+All four review copies were checked together before the review. Every check passed, so no code or copy changed; this entry is the record. The build is the sources as the `/3/` part 2 entry left them.
+
+**Invariants.**
+- `/` is byte-identical to the baseline (`4884a66`), and so are all 85 baseline files (`cmp` loop). The only new files are `1/`, `2/`, `3/` and `4/index.html`.
+- `/1/` and `/2/` against wf1 (the build before v3 and v4) differ in the switch only, in three places each:
+  1. One `style-src-elem` hash in the CSP: the switch style's (`sha256-LsuJ7…` → `sha256-DePqa…`).
+  2. The switch style: `.version-switch span{color:var(--muted-foreground)}` gains `width:0; min-width:0; pointer-events:none; justify-content:center; display:flex` (the dots sit on the seams between cells).
+  3. Two new links after v2: `· v3` and `· v4`.
+- The switch script and its hash are unchanged. v1's markup is unchanged: `/1/`'s main content equals wf1's.
+- `/1/` to `/4/` are byte-identical to the `/3/` part 2 build.
+
+**CSP.**
+- Hashes: every inline script and style on `/` and on `/1/` to `/4/` has its hash in its page's CSP. The JSON-LD block is unhashed, as on `/` (it is data, not a script). `/`'s list is the baseline's.
+- In the browser, a `securitypolicyviolation` listener ran before any page script, and Log entries were read too. That found zero violations on all five pages:
+  - at 390 and 1440 with motion on and with reduced motion, and at 360;
+  - with How it works opened and closed;
+  - on `/3/`, with each definition opened.
+- The listener was proven by injecting an inline script and style on purpose: both were reported.
+
+**Routes and search.**
+- Local server: `/1`, `/2`, `/3` and `/4` answer 308 to their slash form. `vercel.json` makes all four temporary redirects (307, `permanent: false`).
+- All four are `noindex, nofollow`, each with its own canonical and `og:url`.
+- The sitemap is empty in this non-indexable build, byte-identical to the baseline's. Its route list is fixed in `sitemap.xml.ts`, and an indexable build lists 25 URLs, none of them `/1/` to `/4/`.
+
+**Budgets** (`check:budgets`, gzip):
+
+| Page | CSS | JS |
+| --- | --- | --- |
+| `/` | 20,875 (baseline 20,875) | 22,232 (baseline 22,232) |
+| `/1/` | 21,537 | 22,595 (`/` + the switch script) |
+| `/2/` | 23,519 | 22,954 |
+| `/3/` | 24,468 | 23,264 (`/2/` + 310, the definitions script) |
+| `/4/` | 23,787 | 22,954 (`/2/` + 0) |
+
+The homepage JS gate still doesn't run on Windows (the path comparison in the 19 October entry above). `/` is over the 20 KB budget as before.
+
+**Links and copy.** `check:links`: 31 pages, 2,458 destinations, all resolve. `check:copy`: output identical to the baseline's (its known failures, none new).
+
+**Page heights** (fresh loads in headless Edge, touch emulated below 768, reduced motion; the same with motion on):
+
+| Page | 1440 closed | 1440 open | 390 closed | 390 open | 360 closed | 360 open |
+| --- | --- | --- | --- | --- | --- | --- |
+| `/`, `/1/` | 8,596 | always open | 11,996 | always open | 12,364 | always open |
+| `/2/` | 6,303 | 6,921 | 9,383 | 10,699 | 9,555 | 10,921 |
+| `/3/` | 5,950 | 6,568 | 8,847 | 10,163 | 8,993 | 10,359 |
+| `/4/` | 6,271 | 6,889 | 9,417 | 10,733 | 9,613 | 10,979 |
+
+Closing the example again returns every page to its closed height, so there is no empty field under the footer. Against `/`, the page is 31% shorter at 1440 and 26% shorter at 390 on `/3/`, and 27% and 21% on `/4/`. Phone heights in the `/4/` table and the first `/3/` table above came from `fit.ts`, which emulates no touch and reads 20 px more on phones (9,403 for `/2/` at 390). The pages are the same.
+
+**Overflow, errors, accessibility.**
+- No horizontal overflow on any of the five pages at 1440, 390 or 360, with the example closed or open, nor with any of `/3/`'s definitions open (each box stays inside the viewport). The only elements past the edge are the hero art's squares, which are clipped inside it, as on `/`.
+- No console errors, exceptions or log errors on any load.
+- axe-core: no violations on `/2/`, `/3/` and `/4/` at 1440 and 390: as loaded, with the example open, at step 3, and on `/3/` with each definition open.
+- Tap targets under 44 px on `/2/`, `/3/` and `/4/` at 390 and 360: the same four sitewide ones, which `/` has too. They are the announcement's “Catch up” link and 32 × 32 dismiss button, the footer's email, and its inline “Lituus Foundation” link. Nothing new.
+- Single-word last lines: `/3/` and `/4/` have exactly `/2/`'s list at 1440, 1280, 1024, 768, 390 and 360, all in the shared How it works, roadmap and FAQ copy. Their own lines leave none.
+- `/3/`'s definitions, by real keyboard, mouse and touch at 1440 and 390, all pass:
+  - Tab shows a definition and Esc closes it; Enter and Space open and close it.
+  - A mouse rest shows it, and the box holds it open while the pointer is on it.
+  - A click or tap pins it, and a click or tap outside closes it.
+  - The box flips above the term near the bottom of the screen.
+- One `h1`, no duplicate ids, and every in-page link resolves on all four. The switch marks the current page with `aria-current`. `/3/`'s fork links point at `#tenets-heading`, `#how-heading` and `#applications-heading`. The builder block shows on `/1/`, `/2/` and `/4/` and not on `/3/`.
+- No JavaScript: on `/2/` to `/4/` the example is open and its toggle and step strip are hidden. `/` and `/1/` are 7,178 px tall at 1440 without JavaScript, the baseline's own figure.
+
+**Copy against the specs** (the rendered text of each page, read in full):
+- `/3/`: every one of Ryan's 17 notes is in place, with his exact words where he gave them.
+- `/4/`: every one of Augus's marks is in place, with his notes 1 to 3 verbatim.
+- Against `/2/`, only the lines each spec names differ. The flags stay as listed in each version's entry: 8 `FLAG:` comments in `homepage-v3.ts` and 11 in `homepage-v4.ts`.
+
+**Not done.** Playwright can't launch here; its per-route test (status 200, one visible `h1`, axe, no console errors) was reproduced over CDP instead. The other homepage tests go to `/`, which is unchanged. Forced colours and print weren't re-run: nothing changed since part 2. Safari and Firefox aren't installed. No screen reader. Nothing committed.

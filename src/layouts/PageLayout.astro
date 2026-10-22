@@ -3,11 +3,13 @@ import BaseLayout from './BaseLayout.astro';
 import AnnouncementBar from '../components/layout/AnnouncementBar.astro';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
-interface Props { title?:string; description?:string; image?:string; article?:boolean; footer?:boolean; class?:string; }
+interface Props { title?:string; description?:string; image?:string; article?:boolean; noindex?:boolean; footer?:boolean; class?:string; }
 const {footer=true,class:className,...metadata}=Astro.props;
+// The "version" slot (the homepage review switch, [version].astro) comes before the announcement bar:
+// dismissing the bar slides every element after it, and its state script reads the element before it.
 ---
 <BaseLayout {...metadata}>
-  <AnnouncementBar /><SiteHeader />
+  <slot name="version"/><AnnouncementBar /><SiteHeader />
   <main id="main" class={className} tabindex="-1"><slot /></main>
   {footer&&<SiteFooter />}
 </BaseLayout>

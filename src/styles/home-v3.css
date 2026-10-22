@@ -1,0 +1,54 @@
+/* Homepage v3, /3/ only (owner, 21 Oct 2026): Ryan's 17 notes, literal. Loaded as a string
+   (review-inline.ts) and rendered inline on /3/ alone, after home-v2.css: /3/'s <main> is
+   "home-v2 home-v3", so v2's rhythm and components apply and this sheet only adds or overrides.
+   Every rule starts with .home-v3, so none of it can reach /2/ or /4/ even if the sheet were shared.
+   The specificity notes at the top of home-v2.css apply here too: this sheet comes after v2's, so a
+   .home-v3 rule ties a .home-v2 rule of the same shape and wins. */
+
+/* Hero fork (Ryan 16): three reader links in the action area, so the page's main fork is on the first
+   screen at every width. It takes the place of "See how it works" rather than adding to it: three
+   choices plus the whitepaper link, instead of five (Hick's law), in the place a hero's actions are
+   expected (Jakob's law). One Green link, the traders' (DESIGN.md: one Primary per view; AGENTS.md:
+   traders first), and two outline links, all 48 px tall and 12 px apart, so they read as one group;
+   the whitepaper link takes the next row, 16 px under it, as it already did on phones in v1.
+   The three share one row where the copy column holds them (402 px at 14 px labels, 488 at 16;
+   410 leaves room for font differences). Narrower (768, 414–360), traders' link takes the full row
+   and the other two split the next, so no link is left alone on a row (no dead space) and each is a
+   wide target for a thumb (Fitts's law). */
+.home-v3 .hero-copy{container-type:inline-size}
+.home-v3 .hero-actions{flex-wrap:wrap;row-gap:16px}
+.home-v3 .hero-paths{display:flex;flex:1 0 100%;gap:12px}
+@container (width<410px){.home-v3 .hero-paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.home-v3 .hero-paths>:first-child{grid-column:1/-1}}
+
+/* Why Augur cards (Ryan 5, 6, 17): v1's titles, so the tab is sized for "Bribery-resistant" again, plus
+   its "?". One width for all three, so the notches share one rhythm (as in v1): the mark ends 203 px in
+   (195 where the inset is 24), and the tab ends 29 px past it, the room v1's 200 px tab left after the
+   word; on phones 21 px, as v1's 184. --tip-pad is the card's text inset, which the definition box
+   lines up with. */
+.home-v3 .tenet-card{--tab:232px;--tip-pad:32px}
+@media(min-width:1024px) and (max-width:1199px){.home-v3 .tenet-card{--tip-pad:24px}}
+@media(max-width:600px){.home-v3 .tenet-card{--tab:216px;--tip-pad:24px}}
+
+/* The "?" toggletip (Ryan 6). The title and its button share the tab's row; the button is a 44 px
+   target around a 20 px mark, 12 px after the word, like the How it works step numbers (an outlined
+   square, 12 px figures). It overhangs the 36 px tab by 4 px at each edge rather than growing it. */
+.home-v3 .tenet-head{display:flex;align-items:center;height:var(--lip)}
+.home-v3 .tenet-head .tenet-tab{padding-right:0}
+@media(max-width:1023px) and (min-width:601px){.home-v3 .tenet-head{grid-column:1/-1}}
+.home-v3 .tenet-tip{display:grid;place-items:center;flex:none;width:44px;height:44px;margin:-4px 0;padding:0;border:0;background:none;color:var(--muted-foreground);font:600 12px/1 var(--font-heading);cursor:pointer}
+.home-v3 .tenet-tip-mark{display:grid;place-items:center;width:20px;height:20px;box-shadow:inset 0 0 0 1px var(--web-outline);transition:color 180ms ease-out,box-shadow 180ms ease-out,background-color 180ms ease-out}
+@media(hover:hover) and (pointer:fine){.home-v3 .tenet-tip:hover .tenet-tip-mark{color:var(--foreground);box-shadow:inset 0 0 0 1px var(--web-hover-edge)}}
+.home-v3 .tenet-head:has(:popover-open) .tenet-tip-mark{background:var(--primary);color:var(--background);box-shadow:none}
+.home-v3 .tenet-tip:focus-visible{outline:0}.home-v3 .tenet-tip:focus-visible .tenet-tip-mark{outline:2px solid var(--ring);outline-offset:3px}
+/* The definition: a native popover in the top layer, so the folder card's clip never cuts it. Where
+   anchor positioning works it hangs 8 px under the tab, its left edge on the card's text edge, never
+   wider than the card's text column or 336 px (the 1440 column; on tablets the tab spans both columns
+   and the box ran 617–696 px, one 90-character line), so it sits under its own term and never covers
+   it; with no room below it flips above the tab (position-try). Elsewhere it keeps the browser's
+   centred popover. Measured open at 360–1440: two to four lines, none ending on one word. */
+.home-v3 .tenet-tip-pop{box-sizing:border-box;max-width:min(336px,calc(100vw - 32px));padding:14px 16px;border:1px solid var(--web-outline);background:var(--web-raised);color:var(--muted-foreground);font-size:14px;line-height:21px;text-wrap:pretty}
+.home-v3 .tenet-tip-pop strong{font-weight:600;color:var(--foreground)}
+@supports (position-anchor:--a){.home-v3 .tenet-tip-pop{inset:auto;top:anchor(bottom);left:anchor(left);margin:8px 0 0 var(--tip-pad);width:max-content;max-width:min(336px,calc(anchor-size(width) - 2 * var(--tip-pad)));position-try-fallbacks:flip-block}}
+@media(prefers-reduced-motion:reduce){.home-v3 .tenet-tip-mark{transition:none}}
+@media(forced-colors:active){.home-v3 .tenet-tip-mark{box-shadow:none;border:1px solid ButtonText}.home-v3 .tenet-head:has(:popover-open) .tenet-tip-mark{forced-color-adjust:none;background:Highlight;color:HighlightText;border-color:Highlight}.home-v3 .tenet-tip-pop{border-color:CanvasText}}
+@media print{.home-v3 .tenet-tip{display:none}}

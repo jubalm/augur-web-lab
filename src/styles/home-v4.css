@@ -1,0 +1,39 @@
+/* Homepage v4, /4/ only (owner, 21 Oct 2026): Augus's marks on Ryan's notes, literal. Loaded as a
+   string (review-inline.ts) and rendered inline on /4/ alone, after home-v2.css: /4/'s <main> is
+   "home-v2 home-v4", so v2's rhythm and components apply and this sheet only adds or overrides.
+   Every rule starts with .home-v4, so none of it can reach /2/ or /3/ even if the sheet were shared.
+   The specificity notes at the top of home-v2.css apply here too: this sheet comes after v2's, so a
+   .home-v4 rule ties a .home-v2 rule of the same shape and wins. While it holds no rules it renders
+   nothing and adds no CSP hash.
+   These rules only fit Augus's verbatim words (homepage-v4.ts); none of them changes a word. */
+
+/* Why Augur cards from 1024, three in a row (Augus 3). His copy can't end level: Trustless's three
+   sentences take three claim lines, Robust's body three lines (672 px at 16 px against a 245–336 px
+   column) and Permissionless is the shortest at every width, so with v2's order (picture, rule, copy)
+   the shorter cards were left an empty foot under their copy: 32 px under Permissionless and 8 under
+   Robust at 1280–1440, 26 under two cards at 1024, up to 56 at 1200 (measured). Restructured, as v2
+   did for the gate picture in the use cases: the copy comes first, under the tab, so every claim starts
+   on one line across the row and each body stays 12 px under its claim (law of proximity); the picture
+   takes the rest of the card and sits on its foot, so the three pictures share one bottom edge and the
+   difference falls above the picture, inside its own area, not under the text. The rule between
+   picture and copy goes: with copy of different heights it could not stay level across the row. The
+   pictures are aria-hidden, so the reading order is unchanged. Tablet and phones keep v2's layout:
+   one card per row, where no card stands beside a shorter one. */
+@media(min-width:1024px){
+ .home-v4 .tenet-copy{flex:none;border-top:0;padding-bottom:0}
+ .home-v4 .tenet-visual{order:1;flex:1;display:flex;align-items:flex-end;padding-top:16px}
+}
+
+/* The builder's reasons (Augus 1, his order and words). From 1280 they sit on the page's three-up
+   grid (DESIGN.md: three tiles 400 wide with 24 gaps, the Why Augur cards' grid) instead of v1's
+   80 px gutters: a 378–400 px column holds each reason in two lines, so the three columns end level
+   ("When outcomes get contentious, Augur’s" is 370 px at 18 px; with 80 px gutters it took three lines
+   beside two). Below 1280 no column width keeps them level (3 / 2 / 3 lines at 1100–1279, 3 / 2 / 4 at
+   1024), so from 1024 to 1279 each reason is a row, as below 1024: its icon tile beside its claim and
+   point, every point on one line. The title and the ask keep their heading row above. */
+@media(min-width:1280px){.home-v4 .builder-reasons{column-gap:24px}}
+@media(min-width:1024px) and (max-width:1279px){
+ .home-v4 .builder-reasons{grid-template-columns:minmax(0,1fr);row-gap:28px}
+ .home-v4 .builder-case .builder-reasons li{grid-template-columns:44px minmax(0,1fr);column-gap:20px}
+ .home-v4 .builder-icon{grid-row:span 2;margin:0}
+}

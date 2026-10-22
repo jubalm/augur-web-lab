@@ -1,0 +1,10 @@
+---
+import {switchInline} from './review-inline';
+import {reviewVersions,type ReviewVersion} from '../../data/homepage-review';
+// "v1 · v2 · v3 · v4" on the homepage review copies only, one link per version in reviewVersions.
+// Plain links, so it works without JavaScript; the current version is marked with aria-current.
+// Style, nav, then script: the script reads the nav.
+interface Props { current:ReviewVersion; }
+const {current}=Astro.props;
+---
+<style is:inline set:html={switchInline.style}></style><nav class="version-switch" aria-label="Homepage version">{reviewVersions.map(({version},i)=><>{i>0&&<span aria-hidden="true">·</span>}<a href={`/${version}/`} aria-current={current===version?'page':undefined}>v{version}</a></>)}</nav><script is:inline set:html={switchInline.script}></script>
