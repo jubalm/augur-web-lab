@@ -52,6 +52,14 @@ Pointer lens (fine pointers only): squares within 130 px of the pointer move awa
 
 Pointer glow is limited to fine pointers and a 200 px radius, rAF-throttled; 120 ms in / 450 ms out. It resets on leave, scroll and resize, and is disabled for reduced motion, hidden document or off-screen hero. Only a subset of twelve heritage squares twinkles on varied 2.6–5.4 s opacity cycles. This is the sole ongoing ambient treatment and must be measured; off-screen/hidden pauses and reduced-motion cancellation apply.
 
+On `/2/` only (owner's version, 22 Oct 2026), the lituus flock replaces the square field and the heritage field:
+- **Loop:** 320 clusters of squares stream along a lituus spiral into the dashed answer square. Each has one transform-and-opacity Web Animation on the 12 s cycle, started at its own phase from one of six key classes (`hero-flock.ts`, `hero-flock-v2.js`). The answer square breathes: it rises from 3.9 s and from 7.9 s to 114% (300 ms) and back (700 ms), and from 11.6 s to 108% (300 ms) and back by 12 s.
+- **Arrival:** the flock fades in from 106% about the pole over 500 → 2100 ms while it flows.
+- **Lens:** clusters within 120 units part by up to 26 and grow by up to 50%, computed every frame while the pointer is over the hero, with a 280 ms transition.
+- **Tap ripple:** the same ring as the old field, popping the clusters it passes to 170%.
+- **Rules:** the same pause, print, reduced-motion and no-JavaScript rules apply.
+- **Measured:** about 1 ms of main-thread work and no style recalculation per second while it runs (`decisions.md`).
+
 ## Who decides
 
 The answer band is live text. When 60% of it is visible it sweeps in once per load (900 ms, cubic-bezier(.45,0,.2,1)), a reload or return visit included (owner, 6 Oct 2026: it was never seen while reviewing by refreshing): a Green ribbon grows from the left under the statement, led by three 10 px squares that fade over the last 180 ms; text ahead of the edge stays Paper on Navy and behind it Navy on Green. Behind the edge each word of the Navy copy rises .45 em into place while fading in (420, hero easing) from the moment the front reaches its left edge (owner, 6 Oct 2026: the text should move too); at 1440 the words start at 151, 197, 238, 253, 277, 312 and 328 ms and the statement is set by about 750. The moving copy is the `aria-hidden` overlay, split into inline-block words; the live statement underneath stays one text node, and the copy comes to rest within 0.1 px of it at 1440, 1024, 390 and 360 px, so the hand-over at the end does not jump. No JavaScript, reduced motion, print or an already-visible band show the settled Green band.

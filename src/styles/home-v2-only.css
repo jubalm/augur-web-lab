@@ -1,0 +1,163 @@
+/* /2/ only: the owner's own suggestions (22 Oct 2026: "keep working on this v2 (only) since this will be
+   the version I'll present as my suggestions"). Loaded as a string after home-v2.css on /2/ alone
+   (review-inline.ts), so it never reaches "/", /1/, /3/ or /4/. It follows home-v2.css's specificity
+   rules: a one-compound component rule is matched directly, a longer one is tied and wins on order. The
+   header sits outside <main>, so its rules start with .site-header.
+
+   The icon trial (owner, 22 Oct 2026: the icons are "ugly, weird, generic"). Signals only: Augur's
+   square-cut glyphs replace Phosphor's arrows, chevron, close, check and plus (Icon.astro); pictograms
+   give way to Augur's square mark or to nothing; the phone menu buttons read "Menu" and "Close"; the
+   community logos stay. */
+
+/* Use cases: the 8 px square mark, the header's product-row mark, centred on the name's first line in
+   place of the 44 px icon tile. Mist idle, Green picked (the selected state keeps its Green marker,
+   DESIGN.md); on hover it turns Paper and onto its corner, the menus' gesture. */
+.home-v2 .case-label{padding-top:0}
+.home-v2 .case-mark{width:8px;height:8px;margin-top:calc((clamp(20px,1.67vw,24px) * 1.3 - 8px) / 2);background:var(--mark-participant,#71728A);transition:background-color 240ms ease-out,transform 200ms var(--ease-reveal)}
+.home-v2 .case-tab[aria-selected="true"] .case-mark{background:var(--primary);transition-delay:140ms}
+@media(hover:hover) and (pointer:fine){.home-v2 .case-tab:not([aria-selected="true"]):hover .case-mark{background:var(--foreground);transform:rotate(45deg) scale(.9)}}
+.home-v2 .case-tab:not([aria-selected="true"]):active .case-mark{transform:rotate(45deg) scale(.75)}
+@media(max-width:1023px){.home-v2 .case-mark{margin-top:0}}
+@media(forced-colors:active){.home-v2 .case-mark{forced-color-adjust:none;background:CanvasText}.home-v2 .case-tab[aria-selected="true"] .case-mark{background:Highlight}}
+@media(prefers-reduced-motion:reduce){.home-v2 .case-mark{transition:none}}
+/* The answer chip draws the check glyph's own path (assets/icons/augur/check.svg) at its stroke. */
+.home-v2 .case-pick .case-check polyline{stroke-width:1.75;stroke-linecap:square;stroke-linejoin:miter}
+/* The builder reasons have no icon tiles: stacked, each is its claim over its point. */
+@media(max-width:1023px){.home-v2 .builder-case .builder-reasons li{grid-template-columns:minmax(0,1fr)}}
+
+/* Phone header: the words "Menu" and "Close" in the same outline box, in place of the hamburger and
+   the cross (a labelled "Menu" is found more readily than the bare glyph, NN/g). */
+.site-header .mobile-open,.site-header .mobile-navigation .mobile-top button{width:auto;min-width:44px;padding:0 16px;font:600 16px/24px var(--font-heading);cursor:pointer}
+
+/* Header logo, a brand exception (owner, 22 Oct 2026: "Make a brand exception: shrink the /2/ header
+   logo to about 128 px"). 128 × 43 px, 15% under the Brand Foundation's 150 px minimum for the
+   horizontal logo (02.6); the artwork itself is untouched. The phone menu's logo matches, so it keeps
+   its size when the menu opens; the footer keeps 150. DESIGN.md and decisions.md record the exception. */
+.site-header .brand,.site-header .brand svg{width:128px}
+
+/* Products menu (owner, 22 Oct 2026: the lead card's whole surface was the link, yet a button sat inside
+   it, so the hit area didn't match what it looked like; then "the augur lituus should have more space like
+   it was before"). The card keeps its place and size, the left column over both rows, and is itself the
+   one link: a Dark 1 surface at rest that lifts to Dark 3 under the pointer like every menu row, its mark
+   turning onto its corner. Its action is a text label at its foot, not a button: on hover a 2 px line
+   draws under it and the arrow nudges 3 px, as on the site's text actions. The label lines up with the
+   name, past the mark. */
+.site-header .nav-lead{grid-row:span 2}
+.site-header .nav-lead>a{flex-direction:column;justify-content:space-between;background:var(--web-quiet)}
+.site-header .nav-lead .nav-mark{margin:9px 0 0;background:var(--primary)}
+.site-header .nav-lead .nav-label{font:600 20px/26px var(--font-heading)}
+.site-header .nav-lead-action{display:inline-flex;align-items:center;gap:8px;margin-left:20px;font:600 16px/24px var(--font-heading);color:var(--foreground)}
+.site-header .nav-lead-label{position:relative}
+.site-header .nav-lead-label::after{content:'';position:absolute;left:0;right:0;top:100%;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform 240ms var(--ease-reveal)}
+.site-header .nav-lead>a:is(:hover,:focus-visible) .nav-lead-label::after{transform:none}
+.site-header .nav-lead-arrow,.site-header .nav-lead-arrow svg{width:16px;height:16px}
+.site-header .nav-lead-arrow{transition:transform 200ms var(--ease-reveal)}
+.site-header .nav-lead>a:is(:hover,:focus-visible) .nav-lead-arrow{transform:translateX(3px)}
+@media(prefers-reduced-motion:reduce){.site-header .nav-lead-label::after,.site-header .nav-lead-arrow{transition:none}}
+@media(forced-colors:active){.site-header .nav-lead>a{border:1px solid CanvasText}.site-header .nav-lead-label::after{forced-color-adjust:none;background:CanvasText}}
+
+/* Hide on the way down, back on the way up (owner, 22 Oct 2026; header-v2.js sets the attributes, so
+   without JavaScript the header stays in the flow). Sticky at the top; slid up by its own height, a
+   transform, when hidden. Once it has left its place under the announcement, a 1 px Outline line marks
+   its foot so the page doesn't run into it unseen (no shadows). Reduced motion swaps the slide for a cut. */
+.site-header[data-headroom]{position:sticky;top:0;transition:transform 280ms var(--ease-reveal)}
+.site-header[data-headroom][data-hidden]{transform:translateY(-100%)}
+.site-header[data-headroom][data-stuck]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--web-outline);pointer-events:none}
+@media(prefers-reduced-motion:reduce){.site-header[data-headroom]{transition:none}}
+@media print{.site-header[data-headroom]{position:relative;transform:none}}
+
+/* Why Augur cards: isometric scenes (owner, 22 Oct 2026: "isometric for all three"). IsoScene.astro draws
+   each scene's resting frame from tenets-iso.ts, and TwoRoads.astro Permissionless's from two-roads.ts;
+   tenets-iso-v2.js plays the 12 s loop with transform and opacity only. Every moving part turns about its
+   own box, the false answer's tower about its foot and the barrier arm about its post. The drawing is
+   clipped to its box, so the tower that can't be built runs off the top of the card's art. */
+.home-v2 .tenet-visual .tenet-iso{overflow:hidden}
+.tenet-iso [data-iso]{transform-box:fill-box;transform-origin:50% 50%}
+.tenet-iso [data-iso="double-lie"]{transform-origin:50% 100%}
+.tenet-iso text{font-family:var(--font-heading);font-weight:600;font-size:10.5px;letter-spacing:.08em;fill:var(--muted-foreground)}
+.tenet-iso .iso-count{font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
+.tenet-iso .iso-green{fill:var(--primary)}
+@media(forced-colors:active){.tenet-iso text,.tenet-iso .iso-green{fill:CanvasText}}
+.tenet-iso [data-iso="double-lie-top"]{transform-origin:0% 100%}
+.tenet-iso [data-iso="roads-arm"]{transform-origin:100% 50%}
+/* Narrow cards (three across at 1024, and phones) draw the scene under 300 px wide; the labels grow in the
+   drawing's own units so they stay about 10 px and up on screen. */
+.home-v2 .tenet-visual-iso{container-type:inline-size}
+@container (max-width:300px){.tenet-iso text{font-size:13.5px}.tenet-iso .iso-count{font-size:18px}}
+
+/* Hero: the lituus flock (owner, 22 Oct 2026: the hero "looks awful and weird", make it "more fancy").
+   FlockArt.astro draws the resting frame from hero-flock.ts; hero-flock-v2.js plays the 12 s loop on
+   transform and opacity only. The art keeps the old square field's box in the hero grid, and its stream
+   runs past the box up to the hero's top edge, where the hero clips it. A cluster is a zero-size origin
+   that its keys move and turn; its glyph (an svg <use>) sits at its lateral place in the stream, and the
+   pointer lens moves the glyph. On phones the stream would cross the copy above it, so the art is clipped
+   to its box and fades in from the top. */
+.home-v2 .flock{position:relative;display:block;width:100%;aspect-ratio:572/457;container-type:inline-size;pointer-events:none;transform-origin:calc(290 / 572 * 100%) calc(236 / 457 * 100%)}
+.home-v2 .flock-glyphs{position:absolute;width:0;height:0;overflow:hidden}
+.home-v2 .flock-c{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0}
+.home-v2 .flock-l{position:absolute;left:calc(-13.5 * 100cqw / 572);top:calc((var(--l) - 13.5) * 100cqw / 572);width:calc(27 * 100cqw / 572);height:calc(27 * 100cqw / 572);overflow:visible;transition:transform 280ms var(--ease-reveal)}
+.home-v2 .flock-centre{position:absolute;width:calc(34 * 100cqw / 572);aspect-ratio:1}
+.home-v2 .flock-centre svg{display:block;width:100%;height:100%;overflow:visible}
+.home-v2 .flock-ripple{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border:1px solid var(--primary);pointer-events:none}
+/* Arrival (once per tab session, hero-arrival.js): the flock fades in and settles onto the pole while
+   it already flows. */
+.home-v2 [data-hero-arrival=entering] .flock{animation:flock-in calc(var(--field-duration) * var(--hero-motion-factor,1)) var(--ease-reveal) calc(var(--field-start) * var(--hero-motion-factor,1)) backwards}
+@keyframes flock-in{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+@media(max-width:767px){.home-v2 .flock{overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%);mask-image:linear-gradient(to bottom,transparent,#000 22%)}}
+@media(prefers-reduced-motion:reduce){.home-v2 .flock-l{transition:none}}
+/* Forced colours: the glyphs' squares live in <use> copies, which page rules do not reach, but inherited
+   custom properties do, so the flock redefines the tokens its fills, the answer square and the ring read. */
+@media(forced-colors:active){.home-v2 .flock{--mark-participant:CanvasText;--muted-foreground:CanvasText;--foreground:CanvasText;--primary:CanvasText}.home-v2 .flock svg,.home-v2 .flock-ripple{forced-color-adjust:none}}
+
+/* Hero background layer (owner, 22 Oct 2026: a full-screen hero video "like most websites", then a
+   series of generated loops, then "Let's try live first"; the motion-rule exception is in
+   docs/decisions.md, "Hero video, on /2/"). From 1024 px it fills the hero's right side and replaces the
+   flock. Hero.astro picks what it holds: the live floor (hero-floor-v2.js draws a tilted floor of royal
+   navy squares on a canvas, where reports run into one block that fills Green) or the generated video
+   (hero-video-v2.js). Below 1024 px the cover crop would put the scene behind the copy, so phones and
+   portrait tablets keep the flock. The markup is a still (1920 or 2560 wide), so it paints first; the
+   script lays its canvas or <video> over it on the same frame. The canvas crops its 16:9 scene the way
+   object-fit: cover at 90% 50% crops the still and the video.
+   The scene starts 30% in and runs to the right edge, anchored right. On heroes taller than 56vw (1024 x
+   768, portrait tablets) the layer stops at that height and centres, so the cover crop never zooms the
+   scene's focus (the block, or the video's square) towards the copy. The scene reaches left of its focus,
+   so a Navy gradient holds over the layer up to the copy's right edge (26-28% of the layer at every width)
+   and clears just before the focus (44-53%): the copy keeps plain Navy. Its top and bottom fade into Navy, so no edge shows against
+   the header or the answer band. Arrival fades it in like the flock. Print and forced colours show the
+   flock instead. */
+/* Hero text breaks (22 Oct 2026). Where the lead takes two lines (1280 and below) it breaks after the
+   comma, "Real-world answers for onchain apps, / controlled by no one.", keeping "onchain apps" whole: the
+   clause is one unbreakable span and the lead wraps greedily instead of v2's balance, which split it
+   "…for onchain / apps, …". Phones keep "…onchain / apps, controlled by no one." The body keeps its
+   last five words together (Hero.astro), so it never ends on a widow such as "of a lie." at 1280. */
+.home-v2 .hero-lead{text-wrap:wrap}.home-v2 .hero-keep{white-space:nowrap}
+.home-v2 .hero-video{display:none}
+@media(min-width:1024px){
+.home-v2 .hero-video{position:absolute;inset:max(0px,calc(50% - 28vw)) 0 max(0px,calc(50% - 28vw)) 30%;z-index:0;display:block;opacity:var(--hero-video-opacity,.9);pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 48px,#000 calc(100% - 96px),transparent);mask-image:linear-gradient(to bottom,transparent,#000 48px,#000 calc(100% - 96px),transparent)}
+.home-v2 .hero-video img,.home-v2 .hero-video video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:90% 50%}
+.home-v2 .hero-video canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.home-v2 .hero-video::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--background) 0%,var(--background) 27%,transparent 45%)}
+.home-v2 .hero-video~.hero-inner .flock{display:none}
+.home-v2 [data-hero-arrival=entering] .hero-video{animation:hero-video-in calc(var(--field-duration) * var(--hero-motion-factor,1)) var(--ease-reveal) calc(var(--field-start) * var(--hero-motion-factor,1)) backwards}
+}
+@keyframes hero-video-in{from{opacity:0;transform:scale(1.04)}}
+@media print{.home-v2 .hero-video{display:none}.home-v2 .hero-video~.hero-inner .flock{display:block}}
+@media(forced-colors:active){.home-v2 .hero-video{display:none}.home-v2 .hero-video~.hero-inner .flock{display:block}}
+/* Hero review (22 Oct 2026). From 1024 px the two actions keep the standard control: 48 px, Sora 600 16/24,
+   24 px insets and a 24 px gap (DESIGN.md), where v1 steps them down to 14 px below 1200. Both fit the 466 px
+   copy column at 1024 with 54 px to spare, and a primary action set smaller than the body copy above it
+   reads as the weaker element. */
+@media(min-width:1024px) and (max-width:1200px){.home-v2 .hero-actions{gap:24px}.home-v2 .hero-actions .button{font-size:16px;padding-inline:24px}.home-v2 .hero-actions .button.text{padding-inline:0}}
+/* Short laptop screens. A 1366 x 768 laptop leaves a viewport of about 615-650 px under the browser's bars,
+   where the copy ran past the fold ("See how it works" ended 1 px under it at 630 px, 16 px at 615). Under
+   700 px tall the hero's padding steps from 40 to 24 and the display headline also scales with the
+   viewport's height (10svh, never under 40 px), so the action stays on the first screen. Taller screens are
+   unchanged. */
+@media(min-width:1024px) and (max-height:700px){.home-v2 .home-hero{padding-block:24px}.home-v2 .home-hero .display{font-size:clamp(40px,min(5vw,10svh),72px)}}
+
+/* Performance (22 Oct 2026, measured): the closed How it works example is hidden="until-found", so its
+   contents are skipped, yet the query card's status dot kept pulsing inside it, and every pulse made the
+   browser update that skipped subtree: about 1 s of main-thread work per 4 s at the Why Augur cards. The
+   dot rests while the example is closed and pulses again when it opens. (/3/ and /4/ share the issue.) */
+.home-v2 .how-it-works [data-how-demo][hidden] .status-dot{animation:none}
+

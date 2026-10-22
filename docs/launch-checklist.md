@@ -56,6 +56,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Set an announcement retirement date or explicitly retain the bar after reviewing the latest report.
 - [ ] Choose and configure the newsletter provider, consent wording and privacy text; until then use Blog, X and Discord follow links.
 - [ ] Confirm contact@augur.net with the domain owner. Composing an email is not delivery.
+- [ ] Adopt the pause control sitewide (WCAG 2.2.2 Pause, Stop, Hide, Level A; without it the site fails Level A). Every loop that starts by itself and runs past 5 s needs a control on the page: on `/`, the hero ambience, the three tenet diagrams, the REP rows, the scroll cue, the query card's status dot and the roadmap Now pulse; on `/2/`, the hero flock and Why Augur scenes as well; and a hero video, if one comes. `/2/` had a header control on 22 October 2026 and the owner had it removed the same day (`decisions.md`, “Pause control removed, on /2/”), so no page has one today. A launch needs one, or loops that stop by themselves within 5 s.
 - [ ] Review the complete responsive, keyboard, no-JavaScript, reduced-motion, forced-colors, visual and performance evidence in `docs/decisions.md`.
 - [ ] Resolve every unverified destination in `src/data/links.ts`.
 - [ ] Approve the Brand assets page copy and confirm the logo files and REP token icon may be redistributed publicly, with any usage terms (`src/data/brand.ts` review flag).

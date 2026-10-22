@@ -27,6 +27,9 @@ export const heroTimeline = {
   scrollCue:{start:2400,end:2800,cycle:2400},
   field:{start:500,end:2100}, rings:[600,500,400,300,200,100,0],
   squareMove:1200,squareFade:800,orbit:{start:1100,end:1700},centre:{start:1750,end:2300},
+  /** /2/ only (hero review, 22 Oct 2026): the underline draws as "decentralized" settles, before the
+   * actions arrive, and retracts 300 ms sooner, so the scroll cue fades in once it has gone. */
+  v2:{underline:{start:450,end:1020},underlineOut:{start:1900,end:2400}},
 } as const;
 /** Hero ambience after arrival lives in hero-choreography.ts (one source for
  * the website and the Figma keyframes). */

@@ -1,0 +1,76 @@
+{
+  "generated": "2026-10-22",
+  "use": "/2/ hero background from 1024 px, on the right 70% of the hero (Hero.astro, hero-video-v2.js, home-v2-only.css)",
+  "method": "A key frame first (Nano Banana Pro still, corrected to the brand Navy and Green in the Higgsfield sandbox), then Higgsfield image-to-video with that frame as both first and last frame, so the loop closes on itself; three takes compared, the Gemini Omni Flash 1.1 4K \"aggregation\" take picked; then a graded, flattened 2560 x 1440 master and web encodes in the sandbox (Python and ffmpeg). Full record and every take compared: artifacts/video-test/README.md, round 4.",
+  "keyFrame": {
+    "model": "nano_banana_pro",
+    "jobId": "6cc4f04a-13ff-41f9-b114-84c665b06a16",
+    "settings": { "resolution": "4k", "aspect_ratio": "16:9" },
+    "credits": 4,
+    "output": "PNG, 5504 x 3072",
+    "prompt": "Minimal premium 3D render for the background of a website hero. A perfectly flat, clean, deep navy background, exactly #0E0E21, uniform edge to edge, no gradient, no vignette, no fog, no texture. Right of centre, with its centre at about 68% of the frame width and vertically centred, one single square floats facing the camera straight on: a square slab made of an 8 by 8 grid of smaller square tiles separated by hair-thin dark seams. Every tile is the same soft matte mint green, #2AE7A8, with crisp sharp 90-degree corners and a very slight bevel that catches a soft top light. A faint, soft mint light spills onto the navy just around the square. The square is about 40% of the frame height. The left 55% of the frame is completely empty navy. Orthographic front view, no perspective distortion, ultra-sharp, high detail, everything in focus, no depth of field. No text, no logos, no other objects.",
+    "processing": "Two-point per-channel colour map: background (20, 17, 48) to Navy (14, 14, 33) and tile (126, 218, 181) to Green (42, 231, 168); the square cropped with its glow, scaled to 44% of the frame height, feathered onto a flat Navy 3840 x 2160 canvas, centred at 70% of the width.",
+    "higgsfieldMediaId": "51434360-bc13-40ec-b303-817eb13056c5"
+  },
+  "generation": {
+    "service": "Higgsfield (Plus plan)",
+    "model": "gemini_omni_flash_1_1",
+    "mode": "image-to-video",
+    "jobId": "a7186252-d0e9-4054-bb5f-568b0d1e038a",
+    "medias": { "start_image": "51434360-bc13-40ec-b303-817eb13056c5", "end_image": "51434360-bc13-40ec-b303-817eb13056c5" },
+    "settings": { "resolution": "4k", "duration": 10, "aspect_ratio": "16:9" },
+    "credits": 90,
+    "output": "H.264, 3840 x 2160, 24 fps, 10.03 s; sharpness (variance of the Laplacian) 209 at 1920 wide, 153 at 2560; first and last frame differ by 1.3 on a 0-255 mean difference",
+    "prompt": "Seamless looping background video for the hero of a premium website, one continuous locked-off shot with no cuts. It starts and ends on exactly this frame: one mint green square made of an 8 by 8 grid of tiles on a flat deep navy background. First the square holds still for a moment. Then its 64 tiles gently come apart and drift outward in every direction, tumbling slowly in depth, and as they spread each tile fades from mint green to cool slate grey, until they float as a wide, loose, scattered field of grey squares across the right half of the frame, like many separate pieces of information. They hang there, drifting softly. Then, smoothly and precisely, they glide back inward, turn flat to face the camera and lock into their places in the grid one by one; each tile turns mint green the moment it locks in, until the complete green square is whole again and holds still, exactly as at the start. Slow, smooth, graceful ease-in-out motion, nothing jerky, no flashes. Ultra-sharp, crisp square edges, everything in focus, no depth of field, no motion blur, no fog, clean minimal lighting. The left half of the frame always stays empty navy. Silent. No text, no logos, no people."
+  },
+  "processing": "master.py, one pass: decode as BT.709 and scale to 2560 x 1440 (lanczos); per-channel levels from the measured darkest tone (13, 15, 31) to Navy (14, 14, 33) with white kept; pixels whose green exceeds red and blue move towards the two-point map (47, 204, 173) to Green (42, 231, 168), weighted by that excess, so grey tiles stay neutral; pixels within 3 levels of Navy flatten to exact Navy, ramping out to 9 levels, so the take's faint mottling can't turn into compression blocks; the first 12 frames (0.5 s) crossfaded into the last 12, both on the resting square; master x264 CRF 6. Result: 228 frames, 9.5 s, loop seam 0.7 on a 0-255 mean difference, background decoding to (13.3, 14.0, 32.0). Then 10-bit AV1 (SVT-AV1 preset 5, CRF 34 at 1440p and 35 at 1080p, GOP 240) and H.264 (x264 slow, CRF 24, aq-mode 3, High) at 2560 x 1440 and 1920 x 1080; no audio; BT.709 tags; +faststart; WebP posters (quality 82) of the first frame. Sharpness at 1920 wide: 200 for the 1440p AV1 file, 193 for the 1080p one.",
+  "assets": [
+    {
+      "path": "public/images/hero/augur-hero-loop-1440.av1.mp4",
+      "codec": "AV1 Main 10-bit, 2560 x 1440, SVT-AV1 CRF 34, av01.0.12M.10",
+      "bytes": 1909148,
+      "sha256": "1ea6e21e875f95b2f3521eafe01a63763f8183f4baafea781e83dc9fda95e9c7",
+      "higgsfieldMediaId": "8773ba6c-c5b2-473c-b3cd-37797e08654e"
+    },
+    {
+      "path": "public/images/hero/augur-hero-loop-1440.h264.mp4",
+      "codec": "H.264 High 5.0, 2560 x 1440, x264 CRF 24, avc1.640032",
+      "bytes": 3557247,
+      "sha256": "916eccba641f57772c61de3960d21720bdac076042d73539b7b314dfbd1d7628",
+      "higgsfieldMediaId": "5ca7762a-104c-4f2a-b19f-aded61c150ee"
+    },
+    {
+      "path": "public/images/hero/augur-hero-loop.av1.mp4",
+      "codec": "AV1 Main 10-bit, 1920 x 1080, SVT-AV1 CRF 35, av01.0.08M.10",
+      "bytes": 1300716,
+      "sha256": "5d586388816b86b3ce37dad3f6adc55a842627505b8086b4e82e8d20bb7ba306",
+      "higgsfieldMediaId": "68681581-e59f-4db0-8022-1300dd88c6da"
+    },
+    {
+      "path": "public/images/hero/augur-hero-loop.h264.mp4",
+      "codec": "H.264 High 5.0, 1920 x 1080, x264 CRF 24, avc1.640032",
+      "bytes": 2342330,
+      "sha256": "3389b721a5257f8b2a299a428919c0b6f535499556fbd6d0867360664e8bba3e",
+      "higgsfieldMediaId": "d6a600b6-db60-4e3b-94df-72b3bf2c7a40"
+    },
+    {
+      "path": "public/images/hero/augur-hero-loop-poster.webp",
+      "codec": "WebP, 1920 x 1080, the loop's first frame",
+      "bytes": 13358,
+      "sha256": "9bb08d4ef09d27e3a4a3399569518acbd7fc928e87202f906efcb8c34853f7cf",
+      "higgsfieldMediaId": "592c38b6-8ff3-4f66-8848-735ebaa0779c"
+    },
+    {
+      "path": "public/images/hero/augur-hero-loop-poster-2560.webp",
+      "codec": "WebP, 2560 x 1440, the loop's first frame",
+      "bytes": 21122,
+      "sha256": "e4a849a35a8dc9b3b3fa06050cc144e8f8b4f1a0e88981395ecc7369c39168aa",
+      "higgsfieldMediaId": "92eaeb23-eb71-41e2-8b21-dfd1fb200a07"
+    }
+  ],
+  "replaced": [
+    "The first loop (MiniMax H3 from a keyframe of the site's own flock, Higgsfield job 62f79912-837d-4db7-ba7e-a6fce0eeb424) was replaced the same day after the owner's review: \"This hero sucks BAD\". It stays in the Higgsfield media library (55293568-3f09-4d77-a94f-a4c41f76503f and 9b6ed22c-44c9-4d58-a1a6-964e523c619a).",
+    "The second loop (Seedance 2.5 \"voxel tide\" at 1080p, draft job 9b89e038-df5a-4f21-893c-0a558640d37c, final job 5f688331-c082-408f-85a8-be342b9a746c) was replaced the same day: \"this one looks 420p. It looks extremely generic\". It scored 49 for sharpness at 1920 wide. Its encodes stay in the Higgsfield media library (01862c34-8aec-4dcc-889f-e324006f56a5, 2cb1727c-65fb-423b-b141-a1863dfb43ce, f761ef44-d749-4eee-aba5-8eb47f9a5e68).",
+    "The third loop (Gemini Omni Flash 1.1 \"resolution\" at 4K, text to video, job 88731eea-5f98-4a21-b46b-8eedc0b8a610) was replaced the same day when the owner asked for scattered grey squares becoming one Green square. Its encodes stay in the Higgsfield media library (bff73fbf-32a1-45ea-b805-f5f074792918, 6c5d0b57-e7c6-421a-9b92-cc7339f52931, e3383052-192c-4fb1-a6ac-87ac1cecbb60, ff2fb6d1-e945-472e-b634-5a2facebbc30, 7ea6fda9-36bc-4133-b3b9-48b0ef3394cd, e2a3af92-0c3d-4da7-a11c-20ef7ff59a58)."
+  ]
+}

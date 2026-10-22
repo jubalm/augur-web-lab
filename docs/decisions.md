@@ -2087,3 +2087,655 @@ Closing the example again returns every page to its closed height, so there is n
 - Against `/2/`, only the lines each spec names differ. The flags stay as listed in each version's entry: 8 `FLAG:` comments in `homepage-v3.ts` and 11 in `homepage-v4.ts`.
 
 **Not done.** Playwright can't launch here; its per-route test (status 200, one visible `h1`, axe, no console errors) was reproduced over CDP instead. The other homepage tests go to `/`, which is unchanged. Forced colours and print weren't re-run: nothing changed since part 2. Safari and Firefox aren't installed. No screen reader. Nothing committed.
+
+## Icons: signals only, on /2/ — 22 October 2026 (owner: the icons are “ugly, weird, generic”; “make these changes only on v2”)
+
+The owner asked for an alternative to the icons. The only icons they accept are the community logos.
+
+- A sitewide pass was built first. The owner then asked for it on v2 alone, with every other version kept as it is.
+- It is now a trial on `/2/`. `/`, `/1/`, `/3/`, `/4/` and every other page keep the shipped Phosphor icons, and the backlog item “Icons, site-wide” stays open until the trial is approved.
+
+**Decision: no icon library.** Phosphor, Lucide, Tabler and Heroicons are what make a site read as a template, and switching libraries would only change which generic look the site has.
+- Icons are kept only where they are a signal: they say where a link goes or what a control does.
+- The few signals that stay are drawn for Augur.
+- Anything that only decorated a row either goes or takes Augur's square, the mark the site already uses for heritage marks, list and status marks and roadmap stops.
+
+**What `/2/` shows.**
+- *Signals:* Augur's square-cut glyphs replace Phosphor's arrows, chevron, close, check and plus.
+  - The glyphs are arrow-up-right, arrow-right, chevron-down, x, check and plus, in `src/assets/icons/augur/`.
+  - They sit on a 20 px grid with one 1.75 stroke in currentColor, square caps and mitred joins, so their ends match the site's square corners. Phosphor Bold had round terminals.
+  - The answer chip's animated check draws the same path.
+- *Use cases:* the 44 px icon tiles became the 8 px square mark, centred on the name's first line (measured: 0 px off).
+  - Mist idle, Green picked. The selected state keeps its Green marker (DESIGN.md).
+  - On hover it turns Paper and rotates onto its corner, the gesture of the header's product rows.
+- *Builder reasons:* no icon tiles. Each is its claim over its point. The three columns start level at 1440; stacked, each takes one full-width column.
+- *Insurance note:* no info icon.
+- *Question details:* no list-checks icon. The caret stays.
+- *Header Resources menu:* the square mark in place of the five pictograms, as Products already had. Community keeps its logos.
+- *Phone header:* the words “Menu” and “Close” in the same outline box, in place of the hamburger and the ×. A labelled “Menu” is easier to find than the bare glyph (NN/g). The accessible names are “Menu” and “Close navigation”.
+
+**How it is scoped.**
+- `iconTrial(variant)` and `variantAt(pathname)` in `homepage-review.ts` say where the trial applies.
+- Applications and How it works branch on their `variant` prop. Icon and SiteHeader read the page path.
+- The styles are `src/styles/home-v2-only.css`, which review-inline.ts loads after `home-v2.css` on `/2/` only. Component `<style>` blocks are unchanged.
+- v2's own builder reasons lost their icon fields (`homepage-v2.ts`). v1's and v4's keep theirs.
+
+**Checked.**
+- `bun --bun astro check`: 0 errors. The 2 hints were already there.
+- Build: a build of HEAD and a build of the trial differ in exactly one file, `dist/2/index.html`. Every other page is byte-identical.
+- `/2/` renders 54 Augur glyphs. Its only Phosphor glyphs are the 12 community logos (header panel, phone menu and footer). It has three square marks and no icon tiles.
+- `/1/`, `/3/` and `/4/` render no Augur glyphs.
+- No horizontal overflow on `/2/` at 360, 390, 768 and 1024.
+- “Menu” is 80 px and “Close” 81 px wide. Both are 44 px high.
+- With the frame focused, the dialog takes focus and returns it to “Menu” on close, the same as `/1/`.
+
+**Not done.** Playwright can't launch here, and no test was added for `/2/`. Forced colours, Lighthouse and the 1280 width were not checked. Figma is unchanged: `/2/` is a review copy, so the trial reaches Figma only if it is adopted.
+
+**If adopted sitewide.** `docs/` keeps no copy of the sitewide pass, but it is easy to redo:
+- Drop the `iconTrial` gates.
+- Move `home-v2-only.css` into the components.
+- Apply the same pattern to the REP page (an alert-colour square for the scam notice's warning icon, a text-only “Copy address”), the Brand page (text-only swatch copy and a download glyph) and the article share arrow.
+- Then rewrite DESIGN.md's icon rule and `icon-provenance.json`, and add the Figma items.
+
+## Header logo at 128 px, on /2/ — 22 October 2026 (owner: “Make a brand exception: shrink the /2/ header logo to about 128 px and record the exception”)
+
+The owner felt the header logo was too big.
+
+**Before.**
+- The header used the horizontal reversed lockup at 150 × 50 px, which is exactly the Brand Foundation minimum for that lockup (02.6). The Brand page explains the reason: “below its minimum the gap in the glyph starts to close”.
+- The artwork fills its box, with no padding to trim.
+- Measured at 1440: the logo is 50 px tall in the 96 px bar, and its lowercase a (20.8 px) is 2.3× the menu text's x-height (9 px at Sora 16).
+- I advised against shrinking it, because a small cut isn't visible and a visible one breaks the minimum. The owner chose the exception.
+
+**The exception.**
+- It applies on `/2/` only, the owner's presentation version.
+- The header logo and the phone menu's logo are 128 × 43 px, 15% under the minimum. The phone menu's logo matches so it keeps its size when the menu opens.
+- The artwork, its colours and its proportions are unchanged.
+- The rule is `.site-header .brand` in `src/styles/home-v2-only.css`. That is the sheet only `/2/` loads, renamed from `home-v2-icons.css` now that it holds all of the owner's v2 suggestions.
+- The footer logo stays at 150 px, as do `/`, `/1/`, `/3/`, `/4/` and every other page.
+- The clearspace rule (the wordmark's lowercase a, 14.7 px at this size) is met with room to spare: 26.5 px above and below the logo in the bar, and the 96 px page margin to its left.
+- DESIGN.md records the exception next to the minimum. The backlog's header item points here.
+
+**Checked.**
+- `bun --bun astro check`: 0 errors and 0 warnings.
+- Build against a build of HEAD: only `dist/2/index.html` differs.
+- On `/2/` at 1440, 1024, 768, 390 and 360: the header logo is 128 × 43 and centred in the bar (0 px off), the phone menu's logo is 128, the footer's is 150, and there is no horizontal overflow.
+- `/1/` keeps 150 × 50.
+
+**If adopted sitewide.** This becomes a source difference from the Brand Foundation. The Brand assets page (`src/data/brand.ts`, the “Minimum sizes” block) would still publish 150 px as the minimum while our own header uses 128. Either the foundation's minimum is revised with its owners, or the exception is listed on that page. Until then it is a release blocker.
+
+## Products lead card as one link, on /2/ — 22 October 2026 (owner: “the hitbox of Augur Lituus isn't only the button! It is the whole section. Can we remove the button?”, then “the augur lituus should have more space like it was before! figure out”)
+
+**The problem.**
+- Since 6 October Augur Lituus has led the 624 px Products panel as a card with a full-width Primary button, “Explore Augur Lituus →”. The button was the card's only link, and its `::after` stretched over the card.
+- So the whole card was the hit area, while the filled button said “only this part is the action”. The target didn't match what it looked like.
+
+**First pass, the same day.** The panel became a plain 320 px list, like Resources, with Augur Lituus first, its mark Green and its name semibold. The owner wanted the card's room back, so this was replaced.
+
+**What `/2/` does now.**
+- The card keeps its 6 October place and size: the left column over both rows, 294 × 172 px, beside Zoltar and Augur Stratoblast.
+- The card itself is the one link, with no button inside it.
+  - It sits on a Dark 1 surface at rest (the panel is Dark 2), so it reads as one object. Under the pointer it lifts to Dark 3 like every menu row, and its Green mark turns onto its corner.
+  - Its name is in Heading 4 (Sora 600 20/26) and its tagline in Small, at the top.
+  - Its action, “Explore Augur Lituus →”, is a text label at its foot, lined up with the name past the mark. On hover or keyboard focus, a 2 px line draws under it and the arrow nudges 3 px, as on the site's text actions (DESIGN.md).
+- There are three tab stops, one per product. The card's accessible name is its name, tagline and label. The focus ring is the card's own.
+- Markup: `SiteHeader.astro` renders `li.nav-lead` with the `<a>` around the card's content on `/2/` only. Every other page keeps the 6 October card with its button. The styles are in `home-v2-only.css`.
+- The `/2/` switch in `homepage-review.ts` is now named `ownerVersion` (it was `iconTrial`) and lists every owner suggestion.
+
+**Checked.**
+- `bun --bun astro check`: 0 errors and 0 warnings.
+- Build against a build of HEAD: only `dist/2/index.html` differs.
+- On `/2/` at 1440:
+  - The panel is 624 × 196 and the card 294 × 172, as before. The two rows are 294 × 86.
+  - The card is a flex column with its head at the top and its label at the foot; the label's left edge is the name's (48 px into the panel).
+  - The panel has no button and three links.
+
+**If adopted sitewide.** Fold the `nav-lead` markup into the card, and update Figma Section details `43:123`, its hover panel `421:993` and note `216:340`. The launch-checklist item for the label stays, since the label is still shown.
+
+## Header hides on the way down, on /2/ — 22 October 2026 (owner: “scrolling down removes the header scrolling up make it appears i like this ux”)
+
+A partially persistent header, as NN/g recommends for long pages:
+- The header leaves when you read on.
+- It comes back the moment you scroll up, which is when people look for navigation.
+- It keeps the 96 px of screen for reading. On phones that is an eighth of the screen.
+
+**How it works.**
+- `src/components/home/header-v2.js`, about 25 lines, is rendered inline after the header on `/2/` only and hashed into that page's CSP (`review-inline.ts`).
+- It reads `scrollY` once per frame and sets attributes. Scrolling stays native: no smoothing, no snapping and no scroll-jacking (memory: native scroll only).
+- In `home-v2-only.css`:
+  - The header is `position: sticky` at the top.
+  - When hidden it slides up by its own height (`transform`, 280 ms, `--ease-reveal`).
+  - Once it has left its place under the announcement, a 1 px Outline line marks its foot, so the page doesn't run under it unseen (no shadows).
+  - Reduced motion turns the slide into a cut. Print keeps it in the flow.
+- Inside its own place, the first 136 px, it never hides.
+- Moves under 6 px add up before they count, so trackpad jitter doesn't flicker it.
+- It stays while a menu is open, while the phone menu is open or while keyboard focus is inside it. Focus moving into it shows it at once (WCAG 2.4.11, focus not obscured).
+- A mouse click inside it doesn't pin it, because the check is `:focus-visible`.
+- Without JavaScript the header stays in the flow, as it ships.
+
+**Checked.**
+- Build against a build of HEAD: only `dist/2/index.html` differs. `/` has no `data-headroom`.
+- In the browser at 1440, run in a frame with timer-driven frames and synthetic scroll events, because the pane was hidden:
+
+| Step | Header |
+| --- | --- |
+| Load at 0 | In place |
+| 30 | In place |
+| 120 | Stuck, shown |
+| 700 | Hidden |
+| 1500 | Hidden |
+| Up 3 px | Still hidden (jitter) |
+| Up to 1380 | Shown |
+| 2200 | Hidden |
+| Up to 1900 | Shown |
+| 2600 with Products open | Shown |
+| 3200 with the menu closed | Hidden |
+| Focus moving in | Shown |
+| Back to 0 | In place |
+
+- With the transition off, the hidden transform is exactly −96 px, and the 1 px foot line is drawn while it is stuck.
+
+**Not done.**
+- No real scrolling on a real phone or trackpad, and no frame-time measurement (the motion runs on the compositor and only on a direction change).
+- A focus event from a real keyboard was not run: the test frame never had focus, so the handler was tested with a dispatched `focusin`.
+- Anchor jumps upward land under the header when it reappears. `/2/` has none today. If one is added, give its target a `scroll-margin-top` of 96 px.
+
+## Why Augur cards drawn in isometric, on /2/ — 22 October 2026 (owner: “the current animations … aren't really optimized for what we're saying”, “too simple”; then “Let's go with isometric for all three. Implement on v2.”)
+
+**Why.** v2 took Augus's three titles but kept v1's three drawings, so the pictures stopped matching the claims.
+- Permissionless showed squares joining a fenced group.
+- Trustless drew "nobody in the middle" as a broken line.
+- Robust showed a light touring a network, which is v1's "Decentralized".
+
+Three directions were sketched as 12 s loops on a private comparison page, card by card against today's loops: flat and retold, one shared network, and isometric. The owner chose isometric for all three.
+
+**What `/2/` shows.** Each card draws a scene that acts out its claim. Every loop opens and closes on a still frame, which is also what no JavaScript, reduced motion and print show.
+- *Permissionless* (replaced the same day by Two roads in cubes; see “Permissionless card: Two roads in cubes, on /2/” below):
+  - Three app slabs send question tiles along lanes to rows of answerer blocks, and Green answers come back. Each app's top lights Green when answered.
+  - Midway a fourth app drops in, and a newcomer takes the empty place in the row facing it. Both are served at once, and both leave again before the loop closes.
+  - Labels: Ask, Answer.
+- *Trustless:*
+  - An answer runs along a track to settle.
+  - Governance, Multisig and Creators hover over the track. As the answer passes, each slab drops onto it and goes straight through it as a ghost, then rises back dimmed. Its label dims with it.
+  - The answer settles Green. At rest it is Green, and the three slabs are dimmed.
+- *Robust:*
+  - Each challenge doubles what the other side must put up: False 1, True 2, False 4, True 8. Holding the lie would take 16.
+  - That tower runs off the top of the drawing, sways, and its top twelve topple away as one piece. The true tower of 8 stands, with counts beside both.
+  - The doubling is the whitepaper's challenge rule (§4.1). No amounts and no money words are shown.
+
+**How it is built.**
+- `src/data/tenets-iso.ts` holds the geometry: a 30° projection in the v1 diagrams' 336 × 168 view, with blocks, floor plates, lanes and labels in back-to-front order.
+- Colours are Mist, Paper and Green and the Navy surfaces. A block's darker faces are the same colour mixed toward the card's Dark 2, so every face is opaque. Green marks outcomes only, and there is no glow.
+- `IsoScene.astro` draws it, with no style and no script.
+- `src/components/home/tenets-iso-v2.js` is about 2 KB gzipped, inline on `/2/` only and hashed into its CSP. It plays every track on one 12 s clock with transform and opacity only, and animates only the properties that actually change. It follows `loop-scene.ts`'s rules:
+  - it runs while any part is on screen and pauses off-screen or in a hidden tab;
+  - it resets for print;
+  - it never starts under reduced motion.
+- The styles are in `home-v2-only.css`:
+  - The scene is clipped to its box, so the tower can run off the top.
+  - Moving parts turn about their own box; the falling top turns about its foot.
+  - Labels are Sora 600 in Pewter, and a container query raises them on narrow cards so they stay about 10 px or more on screen.
+- `Tenets.astro` renders the scenes and the driver only when `ownerVersion` is true. `/`, `/1/`, `/3/` and `/4/` keep the v1 diagrams and their loops.
+
+**A fix found on the way (performance).**
+- On the v2 pages, the How it works example starts closed as `hidden="until-found"`, which skips its contents. The query card's status dot kept pulsing inside it.
+- Each pulse made the browser update that skipped subtree. That cost about 1 s of main-thread work per 4 s at the Why Augur cards: 1,229 ms with the pulse running, 251 ms with it paused.
+- `/2/` now rests the dot while the example is closed (`home-v2-only.css`). `/3/` and `/4/` still have the issue, since their copies are left as they are; the same one-line rule would fix them. `/` is unaffected because its example is always open.
+
+**Checked.**
+- `bun run check`: 0 errors and 0 warnings. `astro build` passes.
+- A build of HEAD and a build of this change differ in exactly one file, `dist/2/index.html`.
+- `check:links` passes. `check:budgets` passes, but it does not cover the review copies.
+- Weight on `/2/`: the driver is 6.3 KB, 2.2 KB gzipped; the three SVGs add 4.2 KB gzipped. The page is 67.2 KB gzipped, up from 64.5 KB.
+- Main-thread time over a 5 s sample at the cards, in headless Edge at 1440:
+
+| Page | Task time |
+| --- | --- |
+| `/2/`, all 61 scene tracks running | 13.6 ms and 13.2 ms |
+| `/1/`, the v1 loops | 45.4 ms |
+| `/3/`, unfixed | 1,496 ms |
+
+- Frames were checked at 0, 1.5, 2.2, 3, 4.5, 6, 6.8, 7.3, 8, 8.1, 8.2 and 9.6 s at 1440, and the resting frames at 1280, 1024, 768 and 390.
+- Labels clear every block and the view's edge at every width.
+- Reduced motion runs 0 scene animations and shows the still frames. With JavaScript off, the server-rendered frames are complete. No console errors.
+
+**Not done.**
+- Playwright and axe can't run here; the SVGs are `aria-hidden`, as v1's are.
+- Forced colours was not viewed, though labels switch to CanvasText.
+- No real phone, and Safari and Firefox were not opened.
+- Figma is unchanged. `/2/` is a review copy, so the scenes reach Figma only if adopted.
+
+**If adopted sitewide.** Move the tracks into the shared choreography (`tenet-choreography.ts`, run by `loop-scene.ts`), key them in Figma Section details `250:717`, document them in `docs/motion.md`, and add the dot fix to the shared rules.
+
+## Hero lituus flock, on /2/ — 22 October 2026 (owner: the hero “looks awful and weird”, “something more fancy? Maybe a higgsfield? Image with a few animations?”, then “build the lituus flock hero on /2/ only, inside the motion rules, and tell me if it needs a canvas exception”)
+
+**Why not an AI image or video.** I advised against a Higgsfield image or video as the hero:
+- Cinematic AI heroes are now the common look of crypto and AI sites, which is the sameness designers are moving away from.
+- A photo-real scene fights the Brand Foundation's geometric squares on Navy.
+- A video costs megabytes on the first screen and cannot be keyed into the shared 12 s Figma choreography.
+- An oracle about truth would open on a synthetic picture.
+
+A generated image can still serve as a reference to redraw in squares. The owner chose the concept sketch instead.
+
+**The idea.**
+- A Roman augur read the flight of birds and carried a curved staff, the lituus. The spiral named after it (r²θ = a², Roger Cotes, 1722) has the staff's crook.
+- Small clusters of Augur squares stream in from the top of the hero along that spiral, like a flock with no leader, and curl into the dashed answer square of the old artwork: many independent reports, one answer that no one controls.
+- Beginners see a living, beautiful field. Readers who know the name get the reference. The copy, grid and buttons are unchanged.
+- It replaces the old square field (canonical `283:3403`) and the hero's heritage field on `/2/` only. The old field read as a QR code or a loading placeholder and gave the screen no focal point (aesthetic-usability effect; NN/g, match between system and real world).
+
+**How it works.**
+- `src/data/hero-flock.ts` is the one source for the geometry.
+  - The spiral, in units of the old 572 × 457 artwork box: pole (290, 236), a = 270, turned −1.6 rad, θ from 0.16 to 3.4π.
+  - Six classes of keys, 72 per 12 s cycle:
+    - Three speed profiles: each class runs at 1 ± 0.3·cos 2πτ of the mean speed, so clusters pass each other and gather again.
+    - Times two phases of a three-wave lateral sway that fades towards the pole.
+  - Every class slows towards the answer (share = 1 − (1 − τ)^1.35), so the curl holds more clusters than the mostly off-screen tail does.
+  - The last 14% draws each cluster into the pole and shrinks it.
+  - 320 clusters in loose phase groups, each carrying one of 16 glyphs: 2 to 5 squares, 3 to 6 units wide on a 3-unit grid. Mist, Pewter and Paper; every fourth glyph has one Green square.
+  - Each cluster's resting pose is its key at its own phase, so the cycle opens and closes on the server-rendered frame.
+- `FlockArt.astro` renders the resting frame. Each cluster is a zero-size `span` placed by `transform` in container units, holding an `svg` that `<use>`s its glyph. The component has no `<style>` or `<script>`.
+- `hero-flock-v2.js` plays the loop.
+  - It is inlined after the hero on `/2/` only. The build writes the keys into it, and the page's CSP hashes it (`review-inline.ts`).
+  - Each cluster has one Web Animation of `transform` and `opacity` on the 12 s cycle, started at its phase.
+  - The answer square breathes three times a cycle.
+  - It runs while the hero is on screen and the tab is visible, pauses otherwise and resumes where it was.
+  - Print cancels it to the resting frame. Reduced motion never starts it. Without JavaScript the resting frame stays.
+- Arrival (once per tab session) fades the flock in from 106% about the pole over the field's slot (500 → 2100 ms) while it already flows.
+- Pointer lens, fine pointers only:
+  - Clusters within 120 units of the pointer part by up to 26 and grow by up to 50%, with (1 − d/120)² falloff.
+  - The script computes each cluster's current pose from the same keys and writes the glyph's `transform` (280 ms transition).
+  - It runs every frame while the pointer is over the hero, because the clusters keep flowing through the lens.
+- A click or tap that is not on a control sends the Green square ring and pops the clusters it passes (`composite: 'add'`).
+- On phones the art is clipped to its box and fades in from the top, so the stream never crosses the copy.
+- Forced colours redefine the colour tokens on the flock, because page rules don't reach `<use>` copies but inherited properties do.
+- Styles: `home-v2-only.css`.
+
+**Canvas exception: not needed.** The flock runs inside the motion rules, on transform and opacity only, with no canvas, no per-frame paint and no library.
+
+**Checked** (headless Edge, 1440 × 900 unless noted):
+- **Scope:** built against a build of the working copy before this change. Only `dist/2/index.html` differs.
+- **Loop cost:** with the flock running, the main thread spent about 1 ms per second, with no style recalculations and no layouts. The old hero on the same page cost 290 ms and 60 style recalculations per second (3 s windows after arrival). The rAF rate was 60 fps. 321 Web Animations run (320 clusters and the answer square).
+- **While the pointer rests over the hero:** about 31 ms of script and 70 style recalculations per second; 88 glyphs were moved at the sampled point. A click left one ring.
+- **Off-screen and back:** off-screen, 0 animations run (`data-flock="paused"`); back on screen they run again.
+- **Other states:** reduced motion starts none. No JavaScript and print show the resting frame. Forced colours draw the squares in CanvasText. There were no console errors.
+- **Widths:** 1440, 1280, 1024, 768, 390 and 360 have no horizontal overflow.
+- **Weight:** `/2/` HTML 67.0 → 78.2 KB gzipped. Budget script, `/2/`: CSS 24.8 → 25.3 KB, JS 25.5 → 28.4 KB (the keys). `/` keeps its 20 KB JS budget, unchanged.
+- **`bun run check`:** 0 errors.
+- **`check:links` and `check:budgets`:** pass.
+- **`check:copy`:** fails exactly as on the build before this change (REP and footer copy-source drift, untouched here).
+- **Launch guard:** the same 93 standing blockers.
+
+**Not checked.**
+- The Playwright route, interaction and axe tests (Playwright doesn't connect under Windows Bun here; they also target `/`).
+- Lighthouse, a real phone, Safari and Firefox.
+- Compositor frame times: headless gives no GPU numbers; 320 small composited layers should be measured on a low-end phone before adoption.
+- Figma is unchanged. `/2/` is a review copy.
+
+**If adopted sitewide.**
+- Replace HeroArt and the hero heritage field on `/`.
+- Fold the keys into the shared choreography (`choreography.ts`) or keep `hero-flock.ts` as its source.
+- Key the hero frame in Figma `382:848` from these keys, and replace the canonical artwork `283:3403` with the flock's resting frame.
+- Update the AGENTS.md hero sentence (story on HTML squares, lens, ripple) and `docs/motion.md`.
+- Retire the 6 October hero-motion review note.
+
+## Pause control for every loop, on /2/ — 22 October 2026 (accessibility gap found while planning a full-screen hero video; `/2/` only)
+
+**The gap.** WCAG 2.2.2 Pause, Stop, Hide is Level A. Anything that moves, starts by itself, lasts more than 5 seconds and sits beside other content needs a way to pause, stop or hide it. The homepage loops on purpose (AGENTS.md: the tenet diagrams are always moving, owner 5–6 Oct 2026), yet no page had such a control: a search of `src` and `docs` found none. Reduced motion doesn't count, because it is an operating-system setting, not a control on the page. Pausing off-screen doesn't count either. A full-screen hero video (`artifacts/video-test/README.md`) would need the same control.
+
+**Loops on `/2/`.**
+
+| Motion | How long | Needs the control |
+| --- | --- | --- |
+| Hero lituus flock, with the answer square's breath (`hero-flock-v2.js`) | 12 s cycle, while the hero is on screen | Yes |
+| Scroll cue (`Hero.astro`) | 2.4 s cycle, until the page scrolls | Yes |
+| Why Augur isometric scenes (`tenets-iso-v2.js`) | 12 s cycle, while any part is on screen | Yes |
+| REP rows in the How it works example (`rep-choreography.ts` through `loop-scene.ts`) | 12 s cycle, while the example is open and on screen | Yes: opening the example asks to see it, not to animate it |
+| Query card's status dot (`HowItWorks.astro`) | 1.6 s blink, while the example is open | Yes |
+| Roadmap Now pulse, on the stop and the status (`Roadmap.astro`) | 2.4 s cycle, always | Yes |
+| Hero arrival and the “decentralized” underline | Once, done by 2.7 s | No: under 5 s |
+| Answer-band ribbon, use-case pictures | Once | No |
+| Header slide, pointer lens, tap ripple, page-field trail | Only in answer to the reader | No |
+
+`/` also runs the square-field hero ambience (`hero-ambient.ts`) and the v1 tenet diagrams (`loop-scene.ts`). Neither is on `/2/`.
+
+**The control.**
+- One button for the whole page, in the header before “Talk to us”, so it comes early in the tab order. On `/2/` the header comes back on any scroll up, so the control is a small scroll away from anywhere on the page.
+- A native `<button>`. Its label says what a press does: “Pause animations”, then “Play animations”. A Green glyph matches it: two bars, then a triangle.
+- No `aria-pressed`, although the brief asked for it. The APG says a toggle's label must not change with its state, and the changing label is the clearer of the two for traders and beginners. So it is a plain button whose name says the next action, like the APG carousel's rotation control. Chrome's accessibility tree reads “Pause animations” or “Play animations”, role button, no pressed state.
+- At 1280 and wider it is a text action like the site's others: a Paper label whose 2 px line draws in on hover. It is 168 px wide in both states: a hidden copy of the longer label holds the width, so it doesn't jump when pressed.
+- Below 1280 the label would push “Talk to us” 42 px into the margin (at 1024), so the control becomes an outline box: 48 px beside “Talk to us”, 44 px beside the phone's Menu. The label stays for screen readers. Square corners, no shadow.
+- A press sets `data-motion-paused` on `<html>`, sends an `augur:motion` event and keeps the choice in `sessionStorage` (`augur:motion-paused`). Reloads and later visits in the same tab start paused. Where storage is blocked the page starts playing.
+- The button ships with `hidden`, and its script shows it. Without JavaScript nothing loops, so there is no control. With reduced motion nothing loops either, so CSS hides it. Print drops it.
+
+**How each loop holds.**
+- **Flock and Why Augur scenes.** Their drivers add the attribute to their own `running()` check and re-sync on the event. That is the path off-screen and hidden tabs already use, so they hold where they are and resume from there. While paused, the flock's lens and tap ripple are off too. Paused from load, the Why Augur scenes never start and show the resting frame.
+- **Scroll cue, status dot and Now pulse.** `home-v2-only.css` stops them on their reduced-motion frame: the cue's square waits at the top of its line, the dot stays lit, and the ring is gone.
+- **REP rows.** These loop through `loop-scene.ts`, which `/` shares. Changing it would change `/`'s script chunk, and `/2/` keeps `/` byte-identical.
+  - So the control holds their tracks (Web Animation id `rep-loop`) itself. While paused, a `play()` on one pauses it instead.
+  - On resume, the rows on screen play again. The rest wait for `loop-scene` to play them when they come into view.
+  - This is a stand-in. Sitewide adoption replaces it with a check in `loop-scene.ts`.
+- **Files.**
+  - `motion-pause-v2.js` (new). It is inline on `/2/` after the header and hashed into that page's CSP through `review-inline.ts`.
+  - `SiteHeader.astro` (the button, `/2/` only), `hero-flock-v2.js`, `tenets-iso-v2.js` and `home-v2-only.css`.
+
+**Checked** (headless Edge 155 over CDP, this build served locally, 1440 × 900 unless noted):
+- **Scope:** built against HEAD and against the working copy before this change. In both, only `dist/2/index.html` differs. `/` and `/1/` are byte-identical to HEAD, and `/` has no control.
+- **Keyboard:** Tab from the top reaches the control as the 13th stop, after the skip link, the version switch, the announcement, the logo and the four nav items. It shows the 2 px focus ring. Enter paused everything, and Space resumed it with focus still on the button.
+- **Paused:** the running loops went from 322 Web Animations (the flock) and 3 CSS animations to none. A cluster's transform was unchanged a second later. Scrolling to Why Augur and the roadmap started nothing. Resuming at Why Augur ran its 61 tracks.
+- **REP rows:** 2 tracks ran with the example open. Paused, they stayed held after scrolling away and back, and after a step change rebuilt the loop (7 tracks held). On resume all 7 ran.
+- **Tab session:** a reload and a fresh navigation both started paused, labelled “Play animations”.
+- **Reduced motion:** the control is `display: none`, and no loop runs at the hero or at Why Augur.
+- **No JavaScript:** the control keeps `hidden` and isn't drawn.
+- **Widths:** 1440, 1280, 1024, 768, 390 and 360 have no horizontal overflow, and the header's boxes don't overlap. At 1024 “Talk to us” ends on the 48 px margin.
+- **Forced colours:** the glyph is drawn in ButtonText.
+- **Console:** no errors.
+- **Weight:** `/2/` HTML +1.0 KB gzipped. The script is 688 bytes gzipped.
+- **`bun run check`:** passes with 0 errors once `artifacts/video-test/tools/kf-preview.ts` is set aside in the build mirror. That untracked video-test script adds 12 errors (top-level `await` in a file that isn't a module); nothing else does.
+- **`bun run build`, `check:links` and `check:budgets`:** pass.
+- **`check:copy`:** fails on the footer contact line, which is unchanged since commit 2884f39.
+- **Launch guard:** fails on the standing release gates, as before, plus the new item below.
+
+**Not checked.**
+- The Playwright route, interaction and axe tests (Playwright doesn't connect under Windows Bun here).
+- A real screen reader, Safari, Firefox and a real phone.
+- The hover line at 1280 and wider (headless has no pointer).
+- Figma is unchanged. `/2/` is a review copy.
+
+**If adopted sitewide** (launch checklist):
+- Move the control into the shared header on every page that loops, including `/`'s hero ambience and v1 tenet diagrams.
+- Read the paused state in `loop-scene.ts` and `hero-ambient.ts`, the existing pause paths, and drop the `rep-loop` stand-in.
+- Hold the CSS loops in the shared styles.
+- Add the rule to AGENTS.md (Motion and access) and `docs/motion.md`, and record the control on the Figma header's Section details.
+- A hero video, if one comes, joins the same control.
+
+## Hero video, on /2/ — 22 October 2026 (owner: a full-screen hero video “like most websites”; “put the MiniMax loop on /2/ only as the hero background: poster first, pause with the Pause animations control, coded flock below 1024 px, and record the motion-rule exception”; “This hero sucks BAD … Can we generate something without feeding the image?”; “More high-res, this one looks 420p. It looks extremely generic”; then “aggregating scattered information into truth? like several points or scattered squares becoming a single square … gray becoming green … no cuts. super high res. smooth. clean. matching theme”)
+
+**The exception.** AGENTS.md allows transform, opacity and SVG stroke draws only, and keeps every loop in the choreography shared with Figma. A video is neither. The owner approved it for `/2/`'s hero, and AGENTS.md (Motion and access) now names it. The 22 October advice against an AI hero still stands as the default for `/`. Against its four points:
+- **Sameness:** the scene shows what Augur does rather than a mood: separate reports come together into one answer. It is drawn in the brand's own squares: Green tiles, the answer, and slate-grey tiles, the reports, on Navy.
+- **Photo-real:** it is a 3D render, not footage, and it depicts nothing real. It departs from the flat, no-glow brand style: the tiles have light and depth, and the whole square carries a soft Green glow. That departure is the owner's call, limited to this hero.
+- **Weight:** the poster paints first and the video loads after the page, on screens 1024 px and wider only.
+- **Truth:** it is abstract motion design, not a picture of anything that happened.
+
+**What it is: aggregation.**
+- From 1024 px a 9.5 s loop fills the hero's right side and replaces the flock.
+- One Green square of 8 × 8 tiles, the answer, holds for a beat. Its tiles loosen, tilt and fade to slate grey as they spread into a wide scattered field, the separate reports. They drift, then glide back into a grey square and turn Green tile by tile as they lock in, until the square is whole again.
+- The idea is the owner's: scattered squares become one square, grey becomes Green.
+- The loop starts and ends on the same frame, so there is no cut and no visible seam. The poster, what no-JavaScript and reduced-motion visitors keep, is the whole Green square.
+- Placement and finish:
+  - the layer starts 30% in and runs to the right edge, `object-fit: cover`, anchored right (`object-position: 90% 50%`), at 90% opacity;
+  - on heroes taller than 56vw (1024 × 768, portrait tablets) the layer stops at that height and centres, so the cover crop never zooms the square towards the copy;
+  - a Navy gradient holds over the layer's left 27% and clears by 45%. That covers the copy's right edge (26–28% of the layer at every width) and stops before the square (44–53%), so the scattered tiles never cross the copy;
+  - the top 48 px and bottom 96 px fade into Navy, so no edge shows against the header or the answer band.
+- Sharp screens get sharp files: when the layer is more than about 1150 device pixels tall (2× laptops, 1440p monitors) it plays a 2560 × 1440 loop; otherwise 1920 × 1080.
+- Below 1024 px phones and portrait tablets keep the coded flock.
+- What is lost from 1024 px: the flock's pointer lens and tap ripple.
+
+**Earlier versions, replaced the same day.**
+- A MiniMax H3 loop generated from a keyframe of the site's own flock. The owner rejected it: feeding a flat vector frame made the model copy pixel art.
+- A Seedance 2.5 “voxel tide”, a dark sea of cubes with mint clusters, at 1080p. The owner found it soft (“looks 420p”) and generic. It scored 49 for sharpness at 1920 wide.
+- A Gemini Omni Flash 1.1 “resolution” loop at 4K: a cloud of cubes swept by a mint scan locks into one square. It was sharp (206) but mostly grey and white; the owner asked for the grey-to-Green aggregation instead.
+
+**How it was made** (full record in `artifacts/video-test/README.md`, round 4; prompts and assets in `docs/hero-video-provenance.json`).
+- **A key frame first.** Nano Banana Pro drew a 4K still of one 8 × 8 square of mint tiles on Navy (4 credits each, two drawn). In the Higgsfield sandbox the still was mapped to the brand colours, Navy (14, 14, 33) and Green (42, 231, 168), and the square scaled to 44% of the frame height, centred at 70% of the width. Two Seedream 4.5 stills were rejected: one too blue, one with prompt text rendered into it.
+- **Three takes at 4K, 10 s:**
+  - **Gemini Omni Flash 1.1, image to video** with the key frame as both first and last frame (90 credits): picked. The story reads at a glance, the tiles stay crisp (209 for sharpness at 1920 wide) and the last frame matches the first (1.3 on a 0–255 mean difference before any processing);
+  - **Kling 3.0** with the same frames (60): rejected. The tiles only loosen in place into a sparse grid; there is no scattered field;
+  - **Gemini, text to video**, a steady stream of grey tiles drifting into a Green square (90): rejected. The square came out 4 × 4, the grey field was busy, and the loop would have needed a crossfade over moving tiles.
+- Round 4 spent 250 credits, about 97 remain.
+- In the sandbox (`master.py`, one pass from the 4K take):
+  - the darkest tone to Navy with white kept, and green pixels moved to the brand Green, weighted by how green they are, so the grey tiles stay neutral;
+  - pixels within a few levels of Navy flattened to exact Navy. The take's Navy carried faint mottling that 8-bit AV1 turned into visible blocks around the square's glow;
+  - the first 0.5 s crossfaded into the last 0.5 s, both on the resting square: 228 frames, 9.5 s, seam 0.7.
+  - Encodes, all without audio (10-bit AV1 keeps the dark Navy free of blocks):
+
+| Loop | AV1, 10-bit | H.264 |
+| --- | --- | --- |
+| 2560 × 1440 | 1.91 MB | 3.56 MB |
+| 1920 × 1080 | 1.30 MB | 2.34 MB |
+
+  - WebP posters of the first frame: 13 KB at 1920 wide and 21 KB at 2560.
+  - Sharpness at 1920 wide after encoding: 200 (1440p AV1), 193 (1080p AV1).
+
+**How it works.**
+- Markup (`Hero.astro`, `/2/` only): a `<picture>` whose source offers the 1920 and 2560 posters for `(min-width:1024px)`, over a blank 1 × 1 GIF. Narrower screens fetch nothing. A `<video>` in the markup would show the browser's own controls without JavaScript, so it is not there.
+- `hero-video-v2.js` (inline on `/2/` through `review-inline.ts`, so its CSP hash lands on that page only):
+  - once the page's `load` event has fired, it lays a muted, looping, inline `<video>` over the poster, with the poster the page chose, 10-bit AV1 first and H.264 second;
+  - it picks the 1440p loop when the video layer is more than about 1150 device pixels tall, else 1080p;
+  - it plays while the hero is on screen, the tab is visible and the pause control is off, pauses otherwise, and resumes where it was;
+  - with reduced motion, Save-Data or below 1024 px it never loads.
+- `hero-flock-v2.js` rests and never builds its animations while its art is hidden (from 1024 px), and re-syncs when the width crosses 1024 px.
+- `home-v2-only.css`: the layer's styles, placement and fades. Arrival fades it in like the flock. Print and forced colours hide it and show the flock.
+- The pause control (`motion-pause-v2.js`) needed no change: the video listens for its `augur:motion` event.
+
+**Checked** (headless Edge 155 over CDP, against the dev server and a production build):
+- **Scope:** this build and round 3's differ only in `dist/2/index.html` and the six files in `dist/images/hero/`. `/` is byte-identical; `/2/` is 17 bytes smaller gzipped.
+- **Which file:**
+
+| Screen | Loop | Poster |
+| --- | --- | --- |
+| 1440 × 900 at 1× | 1080p | 1920 |
+| 1920 × 1080 at 1× | 1080p | 1920 |
+| 1440 × 900 at 2× | 1440p | 2560 |
+| 2560 × 1440 at 1× | 1440p | 2560 |
+| 1024 × 1366 at 2× | 1080p | 2560 |
+
+  All five play 10-bit AV1.
+- **1440 × 900:** the poster, then the AV1 file requested 21 ms after the `load` event. It plays, the flock is `display: none` with no running animations, opacity 0.9.
+- **Composition** (`artifacts/video-test/review/round4-page-*.jpg`, frames at 0.3, 2, 4, 7.4 and 8.6 s): at 1024, 1280, 1440 and 1920 wide the copy stays on plain Navy through the widest scatter; at 1024 × 1366 the layer stops at 573 px and centres.
+- **Colour:** the video's background decodes to RGB (13.3, 14.0, 32.0) in every file, against Navy (14, 14, 33). Boosted seven times in contrast, it shows no blocks.
+- **Pause control:** it paused the video, which stayed at the same frame a second later; resuming played from there.
+- **Off-screen:** scrolled away it paused; back at the top it played.
+- **1920 × 1080, 1280 × 720, 1024 × 768:** AV1 plays.
+- **768 × 1024 and 390 × 844:** no `/images/hero/` request at all, the layer is `display: none`, and the flock runs its 321 animations.
+- **Reduced motion:** only the poster is requested and no video is created.
+- **No JavaScript:** only the poster, the whole square, with no player controls.
+- **Console:** no errors in any of these.
+- **Project checks:** `bun run check` 0 errors and 0 warnings; the budget and link checks pass. `check:copy` fails on the footer's contact line and `check:launch` lists the standing release gates; neither involves this change.
+- **Weight:** desktop adds a 13 or 21 KB poster to the first paint, then 1.30 or 1.91 MB of AV1 after load (H.264 2.34 or 3.56 MB for browsers without AV1).
+
+**Not checked.**
+- Safari and Firefox: the AV1 or H.264 choice and the colour against the CSS Navy. Safari plays AV1 only with hardware support (M3 Macs, recent iPhones); other Macs get the 3.56 MB H.264 file.
+- A real phone rotated past 1024 px. It would load the video at that moment, which is intended.
+- Print and forced colours were checked in CSS only, not rendered.
+- Lighthouse LCP and the Playwright and axe tests (Playwright doesn't connect under Windows Bun here).
+- Figma is unchanged; `/2/` is a review copy.
+
+**If adopted sitewide.**
+- Add a media budget to `scripts/check-budgets.ts`, which covers CSS, JS and fonts only.
+- Put the Green-square poster on the Figma hero frame and record the video on its Section details.
+- Check the colour in Safari and Firefox.
+- Decide whether phones get a 9:16 render composed with the flock below the copy.
+
+
+## Live floor hero, on /2/ — 22 October 2026 (owner: “Do not ask it to generate another video. Let's iterate me and you. Use artifact”; “something with squares and that remembers of the old augur with blinking stuff and squares organized … maybe something in a loop? maybe something that isn't exploding?”; “We'll go with Tilted floor, Consensus fill, Royal Navy”; “Let's try live first, implement in the website”; then “Do you think you can make it interactive?”)
+
+**What changed.** `/2/`'s hero layer now draws a live scene in code instead of playing the generated video. The video and its files stay in place: `layer` in `Hero.astro` switches back to it. Everything in “Hero video, on /2/” about the layer's placement, fades, the 56vw cap, the left gradient and the phone flock still holds.
+
+**The scene** (designed with the owner in the Augur Hero Loops artifact, https://claude.ai/artifact/FAZhdHLnpVdd3HLSbLA8mk, private):
+- a tilted floor of 31 × 31 royal navy squares, lit from the middle and dissolving into Navy at the back and sides. About a fifth of the squares twinkle, by 45% either way; the rest hold still (in the artifact every square twinkled faintly, which meant redrawing the whole floor every frame);
+- **Consensus fill**, on a 12 s loop:
+  - 0–3 s: the floor rests; a few squares blink Green, as in the old Augur field;
+  - 3–8.5 s: reports, Green lights, run straight along a row or a column into one 8 × 8 block, at one shared speed. Each fills the square it reaches, which rises slightly, so the block fills square by square into a low Green platform with a soft glow;
+  - 9 s: the block is complete and one royal ring goes out across the floor;
+  - 10–12 s: the block settles and fades.
+- Every motion repeats a whole number of times per loop, so the loop closes exactly.
+- **Interaction**, while it plays (the flock's lens and ripple, made literal):
+  - a fine pointer carries a soft royal light across the floor, the square under it glinting Green;
+  - a click or tap on a square sends a report: a ripple where it starts, a Green light along the row and then the column into the nearest block square, and a flash there.
+  - The layer never takes the pointer; the hero listens, and links, buttons and the copy are left alone.
+
+**Colour, flagged.** The floor's royal navy, `#1B2766` at rest and `#2E48B2` lit, is the owner's request (“green and royal navy blue”) and is not an Augur Brand or Website/Navy token. Green and Navy are the brand's. It needs approving and adding as a token, or swapping for a brand navy (the artifact shows both), before anything leaves `/2/`.
+
+**The exception.** A canvas redrawn every frame is outside “transform/opacity and SVG stroke draws only”, as the video was. AGENTS.md (Motion and access) now names the live floor as the exception, with the video one switch away. Neither is in the Figma choreography.
+
+**How it works** (`hero-floor-v2.js`, inline on `/2/` through `review-inline.ts`, so its CSP hash lands on that page only):
+- It draws a 1600 × 900 scene on a canvas in the layer, cropped the way `object-fit: cover` at 90% 50% crops the still and the video, at device pixels up to 2×, 30 frames a second.
+- The camera holds still, so each square is projected once. The artifact's 2° camera sway was dropped: it would mean projecting every square every frame.
+- The floor at rest is drawn once per size into a cached bitmap. Each frame copies it and redraws only the squares that change: the twinkling and blinking ones, the block, and any that a report, the ring or the visitor lights, each wiped back to Navy first. Those flat squares are batched by colour and opacity; the block's squares draw after, far to near, with their front and outer sides; one pre-blurred sprite is the block's glow. Opacity comes in 32 steps both in the cache and in the frames, so a square looks the same either way.
+- The markup is a still of the loop at 0.76, the complete block, rendered from this script in headless Edge (a 1280 × 720 layer at 2× and 1.5×): `augur-hero-floor-2560.webp`, 70 KB, and `augur-hero-floor.webp`, 51 KB. No-JavaScript visitors keep it; the loop starts on that frame, so the swap is invisible; reduced motion draws that frame and stops.
+- It plays while the hero is on screen, the tab is visible and the pause control is off, and holds its frame otherwise. Below 1024 px, in print and in forced colours the layer is hidden and the flock shows.
+
+**Cost** (headless Edge 155, which draws canvas in software; a browser with GPU canvas pays far less):
+- Over a whole 12 s loop at 1440 × 900: 133 ms of main-thread work per second at 1×, 126 at 2×. The script's drawing is 1.2–1.45 ms a frame (about 40 ms/s); the rest is the browser putting the canvas on screen 30 times a second, which a GPU browser does mostly off the main thread.
+- Before the cached floor (5 s windows): 97–180 ms/s, with 2.4 ms of drawing a frame. Caching halved the drawing; the total fell less, because putting the canvas on screen costs the same.
+- Held by the pause control or scrolled away: about 1 ms/s.
+- For scale, measured the same way: the flock 1 ms/s, the old `/` hero 290 ms/s before it was cut down; the video costs the main thread almost nothing.
+- Further cuts, if real hardware shows the need: 24 frames a second (a fifth less), or the canvas at 1.5× on 2× screens.
+- Weight: `/2/` HTML +4.4 KB gzipped (the script); the 51 or 70 KB still replaces the video's poster and 1.3–1.9 MB of AV1.
+
+**Checked** (headless Edge 155 against the dev server and a production build):
+- **Scope:** this build and the previous one differ only in `dist/2/index.html` and the two new stills. `/` is byte-identical.
+- **1440 × 900:** the canvas mounts at 1008 × 764, runs, and its pixels change between frames; the only hero request is the 1920 still. The flock is `display: none` with no running animations.
+- **1440 × 900 at 2×:** the canvas is 2016 × 1528 and the still is the 2560 one.
+- **Pause control:** the frame holds; resuming plays from there. **Scrolled away:** paused and held; back at the top it runs.
+- **1920 × 1080, 1280 × 720, 1024 × 768:** running, with the canvas at the layer's size.
+- **768 × 1024 and 390 × 844:** the layer is hidden, no canvas, no hero request, the flock runs its 321 animations.
+- **Reduced motion:** the still frame, drawn once and held. **No JavaScript:** the still image only.
+- **Interaction:** hovering the floor lights a pool of squares under the pointer; a click sent a report from that square into the block (screenshots at 0.25 and 0.75 s).
+- **Console:** no errors.
+- **Project checks:** `bun run check` 0 errors and 0 warnings; budgets and links pass.
+
+**Not checked.**
+- Cost and smoothness on real hardware with GPU canvas: Chrome, Edge, Safari and Firefox on laptops and on a 1024 px tablet.
+- Touch on a real tablet; Safari at all.
+- Print and forced colours in CSS only, not rendered.
+- Lighthouse and the Playwright and axe tests (Playwright doesn't connect under Windows Bun here).
+- Figma is unchanged; `/2/` is a review copy.
+
+## Hero text breaks, on /2/ — 22 October 2026 (owner asked for a UI/UX read of the hero text)
+
+**Found** (headless Edge at 1920, 1440, 1280, 1024, 768 and 390 wide):
+- The lead split its noun phrase wherever it took two lines (1280 and below): “Real-world answers for onchain / apps, controlled by no one.” v2's `text-wrap: balance` chose that split because it makes the two lines nearly equal.
+- At 1280 the body ended on a three-word widow, “of a lie.”, on its own line.
+
+**Changed** (`/2/` only: `Hero.astro` renders the spans when `own`; `home-v2-only.css` styles them):
+- The lead keeps “controlled by no one.” on one line and wraps greedily, so at 1280 and 1024 it reads “Real-world answers for onchain apps, / controlled by no one.”, breaking at the comma. At 1440 and wider it stays one line; on phones and tablets it keeps “…for onchain / apps, controlled by no one.”, the only two-line fit at that width.
+- The body keeps its last five words together (“the cost of a lie.”), so no width ends on a widow. `text-wrap: pretty` was tried first; Chromium only guards one-word orphans, so it left “of a lie.” alone.
+
+**Checked:** line counts unchanged at every width (lead 1 or 2 lines, body 2 to 4); `/` byte-identical; `/1/`, `/3/` and `/4/` have no new markup; `bun run check` 0 errors and 0 warnings; budgets and links pass.
+
+## Hero review, on /2/ — 22 October 2026 (owner asked for a careful UI/UX review of the `/2/` hero from 1024 px, then fixes)
+
+**Measured** (headless Edge over CDP, production builds before and after, 1920 × 1080, 1440 × 900, 1280 × 800, 1280 × 720 and 1024 × 768, plus laptop viewports with the browser's bars taken off):
+- **Type:** Display 72/78 Sora 600 at −2% from 1440 (64 at 1280, 51.2 at 1024); lead 22/33 Paper; body 18/28 grey, stepping to 20/30 and 16/24 at 1200 and below. Headline to lead 3.3:1 (2.6:1 at 1024), lead to body 1.22:1 plus the colour step. Lead 58 characters on one line from 1366; body 73 and 68 a line at 1440, inside 45–75.
+- **Alignment:** headline ink, lead, body and button all start on the container's left edge (96 at 1440); Sora's T sits 1 px in.
+- **Centring:** the copy sits 8 px above the hero's centre on heroes over 800 px tall (56 / 72 padding) and on it below; its ink is 4 px above. The 72 px headline puts the block's visual weight well above centre, as a hero should. No change.
+- **Gaps:** 28 / 12 / 28 set. Optically, baseline to cap top, they read about 50 / 28 / 36, so the groups step down in order. 28 is off DESIGN.md's small-space scale (24, 32), but 32 would add 8 px exactly where short screens have none. Kept.
+- **Contrast:** headline and lead 17.5:1, body 7.5:1, Navy on Green 11.9:1, focus ring 7.5:1 against Navy; the cue's line 1.66:1 (decorative).
+- **Floor clearance:** the left Navy fade (solid to 27% of the layer, clear by 45%) keeps every text line at least 57 px from any visible square at 1024, 66 at 1100 to 1200, 82 at 1366 and 90 at 1440. It clears 1 to 78 px before the block's left edge at every width. No change.
+- **Scroll cue:** 50% across, 24 px up: in the gutter between the copy column and the floor (720 at 1440, 4 px past the column's edge).
+- **Arrival:** readable by 950 ms; the last finite motion (the cue) ends at 2.8 s; settles at about 3.1 s.
+- **States:** hover, pressed and keyboard focus (2 px Pewter ring, 3 px off) work on both actions. Reload settles everything but the underline; reduced motion and no JavaScript show final states; a tab hidden mid-arrival settles and the floor resumes on return; the pause control holds the floor and rests the cue's square.
+
+**Changed** (`/2/` only):
+- **Underline order.** It drew at 750–1320 ms, after the actions started at 650: the headline's last motion pulled the eye back up just as “See how it works” landed. Motion onsets capture attention, so they should follow reading order (headline → lead → action). It now draws at 450–1020, as “decentralized” settles (the word is 92% risen by then, and the line rides with it), so it reads as part of the headline. It retracts at 1900–2400, keeping the same hold, so the scroll cue (2400–2800) now really fades in once the line has gone, as `motion.md` describes. The timeline (`heroTimeline.v2`) applies to `/2/` at every width, phones included, and on reloads, where the line simply starts 300 ms sooner. Same transform, same duration: with every loop held, the arrival's main-thread time over 400–2900 ms was 307–391 ms before and 244–352 ms after (six runs each), within noise.
+- **Action size, 1024–1200.** v1 stepped both actions down to 14 px with 16 px insets below 1200. That is a tablet fit, and it left the primary action set smaller than the body copy above it. From 1024 they keep the standard control, Sora 600 16/24, 24 px insets and a 24 px gap (DESIGN.md: one button spec, consistency). The pair takes 412 px of the 466 px column at 1024, still on one row; the primary grows from 155 to 189 px wide (Fitts).
+- **Short laptop screens.** A 1366 × 768 laptop leaves a viewport of about 615–650 px. There the copy ran past the fold: “See how it works” ended 1 px under it at 630 and 16 px at 615, and sat on the fold at 1280 × 650. Under 700 px tall the hero's padding now steps from 40 to 24 and the headline also scales with the viewport's height (`min(5vw, 10svh)`, never under 40). The action now ends 28 px above the fold at 1366 × 630, 22 at 615 and 16 at 1280 × 650. At 1440 × 700 the headline is 70 px; taller screens are unchanged.
+- **The floor starts calm on a first visit** (owner, the same day: “on a first-visit arrival, start the /2/ floor at its rest point so the block builds after the copy is read; keep the 0.76 still for reloads, reduced motion and no JavaScript”).
+  - The problem: the canvas started at the loop's 0.76 point, the complete block. On a first visit the block faded in with the layer (500–2100 ms) while it was already breaking up (from about 1 s), and it was gone by 2.1 s. The brightest motion on the screen played while the visitor read the headline, and the story ran backwards: the answer, then its undoing, then about 3 s of rest before the block built again.
+  - The fix: when the hero is arriving (`data-hero-arrival="entering"`), `hero-floor-v2.js` starts the loop at 0, its rest point. The floor fades in calm, and the reports fill the block from about 3 s, once the copy has been read.
+  - The still never shows, because the layer is still at opacity 0 when the canvas mounts. Reloads, history visits, reduced motion and no JavaScript keep the 0.76 frame, as before.
+- **The floor's Green at 65%, no glow** (owner, the same day: “light the /2/ floor's block at about 60–70% Green with no glow, re-render the still to match”).
+  - The problem (Von Restorff; DESIGN.md: Primary Green is the one main action in a view): while the block was lit, about 3–11.5 s of every 12 s, and always with reduced motion, without JavaScript or when paused on it, it outweighed the button. It showed 3.3 times the button's area in saturated Green at 1440 (1.9 at 1024), with a glow, so Green meant both “the answer” and “act here”.
+  - The fix (`hero-floor-v2.js`): every Green on the floor is now brand Green at 65% over Navy, rgb(32, 155, 121): the block, the reports, the blinking squares and the pointer's light. The glow sprite is gone. Mixing toward Navy rather than the royal navy keeps Green's hue; toward the royal navy it turned cyan.
+  - On screen, through the layer's 0.9 opacity and the squares' own, the block's brightest pixel went from rgb(38, 201, 149) to rgb(28, 129, 102): from 9.0:1 to 4.0:1 against Navy, where the button has 11.9:1. The block is now about 62% as bright as before. No floor pixel comes within 30 levels of the button's colour, against 21,144 px before (2.3 times the button's area).
+  - It also brings the floor in line with DESIGN.md's “no glow except the Peer mesh highlight”.
+  - The stills were re-rendered from the new script with the method of 22 Oct (a 1280 × 720 layer at 2× and 1.5×, reduced motion, WebP at 0.9). Run on the old script, that method reproduces the shipped files byte for byte. `augur-hero-floor-2560.webp` is now 67.6 KB (was 69.5) and `augur-hero-floor.webp` 50.3 KB (was 51.4).
+
+**Kept, with reasons:**
+- **Scroll cue position.** It is the only centred element, but on the copy's edge it would hit “See how it works” wherever there is less than about 88 px under the copy: 1280 × 720 (55 px), 1366 × 650 (40) and 1536 × 730 (78). Centred, it sits on the page's axis, in the gutter, clear of everything at every size, and users know the pattern (Jakob's law).
+- **Floor placement and fades.** See clearance above.
+- **Lead and body step-down below 1200.** The step keeps the block inside 768 px screens.
+
+**Recommended, not applied:**
+- **Hover underline on “decentralized”** (Jakob's law; NN/g heuristic 4). A line that draws under a word on hover is the web's link signifier, and this word goes nowhere. The site's own rule (Why Augur emphasis, 18 Oct) avoids underlines because they read as links. The hover is part of the owner's exception (6 Oct), so it stays. If it goes, the load sweep can stay alone.
+
+**Checked:**
+- **Scope:** built before and after this change. Only `dist/2/index.html` differs (+81 bytes gzipped); `/` and every other page are byte-identical.
+- **Geometry:** at 1920, 1440, 1280 × 800 and 1280 × 720 the hero's geometry is unchanged, measure for measure; at 1024 only the actions changed.
+- **Arrival keyframes** at 0, 150, 400, 700, 950, 1400, 2200, 2800 and 3500 ms, with the timeline frozen and seeked: at 700 ms the line is 90% drawn while the actions are still fading in; before, it had not started.
+- **States:** hover, pressed and focus on both actions and the underline hover are unchanged.
+- **Motion states:** reload (underline 88% drawn at 900 ms, retracted by about 2.5 s, nothing else replays), reduced motion, no JavaScript, a tab hidden 600 ms into the arrival (synthetic: `document.hidden` overridden, since headless Edge can't hide its own tab) and the pause control all behave as before.
+- **Overflow:** none at 1920, 1440, 1280, 1200, 1100, 1024, 768, 390 and 360. Nothing below 1024 moved apart from the underline's timing.
+- **Floor start**, a separate build pair, at 1440:
+  - Only `dist/2/index.html` differs.
+  - On a first visit the canvas mounted at 151 ms with the layer at opacity 0.
+  - Strongly Green pixels in the canvas (every fourth pixel sampled) show the block's fill:
+
+| Time after load | 0.3–1.2 s | 2.1 s | 3.0 s | 4.5 s | 6 s | 8 s | 10 s |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Before (green pixels) | about 7,600, the whole block | 0 | 137 | 0 | 0 | 2,584 | 5,225 |
+| After (green pixels) | 0 | 0 | 0 | 1,662 | 3,655 | 6,610 | 7,580 |
+
+  - A reload started on the whole block at 309 ms, reduced motion held it, and without JavaScript only the still loaded.
+  - The arrival's main-thread time with the floor running, 400–2900 ms after load, was 721–819 ms before and 630–816 ms after, over six runs each.
+- **Floor Green**, a third build pair:
+  - Only `dist/2/index.html` (314 bytes smaller gzipped, without the glow code) and the two stills differ.
+  - Frames at 1440 and 1024 with reduced motion, without JavaScript (the new still) and on a first visit 9.5 s in, when the block is whole.
+  - Over one whole loop at 1440 the main-thread time was 216–228 ms/s before and 184–229 after, and the script's own drawing 1.36–1.38 ms a frame before and 1.15–1.42 after: no added cost.
+- **Console:** no errors.
+- **Project checks:** `bun run check` 0 errors and 0 warnings (2 hints); budgets and links pass. `check:copy` gives the same output for both builds (the How it works holder and footer lines, not the hero), and the launch guard lists the standing release gates.
+
+**Not checked:** a real pointer, trackpad or screen reader; Safari and Firefox (`svh` inside `min()` is supported in both); forced colours; Lighthouse; the Playwright and axe tests (Playwright doesn't connect under Windows Bun here). Figma is unchanged; `/2/` is a review copy.
+
+## Permissionless card: Two roads in cubes, on /2/ — 22 October 2026 (owner: “The two roads is genius!”; “add a line in the green line like it is the finish where the cube becomes green … make sure there are no glitches”; “lgtm” for v2; then “make sure people know the one without the queue is augur and the other isn't … maybe the augur glyph or something?” and, after a word label, “no text! can't we get the glyph?”, then “the glyph gotta be extremely small make an exception like add in the street”)
+
+This supersedes the Permissionless scene in “Why Augur cards drawn in isometric, on /2/” above. Trustless and Robust keep their scenes while the owner works on them.
+
+**Why.** The owner asked for a clearer Permissionless picture. Over several rounds on a private comparison board (“Tenet Motion Options”) they chose Two roads: a road with a queue for approval beside an Augur Lituus road nobody blocks. They then asked for it without words, built from the brand's squares as cubes, with a finish line where each cube turns Green.
+
+**What `/2/` shows.**
+- At the back, a gated road: four cubes wait in line at a booth, with a gatekeeper in its window, and a striped barrier. Once a loop the barrier lifts, the front cube drives through and away, the others step up and a new cube joins the back.
+- In front, the Augur Lituus road, paved in the brand's deep accent green (`--augur-color-accent-deep`) with Green marks. Cubes glide past at a steady pace without stopping. Each turns Green as it crosses a finish line of Paper and Navy squares, with a Green outline pulse on the ground.
+- The Augur glyph is painted small where the Augur Lituus road begins, in place of its first Green mark, to say the road without the queue is Augur's. Cubes drive over it. There are no words.
+- The resting frame (no JavaScript, reduced motion, print) shows the line waiting at the closed barrier, one cube on its way along the Augur Lituus road and one Green past the finish line.
+
+**The glyph: an owner's brand exception.** The brand keeps the glyph to where the name Augur is already on the surface, at 50 px tall or more, and never redrawn (`src/data/brand.ts`, Brand Foundation).
+- Tried first: a Green “Augur Lituus” label, then the glyph standing beside the road's mouth at the 50 px minimum, with its clearspace. The owner wanted no text, and the glyph extremely small, in the street, as an exception.
+- It is the supplied reversed master (`public/brand/kit/glyph/augur-glyph-reversed.svg`), its two paths nested unchanged, in its own White and Green.
+- It lies flat on the road like a painted marking, turned to face the viewer the way a decal on an isometric floor shows: upright, its width times √1.5 and its height times √0.5. Laid along the road's own axes, it read as an abstract outline (compared side by side).
+- It is 14 units tall on the road, 9.4 to 13 px tall on screen. Being under the 50 px minimum is the exception, recorded here like the `/2/` header logo's.
+- The name Augur is on the section, in the answer band right above the cards (“With Augur, no one controls the oracle.”).
+- In forced colours it keeps its colours, like the rest of the drawing, so it stays readable on the dark road.
+
+**How it is built.**
+- `src/data/two-roads.ts` ports the approved sketch: the 30° projection, palette and block faces of `tenets-iso.ts`, fitted to the 336 × 168 view. It also builds the loop's 22 keyframe tracks at build time, and writes each moving part's starting position and opacity into the markup, so the resting frame and the loop's first frame are the same drawing.
+- `TwoRoads.astro` draws it and nests the glyph's paths, with no style or script. `Tenets.astro` renders it for the Permissionless card only when `ownerVersion` is true.
+- `tenets-iso-v2.js` plays the precomputed tracks (`review-inline.ts` writes them in for `__ROADS__`) on the shared 12 s clock, under the same visibility, pause, print and reduced-motion rules as the other two scenes. The old ask scene and its tracks are removed.
+- `home-v2-only.css` turns the barrier arm about its post. In forced colours, Green labels now take CanvasText like the rest; that fixes Robust's “True” and “8”, which stayed Green and were unreadable on a light high-contrast theme.
+- The loop:
+  - Speeds are steady, and each cube is always drawn at its true depth.
+  - The front cube hands over to a twin drawn in front of the barrier, in the same instant and place.
+  - At 11.5 s, with the line standing still, the queue returns to its starting places in one instant.
+  - The arm turns in its own upright plane.
+  - The resting frame catches nothing mid-fade.
+
+**Checked.**
+- `bun run check`: 0 errors and 0 warnings (2 hints, in `RepFlow.astro`, untouched). `astro build` passes.
+- Builds before and after the scene differed in exactly one file, `dist/2/index.html`. Within it, the Trustless and Robust SVGs are byte-identical; what changed is the Permissionless SVG, the scene driver, the page's CSP hashes and two CSS rules (the arm's pivot and the forced-colours labels). Every inline script that runs, and every inline style, has its hash in the CSP.
+- `check:links` and `check:budgets` pass. `check:copy` fails on the footer contact line (`167:840`), which this change doesn't touch; `check:launch` lists the open release gates, as before.
+- Weight on `/2/`: +10.7 KB raw, +0.9 KB gzipped for the scene, and the glyph's markup is 1.3 KB more (0.6 KB gzipped on its own). The scene driver is now 14.6 KB, 2.9 KB gzipped, with the tracks written in.
+- Glitch check on the built page (headless Edge, 1440): all 22 tracks sampled every 20 ms across the loop.
+  - The only jumps and opacity pops are the two designed instant swaps. The frames just before and after each differ by at most 0.0011 px (the queue reset at 11.5 s, 91 shapes) and 0.0009 px (the hand-off at 5.26 s).
+  - The loop's end matches its start within 0.0003 px.
+  - Its first frame matches the server-rendered resting frame shape for shape.
+- Main-thread task time per 5 s at the cards (headless Edge, 1440): 6.3 to 7.3 ms with all three scenes running, and 4.0 to 5.2 ms with Two roads paused. The ask scene it replaces measured 5.9 to 7.3 ms running. A few windows of 100 to 190 ms, in both builds, were V8's memory-reducing garbage collection after load (traced), not the scene.
+- Widths 1440, 1280, 1024, 768, 390 and 360: no horizontal overflow, and all 22 tracks running. The scene draws 331, 310, 240, 289, 294 and 264 px wide.
+- The glyph on the road, on screen: 20.3 × 13 px at 1440, 19 × 12.2 at 1280, 14.7 × 9.4 at 1024, 17.7 × 11.3 at 768, 18 × 11.6 at 390 and 16.2 × 10.4 at 360.
+- Reduced motion runs no tracks and shows the resting frame. With JavaScript off, the resting frame renders in full.
+- No console errors while scrolling the page at 1440 and 390.
+- Emulated forced colours: the drawing keeps its colours like the other two scenes, the glyph included.
+
+**Not done.**
+- Playwright and axe can't run here; the SVG is `aria-hidden`, as the others are.
+- No real phone, and Safari and Firefox were not opened.
+- Figma is unchanged. `/2/` is a review copy, so the scene reaches Figma only if adopted; it would then be keyed in Section details `250:717` with the other tenet scenes.
+
+## Pause control removed, on /2/ — 22 October 2026 (owner: “remove the "pause animations" stuff”)
+
+**Decision.** The header's “Pause animations” button is gone from `/2/`, with everything that served it.
+- Deleted: `motion-pause-v2.js`, the button in `SiteHeader.astro`, its inline script and CSP entry (`review-inline.ts`), and its rules in `home-v2-only.css`, including the paused resting frames of the scroll cue, status dot and Now pulse.
+- The hero floor, video and flock and the Why Augur scenes no longer read `data-motion-paused` or listen for `augur:motion`. They still pause off-screen, in a hidden tab and in print, and reduced motion still never starts them.
+- The REP rows run through the shared `loop-scene.ts` again, with nothing holding them.
+
+**What it costs.** Every page now fails WCAG 2.2.2 Pause, Stop, Hide (Level A) again, as `/` always has. The launch checklist keeps that as a blocker. The earlier entries, “Pause control for every loop”, “Hero video” and “Live floor hero”, describe the control as it was that day.

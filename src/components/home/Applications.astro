@@ -3,11 +3,14 @@ import { applications } from '../../data/applications';
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import CaseGraphic from './CaseGraphic.astro';
-import {homeCopy,type HomeVariant} from '../../data/homepage-review';
+import {homeCopy,ownerVersion,type HomeVariant} from '../../data/homepage-review';
 // A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
 // "/" use, stays byte-identical.
 interface Props { variant?:HomeVariant; }
 const {variant='v1'}=Astro.props;const copy=homeCopy(variant);
+// The icon trial, /2/ only (homepage-review.ts): Augur's square mark for the icon tiles, no builder or
+// fallback icons, and the check glyph's own path in the answer chip. Its styles are home-v2-only.css.
+const signals=ownerVersion(variant);
 // The builder's case (owner, 18 Oct 2026, from Augus's notes; draft copy): why a project would hand
 // resolution to Augur Lituus. Plain words, no "trust", no "backstop", no legal promise. Most readers
 // are traders and beginners (owner, 19 Oct 2026), so the lines name "the project" instead of "you".
@@ -43,35 +46,36 @@ const cases=copy?applications.map(app=>app.id==='governance'?{...app,...copy.app
 // v3 (Ryan 11) removes the builder block: its copy has no `builder`, so the block isn't rendered and the
 // section ends on the use-case example. v1's builderCase stays literal.
 const builder=copy?('builder' in copy.applications?copy.applications.builder:undefined):builderCase;
-// The answer's check is Phosphor Bold's own centreline drawn as a stroke, so it can draw in.
-const check='40 144 96 200 224 72';
+// The answer's check is the check glyph's own centreline drawn as a stroke, so it can draw in: Phosphor
+// Bold's, or on /2/ Augur's (assets/icons/augur/check.svg).
+const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
 ---
 <section class="applications section" aria-labelledby="applications-heading">
  <div class="container">
   <div class="section-heading"><h2 id="applications-heading">What can Augur&nbsp;Lituus power?</h2>{copy?<p class="lead">{copy.applications.lead}</p>:<p class="lead">Any app that needs to know what happened in the world.<br/>It asks a question and acts on the answer.</p>}</div>
   <div class="cases" data-tabs data-applications data-panel-swap data-activation="manual" data-active="0">
    <div class="case-tabs" role="tablist" aria-label="Use cases" aria-orientation="vertical" style={`--count:${cases.length}`}>
-    {cases.map((app,i)=><button type="button" role="tab" id={`application-tab-${app.id}`} aria-controls={`application-panel-${app.id}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1} class="case-tab"><span class="case-icon" aria-hidden="true"><Icon name={app.icon}/></span><span class="case-label"><span class="case-name">{app.title}</span><span class="case-blurb" aria-hidden="true">{app.summary}</span></span></button>)}
+    {cases.map((app,i)=><button type="button" role="tab" id={`application-tab-${app.id}`} aria-controls={`application-panel-${app.id}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1} class="case-tab">{signals?<span class="case-mark" aria-hidden="true"></span>:<span class="case-icon" aria-hidden="true"><Icon name={app.icon}/></span>}<span class="case-label"><span class="case-name">{app.title}</span><span class="case-blurb" aria-hidden="true">{app.summary}</span></span></button>)}
     <span class="case-hover" aria-hidden="true"></span><span class="case-marker" aria-hidden="true"></span>
    </div>
    <div class="case-stage">
     {cases.map((app,i)=><div role="tabpanel" id={`application-panel-${app.id}`} aria-labelledby={`application-tab-${app.id}`} class="case-panel" tabindex="0" hidden={i!==0}>
      <p class="case-summary">{app.summary}</p>
      <p class="case-question">{app.question}</p>
-     <p class="case-answer"><span class="sr-only">Possible answers: {app.outcomes.join(' or ')}. Answer: {app.answer}.</span><span class="case-options" aria-hidden="true">{app.outcomes.map(outcome=>outcome===app.answer?<span class="case-option is-answer">{outcome}<span class="case-fill"></span><span class="case-pick">{outcome}<svg class="case-check" viewBox="0 0 256 256" focusable="false"><polyline points={check} pathLength="1"/></svg></span></span>:<span class="case-option is-other">{outcome}</span>)}</span></p>
+     <p class="case-answer"><span class="sr-only">Possible answers: {app.outcomes.join(' or ')}. Answer: {app.answer}.</span><span class="case-options" aria-hidden="true">{app.outcomes.map(outcome=>outcome===app.answer?<span class="case-option is-answer">{outcome}<span class="case-fill"></span><span class="case-pick">{outcome}<svg class="case-check" viewBox={signals?"0 0 20 20":"0 0 256 256"} focusable="false"><polyline points={check} pathLength="1"/></svg></span></span>:<span class="case-option is-other">{outcome}</span>)}</span></p>
      <p class="case-by">Decided in the open, not by {app.notBy}.</p>
      <div class="case-act">
       <p class="case-action">{app.action}</p>
       <p class="case-explanation">{app.explanation}</p>
       <CaseGraphic kind={app.graphic} labels={'labels' in app?app.labels:undefined}/>
      </div>
-     {'fallback' in app&&<p class="case-fallback"><Icon name="info"/><span>{app.fallback}</span></p>}
+     {'fallback' in app&&<p class="case-fallback">{!signals&&<Icon name="info"/>}<span>{app.fallback}</span></p>}
     </div>)}
    </div>
   </div>
   {builder&&<div class="builder-case">
    <h3 class="builder-title" id="builder-title">{builder.title[0]}<br/>{builder.title[1]}</h3>
-   <ul class="builder-reasons" aria-labelledby="builder-title">{builder.reasons.map(({icon,title,line})=><li><span class="builder-icon" aria-hidden="true"><Icon name={icon}/></span><strong>{title}</strong> <span class="builder-point">{line}</span></li>)}</ul>
+   <ul class="builder-reasons" aria-labelledby="builder-title">{builder.reasons.map(reason=><li>{!signals&&'icon' in reason&&<span class="builder-icon" aria-hidden="true"><Icon name={reason.icon}/></span>}<strong>{reason.title}</strong> <span class="builder-point">{reason.line}</span></li>)}</ul>
    <div class="builder-ask"><p><span class="ask-setup">{builder.ask[0]}</span> <span class="ask-payoff">{builder.ask[1]}</span></p><Button href="/contact/" variant="outline">Talk to us</Button></div>
   </div>}
  </div>

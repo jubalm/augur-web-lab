@@ -109,11 +109,11 @@ export const homeV2 = {
         // landing on it (disputes escalate in public, §2.1–2.2 p2); "in the open" echoes each case's
         // "Decided in the open". Every point keeps two lines from 1024 to 1440 (measured), so the three
         // columns end level; "Contested outcomes go to the dispute process…" took three from 1100 down.
-        { icon: 'scales', title: 'Stay out of the middle.', line: 'Disputes settle in the open. The project never picks a side.' },
+        { title: 'Stay out of the middle.', line: 'Disputes settle in the open. The project never picks a side.' },
         // Augus, verbatim. A fee per question (whitepaper §4.4.2 p7; fixed-price Query Tokens, §4.4.7 p9).
-        { icon: 'puzzle-piece', title: 'No team to hire.', line: 'Pay per question instead of running resolution in-house.' },
+        { title: 'No team to hire.', line: 'Pay per question instead of running resolution in-house.' },
         // Augus's line, trimmed to fit two lines at 1024: his "independent", "check" for "verify … themselves".
-        { icon: 'eye', title: 'Win user trust.', line: 'Users can check and challenge independent outcomes.' },
+        { title: 'Win user trust.', line: 'Users can check and challenge independent outcomes.' },
       ],
     },
   },

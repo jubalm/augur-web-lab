@@ -3,8 +3,15 @@ import Brand from '../primitives/Brand.astro';
 import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import {navigation,navigationGroups,type NavigationItem} from '../../data/navigation';
+import {ownerVersion,variantAt} from '../../data/homepage-review';
+import {reviewInline} from '../home/review-inline';
 const groups=[{label:'Products',variant:'products',items:navigation.products},{label:'Resources',variant:'resources',items:navigation.resources},{label:'Community',variant:'community',items:navigation.community}];
 const path=Astro.url.pathname;
+// The owner's version, /2/ only (homepage-review.ts, home-v2-only.css): Resources rows take Augur's square
+// mark instead of pictograms (community logos stay), the Products lead card is itself the link with no
+// button inside it, the header hides on the way down and returns on the way up, and the phone buttons
+// read "Menu" and "Close".
+const own=ownerVersion(variantAt(path));
 // Current section: a page and everything below it (blog posts under /blog/).
 const within=(href:string)=>{const page=href.split('#')[0]!;return !href.startsWith('http')&&page!=='/'&&path.startsWith(page);};
 const isCurrent=(href:string)=>within(href)&&!href.includes('#');
@@ -17,8 +24,13 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
       <a href="/about/" class="nav-item nav-link" aria-current={isCurrent('/about/')?'page':undefined} data-current={within('/about/')?'':undefined}><span class="nav-item-label">About</span></a>
       {groups.map((group,index)=><details class="nav-disclosure" name="site-nav" data-nav-disclosure data-current={group.items.some(item=>within(item.href))?'':undefined}>
         <summary class="nav-item" aria-controls={`nav-${index}`} aria-expanded="false"><span class="nav-item-label">{group.label}</span><Icon name="chevron-down" class="nav-chevron"/></summary>
-        <div class="nav-panel" id={`nav-${index}`} data-variant={group.variant}><ul>{group.items.map((entry)=>{const item=entry as NavigationItem;const glyph=item.logo??item.icon;
-          // The lead card's one link is its action; the whole card is its hit area.
+        <div class="nav-panel" id={`nav-${index}`} data-variant={group.variant}><ul>{group.items.map((entry)=>{const item=entry as NavigationItem;const glyph=own?item.logo:item.logo??item.icon;
+          // The lead card's one link is its action; the whole card is its hit area. On /2/ the card itself
+          // is the link: no button inside it, its action a text label at its foot.
+          if(item.cta&&own)return <li class="nav-lead"><a href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>
+            <span class="nav-feature-head"><span class="nav-mark" aria-hidden="true"></span><span class="nav-text"><span class="nav-label">{item.label}</span><span class="nav-description">{item.description}</span></span></span>
+            <span class="nav-lead-action"><span class="nav-lead-label">{item.cta}</span><Icon name="arrow-right" class="nav-lead-arrow"/></span>
+          </a></li>;
           if(item.cta)return <li class="nav-feature">
             <span class="nav-feature-head"><span class="nav-mark" aria-hidden="true"></span><span class="nav-text"><span class="nav-label">{item.label}</span><span class="nav-description">{item.description}</span></span></span>
             <a class="nav-cta" href={item.href} aria-current={isCurrent(item.href)?'page':undefined}>{item.cta}<Icon name="arrow-right" class="nav-cta-arrow"/></a>
@@ -30,14 +42,15 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
         </a></li>;})}</ul></div>
       </details>)}
     </nav>
-    <div class="header-actions"><Button href="/contact/" variant="outline">Talk to us</Button><button class="mobile-open" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open><Icon name="list" /></button></div>
+    <div class="header-actions"><Button href="/contact/" variant="outline">Talk to us</Button>{own?<button class="mobile-open" type="button" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open>Menu</button>:<button class="mobile-open" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false" data-mobile-open><Icon name="list" /></button>}</div>
   </div>
   <dialog id="mobile-navigation" class="mobile-navigation" aria-labelledby="mobile-nav-title">
-    <div class="mobile-top"><a href="/" aria-label="Augur home"><Brand/></a><h2 id="mobile-nav-title" class="sr-only">Navigation</h2><button type="button" aria-label="Close navigation" data-mobile-close><Icon name="x"/></button></div>
+    <div class="mobile-top"><a href="/" aria-label="Augur home"><Brand/></a><h2 id="mobile-nav-title" class="sr-only">Navigation</h2><button type="button" aria-label="Close navigation" data-mobile-close>{own?'Close':<Icon name="x"/>}</button></div>
     <nav aria-label="Mobile navigation">{navigationGroups.map(group=><div class="mobile-group"><h3>{group.label}</h3><ul>{group.items.map(item=><li><a href={item.href}>{(item as NavigationItem).logo&&<Icon name={(item as NavigationItem).logo!} class="social-logo"/>}{item.label}{('external' in item && item.external)&&<Icon name="arrow-up-right"/>}</a></li>)}</ul></div>)}</nav>
   </dialog>
   <noscript><nav class="fallback-nav" aria-label="Navigation">{navigationGroups.flatMap(group=>group.items).map(item=><a href={item.href}>{item.label}{('external' in item && item.external)?' ↗':''}</a>)}</nav></noscript>
 </header>
+{own&&<script is:inline set:html={reviewInline.v2.scripts.header}></script>}
 <script>import {initNavigation} from '../../motion/disclosure-nav';initNavigation();</script>
 <style>
 .site-header{height:96px;background:var(--background);position:relative;z-index:20}

@@ -213,5 +213,38 @@
   "inventoryNote": "Retained the 10 used Phosphor Bold icons after owner-authorized removal of 76 unused icons (60 Light, Regular and Fill assets plus 16 Bold assets); source revisions and retained-file hashes are unchanged. See docs/evidence/cleanup-completed.json.",
   "polishNote": "Polish pass (5 Oct 2026) added 7 Phosphor Bold icons, byte-identical to the pinned revision, where they clarify meaning: application types, query cutoff, selected outcomes and field errors.",
   "navNote": "Navigation pass (5 Oct 2026, owner feedback) added 4 Phosphor Bold icons, byte-identical to the pinned revision, so each Resources menu destination is identifiable at a glance.",
-  "iterationNote": "Owner iteration (6 Oct 2026) added 5 Phosphor Bold icons, byte-identical to the pinned revision: lock-simple and seal-check for the walkthrough Activity timeline, flag, scales and warning for the REP rows. Coins and check gained uses. The same glyphs are components in Figma Components C1."
+  "iterationNote": "Owner iteration (6 Oct 2026) added 5 Phosphor Bold icons, byte-identical to the pinned revision: lock-simple and seal-check for the walkthrough Activity timeline, flag, scales and warning for the REP rows. Coins and check gained uses. The same glyphs are components in Figma Components C1.",
+  "authored": [
+    {
+      "path": "src/assets/icons/augur/arrow-right.svg",
+      "sha256": "c8bdd5c5c16bc47b5b8de2f25241582ed9cd35fa03b83398eef5060241744076",
+      "added": "2026-10-22"
+    },
+    {
+      "path": "src/assets/icons/augur/arrow-up-right.svg",
+      "sha256": "6533849300f4d84707dc654fec5cc3ea88bedac755418f91293521c58a7e5c6a",
+      "added": "2026-10-22"
+    },
+    {
+      "path": "src/assets/icons/augur/check.svg",
+      "sha256": "7c37f4abec0ded3bd26d820e020250f12c607bcf190c6f047fae1411e57b42c6",
+      "added": "2026-10-22"
+    },
+    {
+      "path": "src/assets/icons/augur/chevron-down.svg",
+      "sha256": "6f0fd3ca2fd285377056093cbdca6f070e7ea1c4780affbd2f716c3d5be921c8",
+      "added": "2026-10-22"
+    },
+    {
+      "path": "src/assets/icons/augur/plus.svg",
+      "sha256": "4e3d8b5c7a601251181e5764cc4999ab797c025a3ec7c0e8a27bc5e569391ad4",
+      "added": "2026-10-22"
+    },
+    {
+      "path": "src/assets/icons/augur/x.svg",
+      "sha256": "560c611ab8506a2b016a855c2ba797439c63e4fa6a6e9335fe6a713e9fe83566",
+      "added": "2026-10-22"
+    }
+  ],
+  "authoredNote": "Signal glyphs drawn for Augur on 22 Oct 2026 for the icon trial on /2/ only (owner): a 20 px grid, one 1.75 stroke in currentColor, square caps and mitred joins. Icon.astro uses them in place of the Phosphor file of the same name on /2/; every other page keeps the Phosphor Bold files above. See decisions.md, \"Icons: signals only, on /2/\"."
 }
