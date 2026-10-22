@@ -3,13 +3,11 @@
    in Paper over a 2 px Green rule, the others muted. The dots between the cells take no width (each
    sits on the seam between two cells, centred, and lets taps through), so four versions fit in 178 px,
    the 44 px minimum per target and nothing more (Fitts's law, WCAG 2.5.5). 24 px in from the corner,
-   so on phones its edge lines up with the page gutter (the menu button, the text column). It slides
-   out while the reader scrolls down, at every width, while one of the hero's actions lies under it,
-   and while a focused control does (version-switch.js sets data-away, data-hero and data-cover),
-   unless it holds focus, and returns on any scroll up. Four cells reach 106 px into the 1248 column at
-   1440, so on desktop too it would otherwise sit over right-hand controls (NN/g #8, Fitts's law;
-   review fix, 21 Oct 2026). The mobile menu is a modal in the top layer that covers it; it is hidden
-   then anyway. It holds still through the crossfade between versions.
+   so on phones its edge lines up with the page gutter (the menu button, the text column). It stays in
+   view at all times (owner, 22 Oct 2026: it no longer slides out on scroll down or over the hero's
+   actions); it steps aside only while a focused control lies under it (version-switch.js sets
+   data-cover), unless it holds focus. The mobile menu is a modal in the top layer that covers it; it
+   is hidden then anyway. It holds still through the crossfade between versions.
    Focus scrolling keeps a focused control above it: the page's bottom scroll padding is the pill's
    46 px, its 24 px edge and 18 px clear (WCAG 2.4.12; review fix, 21 Oct 2026). Anchors land by their
    top, so the padding never moves an anchor landing. */
@@ -20,7 +18,7 @@ html:has(.version-switch){scroll-padding-bottom:calc(88px + env(safe-area-inset-
 .version-switch a[aria-current]::after{content:'';position:absolute;left:12px;right:12px;bottom:9px;height:2px;background:var(--primary)}
 .version-switch a:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
 .version-switch span{display:flex;justify-content:center;width:0;min-width:0;color:var(--muted-foreground);pointer-events:none}
-.version-switch:is([data-away],[data-hero],[data-cover]):not(:focus-within){transform:translateY(calc(100% + var(--edge) + env(safe-area-inset-bottom,0px)));opacity:0}
+.version-switch[data-cover]:not(:focus-within){transform:translateY(calc(100% + var(--edge) + env(safe-area-inset-bottom,0px)));opacity:0}
 html:has(#mobile-navigation[open]) .version-switch{display:none}
 @media(prefers-reduced-motion:reduce){.version-switch,.version-switch a{transition:none}}
 @media(forced-colors:active){.version-switch{border-color:CanvasText}.version-switch a[aria-current]::after{forced-color-adjust:none;background:CanvasText}}
