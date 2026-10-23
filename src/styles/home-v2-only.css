@@ -66,24 +66,17 @@
 @media(prefers-reduced-motion:reduce){.site-header[data-headroom]{transition:none}}
 @media print{.site-header[data-headroom]{position:relative;transform:none}}
 
-/* Why Augur cards: isometric scenes (owner, 22 Oct 2026: "isometric for all three"). IsoScene.astro draws
-   each scene's resting frame from tenets-iso.ts, and TwoRoads.astro Permissionless's from two-roads.ts;
-   tenets-iso-v2.js plays the 12 s loop with transform and opacity only. Every moving part turns about its
-   own box, the false answer's tower about its foot and the barrier arm about its post. The drawing is
-   clipped to its box, so the tower that can't be built runs off the top of the card's art. */
+/* Why Augur cards: isometric scenes (owner, 22 Oct 2026: "isometric for all three"): Two roads, Middleman
+   crumbles and the Catapult. IsoScene.astro draws each scene's resting frame from tenets-iso.ts;
+   tenets-iso-v2.js plays the 12 s loop with transform and opacity only. Every moving part turns or scales
+   about its own box, the barrier arm about its post and the tower's cubes about their feet. The Catapult's
+   beam and trays turn about their own origin, which the drawing puts on the pin and on the beam's ends. The
+   drawing is clipped to its box. */
 .home-v2 .tenet-visual .tenet-iso{overflow:hidden}
 .tenet-iso [data-iso]{transform-box:fill-box;transform-origin:50% 50%}
-.tenet-iso [data-iso="double-lie"]{transform-origin:50% 100%}
-.tenet-iso text{font-family:var(--font-heading);font-weight:600;font-size:10.5px;letter-spacing:.08em;fill:var(--muted-foreground)}
-.tenet-iso .iso-count{font-size:15px;letter-spacing:0;font-variant-numeric:tabular-nums}
-.tenet-iso .iso-green{fill:var(--primary)}
-@media(forced-colors:active){.tenet-iso text,.tenet-iso .iso-green{fill:CanvasText}}
-.tenet-iso [data-iso="double-lie-top"]{transform-origin:0% 100%}
 .tenet-iso [data-iso="roads-arm"]{transform-origin:100% 50%}
-/* Narrow cards (three across at 1024, and phones) draw the scene under 300 px wide; the labels grow in the
-   drawing's own units so they stay about 10 px and up on screen. */
-.home-v2 .tenet-visual-iso{container-type:inline-size}
-@container (max-width:300px){.tenet-iso text{font-size:13.5px}.tenet-iso .iso-count{font-size:18px}}
+.tenet-iso [data-iso^="mid-cube"]{transform-origin:50% 100%}
+.tenet-iso [data-iso].iso-pin{transform-box:view-box;transform-origin:0 0}
 
 /* Hero: the lituus flock (owner, 22 Oct 2026: the hero "looks awful and weird", make it "more fancy").
    FlockArt.astro draws the resting frame from hero-flock.ts; hero-flock-v2.js plays the 12 s loop on

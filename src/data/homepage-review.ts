@@ -50,7 +50,8 @@ export const pageClass = (variant: HomeVariant) => classes[variant];
  * - The header logo at 128 px, a brand exception (CSS only).
  * - The Products lead card as one link, its action a text label, with no button inside it.
  * - The header hides while scrolling down and comes back on any scroll up (header-v2.js).
- * - The Why Augur cards draw isometric scenes (IsoScene.astro, tenets-iso.ts, tenets-iso-v2.js).
+ * - The Why Augur cards draw isometric scenes (IsoScene.astro, tenets-iso.ts and its scene modules,
+ *   tenets-iso-v2.js).
  * - The hero draws the lituus flock in place of the square field (FlockArt.astro, hero-flock.ts,
  *   hero-flock-v2.js). */
 export const ownerVersion = (variant: HomeVariant) => variant === 'v2';

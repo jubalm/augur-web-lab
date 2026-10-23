@@ -2739,3 +2739,72 @@ This supersedes the Permissionless scene in “Why Augur cards drawn in isometri
 - The REP rows run through the shared `loop-scene.ts` again, with nothing holding them.
 
 **What it costs.** Every page now fails WCAG 2.2.2 Pause, Stop, Hide (Level A) again, as `/` always has. The launch checklist keeps that as a blocker. The earlier entries, “Pause control for every loop”, “Hero video” and “Live floor hero”, describe the control as it was that day.
+
+## Trustless and Robust cards: Middleman crumbles and the Catapult, on /2/ — 23 October 2026 (owner, 22 Oct: of the first six Trustless options, “they all suck … maybe in trustless we can have like a bunch of blocks communicating to each other without a central intermediary or something that breaks the central intermediary”, then “we using the middleman crushes btw”; for Robust, “I love the catapult … like always doubling and idk destroying the losing side when the winning wins”, then “it gotta start empty . then it fills”; then “lgtm commit add push :) all changes thx”)
+
+This supersedes the Trustless and Robust scenes in “Why Augur cards drawn in isometric, on /2/” above. All three `/2/` cards now draw scenes the owner chose on the private comparison board (“Tenet Motion Options”, version 15), in the same blocks as Two roads, with no words.
+
+**What `/2/` shows.**
+- *Trustless, Middleman crumbles:*
+  - Six blocks on a ring, joined by dashed links on the floor, talk directly. A Green message slides along a link, under both blocks, so it shows only on its way. It lights its link, then the top of the block it reaches, with a Green outline pulse at that block's foot.
+  - At 3.2 s a tower of cubes drops into the middle and links to every block, and the direct links dim. Messages now go through the tower: in Green, a wait, and out grey, lighting nothing.
+  - At 7.6 s the tower cracks and crumbles, its cubes falling, shrinking and fading. The links come back, and the blocks talk directly again.
+  - Resting frame: the ring, with no one in the middle.
+- *Robust, the Catapult:*
+  - A seesaw on a small platform: the lie's tray on the left, its blocks dark grey; the truth's on the right, its blocks Green.
+  - They keep doubling each other, a batch at a time: one, two, four, eight, sixteen, thirty-two. Each stack fills out in doubling shapes, and the beam tips each way with a spring as a batch lands, a little further every time.
+  - The truth's thirty-two slam its side down, with a Green pulse on the ground. The lie's tray flicks up and throws its sixteen off to the left, where each bursts into three pieces that fly apart and fade.
+  - The truth's stack clears block by block and the beam comes back level.
+  - Resting frame: the empty, level seesaw. The loop starts and ends there, as the owner asked.
+  - The doubling is the whitepaper's challenge rule (§4.1). The throw is a picture of the lie losing, not a mechanism: the rule only makes a lie too costly to keep defending. The board noted this trade-off when the owner chose it.
+
+**What differs from the board.**
+- Middleman crumbles: the board's last message (block 5 to block 1, leaving at 10.3 s) lit block 1 until 12.5 s, past the loop's end, so that light snapped off at the loop's seam. On `/2/` the message goes to the neighbouring block 0 instead, so every light fades out before the loop closes. All other timings are the board's.
+- The Catapult: the board sampled the beam, trays and shadows every 50 ms. On `/2/` they are keyed instead.
+  - The beam's springs use CSS timing curves: exact quadratic ease-in and ease-out, and a sine ease-in-out drawn as `cubic-bezier(.37,0,.63,1)`, within 0.2% of the board's curve.
+  - The trays follow the beam's ends exactly. Each tray turns with the beam about the pin, then turns back about the beam's end, in the beam's own plane; a turn undone about another point is a pure move, so the tray stays level.
+  - The shadows have 82 keys each: the beam's key times, with any stretch halved until straight lines stay within 0.02 units and 0.003 opacity of the true path.
+- Burst pieces wait out of sight until the burst instead of drifting while invisible, and the slam's pulse resets its size after it fades. Neither shows.
+
+**How it is built.**
+- `src/data/iso-kit.ts` is the shared kit: the 30° projection, palette, blocks, the keyframe builder and the fit to the 336 × 168 view. It moved out of `two-roads.ts`, and Two roads' drawing and keyframes come out byte-identical (compared as JSON).
+- `src/data/middleman.ts` (63 tracks) and `src/data/catapult.ts` (101 tracks) build each drawing at its resting frame and its loop's tracks at build time. The Catapult is drawn larger, at up to 2.3 times its own size against 1.75 for the others, so its blocks match the other cards' blocks.
+- `src/data/tenets-iso.ts` now lists the three scenes; the old `veto` and `double` geometry is removed.
+- `IsoScene.astro` draws any of the three and nests the glyph for Two roads. `TwoRoads.astro` is deleted.
+- `tenets-iso-v2.js` plays each scene's precomputed tracks (`review-inline.ts` writes them in for `__SCENES__`). A track plays on every element of its scene that carries its name, so the beam and both trays share one track. The old scenes' track code is removed. The visibility, print and reduced-motion rules are unchanged.
+- `home-v2-only.css` drops the label rules, since no scene has words. The tower's cubes shrink about their feet, and the Catapult's beam and trays turn about their own origin, which the drawing puts on the pin and on the beam's ends.
+
+**Checked.**
+- `bun run check`: 0 errors and 0 warnings (2 hints, in `RepFlow.astro`, untouched). `astro build` passes, 31 pages.
+- A build of HEAD (`132cb88`) and a build of this change differ in exactly one file, `dist/2/index.html`.
+- `check:links` and `check:budgets` pass. `check:copy` fails on the footer contact line (`167:840`), which this change doesn't touch; `check:launch` lists the open release gates, as before.
+- Weight on `/2/`:
+  - The page goes from 485.7 KB to 698.5 KB raw, and from 85.3 KB to 99.6 KB gzipped.
+  - The scene driver, with all three scenes' tracks, is 134 KB raw and 8.7 KB gzipped (it was 14.5 KB and 2.9 KB).
+  - The Middleman SVG is 41.2 KB raw and 4.9 KB gzipped; the Catapult SVG is 69.6 KB and 5.2 KB. The two scenes they replace were 1.2 KB and 1.4 KB gzipped. Two roads is unchanged.
+- Glitch check on the built page (headless Edge, 1440): every animated element sampled every 20 ms across the loop, in all three scenes.
+  - For each scene, the loop's end matches its start, and its first frame matches the server-rendered resting frame, shape for shape.
+  - The only jumps and opacity pops are designed moves: the tower's drop and collapse, a message going back under its block after arriving, the blocks dropping onto the stacks, the slam and the burst.
+- The trays against the beam, every 10 ms across the loop: the beam's end and the tray's attachment point never differ (0.0000 px), the trays never turn (under 1.3 × 10⁻⁶), and the shadows follow the trays across within 0.05 px.
+- Frames compared with the board at the same moments: 10 for Middleman crumbles and 14 for the Catapult. They match, except Middleman crumbles at 11 s, which shows the changed last message. Tower cubes were also probed numerically: their positions match the board's to 0.01 px.
+- Widths 1440, 1280, 1024, 768, 390 and 360: no horizontal overflow, and all tracks running (22, 63 and 104 animations). The scenes draw 331, 310, 240, 289, 294 and 264 px wide, as before.
+- Reduced motion runs no animations and shows the resting frames at every width. With JavaScript off, the server-rendered frames are complete. In emulated forced colours the drawings keep their colours, like Two roads. No console errors.
+- Main-thread time at the cards (headless Edge):
+
+| Condition | Before (Two roads + old scenes, 64 animations) | Now (189 animations) |
+| --- | --- | --- |
+| Idle, 1440, per 5 s | 14–18 ms | 15–29 ms |
+| Redrawing every frame, 1440, per frame | 2.3–3.5 ms | 3.0–6.4 ms |
+| Redrawing every frame, 390 with the CPU slowed 4×, frames over 25 ms per 5 s | 0 to 2 | 27 to 46 (worst 35 ms) |
+
+  - Frames are counted out of about 300 per 5 s. An earlier run, on a busier machine, counted 20 to 51 late frames before and 126 to 129 now (worst 50 ms).
+
+  - Idle, the browser runs the scenes off the main thread, so they cost next to nothing.
+  - When the page redraws every frame, as while scrolling, each frame updates every animated part on the main thread.
+  - On a slow phone that work fills the main thread near the cards. The scenes themselves stay smooth; what can lag is other main-thread work while scrolling, such as the header's hide and show.
+  - If these scenes ship beyond review, the cost can come down with fewer moving parts, for example fewer burst pieces, or by drawing the scenes on a canvas.
+
+**Not done.**
+- Playwright and axe can't run here; the SVGs are `aria-hidden`, as before.
+- No real phone, and Safari and Firefox were not opened.
+- Figma is unchanged. `/2/` is a review copy, so the scenes reach Figma only if adopted; they would then be keyed in Section details `250:717` with the other tenet scenes.

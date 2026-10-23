@@ -3,7 +3,6 @@ import CrossAnywhere from '../art/diagrams/CrossAnywhere.astro';
 import PeerMesh from '../art/diagrams/PeerMesh.astro';
 import NoAuthority from '../art/diagrams/NoAuthority.astro';
 import IsoScene from '../art/diagrams/IsoScene.astro';
-import TwoRoads from '../art/diagrams/TwoRoads.astro';
 import {homeCopy,ownerVersion,type HomeVariant,type ReviewVariant} from '../../data/homepage-review';
 import {reviewInline} from './review-inline';
 // A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
@@ -31,10 +30,10 @@ const closer={statement:'The answer is nobody’s call.',paths:[
 // arrays above stay as they are.
 const diagrams={cross:CrossAnywhere,mesh:PeerMesh,authority:NoAuthority};
 // The owner's version, /2/ only (homepage-review.ts): each card draws an isometric scene instead, which says
-// its claim (IsoScene.astro, tenets-iso.ts; Permissionless is Two roads, TwoRoads.astro, two-roads.ts);
-// tenets-iso-v2.js plays them, rendered after the section.
+// its claim (IsoScene.astro, tenets-iso.ts): Two roads for Permissionless, Middleman crumbles for Trustless
+// and the Catapult for Robust; tenets-iso-v2.js plays them, rendered after the section.
 const own=ownerVersion(variant);
-const isoKinds={cross:'roads',authority:'veto',mesh:'double'} as const;
+const isoKinds={cross:'roads',authority:'middleman',mesh:'catapult'} as const;
 const cards=copy?copy.why.tenets.map(card=>({...card,diagram:diagrams[card.diagram],iso:own?isoKinds[card.diagram]:undefined})):tenets;
 const paths=copy?copy.why.paths:closer.paths;
 // v3 (Ryan 6): a card with a `tip` gets a "?" toggletip beside its title. The title and the button share a
@@ -51,7 +50,7 @@ const tips=copy&&cards.some(card=>'tip' in card)?reviewInline[variant as ReviewV
  <div class="container tenet-grid">
   {cards.map(card=>{const {title,diagram:Diagram,claim,body}=card;const tip='tip' in card?card.tip:undefined;return <article class="tenet-card" data-tenet-card>
    {tip?<div class="tenet-head" style={`anchor-name:--${tip.id}`}><h3 class="tenet-tab">{title}</h3><button type="button" class="tenet-tip" popovertarget={tip.id} aria-label={tip.label} aria-describedby={tip.id} data-tenet-tip><span class="tenet-tip-mark" aria-hidden="true">?</span></button><p class="tenet-tip-pop" id={tip.id} popover style={`position-anchor:--${tip.id}`}><strong>{title}:</strong> {tip.text}</p></div>:<h3 class="tenet-tab">{title}</h3>}
-   {'iso' in card&&card.iso?<div class="tenet-visual tenet-visual-iso">{card.iso==='roads'?<TwoRoads/>:<IsoScene kind={card.iso}/>}</div>:<div class="tenet-visual"><Diagram/></div>}
+   {'iso' in card&&card.iso?<div class="tenet-visual tenet-visual-iso"><IsoScene kind={card.iso}/></div>:<div class="tenet-visual"><Diagram/></div>}
    <div class="tenet-copy">
     <p class="tenet-claim"><span class="setup">{claim[0]}</span><span>{claim[1]}</span></p>
     <p class="tenet-body">{body}</p>

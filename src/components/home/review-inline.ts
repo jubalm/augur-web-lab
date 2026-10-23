@@ -19,7 +19,7 @@ import flockScript from './hero-flock-v2.js?raw';
 import videoScript from './hero-video-v2.js?raw';
 import floorScript from './hero-floor-v2.js?raw';
 import {flockMotion} from '../../data/hero-flock';
-import {twoRoads} from '../../data/two-roads';
+import {isoTracks} from '../../data/tenets-iso';
 // Comment lines and indentation are dropped; the line breaks stay, so the script parses as written.
 const compact = (js: string) => js.replace(/^\s*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '').trim();
 export const switchInline = { style: switchStyle, script: compact(switchScript) };
@@ -36,8 +36,8 @@ export const reviewScripts = { how: compact(howScript) } as Record<string, strin
 // sheet renders nothing. A script only one version renders goes in that version's
 // `scripts` as well, so its page hashes it. v2's `header` hides the header on the way down and brings it
 // back on the way up (SiteHeader.astro renders it after the header on /2/); its `tenets` plays the isometric
-// Why Augur scenes, with Two roads' keyframes from two-roads.ts written in (Tenets.astro renders it after the
-// section on /2/); its `flock` plays the hero's lituus
+// Why Augur scenes, with every scene's keyframes from tenets-iso.ts written in (Tenets.astro renders it after
+// the section on /2/); its `flock` plays the hero's lituus
 // flock, with the keys from hero-flock.ts written in (Hero.astro renders it after the hero on /2/); its
 // `floor` draws the hero's live floor and `video` plays its generated loop, from 1024 px (Hero.astro renders
 // the one its `layer` picks after the flock's).
@@ -45,7 +45,7 @@ export const reviewScripts = { how: compact(howScript) } as Record<string, strin
 // section).
 type Inline = { styles: string[]; scripts: Record<string, string> };
 export const reviewInline: Record<ReviewVariant, Inline> = {
-  v2: { styles: [v2Style, v2OnlyStyle].filter(Boolean), scripts: { ...reviewScripts, header: compact(headerScript), tenets: compact(tenetsIsoScript).replace('__ROADS__', JSON.stringify(twoRoads.tracks)), flock: compact(flockScript).replace('__FLOCK__', JSON.stringify(flockMotion)), video: compact(videoScript), floor: compact(floorScript) } },
+  v2: { styles: [v2Style, v2OnlyStyle].filter(Boolean), scripts: { ...reviewScripts, header: compact(headerScript), tenets: compact(tenetsIsoScript).replace('__SCENES__', JSON.stringify(isoTracks)), flock: compact(flockScript).replace('__FLOCK__', JSON.stringify(flockMotion)), video: compact(videoScript), floor: compact(floorScript) } },
   v3: { styles: [v2Style, v3Style].filter(Boolean), scripts: { ...reviewScripts, tips: compact(tipsScript) } },
   v4: { styles: [v2Style, v4Style].filter(Boolean), scripts: { ...reviewScripts } },
 };
