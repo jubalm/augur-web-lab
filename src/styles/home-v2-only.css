@@ -78,6 +78,24 @@
 .tenet-iso [data-iso^="mid-cube"]{transform-origin:50% 100%}
 .tenet-iso [data-iso].iso-pin{transform-box:view-box;transform-origin:0 0}
 
+/* Why Augur closer (owner, 23 Oct 2026). The statement heads the panel as its <h3>, on its own row over a
+   hairline, and the readers follow as a list: side by side in equal halves from 1024, stacked below, so
+   each reader line has room to say what it means instead of fitting a third of the row. One surface: the
+   statement's Dark tint (1.08:1 against the tile, measured) read as a gap, not as emphasis. No hover edge,
+   since nothing in the panel is a control. Text keeps the card text edge (32 from 1200, 24 at 1024–1199,
+   28 on tablets, 24 on phones). Where the readers sit side by side, each keeps one setup line and one
+   payoff line (measured at 1440, 1280 and 1024). Forced colours draw the panel's border, as the cards'. */
+.home-v2 .tenet-closer{display:block}
+.home-v2 .tenet-closer::after{display:none}
+.home-v2 .closer-head{padding:24px 32px;border-bottom:1px solid var(--web-outline);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
+.home-v2 .closer-readers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none}
+.home-v2 .closer-reader{padding:24px 32px}
+.home-v2 .closer-reader+.closer-reader{border-left:1px solid var(--web-outline)}
+@media(max-width:1199px){.home-v2 :is(.closer-head,.closer-reader){padding-inline:24px}}
+@media(max-width:1023px){.home-v2 .closer-readers{grid-template-columns:minmax(0,1fr)}.home-v2 :is(.closer-head,.closer-reader){padding:20px 28px}.home-v2 .closer-reader+.closer-reader{border-left:0;border-top:1px solid var(--web-outline)}}
+@media(max-width:600px){.home-v2 :is(.closer-head,.closer-reader){padding:20px 24px}.home-v2 .closer-head{font-size:20px;line-height:26px}}
+@media(forced-colors:active){.home-v2 .tenet-closer{border:1px solid CanvasText}}
+
 /* Hero: the lituus flock (owner, 22 Oct 2026: the hero "looks awful and weird", make it "more fancy").
    FlockArt.astro draws the resting frame from hero-flock.ts; hero-flock-v2.js plays the 12 s loop on
    transform and opacity only. The art keeps the old square field's box in the hero grid, and its stream

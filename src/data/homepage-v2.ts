@@ -55,20 +55,23 @@ export const homeV2 = {
       // peer mesh (no centre, a relay running every link) shows why: there is no one point to corrupt.
       { title: 'Robust', diagram: 'mesh', claim: ['Hard to corrupt.', 'Lies get expensive fast.'], body: 'Designed to cost attackers more than almost any other oracle.' },
     ],
-    // The statement stays v1's: "The answer is nobody’s call."
+    // The statement stays v1's: "The answer is nobody’s call." On /2/ it heads the closer, over the two
+    // readers (owner, 23 Oct 2026; Tenets.astro, home-v2-only.css), so each payoff says what it means for
+    // that reader instead of a fifth "no one". Both setups name the same risk, a wrong answer.
     paths: [
       // Ryan 7: say plainly that markets misresolve. A question, since nothing sources "many traders".
-      // The payoff names the cause (one party deciding) and holds whether or not anyone challenges.
-      { who: 'For traders', line: ['Seen a market settle the wrong way?', 'Here, no one decides alone.'] },
-      // Ryan 8 + Augus 1: liability first (backlash over one bad resolution), then hand it off. Not
-      // "not your team": house rules ban "X, not Y" and "teams" for projects. v1's "Leave resolution to
-      // Augur Lituus." is 323 px and wraps in the narrower last cell at 1280 (an empty foot under the
-      // traders' line, in v1 too). Review fix (21 Oct 2026): "One bad call… / Leave it to Augur Lituus."
-      // read as "leave the call to Augur Lituus", the "make the call" this cell dropped beside "The
-      // answer is nobody’s call."; "resolution" (Ryan's word) keeps "call" out of the cell. "Let Augur
-      // Lituus answer." (240 px, as in v3) has no "it" and fits every two-column width, so both payoffs
-      // still wrap at the same widths (measured). v4 reads this line too.
-      { who: 'For integrators', line: ['One bad resolution can cost a platform its users.', 'Let Augur Lituus answer.'] },
+      // The payoff answers it with recourse: a report can be challenged while its window runs (whitepaper
+      // §2.1 p2, §4.1 p5). "Can", not "any answer", since the window closes. "Anyone" echoes the
+      // Permissionless claim; it never says REP holders must challenge. Was "Here, no one decides alone."
+      { who: 'For traders', line: ['Seen a market settle the wrong way?', 'Here, anyone can challenge a wrong answer.'] },
+      // Ryan 8 + Augus 1: liability first, then hand it off. "For builders" (was "For integrators"): the
+      // site's name for them (the For builders guides, the footer's "Building on it?"), and plain for
+      // beginners. v1's approved "Leave resolution to Augur Lituus." returns: it was dropped only for the
+      // 323 px three-column cell, and it names a process where "Let Augur Lituus answer." cast the oracle
+      // as the one who decides, beside "nobody’s call". "Resolution" moves out of the setup so it isn't
+      // said twice. Both setups and payoffs fit one line wherever the readers sit side by side (from
+      // 1024: 408 px at 18 px in a 416 px column, measured). v4 keeps the 21 Oct lines (homepage-v4.ts).
+      { who: 'For builders', line: ['A wrong answer can cost a platform its users.', 'Leave resolution to Augur Lituus.'] },
     ],
   },
   applications: {

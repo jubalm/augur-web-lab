@@ -10,10 +10,11 @@
  * Structure from v2 (homepage-review.ts): the same UI system, so this object spreads homeV2 and
  * overrides one section at a time. A section not overridden reads v2's copy.
  * Read from v2 unchanged (dash, no exact words beyond v2's): the lead (Ryan 3, his words), the answer
- * band (4), the traders' and integrators' closer lines (7, 8), the use-case lead (9, Ryan's words), the
- * DAO case (10), the How it works collapse (12) and Learn more (15). Not changed: the hero headline and
- * art (1), the roadmap (14). Not done (X): "?" tooltips (6) and the intent split (16); the builder
- * block stays (11), in Augus's words (note 1).
+ * band (4), the use-case lead (9, Ryan's words), the DAO case (10), the How it works collapse (12) and
+ * Learn more (15). The traders' and integrators' closer lines (7, 8) are v2's of 21 Oct, kept here
+ * since v2 rewrote its closer on 23 Oct. Not changed: the hero headline and art (1), the roadmap (14).
+ * Not done (X): "?" tooltips (6) and the intent split (16); the builder block stays (11), in Augus's
+ * words (note 1).
  * Typography: Augus typed straight apostrophes and a spaced hyphen; the site sets curly apostrophes, as
  * v2 does, so "Augur's" is "Augur’s", and his " - " is set as a closed em dash: "call—not you".
  * The no-break spaces ( ) only keep each short sentence of a claim on one line; no word changes.
@@ -63,6 +64,12 @@ export const homeV4 = {
       // them for that reason), and "economic barriers" brings money into Why Augur (v2 house rule: no
       // money, bond or stake in this section, so nothing suggests money buys the answer).
       { title: 'Robust', diagram: 'mesh', claim: ['Harder to game.', 'Costlier to manipulate.'], body: 'Designed with one of the highest economic barriers to attack among decentralized oracles.' },
+    ],
+    // Ryan 7 and 8 (dash, no exact words): v2's reader lines as they stood on 21 Oct 2026. v2 rewrote its
+    // closer on 23 Oct (owner's version, /2/ only), so v4 keeps these here and /4/ is unchanged.
+    paths: [
+      { who: 'For traders', line: ['Seen a market settle the wrong way?', 'Here, no one decides alone.'] },
+      { who: 'For integrators', line: ['One bad resolution can cost a platform its users.', 'Let Augur Lituus answer.'] },
     ],
   },
   applications: {

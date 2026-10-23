@@ -2808,3 +2808,48 @@ This supersedes the Trustless and Robust scenes in “Why Augur cards drawn in i
 - Playwright and axe can't run here; the SVGs are `aria-hidden`, as before.
 - No real phone, and Safari and Firefox were not opened.
 - Figma is unchanged. `/2/` is a review copy, so the scenes reach Figma only if adopted; they would then be keyed in Section details `250:717` with the other tenet scenes.
+
+## Why Augur closer as a heading over two readers, on /2/ — 23 October 2026 (owner asked for a careful UI/UX review of “The answer is nobody’s call”, then “Build the proposed closer on /2/ only: heading row, two readers, the new copy, no hover ring, h3 + list, forced-colours border”)
+
+`/`, `/1/`, `/3/` and `/4/` are unchanged byte for byte: of two builds, before and after, only `2/index.html` differs. The markup is gated on `ownerVersion` in `Tenets.astro`, the styles are in `home-v2-only.css` and the copy is in `homepage-v2.ts`.
+
+**What the review found.**
+- The closer repeated the section instead of concluding it. The band (“no one controls the oracle”), the Trustless claim (“No one has a veto.”), the statement and the traders' payoff (“no one decides alone”) made four “no one”s, with “No governance”, “No approvals” and “No multisigs” around them. The end of a section is where readers remember most (serial position effect).
+- The payoffs were weaker than their setups. The traders' question is about a wrong settlement, and “no one decides alone” didn't say what happens next. “Let Augur Lituus answer.” was vague, and it cast the oracle as the one who decides, beside “nobody’s call”.
+- The three-column cells (about 330 px of text) were choosing the words: “Leave resolution to Augur Lituus.” was dropped on 21 Oct only because it wrapped at 1280.
+- Flat hierarchy. The statement was 24/32, like every card claim, on a Dark tint 1.08:1 against the tile (measured), which read as a gap rather than emphasis. Side by side, it was a peer of the readers rather than their heading; at 768 it already sat on top.
+- A hover edge on a panel that isn't a control: the false affordance this log named on 19 Oct (the owner had named the cards only).
+- “For integrators” is jargon for a traders-first page, and the site calls the same people builders.
+- No heading, so heading navigation skipped the closer. In forced colours the cards had borders and the closer had none, so its text floated.
+
+**What `/2/` shows.**
+- The statement is the panel's `h3`, on its own row over a 1 px Outline hairline. The readers follow as a `ul role="list"`: equal halves from 1024 with a hairline between them, stacked below 1024 with a hairline between them.
+- One surface (the tint is gone), no hover edge, and a CanvasText border in forced colours, as on the cards.
+- Type is unchanged: the statement Sora 600 24/32 (20/26 on phones); the labels 14/20 with the Green square; the lines 20/30 (18/27 at 1024–1199 and below 768), setup in Pewter and payoff in Paper.
+- Text keeps the card text edge: 32 from 1200 and 24 at 1024–1199; 28 on tablets and 24 on phones, as before.
+- Copy:
+  - Statement: unchanged, “The answer is nobody’s call.”
+  - For traders: “Seen a market settle the wrong way?” / “Here, anyone can challenge a wrong answer.” (was “Here, no one decides alone.”)
+  - **For builders** (was For integrators): “A wrong answer can cost a platform its users.” / “Leave resolution to Augur Lituus.” (was “One bad resolution can cost a platform its users.” / “Let Augur Lituus answer.”)
+
+**Why these words.**
+- Traders: the payoff answers the question with recourse. A report can be challenged while its window runs (whitepaper §2.1 p2, §4.1 p5). It says “can”, not “any answer”, because the window closes (why Ryan's “any answer can be challenged” was declined on 21 Oct). “Anyone” echoes the Permissionless claim and the hero's “every challenge”. Nothing says REP holders must challenge.
+- Builders: the site's name for them (the For builders guides, the footer's “Building on it?”), plain for beginners. v1's approved payoff returns now that the cell has room, and it names a process rather than a decider. “Resolution” leaves the setup, so it is said once.
+- “A wrong answer” opens both setups: one risk, seen by each reader, under “The answer is nobody’s call.”
+- The statement stays. As the heading it introduces the readers, instead of standing beside them as one more “no one”.
+
+**Scope.** `/4/` read v2's reader lines. It now keeps the 21 Oct lines in `homepage-v4.ts`, so `/4/` is unchanged. `/3/` has its own lines. v1 keeps its markup as the other branch of the gate.
+
+**Measured** (headless Edge on the dev server, reduced motion):
+- 1440, 1280 and 1024: each reader is one setup line and one payoff line. The panel is 219, 219 and 213 px (was 168, 168 and 159). The statement and the first reader start on the card text edge (128, 80, 72).
+- 768: stacked, each reader one line plus one; the panel is 334 px (was 232).
+- 390 and 360: stacked; 397 and 450 px (was 368 and 394). At 360 the statement takes two lines, as before.
+- No horizontal overflow at any of these widths, and no console errors. The section's heading outline now ends with “The answer is nobody’s call.” (h3).
+- Forced colours at 1440 and 390: the panel's border, the hairlines and the label squares draw in CanvasText. The setup and payoff take one colour there, as on the cards (emphasis only).
+- `astro check`: 0 errors.
+
+**Open.**
+- Confirm “anyone can challenge a wrong answer” against the whitepaper PDF (Augus).
+- The builder block in the next section still leads with “Stay out of the middle.”, the liability point this line now makes (open since 19 Oct). Settle it in the Applications pass: keep liability here and lead the block with “No team to hire.”
+- Not run: Playwright, axe, a screen reader, Safari, Firefox or a real phone.
+- Figma: logged in the pending list (`figma-workflow.md`), for `28:7` if v2's closer is adopted.

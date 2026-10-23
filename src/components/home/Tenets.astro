@@ -36,6 +36,8 @@ const own=ownerVersion(variant);
 const isoKinds={cross:'roads',authority:'middleman',mesh:'catapult'} as const;
 const cards=copy?copy.why.tenets.map(card=>({...card,diagram:diagrams[card.diagram],iso:own?isoKinds[card.diagram]:undefined})):tenets;
 const paths=copy?copy.why.paths:closer.paths;
+// The owner's version (/2/ only, 23 Oct 2026): the statement heads the closer as its <h3>, so heading
+// navigation reaches it, and the readers follow as a list under it (home-v2-only.css lays them out).
 // v3 (Ryan 6): a card with a `tip` gets a "?" toggletip beside its title. The title and the button share a
 // head row (a button inside the <h3> would join the heading's name); the definition is a native popover
 // (click, tap, Enter, Space, Esc and click-outside need no script), described by the button, and anchored
@@ -56,13 +58,19 @@ const tips=copy&&cards.some(card=>'tip' in card)?reviewInline[variant as ReviewV
     <p class="tenet-body">{body}</p>
    </div>
   </article>;})}
-  <div class="tenet-closer">
+  {own?<div class="tenet-closer">
+   <h3 class="closer-head">{closer.statement}</h3>
+   <ul class="closer-readers" role="list">{paths.map(({who,line})=><li class="closer-reader">
+    <p class="closer-who">{who}</p>
+    <p class="closer-line"><span class="setup">{line[0]}</span> <span class="payoff">{line[1]}</span></p>
+   </li>)}</ul>
+  </div>:<div class="tenet-closer">
    <p class="closer-statement">{closer.statement}</p>
    {paths.map(({who,line})=><div class="closer-path">
     <p class="closer-who">{who}</p>
     <p class="closer-line"><span class="setup">{line[0]}</span> <span class="payoff">{line[1]}</span></p>
    </div>)}
-  </div>
+  </div>}
  </div>
 </section>{tips&&<script is:inline set:html={tips}></script>}{own&&<script is:inline set:html={reviewInline.v2.scripts.tenets}></script>}
 <style>
