@@ -31,7 +31,7 @@ The owner-authorized legacy cleanup removed 170 tracked files, including the old
 - `src/styles`: pinned foundations plus local website styles.
 - `vendor/augur`: immutable pinned design-system snapshots.
 - `tests`, `scripts`: route, interaction, accessibility, content and release checks.
-- `docs`: sources, decisions, motion and release evidence; `docs/backlog.md` keeps owner ideas not yet scheduled.
+- `docs`: sources, decisions, motion and release evidence.
 
 ## Content and deployment
 
