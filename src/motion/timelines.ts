@@ -53,14 +53,18 @@ export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640
  * (use-cases-v2.js, which gets this and `easing` written in). A pick draws the 2 px Green line from the tab
  * over `link`, fades the shown case out over `out` and the picked one in from `at` over `in`. A case plays
  * once per tab session, `pick` after its first pick, or `entrance` after `threshold` of the stage is in view.
- * Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady pace, then
- * eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); "Landed"
- * rises `landedLead` before the answer, over `landed`. At the answer every pending word goes over `swapOut`
- * and its answer comes in from `swapIn` over `swap` (a value rising `rise` px, the status from `statusFrom`
+ * Its rows come in first (owner, 25 Oct 2026: the Yes/No options first, subtle and low-noise), `rowStagger`
+ * apart, each rising `rise` px over `row`; as a market row arrives, its Mist bar fills to the live odds over
+ * `odds`. Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady pace,
+ * then eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); the
+ * +2 hours tick stretches to `tickScale` and back over `tick` as the dot crosses it, and "Landed" rises
+ * `landedLead` before the answer, over `landed`. While the proposal is checked, a Mist line runs under its
+ * pending check from `scanAt` over `scan`. At the answer every pending word and that line go over `swapOut`,
+ * and each answer comes in from `swapIn` over `swap` (a value rising `rise` px, the status from `statusFrom`
  * scale); the market's bars run over `bar`, the Green one fading in over `barFade`, and the check draws
  * from `checkAt` over `checkDraw`. The footer rises `footRise` px from `footAt` over `foot`, and the result
  * fades in from `resultAt` over `result`. */
-export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, answer:{market:600, proposal:700, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', landedLead:120, landed:360, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
+export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, odds:560, answer:{market:900, proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
 /** How it works on /2/ (owner, 25 Oct 2026): the example question's whole life plays once per tab session
  * (how-life-v2.js, which gets this and `easing` written in), `entrance` after `threshold` of the card is in
  * view. Each stop is reached at `reach[i]` ms: its node pops in over `pop` and its words rise from `dim`

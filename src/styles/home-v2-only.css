@@ -84,9 +84,11 @@
 .home-v2 .bar-was{background:var(--augur-color-surface-dark-mist);opacity:0}
 .home-v2 .bar-now{background:var(--primary)}
 /* Details (the proposal's three rows, the flight's arrival): label left, value right. A pending value
-   ("Checking…", "In the air") settles into its answer in Green. */
+   ("Checking…", "In the air") settles into its answer in Green. While the proposal is checked, a 2 px Mist
+   line runs 5 px under its row; it shows only during the play. */
 .home-v2 .card-details{display:grid;row-gap:12px;margin:0}
-.home-v2 .card-detail{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.home-v2 .card-detail{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.home-v2 .detail-scan{position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--augur-color-surface-dark-mist);transform-origin:left;opacity:0}
 .home-v2 .card-detail dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
 .home-v2 .card-detail dd{display:inline-grid;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
 .home-v2 .card-detail dd>span{grid-area:1/1;justify-self:end}

@@ -96,9 +96,11 @@ The list was synced on 7 October 2026, and the Brand assets page was built in Fi
   - **For builders:** 32 under the card; at 1024 it sits on the stage's foot instead. The cue (Sora 600 14/20 Paper, 8 px Green square, 12 gap), then a paragraph 8 below (Schibsted Grotesk 16/24 Pewter, max 34em). The copy is in `homepage-v2.ts` (`applications.cards`): three lines on every tab from 1024 to 1440. “Decided in the open, not by …” and the Insurance note's separate line go; the note is now the Insurance paragraph's second sentence, without “on its own chain or L2”.
   - **Builder block:** the title (Sora 600 28/34; 24/32 below 1280) with the ask and “Talk to us” bottom-aligned in the 668 column. 24 below, one `web-tile` panel of three cells split by 1 px `#383848` hairlines, padding 32 (24 to 1200). Each claim is Sora 600 20/26 Paper with an 8 px Green square (12 gap), 8 over its point (18/28 from 1280, 16/24 below).
   - **Motion, on Section details:** `useCaseTimeline` in `timelines.ts`, played by `use-cases-v2.js`, once per tab session.
-    - The card starts pending: Live, Covered or Queued; Mist bars at 61 and 39; “In the air”; “Checking…”.
-    - The answer lands 600 (market), 1100 (flight) or 700 ms (proposal) in. Each pending word goes over 140, and its answer comes in from 120 over 320. The bars run over 640, the check draws and the footer rises 6 px.
-    - The flight's square runs at a steady pace and eases onto the landing.
+    - The card starts pending: Live, Covered or Queued; “In the air”; “Checking…”.
+    - Its rows come in first, 70 apart, each rising 4 px over 420: Yes and No, the arrival, or the proposal's three rows. As a market row comes in, its Mist bar fills from 0 to the live odds (61, 39) over 560.
+    - The answer lands 900 (market), 1100 (flight) or 1000 ms (proposal) in. Each pending word goes over 140, and its answer comes in from 120 over 320. The bars run over 640, the check draws and the footer rises 6 px.
+    - The flight's square runs at a steady pace and eases onto the landing. As it crosses +2 hours, the tick stretches to 150% tall and back over 360.
+    - While the proposal is checked, a 2 px Mist line runs under “Checking…” from 280 over 600, and goes with the pending words.
     - A pick draws the Green line over 240 and fades the words: out 160, then in from 160 over 320.
   - The mark's square (its `::after`) turns on hover and press; the mark itself never turns, so the Green line it holds stays level.
   - Then re-extract `homepage-copy-source.json`.
