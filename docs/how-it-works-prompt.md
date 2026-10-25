@@ -106,6 +106,6 @@ Update the FAQ `rep-actions` answer only if it now contradicts this section. Don
   - no `.rep` section on the page.
 - Update `tests/copy-check.test.ts` and the homepage copy source with the new strings, flagged for review.
 - Run `bun run check`, `bun run build`, link/copy/budget checks and the launch guard. Use headless Edge screenshots of the section at all six widths (see the `edge-cdp-screenshots` memory) and scan every tab state for empty blocks.
-- Log a decision in `docs/decisions.md`: what was merged, what was removed, the whitepaper sections behind each claim, why “Example” is on the card, and what stays unclaimed (an own UI, burn value).
+- Explain in the commit message: what was merged, what was removed, the whitepaper sections behind each claim, why “Example” is on the card, and what stays unclaimed (an own UI, burn value).
 - Add the Figma pending item in `docs/figma-workflow.md` (replace `28:7` How it works + REP frames). Update the `launch-checklist.md` review flags.
 - Report only the checks you actually ran. Don't commit.

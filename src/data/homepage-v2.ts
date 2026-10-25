@@ -2,8 +2,8 @@
  * home sections read it through homeCopy() (homepage-review.ts) when `variant` is 'v2'; v1 keeps its
  * copy where it is, untouched. v3 and v4 (homepage-v3.ts, homepage-v4.ts) spread this object and
  * override it section by section, so a change here reaches them too wherever they don't override.
- * Source: Ryan's 17 notes as Augus marked them (dash = do, X = don't, 1–3 = Augus rewrote it; his
- * notes are quoted in docs/decisions.md). Each entry names its source: "Ryan n" or "Augus n".
+ * Source: Ryan's 17 notes as Augus marked them (dash = do, X = don't, 1–3 = Augus rewrote it).
+ * Each entry names its source: "Ryan n" or "Augus n".
  * Augus's worry is that v2 turns technical, so jargon stays in the small supporting lines.
  * Not changed in v2: the hero headline and art (Ryan 1), "?" tooltips (Ryan 6, X), the roadmap
  * (Ryan 14) and an intent split of the page (Ryan 16, X).
@@ -12,7 +12,7 @@
  * two-week one-way migration window (whitepaper §4.2, docs/sources.md); unmigrated REP loses its
  * value, the fork never takes it; REP is optional, never a duty to report or challenge.
  * Draft copy for review, not approved. Deliberately not flagged `needsReview`: /2/ is a review route
- * and the flag would add launch blockers (check-launch); open questions live in decisions.md.
+ * and the flag would add launch blockers (check-launch).
  * The variant type and the version list live in homepage-review.ts. */
 
 export const homeV2 = {
@@ -32,7 +32,7 @@ export const homeV2 = {
     // kept to the small lines (Augus's worry). Ryan 5: "Anyone can ask" over Augus's "Any app can ask"
     // (§2 p2 "Anyone may pay a fee", §4.4.1 p7). Ryan 17: the differentiators said plainly: no
     // governance, no multisigs, the attack cost. Every claim line fits one line in H3 (24 px) and
-    // every body two lines from 1024 up, so the three cards stay level (home-v2.css, decisions.md).
+    // every body two lines from 1024 up, so the three cards stay level (home-v2.css).
     tenets: [
       // Augus's "Report, challenge, or build" is a rule of three. The claim already covers asking and
       // answering, so the body adds projects (§2 p2 "permissionless use by third parties").

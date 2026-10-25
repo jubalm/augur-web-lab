@@ -27,7 +27,7 @@ for (let x = x0 + 22; x < x1 - 6; x += 16) if (x + 7 < FIN - C - 2 || x > FIN + 
 for (let r = 0; r < 2; r++) for (let k = 0; k < 8; k++) world.push(quad(FIN - C + r * C, 40 + k * C, C, C, { fill: (r + k) % 2 ? paper : navy }));
 // The Augur glyph, painted small where the Augur Lituus road begins, in place of its first Green mark (owner,
 // 22 Oct 2026: "the glyph gotta be extremely small make an exception like add in the street"; an exception to
-// the brand's 50 px minimum, recorded in decisions.md). IsoScene.astro nests the supplied reversed master's
+// the brand's 50 px minimum). IsoScene.astro nests the supplied reversed master's
 // paths unchanged; this lays them flat on the road turned to face the viewer, as a decal on an isometric floor
 // shows: upright, its width times √1.5 and its height times √0.5. Cubes drive over it.
 {

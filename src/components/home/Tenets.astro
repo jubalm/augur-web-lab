@@ -10,7 +10,7 @@ import {reviewInline} from './review-inline';
 interface Props { variant?:HomeVariant; }
 const {variant='v1'}=Astro.props;const copy=homeCopy(variant);
 // Draft copy (owner, 18 Oct 2026): the claim is new; each body keeps the approved facts, reworded so it
-// no longer repeats the claim. The struck "without" chips were removed on 19 Oct (decisions.md).
+// no longer repeats the claim. The struck "without" chips were removed on 19 Oct.
 const tenets=[
  {title:'Permissionless',diagram:CrossAnywhere,claim:['Any app can ask.','Anyone can answer.'],body:'Ask, answer or push back. No one has to let you in.'},
  {title:'Decentralized',diagram:PeerMesh,claim:['No one in charge.','No one to pressure.'],body:'Answers come from people with something to lose, not from a back room.'},

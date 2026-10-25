@@ -43,7 +43,7 @@ export const pageClass = (variant: HomeVariant) => classes[variant];
 /** The owner's version (owner, 22 Oct 2026: "keep working on this v2 (only) since this will be the version
  * I'll present as my suggestions"). /2/ alone carries the owner's own suggestions on top of v2's copy;
  * every other page and version keeps what ships, so "/" stays byte-identical. Their styles are
- * home-v2-only.css, which only /2/ loads (review-inline.ts); decisions.md has an entry per suggestion:
+ * home-v2-only.css, which only /2/ loads (review-inline.ts). The suggestions:
  * - Icons, signals only: Augur's square-cut glyphs (assets/icons/augur) replace Phosphor's arrows,
  *   chevron, close, check and plus; pictograms give way to Augur's square mark or nothing; the phone
  *   menu buttons read "Menu" and "Close"; the community logos stay Phosphor.

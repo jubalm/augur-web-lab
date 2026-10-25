@@ -9,7 +9,7 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Confirm the spelling: the menu says “Stratoblast”; the code and strategy say “Statoblast”. — Figma `215:463`, Note / 02 / Header.
 - [ ] The hero animation is a placeholder for now. Still needs more thought before launch. — Figma `215:491`, Note / 03 / Hero.
 - [ ] 6 October 2026: the new hero motion (story loop, pointer lens, tap ripple) awaits the owner’s review. — Figma `215:491`, Note / 03 / Hero.
-- [x] “Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one. Resolved 18 October 2026: “Bribery-resistant” (owner; see decisions.md). — Figma `215:523`, Note / 04 / Who decides what happened?.
+- [x] “Trustless” is the strategy’s word; the whitepaper says “bribery-resistant”. Pick one. Resolved 18 October 2026: “Bribery-resistant” (owner). — Figma `215:523`, Note / 04 / Who decides what happened?.
 - [ ] Confirm the fallback note in the Insurance & payments example (“An insurance app could also use a faster oracle on its own chain or L2, and turn to Augur Lituus only when a claim is disputed.”) with the maintainers. — Figma `215:551`, Note / 05 / What could you build?.
 - [ ] Refresh after each quarterly report and confirm with the maintainers. — Figma `215:601`, Note / 08 / Roadmap.
 - [ ] The posts are stand-ins; choose real posts before launch. — Figma `215:625`, Note / 09 / From the blog.
@@ -56,11 +56,11 @@ The website is a pre-launch build. `bun run check:launch` fails for every unchec
 - [ ] Set an announcement retirement date or explicitly retain the bar after reviewing the latest report.
 - [ ] Choose and configure the newsletter provider, consent wording and privacy text; until then use Blog, X and Discord follow links.
 - [ ] Confirm contact@augur.net with the domain owner. Composing an email is not delivery.
-- [ ] Adopt the pause control sitewide (WCAG 2.2.2 Pause, Stop, Hide, Level A; without it the site fails Level A). Every loop that starts by itself and runs past 5 s needs a control on the page: on `/`, the hero ambience, the three tenet diagrams, the REP rows, the scroll cue, the query card's status dot and the roadmap Now pulse; on `/2/`, the hero flock and Why Augur scenes as well; and a hero video, if one comes. `/2/` had a header control on 22 October 2026 and the owner had it removed the same day (`decisions.md`, “Pause control removed, on /2/”), so no page has one today. A launch needs one, or loops that stop by themselves within 5 s.
-- [ ] Review the complete responsive, keyboard, no-JavaScript, reduced-motion, forced-colors, visual and performance evidence in `docs/decisions.md`.
+- [ ] Adopt the pause control sitewide (WCAG 2.2.2 Pause, Stop, Hide, Level A; without it the site fails Level A). Every loop that starts by itself and runs past 5 s needs a control on the page: on `/`, the hero ambience, the three tenet diagrams, the REP rows, the scroll cue, the query card's status dot and the roadmap Now pulse; on `/2/`, the hero flock and Why Augur scenes as well; and a hero video, if one comes. `/2/` had a header control on 22 October 2026 and the owner had it removed the same day, so no page has one today. A launch needs one, or loops that stop by themselves within 5 s.
+- [ ] Run and review the complete responsive, keyboard, no-JavaScript, reduced-motion, forced-colors, visual and performance checks.
 - [ ] Resolve every unverified destination in `src/data/links.ts`.
 - [ ] Approve the Brand assets page copy and confirm the logo files and REP token icon may be redistributed publicly, with any usage terms (`src/data/brand.ts` review flag).
-- [ ] Approve the About page copy, rebuilt on 19 October 2026 (`src/pages/about.astro`, `src/data/history.ts`). Confirm with maintainers that Dark Florist builds Augur Stratoblast on Zoltar: no primary source read so far says so (see `decisions.md`).
+- [ ] Approve the About page copy, rebuilt on 19 October 2026 (`src/pages/about.astro`, `src/data/history.ts`). Confirm with maintainers that Dark Florist builds Augur Stratoblast on Zoltar: no primary source read so far says so.
 - [ ] Set `PUBLIC_SITE_INDEXABLE=true` only after all release gates pass; verify robots, sitemap, canonical URLs and SEO again.
 
 - [ ] Preserve legacy source-report URLs when migrating the original archive. Absolute www.augur.net report links are reachable on the existing public site but must resolve on the replacement before deployment.

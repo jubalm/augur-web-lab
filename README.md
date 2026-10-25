@@ -19,7 +19,7 @@ bun run check:launch
 
 `check:launch` intentionally fails until editorial and ownership blockers are resolved. Normal checking and building must succeed. Install the Playwright Chromium browser with `bunx playwright install chromium` when needed. The preview command is `bun run preview`.
 
-The owner-authorized legacy cleanup removed 170 tracked files, including the old lab routes, Three.js scenes and unused icon weights. The exact completed manifest is `docs/evidence/cleanup-completed.json`. An isolated `bun install --frozen-lockfile`, Astro check, warning-free build and complete link check pass after cleanup. See `docs/decisions.md` for the evidence and remaining performance, browser-cache coverage and editorial gates.
+The owner-authorized legacy cleanup removed 170 tracked files, including the old lab routes, Three.js scenes and unused icon weights. The exact completed manifest is `docs/evidence/cleanup-completed.json`. An isolated `bun install --frozen-lockfile`, Astro check, warning-free build and complete link check pass after cleanup.
 
 ## Structure
 
@@ -37,4 +37,4 @@ The owner-authorized legacy cleanup removed 170 tracked files, including the old
 
 Use `docs/content.md` to edit copy. Keep external destinations in `src/data/links.ts` and set review flags honestly. The contact form opens an encoded email draft; it never reports delivery. The newsletter shows its designed email field as a local-only prototype: it validates in the browser, sends nothing (even without JavaScript) and says so, until a provider and consent policy are approved and `site.newsletter.provider` is set.
 
-The build emits static files to `dist`; `vercel.json` configures that output and response headers. No deployment is part of this change. Indexing defaults off: set `PUBLIC_SITE_INDEXABLE=true` only after `docs/launch-checklist.md` is complete. Read `docs/decisions.md` for actual verification evidence and remaining limitations.
+The build emits static files to `dist`; `vercel.json` configures that output and response headers. No deployment is part of this change. Indexing defaults off: set `PUBLIC_SITE_INDEXABLE=true` only after `docs/launch-checklist.md` is complete.

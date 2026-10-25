@@ -246,5 +246,5 @@
       "added": "2026-10-22"
     }
   ],
-  "authoredNote": "Signal glyphs drawn for Augur on 22 Oct 2026 for the icon trial on /2/ only (owner): a 20 px grid, one 1.75 stroke in currentColor, square caps and mitred joins. Icon.astro uses them in place of the Phosphor file of the same name on /2/; every other page keeps the Phosphor Bold files above. See decisions.md, \"Icons: signals only, on /2/\"."
+  "authoredNote": "Signal glyphs drawn for Augur on 22 Oct 2026 for the icon trial on /2/ only (owner): a 20 px grid, one 1.75 stroke in currentColor, square caps and mitred joins. Icon.astro uses them in place of the Phosphor file of the same name on /2/; every other page keeps the Phosphor Bold files above."
 }

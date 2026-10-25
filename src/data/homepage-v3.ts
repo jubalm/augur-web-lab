@@ -4,16 +4,13 @@
  * radical; jargon is fine for him: "a general audience will follow along").
  * v3 keeps Ryan's own words even where the facts or house rules change them in v2 (his "check in at
  * least once a month", "Augur" for "Augur Lituus", "you"). Each such line carries a `FLAG:` comment
- * naming the rule or source it departs from, and goes into the review's flag list in decisions.md.
+ * naming the rule or source it departs from.
  * It never adds a money claim beyond his words, and never invents past them.
  * Structure from v2 (homepage-review.ts): the same UI system, so this object spreads homeV2 and
  * overrides one section at a time. A section it doesn't override reads v2's copy: How it works (Ryan 12)
  * and Learn more (Ryan 15), whose v2 versions are his notes applied.
  * Where Ryan said nothing about a line, v3 keeps v1's approved words (the Permissionless body), not v2's
- * rewrite, so the comparison shows his notes alone.
- * Ryan's notes are quoted in docs/decisions.md ("Homepage v1 and v2 for review", 21 Oct 2026); the
- * wiring is in "Homepage v3 and v4 for review" and the content in "Homepage v3: Ryan's notes, literal"
- * (all 21 Oct 2026). */
+ * rewrite, so the comparison shows his notes alone. */
 import {homeV2} from './homepage-v2';
 
 export const homeV3 = {

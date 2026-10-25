@@ -6,7 +6,7 @@ from 1024 px, then rejected it ("This hero sucks BAD") and asked for a text-only
 Seedance 2.5 "voxel tide" replaced it the same day; the owner found it soft ("looks 420p") and generic,
 and round 3's Gemini "resolution" loop replaced it in turn. The owner then asked for scattered grey
 squares becoming one Green square, and round 4's "aggregation" loop is what `/2/` plays now. Current state:
-`docs/decisions.md`, "Hero video, on /2/", and `docs/hero-video-provenance.json`.
+`docs/hero-video-provenance.json`.
 
 ## Round 4: aggregation, from a key frame (22 Oct 2026)
 
@@ -171,7 +171,7 @@ Round 2 spent 315 credits: drafts 120, Kling 35, final 160. 599 credits remain.
 
 ## Verdict
 
-The advice of 22 October (`docs/decisions.md`, "Why not an AI image or video") still holds as the default:
+The advice of 22 October still holds as the default:
 the coded lituus flock is lighter, answers the pointer and stays inside the motion rules. If the owner
 wants a cinematic first screen anyway, the version below is the one that makes sense. It answers the four
 objections recorded then:
@@ -231,7 +231,7 @@ Checked on the real `/2/` page at 1440 × 900, the video placed behind the copy 
 object-position: 74% 50%` and the coded flock hidden (`tools/page-video.ts`): `review/page-1440-minimax.jpg`,
 `review/page-1440-minimax-60.jpg` (at 60% opacity, the calmest) and `review/page-1440-flux.jpg`. Contact
 sheets of nine frames each are in `review/sheet-*.jpg`. No visible edge between video and page at 1440;
-the wired-in version was then checked at every width (`docs/decisions.md`, “Hero video, on /2/”).
+the wired-in version was then checked at every width.
 
 ## What the research says
 
@@ -419,7 +419,7 @@ Side by side with the coded flock at 1440, 1280 and 1024:
 
 - AGENTS.md "Motion and access": transform/opacity and SVG stroke draws only; looping scenes are one
   choreography shared with Figma. A video is neither, so it needs a recorded exception in
-  `docs/decisions.md`. Figma would hold the keyframe, not the motion.
+  AGENTS.md. Figma would hold the keyframe, not the motion.
 - `scripts/check-budgets.ts` covers CSS, JS and fonts only; add a media budget for the hero video.
 
 ## Earlier test (superseded)

@@ -2,7 +2,7 @@
  * paid (owner + Augus, 19 Oct 2026). Resolution / Walkthrough 146:470 was read on
  * 5 October 2026; the REP rows that were section 07 now live in each step's “Your REP”
  * zone. Mechanism facts: January 2026 Augur Lituus whitepaper §2, §4.0.1–4.0.2,
- * §4.1, §4.3.1, §4.4.2–4.4.3 and §4.5 (docs/decisions.md). Draft copy: every string
+ * §4.1, §4.3.1, §4.4.2–4.4.3 and §4.5. Draft copy: every string
  * below awaits the owner's approval (docs/launch-checklist.md). */
 export const walkthroughReview = { needsReview: true, source: 'Draft copy, 19 October 2026; January 2026 Augur Lituus whitepaper.' } as const;
 

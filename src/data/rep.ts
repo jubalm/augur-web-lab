@@ -1,7 +1,7 @@
 import { links } from './links';
 import { rep as example } from './walkthrough';
 
-/** The REP page (/rep/), rebuilt 19 October 2026 (docs/decisions.md). It is the token page
+/** The REP page (/rep/), rebuilt 19 October 2026. It is the token page
  * for traders and beginners and, like augur.net/rep today, the contract reference that
  * exchanges, wallets and explorers check. Mechanism: January 2026 Augur Lituus whitepaper
  * (proposed design, §§ cited per item). Tokens and history: the Lituus Foundation's REP

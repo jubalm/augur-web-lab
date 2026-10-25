@@ -5,8 +5,8 @@
  * Notes: 1 on Ryan 8 (and the X'd 11), 2 on Ryan 13, 3 on Ryan 17.
  * v4 keeps the reviewers' own words even where the facts or house rules change them in v2 (Augus's
  * "No admin keys", "risk losing the token", "Augur" for "Augur Lituus", "you"). Each such line
- * carries a `FLAG:` comment naming the rule or source it departs from, and goes into the review's
- * flag list in decisions.md. It never adds a money claim beyond their words.
+ * carries a `FLAG:` comment naming the rule or source it departs from.
+ * It never adds a money claim beyond their words.
  * Structure from v2 (homepage-review.ts): the same UI system, so this object spreads homeV2 and
  * overrides one section at a time. A section not overridden reads v2's copy.
  * Read from v2 unchanged (dash, no exact words beyond v2's): the lead (Ryan 3, his words), the answer
@@ -17,10 +17,7 @@
  * words (note 1).
  * Typography: Augus typed straight apostrophes and a spaced hyphen; the site sets curly apostrophes, as
  * v2 does, so "Augur's" is "Augur’s", and his " - " is set as a closed em dash: "call—not you".
- * The no-break spaces ( ) only keep each short sentence of a claim on one line; no word changes.
- * The notes are quoted in docs/decisions.md ("Homepage v1 and v2 for review", 21 Oct 2026); the
- * wiring is in "Homepage v3 and v4 for review" and the content in "Homepage v4: Augus's marks,
- * literal" (both 21 Oct 2026). */
+ * The no-break spaces ( ) only keep each short sentence of a claim on one line; no word changes. */
 import {homeV2} from './homepage-v2';
 
 export const homeV4 = {
@@ -36,7 +33,7 @@ export const homeV4 = {
   why: {
     ...homeV2.why,
     // Augus 3, verbatim: his titles, claims and bodies (Ryan 17, dash). Same diagrams as v2 (No authority
-    // under Trustless, the Peer mesh under Robust; decisions.md, v2 Why Augur). Each claim is two lines,
+    // under Trustless, the Peer mesh under Robust). Each claim is two lines,
     // setup then payoff, as in v2 (both in Paper there, since every line is a differentiator).
     tenets: [
       // FLAG: Augus's note reads "Any app can ask."; he dashed Ryan 5 ("Anyone can ask. Anyone can
@@ -77,7 +74,7 @@ export const homeV4 = {
     // Ryan 11 (X: the block stays) + Augus 1, verbatim and in his order: trust, work, then liability (v2
     // puts liability first, after Ryan 8). The ask sits beside the v1 "Talk to us" button (/contact/);
     // Augus's "->" is the button itself, without an arrow, as an internal link (AGENTS.md).
-    // Icons keep their approved meanings and move with their reasons (decisions.md, 19 Oct icon audit):
+    // Icons keep their approved meanings and move with their reasons (19 Oct icon audit):
     // eye (anyone can see, so users can verify), puzzle-piece (it slots in), scales (an impartial dispute).
     builder: {
       title: ['Good for users.', 'Easier for projects.'],
@@ -92,7 +89,7 @@ export const homeV4 = {
         // FLAG: "Augur’s" for "Augur Lituus’s" (AGENTS.md); "not you" puts "you" in a traders-first line
         // (AGENTS.md: no "your call"); "makes the call" is the idiom the owner replaced on 19 Oct and sits
         // beside the closer's "The answer is nobody’s call."; "makes the call—not you" is an "X, not Y"
-        // construction; the em dash breaks the house rule "no em dashes" (decisions.md, 19 Oct).
+        // construction; the em dash breaks the house rule "no em dashes" (19 Oct).
         { icon: 'scales', title: 'Stay out of the middle.', line: 'When outcomes get contentious, Augur’s dispute process makes the call—not you.' },
       ],
     },

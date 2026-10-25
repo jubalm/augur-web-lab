@@ -16,7 +16,7 @@ Figma: https://www.figma.com/design/3RgHvLRqEZDsAmcBQ7tvVa
 - Related detail frames: `214:1203`; site pages: `214:1204`; components: `214:1205`.
 - Inspect the live file before editing; these IDs are starting points, not a substitute for checking its current state.
 
-Read `AGENTS.md`, `DESIGN.md`, `docs/design-system.md`, `docs/motion.md`, and `docs/decisions.md` for context. This new brief takes precedence wherever it conflicts with the old brief. Keep Augur's brand, logo geometry, typography, Navy/Paper/Green palette and pinned upstream components intact. Use the existing static Astro/Bun stack and lightweight animation techniques.
+Read `AGENTS.md`, `DESIGN.md`, `docs/design-system.md` and `docs/motion.md` for context. This new brief takes precedence wherever it conflicts with the old brief. Keep Augur's brand, logo geometry, typography, Navy/Paper/Green palette and pinned upstream components intact. Use the existing static Astro/Bun stack and lightweight animation techniques.
 
 ## Requested improvements
 
@@ -58,7 +58,7 @@ Read `AGENTS.md`, `DESIGN.md`, `docs/design-system.md`, `docs/motion.md`, and `d
 
 ## Verification and handoff
 
-The starting rebuild contains 25 content routes plus a 404. Its last recorded verification passed a fresh frozen Bun install, type checks, build, 42 browser tests and 1,949 checked link destinations. These are baseline results, not proof that your edits pass. Existing startup long-task, real BFCache coverage and editorial/launch gates are documented in `docs/decisions.md`; this task is visual prototype polish, not permission to publish or to invent missing launch approvals.
+The starting rebuild contains 25 content routes plus a 404. Its last recorded verification passed a fresh frozen Bun install, type checks, build, 42 browser tests and 1,949 checked link destinations. These are baseline results, not proof that your edits pass. Startup long-task, real BFCache coverage and editorial/launch gates were open when this brief was written; this task is visual prototype polish, not permission to publish or to invent missing launch approvals.
 
 Run `bun run check`, `bun run build`, relevant link/copy/budget checks and the browser tests after your changes. Review the affected pages and interactions in a real browser at desktop and responsive widths. Preserve the pinned design-system integrity checks. Explain any remaining failures accurately.
 

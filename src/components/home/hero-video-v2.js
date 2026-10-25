@@ -1,4 +1,4 @@
-// The /2/ hero's background loop (owner, 22 Oct 2026; motion-rule exception in docs/decisions.md; how it
+// The /2/ hero's background loop (owner, 22 Oct 2026; motion-rule exception in AGENTS.md; how it
 // was made in artifacts/video-test/README.md). The markup is only the loop's poster, the first frame, which
 // loads from 1024 px; below that the coded flock shows instead. Without JavaScript, with reduced motion and
 // with Save-Data the poster is all there is. Otherwise, once the page has loaded, a <video> goes over the

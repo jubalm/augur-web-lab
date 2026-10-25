@@ -32,7 +32,7 @@
 /* Header logo, a brand exception (owner, 22 Oct 2026: "Make a brand exception: shrink the /2/ header
    logo to about 128 px"). 128 × 43 px, 15% under the Brand Foundation's 150 px minimum for the
    horizontal logo (02.6); the artwork itself is untouched. The phone menu's logo matches, so it keeps
-   its size when the menu opens; the footer keeps 150. DESIGN.md and decisions.md record the exception. */
+   its size when the menu opens; the footer keeps 150. DESIGN.md records the exception. */
 .site-header .brand,.site-header .brand svg{width:128px}
 
 /* Products menu (owner, 22 Oct 2026: the lead card's whole surface was the link, yet a button sat inside
@@ -122,7 +122,7 @@
 
 /* Hero background layer (owner, 22 Oct 2026: a full-screen hero video "like most websites", then a
    series of generated loops, then "Let's try live first"; the motion-rule exception is in
-   docs/decisions.md, "Hero video, on /2/"). From 1024 px it fills the hero's right side and replaces the
+   AGENTS.md). From 1024 px it fills the hero's right side and replaces the
    flock. Hero.astro picks what it holds: the live floor (hero-floor-v2.js draws a tilted floor of royal
    navy squares on a canvas, where reports run into one block that fills Green) or the generated video
    (hero-video-v2.js). Below 1024 px the cover crop would put the scene behind the copy, so phones and

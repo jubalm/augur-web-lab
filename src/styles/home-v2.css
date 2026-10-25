@@ -8,7 +8,7 @@
    Component <style> blocks stay v1-only: a v2 rule there would ship on "/" too. */
 
 /* Page rhythm (21 Oct 2026). In v1 each section sets its own space, much of it left from the removed
-   hairlines (decisions.md, 19 Oct): 136 above the Tenets and roadmap headings, 72 around the use cases,
+   hairlines (19 Oct): 136 above the Tenets and roadmap headings, 72 around the use cases,
    96 around How it works, 72 / 96 around Learn more, 48 under every heading row even on phones. v2 puts
    DESIGN.md's section scale on every section edge: 96 from 1024, 72 to 768, 64 on phones, so every gap
    between two sections is twice that, at a band edge or between two Navy sections alike. 48 (32 on

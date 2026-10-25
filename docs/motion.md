@@ -1,6 +1,6 @@
 # Website motion
 
-Implementation timings live in `src/motion/timelines.ts`, derived from Figma `121:152`, `250:717`, the component state frames and the owner briefs. Since 6 October 2026 the looping scenes are choreographies shared with Figma: `src/motion/choreography.ts` defines tracks (keys on a 12 s cycle, in ms, opening and closing on the static artwork, each key's easing shaping the segment that arrives at it, as Figma does); `tenet-choreography.ts` and `hero-choreography.ts` generate them, and the same keys were written into Figma Section details `250:717` and `382:848`. Since the polish brief of 5 October 2026 the tenet diagrams loop while visible and the hero keeps a measured ambient loop; other scenes still play once. Owner feedback the same evening made the tenet loops continuous (always moving, no rest), made entrance scenes once per tab session so F5 never replays them, added a FAQ opening transition, rebuilt the header motion and marked superseded walkthrough stages. On 6 October 2026 Figma Section details was brought back in step: `250:717` (tenet loops, 24 s timeline), `382:848` (hero story loop, 12 s), the pointer-lens and tap-ripple states beside it, and the REP stake-flow tiles in section 07 carry the website's keys. Browser frame captures and any differences belong in `decisions.md`.
+Implementation timings live in `src/motion/timelines.ts`, derived from Figma `121:152`, `250:717`, the component state frames and the owner briefs. Since 6 October 2026 the looping scenes are choreographies shared with Figma: `src/motion/choreography.ts` defines tracks (keys on a 12 s cycle, in ms, opening and closing on the static artwork, each key's easing shaping the segment that arrives at it, as Figma does); `tenet-choreography.ts` and `hero-choreography.ts` generate them, and the same keys were written into Figma Section details `250:717` and `382:848`. Since the polish brief of 5 October 2026 the tenet diagrams loop while visible and the hero keeps a measured ambient loop; other scenes still play once. Owner feedback the same evening made the tenet loops continuous (always moving, no rest), made entrance scenes once per tab session so F5 never replays them, added a FAQ opening transition, rebuilt the header motion and marked superseded walkthrough stages. On 6 October 2026 Figma Section details was brought back in step: `250:717` (tenet loops, 24 s timeline), `382:848` (hero story loop, 12 s), the pointer-lens and tap-ripple states beside it, and the REP stake-flow tiles in section 07 carry the website's keys.
 
 ## Shared policy
 
@@ -58,7 +58,7 @@ On `/2/` only (owner's version, 22 Oct 2026), the lituus flock replaces the squa
 - **Lens:** clusters within 120 units part by up to 26 and grow by up to 50%, computed every frame while the pointer is over the hero, with a 280 ms transition.
 - **Tap ripple:** the same ring as the old field, popping the clusters it passes to 170%.
 - **Rules:** the same pause, print, reduced-motion and no-JavaScript rules apply.
-- **Measured:** about 1 ms of main-thread work and no style recalculation per second while it runs (`decisions.md`).
+- **Measured:** about 1 ms of main-thread work and no style recalculation per second while it runs.
 
 ## Who decides
 
