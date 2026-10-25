@@ -28,9 +28,11 @@ if (!links.repToken.url.endsWith(currentRep.address)) throw new Error('links.rep
 /** As wallets show it: the first six and last four characters. */
 export const shortAddress = `${currentRep.address.slice(0, 6)}…${currentRep.address.slice(-4)}`;
 
+/** The hero's clause, also /2/'s How it works lead (homepage-v2.ts): one source for the fact. */
+export const stakedBehind = 'Every Augur Lituus answer has REP staked behind it';
 export const hero = {
   title: 'REP makes lying expensive.',
-  lead: `REP (Reputation) is Augur’s token. Every Augur Lituus answer has REP staked behind it: back a wrong one and you lose your bond, mostly to whoever was right. Holding REP never requires you to take part.`,
+  lead: `REP (Reputation) is Augur’s token. ${stakedBehind}: back a wrong one and you lose your bond, mostly to whoever was right. Holding REP never requires you to take part.`,
 };
 
 /** Lying gets more expensive every round (§2.1, §4.1, §4.2.1, §4.3.1): the first bond equals
@@ -53,6 +55,9 @@ export const ladder = {
  * plus 80% of the bond it overturned (§4.3.1). Holding earns nothing directly (§4.4.4) and, in a
  * fork, REP that isn't moved is effectively destroyed (§4.2.2). Never a rate or a yield. */
 export interface Cell { figure: string; note: string; gain?: boolean }
+/** The note's first and last sentences, which /2/'s How it works example repeats under its card. */
+export const exampleFigures = `Figures follow the whitepaper’s own example, a ${amount(example.bond)} fee.`;
+export const proposedRules = 'These are the proposed rules: Augur Lituus is in development.';
 export const participation = {
   title: 'Taking part is optional',
   lead: 'Holding REP asks nothing of you day to day. Rewards go only to people who report or challenge, and only when their answer holds.',
@@ -71,7 +76,7 @@ export const participation = {
       get: { figure: `+${amount(example.share)}`, gain: true, note: `${winnersShare} of the bond you overturned, and your bond back, if your answer holds.` },
       risk: { figure: amount(example.challenge), note: 'Your whole bond, if your answer is overturned.' } },
   ] satisfies { id: string; title: string; summary: string; stake: Cell; get: Cell; risk: Cell }[],
-  note: `Figures follow the whitepaper’s own example, a ${amount(example.bond)} fee. The reward rises from 0 REP until someone reports, up to the whole fee. These are the proposed rules: Augur Lituus is in development.`,
+  note: `${exampleFigures} The reward rises from 0 REP until someone reports, up to the whole fee. ${proposedRules}`,
 };
 
 /** A fork under the proposed Augur Lituus rules (§2.2, §4.2.1–4.2.4, §4.3.3). */

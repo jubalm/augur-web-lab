@@ -351,85 +351,96 @@
    dot rests while the example is closed and pulses again when it opens. (/3/ and /4/ share the issue.) */
 .home-v2 .how-it-works [data-how-demo][hidden] .status-dot{animation:none}
 
-/* How it works (item 4; owner, 25 Oct 2026: "needs a full redesign", then show "the whole process from
-   asking to getting a final answer and the middle stuff"). HowItWorks.astro renders the example
-   question's whole life in one Navy card: its status, a timeline of four stops (Asked, Reported,
-   Challenged, Final) with the reward and the two appeal periods running between them, what each stop
-   does in words and REP, then who was paid, each under the stop it belongs to. how-life-v2.js plays it
-   once. Four equal columns hold the track, the stops and the results, so every node sits over its words.
-   Green: "paid", the final node, Final answer and the one gain. Gaps on the scale: 4 8 12 16 24 32 48. */
-.home-v2 .life{padding:48px;background:var(--background)}
-.home-v2 .life-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.home-v2 .life-name{display:flex;align-items:center;gap:12px;font:600 14px/20px var(--font-heading);color:var(--foreground)}
-.home-v2 .life-tag{padding:2px 8px;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
-.home-v2 .life-status{display:inline-grid}
-.home-v2 .life-state{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 14px/20px var(--font-heading);color:var(--foreground);white-space:nowrap;opacity:0}
-.home-v2 .life-state i{width:8px;height:8px;background:var(--mark-participant,#71728A)}
-.home-v2 .life-state.is-final{opacity:1;background:var(--primary);box-shadow:none;color:var(--background)}
-.home-v2 .life-question{max-width:30em;margin-top:24px;font:600 24px/32px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
-.home-v2 .life-cutoff{margin-top:8px;font-size:14px;line-height:20px;color:var(--muted-foreground)}
-.home-v2 .life-cutoff time{color:var(--foreground)}
-.home-v2 :is(.life-track,.life-stops,.life-paid){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:32px}
-/* The track: a node at each stop's edge and, between nodes, a line over the base that runs out (the
-   reward rising, then each appeal period), its label centred above it. */
-.home-v2 .life-track{margin-top:48px}
-.home-v2 .life-leg{position:relative;height:44px}
-.home-v2 .life-leg b{position:absolute;left:12px;right:-32px;top:0;font:400 14px/20px var(--font-body);color:var(--muted-foreground);text-align:center}
-.home-v2 .life-leg:not(:last-child)::before{content:'';position:absolute;left:12px;right:-32px;top:37px;height:2px;background:var(--web-raised)}
-.home-v2 .life-line{position:absolute;left:12px;right:-32px;top:37px;height:2px;background:var(--foreground);transform-origin:left}
-.home-v2 .life-node{position:absolute;left:0;top:32px;width:12px;height:12px;box-shadow:inset 0 0 0 1px var(--web-outline)}
-.home-v2 .life-node i{position:absolute;inset:0;background:var(--foreground)}
-.home-v2 .life-node.is-final i{background:var(--primary)}
-.home-v2 .life-stops{margin:16px 0 0;padding:0;list-style:none}
-.home-v2 .life-stop{min-width:0}
-.home-v2 .life-title{margin:0;font:600 20px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
-.home-v2 .life-event{margin-top:4px;font:600 16px/24px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
-.home-v2 .life-text{margin-top:8px;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
-/* Paid out: the row's label under Asked, then the reporter, the challenger and what burns, each under the
-   stop it comes from (a subgrid of the same four columns). */
-.home-v2 .life-paid{margin-top:40px;padding-top:24px;border-top:1px solid var(--web-outline)}
-.home-v2 .life-paid-label{margin:0;font:600 20px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
-.home-v2 .life-results{grid-column:2/-1;display:grid;grid-template-columns:subgrid;margin:0}
-.home-v2 .life-result{min-width:0}
-.home-v2 .life-result dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
-.home-v2 .life-result dd{display:grid;row-gap:4px;margin:4px 0 0}
-.home-v2 .life-result strong{font:600 24px/32px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
-.home-v2 .life-result.is-gain strong{color:var(--primary)}
-.home-v2 .life-result span{font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
-.home-v2 .life-note{max-width:68ch;margin-top:24px;font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
-/* Holding REP? The REP page's Hold column on the heading row's grid, under a hairline. */
-.home-v2 .hold{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:80px;align-items:start;margin-top:64px;padding-top:32px;border-top:1px solid var(--web-outline)}
-.home-v2 .hold-head{display:grid;justify-items:start;row-gap:8px}
-.home-v2 .hold-head .button.text{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
-.home-v2 .hold-title{margin:0;font:600 24px/32px var(--font-heading);letter-spacing:-.01em}
-.home-v2 .hold-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:32px;margin:0}
-.home-v2 .hold-fact dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
-.home-v2 .hold-fact dd{display:grid;row-gap:4px;margin:4px 0 0}
-.home-v2 .hold-fact strong{font:600 18px/26px var(--font-heading);color:var(--foreground)}
-.home-v2 .hold-fact span{font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
-@media(max-width:1200px){
-.home-v2 .life{padding:32px}
-.home-v2 :is(.life-track,.life-stops,.life-paid){column-gap:24px}
-.home-v2 :is(.life-leg b,.life-leg:not(:last-child)::before,.life-line){right:-24px}
-.home-v2 .life-text{font-size:14px;line-height:20px}
-.home-v2 .hold{column-gap:48px}
-.home-v2 .hold-facts{column-gap:24px}
-}
-/* Below 1024 the stops stack and the track rests (phones come with the mobile pass). */
+/* How it works (item 4; owner, 25 Oct 2026, chosen on the item 4 board: "put this on the website"; brief in
+   docs/know-what-happened-prompt.md). HowItWorks.astro renders the heading row, then four cards in the Why Augur
+   cards' family: the same folder silhouette as Tenets.astro's, in Navy on the band, a tab with the step's name and
+   a 6 px Green square, a 2:1 isometric scene (how-scenes.ts, drawn with iso-kit.ts), then the claim (setup Pewter,
+   payoff Paper) and a body under a divider. One 2 px Green line runs through the four dividers and across the
+   gaps: the order of the story. Then the section's one button, the example it opens and Holding REP on the
+   heading row's grid. how-cards-v2.js plays the cards once and runs the button. Each card is a subgrid of the
+   row's three rows, so tabs, scenes and dividers line up. Gaps on the scale: 4 8 12 16 20 24 32 48 64. */
+/* The heading row has no action on /2/, so it drops home-v2.css's second row (24 px under a taller lead). */
+@media(min-width:1024px){.home-v2 .how-it-works .section-heading{grid-template-areas:"title lead";row-gap:0}}
+.home-v2 .how-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto auto 1fr;column-gap:24px;margin:0;padding:0;list-style:none}
+.home-v2 .how-card{--tab:136px;--step:12px;--lip:36px;position:relative;isolation:isolate;display:grid;grid-row:span 3;grid-template-rows:subgrid;min-width:0}
+.home-v2 .how-card::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--background);
+ clip-path:polygon(0 0,var(--tab) 0,var(--tab) var(--step),calc(var(--tab) + var(--step)) var(--step),calc(var(--tab) + var(--step)) calc(var(--step) * 2),calc(var(--tab) + var(--step) * 2) calc(var(--step) * 2),calc(var(--tab) + var(--step) * 2) var(--lip),100% var(--lip),100% 100%,0 100%)}
+.home-v2 .how-tab{display:flex;align-items:center;gap:8px;height:var(--lip);margin:0;padding:0 24px;font:600 14px/20px var(--font-heading);letter-spacing:.01em;color:var(--foreground)}
+.home-v2 .how-tab::before{content:'';width:6px;height:6px;flex:none;background:var(--primary)}
+.home-v2 .how-visual{padding:16px 20px 20px}
+.home-v2 .how-scene{display:block;width:100%;height:auto;aspect-ratio:2/1;overflow:visible}
+.home-v2 .how-scene [data-how-part="pulse"]{transform-box:fill-box;transform-origin:center}
+.home-v2 .how-copy{position:relative;display:flex;flex-direction:column;padding:24px;border-top:1px solid var(--web-outline)}
+/* The line sits on the divider and, after every card but the last in a row, runs on across the 24 px gap. */
+.home-v2 .how-line{position:absolute;left:-1px;right:0;top:-1.5px;height:2px;background:var(--primary);transform-origin:left}
+.home-v2 .how-card:not(:last-child) .how-line{right:-24px}
+.home-v2 .how-claim{margin:0;font:600 20px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
+.home-v2 .how-claim span{display:block;text-wrap:balance}
+.home-v2 .how-claim .setup{color:var(--muted-foreground)}
+.home-v2 .how-body{margin:12px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
+/* The section's one control, the site's outline button (hover, focus and press from base.css), under the cards.
+   The example opens below it, so it never moves; its chevron turns with it (home-v2.css). */
+.home-v2 .how-more{display:flex;width:fit-content;margin-top:32px}
+/* The example: Navy, in the use cases' product-card family (a head with the label and status,
+   the title, its data, then a footer with the result), as one question's ledger. Each row says what happened
+   and why, with its REP in one right-hand column of tabular figures; Paid out closes it with you first, your
+   figure its only Green. The status is drawn in Paper, since Green marks only the moves and the payout. */
+.home-v2 .example{--event:232px;--figure:120px;margin-top:24px;padding:32px;background:var(--background)}
+.home-v2 .example-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.home-v2 .example-name{display:flex;align-items:center;gap:12px;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
+.home-v2 .example-tag{padding:2px 8px;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
+.home-v2 .example-status{display:inline-flex;align-items:center;height:28px;margin:0;padding:0 10px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 13px/16px var(--font-heading);color:var(--foreground);white-space:nowrap}
+.home-v2 .example-title{margin:16px 0 0;font:600 22px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
+.home-v2 .example-cutoff{margin:4px 0 0;font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .example-cutoff time{margin-left:4px;color:var(--foreground)}
+.home-v2 .example-rows{display:grid;row-gap:12px;margin:24px 0 0;padding:0;list-style:none}
+.home-v2 :is(.example-row,.example-result){display:grid;grid-template-columns:var(--event) minmax(0,1fr) var(--figure);column-gap:24px;align-items:baseline}
+.home-v2 :is(.example-event,.example-result dt){grid-row:1;font:600 16px/24px var(--font-heading);color:var(--foreground)}
+.home-v2 .example-note{grid-row:1;margin:0;font-size:16px;line-height:24px;color:var(--muted-foreground)}
+.home-v2 :is(.example-amount,.example-figure){grid-row:1;grid-column:3;margin:0;font:600 16px/24px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground);text-align:right;white-space:nowrap}
+.home-v2 .example-paid{margin-top:24px;padding-top:16px;border-top:1px solid var(--web-outline)}
+.home-v2 .example-paid-title{margin:0;font:600 14px/20px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .example-results{display:grid;row-gap:8px;margin:8px 0 0}
+.home-v2 .example-figure{font-size:20px;line-height:28px}
+.home-v2 .is-you .example-figure{color:var(--primary)}
+.home-v2 .example-foot{margin:16px 0 0;font-size:14px;line-height:20px;color:var(--muted-foreground)}
+/* Holding REP? On the heading row's grid under a hairline: the question and "Learn about REP" (the section's
+   one link, underlined at rest) in the 500 column; the two points in the 668 column, each a lead in Paper and
+   a Pewter line, marked by a Pewter square, or for the fork, the hollow Green square of a move. */
+.home-v2 .holding{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:80px;align-items:start;margin-top:64px;padding-top:32px;border-top:1px solid var(--web-outline)}
+.home-v2 .holding-head{display:grid;justify-items:start;row-gap:8px}
+.home-v2 .holding-head .button.text{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.home-v2 .holding-title{margin:0;font:600 24px/32px var(--font-heading);letter-spacing:-.01em}
+.home-v2 .holding-points{display:grid;row-gap:16px;margin:0;padding:0;list-style:none}
+.home-v2 .holding-point{display:grid;grid-template-columns:8px minmax(0,1fr);column-gap:16px;align-items:start}
+.home-v2 .holding-mark{width:8px;height:8px;margin-top:8px;background:var(--muted-foreground)}
+.home-v2 .holding-point.is-act .holding-mark{background:transparent;box-shadow:inset 0 0 0 1.5px var(--primary)}
+.home-v2 .holding-point p{max-width:34em;margin:0;font-size:16px;line-height:24px;color:var(--muted-foreground)}
+.home-v2 .holding-point strong{font-weight:600;color:var(--foreground)}
+/* Under 1360 the claims step down to 18/26, so each stays one line in a 278 px card at 1280 (measured). Under
+   1200 the cards go two by two, the line running across each row. */
+@media(max-width:1359px){.home-v2 .how-claim{font-size:18px;line-height:26px}}
+@media(max-width:1279px){.home-v2 .example{--event:200px;--figure:112px;padding:24px}}
+@media(max-width:1200px){.home-v2 .holding{column-gap:48px}}
+@media(max-width:1199px){.home-v2 .how-cards{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,auto auto 1fr);row-gap:24px}.home-v2 .how-card:nth-child(2n) .how-line{right:0}}
+/* Below 1024 the example's notes go under their rows; below 768 the cards stack (phones get their own pass in
+   item 25). */
 @media(max-width:1023px){
-.home-v2 .life{padding:24px}
-.home-v2 .life-track{display:none}
-.home-v2 :is(.life-stops,.life-paid){grid-template-columns:minmax(0,1fr);row-gap:24px}
-.home-v2 .life-stops{margin-top:32px}
-.home-v2 .life-results{grid-column:auto;grid-template-columns:minmax(0,1fr);row-gap:16px}
-.home-v2 .hold{grid-template-columns:minmax(0,1fr);row-gap:24px;margin-top:48px}
-.home-v2 .hold-facts{grid-template-columns:minmax(0,1fr);row-gap:16px}
+.home-v2 :is(.example-row,.example-result){grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
+.home-v2 :is(.example-amount,.example-figure){grid-column:2}
+.home-v2 .example-note{grid-row:2;grid-column:1/-1}
+.home-v2 .holding{grid-template-columns:minmax(0,1fr);row-gap:24px;margin-top:48px}
 }
+@media(max-width:767px){.home-v2 .how-cards{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(4,auto auto auto)}.home-v2 .how-card .how-line{right:0}}
 @media(forced-colors:active){
-.home-v2 .life,.home-v2 .life-tag{outline:1px solid CanvasText}
-.home-v2 .life-state.is-final{forced-color-adjust:none;background:Highlight;color:HighlightText}
-.home-v2 :is(.life-line,.life-node i){forced-color-adjust:none;background:CanvasText}
-.home-v2 .life-node.is-final i{background:Highlight}
-.home-v2 .life-leg:not(:last-child)::before{forced-color-adjust:none;background:GrayText}
+.home-v2 .how-card{outline:1px solid CanvasText}
+.home-v2 .how-card::before{display:none}
+.home-v2 .how-tab::before,.home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
+.home-v2 .how-line{forced-color-adjust:none;background:Highlight}
+.home-v2 .example{outline:1px solid CanvasText}
+.home-v2 :is(.example-tag,.example-status){box-shadow:none;outline:1px solid CanvasText;outline-offset:-1px}
+.home-v2 .holding-point.is-act .holding-mark{background:Canvas;box-shadow:inset 0 0 0 1.5px Highlight}
+.home-v2 .paid-mark{forced-color-adjust:none;background:Highlight}
 }
-
+/* On paper the cards keep their line and the scenes their colours (backgrounds don't print by default). */
+@media print{.home-v2 :is(.how-line,.how-scene,.holding-mark){-webkit-print-color-adjust:exact;print-color-adjust:exact}}

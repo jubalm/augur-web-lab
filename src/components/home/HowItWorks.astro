@@ -4,7 +4,9 @@ import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import RepFlow from '../art/RepFlow.astro';
 import {homeCopy,ownerVersion,type HomeVariant} from '../../data/homepage-review';
-import {participation} from '../../data/rep';
+import {exampleFigures,proposedRules} from '../../data/rep';
+import {howScenes} from '../../data/how-scenes';
+import type {SvgNode} from '../../data/iso-kit';
 import {reviewScripts,reviewInline} from './review-inline';
 // A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
 // "/" use, stays byte-identical. All three share v2's collapsed example below (`review`).
@@ -20,33 +22,43 @@ const { outcomes } = query;
 // shows two. Each square remembers the Activity entry that staked it, so a step forward drops
 // in only the bonds that step added.
 const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1).flatMap((entry, at) => entry.stake === outcome ? Array.from({ length: entry.amount! / rep.bond }, () => at) : []);
-// /2/ (owner, 25 Oct 2026: show "the whole process from asking to getting a final answer and the middle
-// stuff"): the example question's whole life in one card on the main scroll, its timeline playing once
-// (how-life-v2.js), with no example behind a click. Amounts and answers come from walkthrough.ts, the
-// Hold row from the REP page's table (rep.ts). Every other version renders the markup further down.
-const life=ownerVersion(variant)&&how&&'life' in how?how.life:undefined;
+// /2/ (owner, 25 Oct 2026, item 4, chosen on the item 4 board): four cards in the Why Augur cards' family, each
+// with one scene of a question's life (how-scenes.ts, drawn here at rest like IsoScene.astro's), the claim and a
+// body under a divider, with one Green line through the four dividers; then the section's one button, which
+// opens one question's numbers in a Navy card, then Holding REP. how-cards-v2.js plays the cards once and runs
+// the button. The example's amounts and answers come from walkthrough.ts (one source), with a no-break space
+// before "REP", and its foot from the REP page's note (rep.ts). Every other version renders the markup further
+// down.
+const path=ownerVersion(variant)&&how&&'path' in how?how.path:undefined;
 const [,reported,challenged]=ledger,finalAnswer=walkthrough[walkthrough.length-1]!.outcome;
-const events=[`Fee ${amount(rep.fee)}`,`${reported!.stake} · ${amount(reported!.amount!)} bond`,`${challenged!.stake} · ${amount(challenged!.amount!)} bond`,`${finalAnswer} is final`];
-const results=life?[
- {who:`${life.reporter.label} · ${reported!.stake}`,figure:`−${amount(rep.bond)}`,note:life.reporter.note},
- {who:`${life.challenger.label} · ${challenged!.stake}`,figure:`+${amount(rep.share)}`,note:life.challenger.note.replace('{bond}',amount(rep.challenge)),gain:true},
- {who:life.burned.label,figure:amount(rep.burned),note:life.burned.note},
-]:[];
-const hold=participation.options.find(option=>option.id==='hold')!;
+const reps=(value:number)=>`${value} REP`;
+const values:Record<string,string>={fee:reps(rep.fee),bond:reps(rep.bond),challenge:reps(rep.challenge),reported:reported!.stake!,challenged:challenged!.stake!,final:finalAnswer!};
+const fill=(text:string)=>text.replace(/\{(\w+)\}/g,(token,name:string)=>values[name]??token);
+const foot=`${exampleFigures} ${proposedRules}`.replace(/(\d+) REP/g,(_,figure:string)=>reps(Number(figure)));
 ---
 <section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading" data-how-v2={review?'':undefined}><div class="container">
- {life?<Fragment>
- <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2><p class="lead">{how!.lead}</p></div>
- <div class="life" data-life>
-  <div class="life-head"><p class="life-name">Augur Lituus <span class="life-tag">{life.tag}</span></p><p class="life-status"><span class="sr-only">Status: </span>{life.statuses.map((status,i)=>i===life.statuses.length-1?<span class="life-state is-final" data-l={`state-${i}`}>{status}</span>:<span class="life-state" data-l={`state-${i}`} aria-hidden="true"><i></i>{status}</span>)}</p></div>
-  <p class="life-question">{query.title}</p>
-  <p class="life-cutoff">Information cutoff <time datetime={query.cutoffIso}>{query.cutoffDate}</time></p>
-  <div class="life-track" aria-hidden="true">{life.stops.map((_,i)=><span class="life-leg">{life.spans[i]&&<Fragment><b>{life.spans[i]}</b><i class="life-line" data-l={`line-${i}`}></i></Fragment>}<i class:list={['life-node',{'is-final':i===life.stops.length-1}]}><i data-l={`node-${i}`}></i></i></span>)}</div>
-  <ol class="life-stops" aria-label={life.label}>{life.stops.map((stop,i)=><li class="life-stop" data-l={`stop-${i}`}><h3 class="life-title">{stop.title}</h3><p class="life-event">{events[i]}</p><p class="life-text">{stop.text}</p></li>)}</ol>
-  <div class="life-paid" data-l="paid"><h3 class="life-paid-label">{life.paid}</h3><dl class="life-results">{results.map(result=><div class:list={['life-result',{'is-gain':result.gain}]}><dt>{result.who}</dt><dd><strong>{result.figure}</strong><span>{result.note}</span></dd></div>)}</dl></div>
+ {path?<Fragment>
+ <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2><p class="lead">{path.lead}</p></div>
+ <ol class="how-cards" aria-label={path.label} data-how-cards>{path.stops.map(stop=><li class="how-card"><h3 class="how-tab">{stop.title}</h3><div class="how-visual"><svg viewBox="0 0 336 168" width="336" height="168" class="how-scene" data-how-scene={stop.scene} aria-hidden="true"><g transform={howScenes.transform}>{(function render(nodes:SvgNode[]):any{return nodes.map(({tag,attrs,children})=>{const Tag=tag as any;return children?<Tag {...attrs}>{render(children)}</Tag>:<Tag {...attrs}/>;});})(howScenes.worlds[stop.scene])}</g></svg></div><div class="how-copy"><i class="how-line" aria-hidden="true" data-how-line></i><p class="how-claim"><span class="setup">{stop.claim[0]}</span><span>{stop.claim[1]}</span></p><p class="how-body">{stop.body}</p></div></li>)}</ol>
+ <button type="button" class="button outline how-toggle how-more" aria-expanded="true" aria-controls="how-example" data-how-more hidden><span class="how-toggle-open">{how!.open}</span><span class="how-toggle-close">{how!.close}</span><Icon name="chevron-down"/></button>
+ <div class="path-example" id="how-example" data-how-demo>
+  <div class="example" role="region" aria-labelledby="how-example-tag how-example-title" tabindex="0">
+   <div class="example-head"><p class="example-name">Augur Lituus <span class="example-tag" id="how-example-tag">{path.example.tag}</span></p><p class="example-status"><span class="sr-only">Status: </span>{path.example.status}</p></div>
+   <h3 class="example-title" id="how-example-title">{query.title}</h3>
+   <p class="example-cutoff">Information cutoff <time datetime={query.cutoffIso}>{query.cutoffDate}</time></p>
+   <ol class="example-rows">{path.example.rows.map(row=><li class="example-row" data-example-row><span class="example-event">{fill(row.event)}</span><span class="example-note">{fill(row.note)}</span>{'amount' in row&&<span class="example-amount">{fill(row.amount)}</span>}</li>)}</ol>
+   <div class="example-paid" data-example-row>
+    <h4 class="example-paid-title">{path.example.paid}</h4>
+    <dl class="example-results">
+     <div class="example-result is-you"><dt>{path.example.you.who}</dt><dd class="example-note">{fill(path.example.you.note)}</dd><dd class="example-figure" data-example-figure>+{reps(rep.share)}</dd></div>
+     <div class="example-result"><dt>{path.example.reporter.who}</dt><dd class="example-note">{path.example.reporter.note}</dd><dd class="example-figure">−{reps(rep.bond)}</dd></div>
+     <div class="example-result"><dt>{path.example.burned.who}</dt><dd class="example-note">{path.example.burned.note}</dd><dd class="example-figure">{reps(rep.burned)}</dd></div>
+    </dl>
+   </div>
+   <p class="example-foot">{foot}</p>
+  </div>
  </div>
- <p class="life-note">{life.note}</p>
- <div class="hold"><div class="hold-head"><h3 class="hold-title">{holderCopy.title}</h3><Button href="/rep/" variant="text">Learn about REP</Button></div><dl class="hold-facts">{participation.fields.map(field=><div class="hold-fact"><dt>{field.label}</dt><dd><strong>{hold[field.key].figure}</strong><span>{hold[field.key].note}</span></dd></div>)}</dl></div>
+ <div class="holding"><div class="holding-head"><h3 class="holding-title">{holderCopy.title}</h3><Button href="/rep/" variant="text">Learn about REP</Button></div><ul class="holding-points">{holderCopy.points.map(point=><li class:list={['holding-point',{'is-act':'act' in point}]}><i class="holding-mark" aria-hidden="true"></i><p><strong>{point.lead}</strong> {point.text}</p></li>)}</ul></div>
  </Fragment>:<Fragment>
  <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2>{how?<p class="lead">{how.lead}</p>:<p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.</p>}{how&&<button type="button" class="button outline how-toggle" aria-expanded="false" aria-controls="how-demo" data-how-toggle hidden><span class="how-toggle-open">{how.open}</span><span class="how-toggle-close">{how.close}</span><Icon name="chevron-down"/></button>}</div>{how&&<ol class="how-strip" aria-label={how.steps} data-how-strip hidden>{walkthrough.map((step,i)=><li><button type="button" class="how-step" aria-controls="how-demo" aria-expanded="false" data-how-step={i}><span class="how-step-index" aria-hidden="true">{i+1}</span><span class="how-step-title">{step.title}</span></button></li>)}</ol>}
  <div class="walkthrough-track" data-walkthrough-track={review?undefined:''} id={review?'how-demo':undefined} data-how-demo={review?'':undefined}>
@@ -76,7 +88,7 @@ const hold=participation.options.find(option=>option.id==='hold')!;
   <Button href="/rep/" variant="text">Learn about REP</Button>
  </div>
  </Fragment>}
-</div></section>{review&&!life&&<script is:inline set:html={reviewScripts.how}></script>}{life&&<script is:inline set:html={reviewInline.v2.scripts.howLife}></script>}
+</div></section>{review&&!path&&<script is:inline set:html={reviewScripts.how}></script>}{path&&<script is:inline set:html={reviewInline.v2.scripts.howCards}></script>}
 <style>
  /* One section answers “How do I take part, and how do I get paid?” (owner + Augus, 19 Oct 2026).
     The left column is yours: each step says what you do and its “Your REP” panel, right under

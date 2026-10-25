@@ -65,14 +65,19 @@ export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640
  * from `checkAt` over `checkDraw`. The footer rises `footRise` px from `footAt` over `foot`, and the result
  * fades in from `resultAt` over `result`. */
 export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, odds:560, answer:{market:900, proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
-/** How it works on /2/ (owner, 25 Oct 2026): the example question's whole life plays once per tab session
- * (how-life-v2.js, which gets this and `easing` written in), `entrance` after `threshold` of the card is in
- * view. Each stop is reached at `reach[i]` ms: its node pops in over `pop` and its words rise from `dim`
- * opacity; the status turns there (old word out over `swapOut`, new in from `swapIn` over `swap`, the
- * final one from `statusFrom` scale). Between stops a line runs from `legs[i].at` over `legs[i].run`
- * (the reward rising, then the two appeal periods). "Paid out" rises `paidRise` px from `paidAt` over
- * `paid`, and the heading's "paid" draws over `paidMark`. */
-export const howLifeTimeline = { threshold:.6, entrance:200, reach:[0,1020,1940,3160], legs:[{at:120,run:900},{at:1140,run:800},{at:2060,run:1100}], pop:320, dim:.35, swapOut:140, swapIn:120, swap:240, statusFrom:.92, paidAt:3400, paid:420, paidRise:8, paidMark:700 } as const;
+/** How it works on /2/ (owner, 25 Oct 2026, item 4: four cards, "nice boxes and green lines"; how-cards-v2.js,
+ * which gets this, `easing` and how-scenes.ts's moves written in). The cards play once per tab session, about
+ * 5 s, `entrance` after `threshold` of them is in view. The Green line draws through each card's divider and the
+ * gap after it over `line`, a card every `beat` (linear, the last one on the draw easing); `act` after the line
+ * enters a card, its scene acts. A block falls `drop` px into place over `fall` (settle); Report's time ring
+ * fades in at `ringAt` over `ring`. Challenge's second block appears on the first halfway through `double` and
+ * slides out of it (travel): double; its ring follows at `doubleRing`. Get paid: the answer turns deep green over
+ * `won`, a ring pulses to `pulseScale` over `pulse`, their block hops `hopRise` px up and over to you from `hopAt`
+ * over `hop`, turning Green as it lands, the final ring fades in at `finalAt` and the heading's "paid" draws from
+ * `underlineAt` over `underline` (draw). The words never move. Opening the example: its rows rise `rise` px and
+ * fade in over `row` (settle), `stagger` apart, and the payout figure drops `rise` px into place from `figureAt`
+ * over `figure`, last (0.9 s in all). Closing is instant. */
+export const howCardsTimeline = { threshold:.5, entrance:120, beat:1200, line:1050, act:120, fall:620, drop:28, ringAt:620, ring:360, double:1060, doubleRing:780, won:420, pulse:900, pulseScale:1.18, hopAt:250, hop:980, hopRise:26, finalAt:1150, underlineAt:1250, underline:560, rise:8, row:320, stagger:110, figureAt:560, figure:320 } as const;
 /** Sitewide field (owner, 19 Oct 2026): cells within `margin` px of text or an object stay empty; full-width
  * bands darker than `bandLuminance` count as background. A `density` share of the rest hold a 3 px square,
  * `green` of them Green, in `steps` opacity steps across `paperOpacity` / `greenOpacity`; redrawn `debounce`
