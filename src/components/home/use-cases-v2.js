@@ -1,0 +1,81 @@
+// /2/ only (owner, 25 Oct 2026): the use cases' product cards (Applications.astro renders this right after
+// the section). Each card is rendered answered, so no JavaScript, reduced motion and print show the final
+// state; this plays each case's story once per tab session: the card waits, Augur Lituus answers and the
+// product acts. The first case plays once 60% of the stage is in view, any other on its first pick; a pick
+// also draws the 2 px Green line from the tab and fades the words. Seen cases follow seen.ts: a reload or a
+// history visit shows every case settled, and a fresh visit records a case once its play has started.
+// A press, focus or key in the stage, a resize, print, a hidden page or the stage leaving the screen
+// settles everything on the final frame. Transform and opacity only, plus the check's stroke. Timings and
+// easings come from timelines.ts (useCaseTimeline, easing), written in at build time (review-inline.ts).
+(() => {
+const T = __USE_CASES__, E = T.easing, U = T.timeline;
+const root = document.querySelector('[data-use-cases]');
+if (!root || typeof Element.prototype.animate !== 'function' || !('IntersectionObserver' in window)) return;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')], stage = root.querySelector('.case-stage');
+const STORE = 'augur:motion-seen', nav = performance.getEntriesByType?.('navigation')[0];
+const revisit = nav?.type === 'reload' || nav?.type === 'back_forward';
+const key = i => `${location.pathname}:use-case:${panels[i]?.id}`;
+const read = () => { try { return JSON.parse(sessionStorage.getItem(STORE) ?? '[]'); } catch { return []; } };
+const seen = i => revisit || read().includes(key(i));
+const mark = i => { try { const keys = read(); if (!keys.includes(key(i))) sessionStorage.setItem(STORE, JSON.stringify([...keys, key(i)])); } catch { /* Storage blocked: the case may play again. */ } };
+let motion = [], timer = 0, open = Math.max(0, tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true'));
+const animate = (el, keyframes, o = {}) => { if (!el) return; const a = el.animate(keyframes, { easing: E.reveal, fill: 'both', ...o }); motion.push(a); return a; };
+const settle = () => { clearTimeout(timer); motion.forEach(a => a.cancel()); motion = []; };
+const link = i => animate(tabs[i]?.querySelector('.case-link'), [{ transform: 'scaleX(0)' }, { transform: 'none' }], { duration: U.link, easing: E.settle, fill: 'backwards' });
+// One case's story: the card waits, the answer lands, the product acts.
+const play = (i, at) => {
+const card = panels[i]?.querySelector('.case-card'); if (!card) return;
+const q = name => card.querySelector(`[data-card="${name}"]`), qa = name => card.querySelectorAll(`[data-card="${name}"]`);
+const kind = card.dataset.cardKind, answer = at + U.answer[kind];
+if (kind === 'flight') {
+// The dot flies from the due time at a steady pace, crosses the +2 hours tick and eases onto the landing.
+// Each stretch of line scales from its own left edge on the dot's timing, so the line ends under the dot.
+// The dot rides a track-wide plane, so every move is a share of the track read from the CSS (--limit,
+// --landed) and nothing is measured: below 1024 the picked panel is still display:none at this point.
+const css = getComputedStyle(card.querySelector('.card-flight')), limit = parseFloat(css.getPropertyValue('--limit')) / 100, landed = parseFloat(css.getPropertyValue('--landed')) / 100, travel = U.answer.flight, first = Math.round(travel * limit / landed);
+animate(q('plane'), [{ transform: `translateX(${-landed * 100}%)`, easing: 'linear' }, { transform: `translateX(${(limit - landed) * 100}%)`, offset: first / travel, easing: U.land }, { transform: 'none' }], { delay: at, duration: travel, easing: 'linear', fill: 'backwards' });
+animate(q('line-done'), [{ transform: 'scaleX(0)' }, { transform: 'none' }], { delay: at, duration: first, easing: 'linear', fill: 'backwards' });
+animate(q('line-late'), [{ transform: 'scaleX(0)' }, { transform: 'none' }], { delay: at + first, duration: travel - first, easing: U.land, fill: 'backwards' });
+animate(q('landed'), [{ opacity: 0, transform: `translate(-50%, ${U.rise}px)` }, { opacity: 1, transform: 'translateX(-50%)' }], { delay: answer - U.landedLead, duration: U.landed, easing: E.settle, fill: 'backwards' });
+}
+// The answer: each pending word goes, then its answer comes in.
+animate(q('status-wait'), [{ opacity: 1 }, { opacity: 0 }], { delay: answer, duration: U.swapOut, easing: 'linear', fill: 'backwards' });
+animate(q('status-done'), [{ opacity: 0, transform: `scale(${U.statusFrom})` }, { opacity: 1, transform: 'none' }], { delay: answer + U.swapIn, duration: U.swap, easing: E.settle, fill: 'backwards' });
+qa('was').forEach(el => animate(el, [{ opacity: 1 }, { opacity: 0 }], { delay: answer, duration: U.swapOut, easing: 'linear', fill: 'backwards' }));
+qa('now').forEach(el => animate(el, [{ opacity: 0, transform: `translateY(${U.rise}px)` }, { opacity: 1, transform: 'none' }], { delay: answer + U.swapIn, duration: U.swap, easing: E.settle, fill: 'backwards' }));
+// The market: both prices sit on Mist bars while it's live; Yes turns Green and runs to 100, No runs out.
+card.querySelectorAll('.card-outcome').forEach(row => {
+const was = row.querySelector('[data-card="bar-was"]'), now = row.querySelector('[data-card="bar-now"]'), from = Number(was?.dataset.from ?? 0);
+if (now) {
+animate(was, [{ opacity: 1 }, { opacity: 0 }], { delay: answer, duration: U.barFade, easing: 'linear', fill: 'backwards' });
+animate(now, [{ transform: `scaleX(${from})` }, { transform: 'none' }], { delay: answer, duration: U.bar, easing: E.settle, fill: 'backwards' });
+animate(now, [{ opacity: 0 }, { opacity: 1 }], { delay: answer, duration: U.barFade, easing: 'linear', fill: 'backwards' });
+} else animate(was, [{ opacity: 1, transform: `scaleX(${from})` }, { opacity: 1, transform: 'scaleX(0)' }], { delay: answer, duration: U.bar, easing: E.settle, fill: 'backwards' });
+});
+card.querySelectorAll('.card-check polyline').forEach(line => animate(line, [{ strokeDashoffset: 1.05 }, { strokeDashoffset: 0 }], { delay: answer + U.checkAt, duration: U.checkDraw, easing: E.settle, fill: 'backwards' }));
+// Then the footer: who answered, and what the product did.
+animate(q('foot'), [{ opacity: 0, transform: `translateY(${U.footRise}px)` }, { opacity: 1, transform: 'none' }], { delay: answer + U.footAt, duration: U.foot, easing: E.settle, fill: 'backwards' });
+animate(q('result'), [{ opacity: 0 }, { opacity: 1 }], { delay: answer + U.resultAt, duration: U.result, easing: 'linear', fill: 'backwards' });
+};
+const observer = new IntersectionObserver(entries => {
+const entry = entries[entries.length - 1];
+if (!entry.isIntersecting) { settle(); return; }
+if (entry.intersectionRatio >= U.threshold && !motion.length && !reduced.matches && !seen(open)) { mark(open); link(open); play(open, U.entrance); }
+}, { threshold: [0, U.threshold] });
+observer.observe(stage);
+root.addEventListener('tabsbeforechange', settle);
+root.addEventListener('tabschange', ({ detail: { index, previous } }) => {
+open = index;
+if (reduced.matches) return;
+link(index);
+animate(panels[previous], [{ visibility: 'visible', opacity: 1 }, { visibility: 'visible', opacity: 0 }], { duration: U.out, easing: 'linear', fill: 'none' });
+animate(panels[index], [{ opacity: 0 }, { opacity: 1 }], { delay: U.at, duration: U.in, easing: E.reveal, fill: 'backwards' });
+// A case counts as seen once its play has started, so one arrowed past still plays when it's picked.
+if (!seen(index)) { play(index, U.pick); timer = setTimeout(() => { if (open === index) mark(index); }, U.pick); }
+});
+['pointerdown', 'focusin', 'keydown'].forEach(type => stage.addEventListener(type, settle));
+root.addEventListener('tabssettled', settle);
+reduced.addEventListener('change', settle);
+document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
+})();

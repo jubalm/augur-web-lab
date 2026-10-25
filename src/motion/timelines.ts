@@ -49,6 +49,26 @@ export const roadmapTimeline = {track:1000,stopStagger:110,stopDuration:320,evid
  * over `checkDraw`; the other chip steps back to `dim` opacity over `dimFade`. The picture
  * starts at `graphic`. Prediction markets first plays once `threshold` of it is in view. */
 export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640, rise:14, summary:0, question:40, options:140, optionStagger:70, optionEnter:520, decide:760, fill:520, press:[80,420], label:120, check:190, checkDraw:380, dim:.4, dimFade:420, by:920, action:1040, explanation:1100, graphic:1200, fallback:1320 } as const;
+/** Use cases on /2/ (owner, 25 Oct 2026): each case is a product card that waits, gets its answer and acts
+ * (use-cases-v2.js, which gets this and `easing` written in). A pick draws the 2 px Green line from the tab
+ * over `link`, fades the shown case out over `out` and the picked one in from `at` over `in`. A case plays
+ * once per tab session, `pick` after its first pick, or `entrance` after `threshold` of the stage is in view.
+ * Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady pace, then
+ * eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); "Landed"
+ * rises `landedLead` before the answer, over `landed`. At the answer every pending word goes over `swapOut`
+ * and its answer comes in from `swapIn` over `swap` (a value rising `rise` px, the status from `statusFrom`
+ * scale); the market's bars run over `bar`, the Green one fading in over `barFade`, and the check draws
+ * from `checkAt` over `checkDraw`. The footer rises `footRise` px from `footAt` over `foot`, and the result
+ * fades in from `resultAt` over `result`. */
+export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, answer:{market:600, proposal:700, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', landedLead:120, landed:360, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
+/** How it works on /2/ (owner, 25 Oct 2026): the example question's whole life plays once per tab session
+ * (how-life-v2.js, which gets this and `easing` written in), `entrance` after `threshold` of the card is in
+ * view. Each stop is reached at `reach[i]` ms: its node pops in over `pop` and its words rise from `dim`
+ * opacity; the status turns there (old word out over `swapOut`, new in from `swapIn` over `swap`, the
+ * final one from `statusFrom` scale). Between stops a line runs from `legs[i].at` over `legs[i].run`
+ * (the reward rising, then the two appeal periods). "Paid out" rises `paidRise` px from `paidAt` over
+ * `paid`, and the heading's "paid" draws over `paidMark`. */
+export const howLifeTimeline = { threshold:.6, entrance:200, reach:[0,1020,1940,3160], legs:[{at:120,run:900},{at:1140,run:800},{at:2060,run:1100}], pop:320, dim:.35, swapOut:140, swapIn:120, swap:240, statusFrom:.92, paidAt:3400, paid:420, paidRise:8, paidMark:700 } as const;
 /** Sitewide field (owner, 19 Oct 2026): cells within `margin` px of text or an object stay empty; full-width
  * bands darker than `bandLuminance` count as background. A `density` share of the rest hold a 3 px square,
  * `green` of them Green, in `steps` opacity steps across `paperOpacity` / `greenOpacity`; redrawn `debounce`

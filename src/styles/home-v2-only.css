@@ -11,19 +11,142 @@
 
 /* Use cases: the 8 px square mark, the header's product-row mark, centred on the name's first line in
    place of the 44 px icon tile. Mist idle, Green picked (the selected state keeps its Green marker,
-   DESIGN.md); on hover it turns Paper and onto its corner, the menus' gesture. */
+   DESIGN.md); on hover it turns Paper and onto its corner, the menus' gesture. The square is the mark's
+   ::after, so only it turns. The mark itself never transforms: it holds the picked tab's Green line, and
+   a turning mark spun the line and, for the 200 ms it took to turn back after a click, made itself the
+   line's containing block, so the line jumped across the tab's name before landing in the gutter. */
 .home-v2 .case-label{padding-top:0}
-.home-v2 .case-mark{width:8px;height:8px;margin-top:calc((clamp(20px,1.67vw,24px) * 1.3 - 8px) / 2);background:var(--mark-participant,#71728A);transition:background-color 240ms ease-out,transform 200ms var(--ease-reveal)}
-.home-v2 .case-tab[aria-selected="true"] .case-mark{background:var(--primary);transition-delay:140ms}
-@media(hover:hover) and (pointer:fine){.home-v2 .case-tab:not([aria-selected="true"]):hover .case-mark{background:var(--foreground);transform:rotate(45deg) scale(.9)}}
-.home-v2 .case-tab:not([aria-selected="true"]):active .case-mark{transform:rotate(45deg) scale(.75)}
+.home-v2 .case-mark{width:8px;height:8px;margin-top:calc((clamp(20px,1.67vw,24px) * 1.3 - 8px) / 2)}
+.home-v2 .case-mark::after{content:'';display:block;width:8px;height:8px;background:var(--mark-participant,#71728A);transition:background-color 240ms ease-out,transform 200ms var(--ease-reveal)}
+.home-v2 .case-tab[aria-selected="true"] .case-mark::after{background:var(--primary);transition-delay:140ms}
+@media(hover:hover) and (pointer:fine){.home-v2 .case-tab:not([aria-selected="true"]):hover .case-mark::after{background:var(--foreground);transform:rotate(45deg) scale(.9)}}
+.home-v2 .case-tab:not([aria-selected="true"]):active .case-mark::after{transform:rotate(45deg) scale(.75)}
 @media(max-width:1023px){.home-v2 .case-mark{margin-top:0}}
-@media(forced-colors:active){.home-v2 .case-mark{forced-color-adjust:none;background:CanvasText}.home-v2 .case-tab[aria-selected="true"] .case-mark{background:Highlight}}
-@media(prefers-reduced-motion:reduce){.home-v2 .case-mark{transition:none}}
+@media(forced-colors:active){.home-v2 .case-mark::after{forced-color-adjust:none;background:CanvasText}.home-v2 .case-tab[aria-selected="true"] .case-mark::after{background:Highlight}}
+@media(prefers-reduced-motion:reduce){.home-v2 .case-mark::after{transition:none}}
 /* The answer chip draws the check glyph's own path (assets/icons/augur/check.svg) at its stroke. */
 .home-v2 .case-pick .case-check polyline{stroke-width:1.75;stroke-linecap:square;stroke-linejoin:miter}
 /* The builder reasons have no icon tiles: stacked, each is its claim over its point. */
 @media(max-width:1023px){.home-v2 .builder-case .builder-reasons li{grid-template-columns:minmax(0,1fr)}}
+
+/* What can Augur Lituus power? (item 3; owner, 25 Oct 2026, from the mock he approved: the old right box was
+   "trashy/noisy/ugly"). Applications.astro renders /2/'s cards; use-cases-v2.js plays them. Gaps on the
+   scale: 4 8 12 16 24 32 48.
+   Tabs, from 1024: three tiles 8 apart, Dark 1 at rest. The picked tile turns Dark 2, the panel's colour,
+   and a 2 px Green line runs from it across the gutter into the panel, level with its mark (the connector
+   How it works draws between a step and its card); it draws in on a pick. Hover: Dark 3 and the half-Green
+   edge. Pressed: the picked colour. Focus: the ring inside. */
+.home-v2 .case-link{display:none}
+@media(min-width:1024px){
+.home-v2 .cases .case-tabs{gap:8px;padding-right:var(--case-gap);background:none}
+.home-v2 .case-tabs .case-tab{position:relative;padding:24px 32px;border:0;background:none;column-gap:16px;transition:color 180ms ease-out}
+.home-v2 .case-tabs .case-tab::before{content:'';position:absolute;inset:0;z-index:-2;background:var(--web-quiet);transition:background-color 180ms ease-out}
+.home-v2 .case-tabs .case-tab[aria-selected="true"]::before{background:var(--web-tile)}
+.home-v2 .case-tab[aria-selected="true"] .case-link{display:block;position:absolute;left:100%;width:var(--case-gap);height:2px;margin-top:3px;background:var(--primary);transform-origin:left}
+.home-v2 .case-tabs .case-tab:not([aria-selected="true"]):active::before{background:var(--web-tile)}
+.home-v2 .case-tabs .case-tab:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
+.home-v2 .case-stage .case-panel{padding:48px}
+}
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){
+.home-v2 .case-tabs .case-tab:not([aria-selected="true"]):hover::before{background:var(--web-raised)}
+.home-v2 .case-tabs .case-tab:not([aria-selected="true"]):hover:not(:focus-visible){outline:1px solid var(--web-hover-edge);outline-offset:-1px}
+}
+@media(min-width:1024px) and (max-width:1200px){.home-v2 .case-tabs .case-tab{padding:24px}.home-v2 .case-stage .case-panel{padding:32px}}
+
+/* The right box: a product running on Augur Lituus, as its users see it, and one paragraph for the
+   people who build it. The card is Navy like How it works' query card: its label and status, a title, the
+   product's own data and a footer saying who answered and what the product did. Green shows only the
+   answer and what it changed. Each card is rendered answered; the pending words and Mist bars sit under
+   it at opacity 0 for the play. */
+.home-v2 .case-card{align-self:stretch;padding:24px;background:var(--background)}
+.home-v2 .card-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.home-v2 .card-label{font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
+.home-v2 .card-status{display:inline-grid}
+.home-v2 .card-status>span{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 10px;font:600 13px/16px var(--font-heading);white-space:nowrap}
+.home-v2 .status-wait{box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground);opacity:0}
+.home-v2 .status-wait i{width:6px;height:6px;background:var(--mark-participant,#71728A)}
+.home-v2 .status-done{background:var(--primary);color:var(--background)}
+.home-v2 .card-title{margin:16px 0 0;font:600 22px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
+.home-v2 .card-body{margin-top:24px}
+/* Market: each outcome's price over its bar; the answer runs Yes to 100 and No to 0. */
+.home-v2 .card-rows{display:grid;row-gap:16px}
+.home-v2 .card-outcome{display:grid;grid-template-columns:1fr auto;align-items:center;row-gap:8px}
+.home-v2 :is(.card-name,.card-price){font:600 14px/20px var(--font-heading);font-variant-numeric:tabular-nums}
+.home-v2 .card-outcome:not(.is-win) :is(.card-name,.card-price){color:var(--muted-foreground)}
+.home-v2 .card-price{display:inline-grid}
+.home-v2 .card-price>span{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:6px}
+.home-v2 .price-was{opacity:0}
+.home-v2 .is-win .price-now{color:var(--primary)}
+.home-v2 .card-check{width:14px;height:14px;overflow:visible}
+.home-v2 .card-check polyline{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:1 3}
+.home-v2 .card-bar{grid-column:1/-1;position:relative;height:6px;overflow:hidden;background:var(--web-raised)}
+.home-v2 .card-bar i{position:absolute;inset:0;transform-origin:left}
+.home-v2 .bar-was{background:var(--augur-color-surface-dark-mist);opacity:0}
+.home-v2 .bar-now{background:var(--primary)}
+/* Details (the proposal's three rows, the flight's arrival): label left, value right. A pending value
+   ("Checking…", "In the air") settles into its answer in Green. */
+.home-v2 .card-details{display:grid;row-gap:12px;margin:0}
+.home-v2 .card-detail{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.home-v2 .card-detail dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .card-detail dd{display:inline-grid;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
+.home-v2 .card-detail dd>span{grid-area:1/1;justify-self:end}
+.home-v2 .value-was{color:var(--muted-foreground);opacity:0}
+.home-v2 .value-now{color:var(--primary)}
+/* Flight: a timeline to scale from the due time. The on-time stretch is Paper, the stretch past the
+   +2 hours tick is Green, and the dot is the plane, down at the landing. */
+.home-v2 .card-flight{--limit:60%;--landed:82.5%;margin-top:12px}
+.home-v2 .card-track{position:relative;height:24px}
+.home-v2 .card-track>span{position:absolute}
+.home-v2 .track-base{left:0;right:0;top:11px;height:2px;background:var(--web-raised)}
+.home-v2 .track-done{left:0;width:var(--limit);top:11px;height:2px;background:var(--foreground);transform-origin:left}
+.home-v2 .track-late{left:var(--limit);width:calc(var(--landed) - var(--limit));top:11px;height:2px;background:var(--primary);transform-origin:left}
+.home-v2 .track-tick{left:var(--limit);top:4px;width:2px;height:16px;margin-left:-1px;background:var(--muted-foreground)}
+.home-v2 .track-plane{inset:0}
+.home-v2 .track-dot{position:absolute;left:var(--landed);top:6px;width:12px;height:12px;margin-left:-6px;background:var(--foreground)}
+.home-v2 .track-labels{position:relative;height:16px;margin:12px 0 0;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
+.home-v2 .track-labels span{position:absolute;white-space:nowrap}
+.home-v2 .track-limit{left:var(--limit);transform:translateX(-50%)}
+.home-v2 .track-labels .track-landed{left:var(--landed);transform:translateX(-50%);color:var(--foreground)}
+/* The footer: who answered, and what the product did. */
+.home-v2 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 0;padding-top:16px;border-top:1px solid var(--web-outline)}
+.home-v2 .card-by{display:inline-flex;align-items:center;gap:8px;font:600 13px/16px var(--font-heading);color:var(--foreground)}
+.home-v2 .card-by::before{content:'';width:8px;height:8px;background:var(--primary)}
+.home-v2 .card-result{font:400 13px/16px var(--font-body);color:var(--muted-foreground);text-align:right}
+/* For builders, under the card: the cue as the Why Augur closer's labels, then one paragraph. The three
+   paragraphs keep three lines from 1024 to 1440 and the cards match, so every tab has the same content
+   height. From 1280 the panel ends level with the tab column, 32 under the card; at 1024 the taller tab
+   column leaves room, and the paragraph sits on the panel's foot, at the same place on every tab. */
+.home-v2 .case-builders{align-self:stretch;margin-top:auto;padding-top:32px}
+.home-v2 .builders-cue{display:flex;align-items:center;gap:12px;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
+.home-v2 .builders-cue::before{content:'';width:8px;height:8px;background:var(--primary)}
+.home-v2 .builders-line{max-width:34em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
+
+/* The builder block, on the Why Augur closer's pattern: the heading row (the title, then the ask and
+   "Talk to us" on the panel's top line), then one Dark 2 panel of three cells split by hairlines. Each claim
+   carries the 8 px Green square, as the closer's reader labels do; the points are Sora 18/28 from 1280,
+   16/24 below. No hover: nothing here is a control but the button. */
+.home-v2 .builder-case{row-gap:24px}
+.home-v2 .builder-case .builder-title{font-size:24px;line-height:32px}
+.home-v2 .builder-case .builder-ask{align-self:end}
+.home-v2 .builder-case .builder-ask p{font-size:16px;line-height:24px}
+.home-v2 .builder-case .builder-reasons{column-gap:0;background:var(--web-tile)}
+.home-v2 .builder-case .builder-reasons li{padding:32px;font-size:16px;line-height:24px}
+.home-v2 .builder-case .builder-reasons li+li{border-left:1px solid var(--web-outline)}
+.home-v2 .builder-case .builder-reasons strong{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:20px;line-height:26px}
+.home-v2 .builder-case .builder-reasons strong::before{content:'';flex:none;width:8px;height:8px;background:var(--primary)}
+@media(min-width:1280px){.home-v2 .builder-case .builder-title{font-size:28px;line-height:34px}.home-v2 .builder-case .builder-reasons li{font-size:18px;line-height:28px}}
+@media(max-width:1200px){.home-v2 .builder-case .builder-reasons li{padding:24px}}
+@media(max-width:1023px){.home-v2 .builder-case .builder-reasons li+li{border-left:0;border-top:1px solid var(--web-outline)}}
+@media(forced-colors:active){
+.home-v2 .case-tabs .case-tab::before{display:none}
+.home-v2 .case-tabs .case-tab{outline:1px solid CanvasText;outline-offset:-1px}
+.home-v2 :is(.case-link,.bar-now,.track-late),.home-v2 .card-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
+.home-v2 .case-card,.home-v2 .builder-case .builder-reasons{outline:1px solid CanvasText}
+.home-v2 .status-done{forced-color-adjust:none;background:Highlight;color:HighlightText}
+.home-v2 :is(.track-done,.track-dot){forced-color-adjust:none;background:CanvasText}
+.home-v2 :is(.track-base,.track-tick,.card-bar){forced-color-adjust:none;background:GrayText}
+}
+@media(prefers-reduced-motion:reduce){.home-v2 .case-tabs .case-tab,.home-v2 .case-tabs .case-tab::before{transition:none}}
 
 /* Phone header: the words "Menu" and "Close" in the same outline box, in place of the hamburger and
    the cross (a labelled "Menu" is found more readily than the bare glyph, NN/g). */
@@ -78,23 +201,31 @@
 .tenet-iso [data-iso^="mid-cube"]{transform-origin:50% 100%}
 .tenet-iso [data-iso].iso-pin{transform-box:view-box;transform-origin:0 0}
 
-/* Why Augur closer (owner, 23 Oct 2026). The statement heads the panel as its <h3>, on its own row over a
-   hairline, and the readers follow as a list: side by side in equal halves from 1024, stacked below, so
-   each reader line has room to say what it means instead of fitting a third of the row. One surface: the
-   statement's Dark tint (1.08:1 against the tile, measured) read as a gap, not as emphasis. No hover edge,
-   since nothing in the panel is a control. Text keeps the card text edge (32 from 1200, 24 at 1024–1199,
-   28 on tablets, 24 on phones). Where the readers sit side by side, each keeps one setup line and one
-   payoff line (measured at 1440, 1280 and 1024). Forced colours draw the panel's border, as the cards'. */
-.home-v2 .tenet-closer{display:block}
+/* Why Augur closer (owner, 23 Oct 2026; statement out of the panel, 25 Oct). The statement is the closer's
+   <h3>, set on the page 64 under the cards and 24 over a panel that holds only the readers, so it reads as
+   the section's last heading and the readers get the box. The readers are a list: equal halves from 1024,
+   stacked below, each with an <h4> label (the card tabs' label, scaled up), the setup in Pewter and the
+   payoff as the strongest line. Sizes step down where the halves narrow, so both keep one setup line and
+   one payoff line (Sora, measured 25 Oct: payoffs 484 px at 22 and 396 at 18, the longest setup 409 at 18
+   and 364 at 16, in 528 px columns at 1280 and 416 at 1024). Statement / label / setup / payoff: 28 / 20 /
+   18 / 22 from 1280, 24 / 16 / 16 / 18 at 1024–1279 and on phones (two payoff lines at 360), 24 / 18 / 16 /
+   20 on tablets. No hover edge, since nothing here is a control. Forced colours draw the panel's border, as
+   the cards'. */
+.home-v2 .tenet-closer{display:block;margin-top:40px;background:none}
 .home-v2 .tenet-closer::after{display:none}
-.home-v2 .closer-head{padding:24px 32px;border-bottom:1px solid var(--web-outline);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
-.home-v2 .closer-readers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none}
-.home-v2 .closer-reader{padding:24px 32px}
+.home-v2 .closer-head{margin:0 0 24px;font-size:28px;line-height:34px;letter-spacing:-.005em;color:var(--foreground);text-wrap:balance}
+.home-v2 .closer-readers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none;background:var(--web-tile)}
+.home-v2 .closer-reader{padding:32px}
 .home-v2 .closer-reader+.closer-reader{border-left:1px solid var(--web-outline)}
-@media(max-width:1199px){.home-v2 :is(.closer-head,.closer-reader){padding-inline:24px}}
-@media(max-width:1023px){.home-v2 .closer-readers{grid-template-columns:minmax(0,1fr)}.home-v2 :is(.closer-head,.closer-reader){padding:20px 28px}.home-v2 .closer-reader+.closer-reader{border-left:0;border-top:1px solid var(--web-outline)}}
-@media(max-width:600px){.home-v2 :is(.closer-head,.closer-reader){padding:20px 24px}.home-v2 .closer-head{font-size:20px;line-height:26px}}
-@media(forced-colors:active){.home-v2 .tenet-closer{border:1px solid CanvasText}}
+.home-v2 .closer-who{gap:10px;margin:0 0 16px;font-size:20px;line-height:26px;letter-spacing:0}
+.home-v2 .closer-who::before{width:8px;height:8px}
+.home-v2 .closer-line .setup{font-size:18px;line-height:28px;font-weight:400}
+.home-v2 .closer-line .payoff{margin-top:6px;font-size:22px;line-height:30px;font-weight:600}
+@media(max-width:1279px){.home-v2 .closer-head{font-size:24px;line-height:32px}.home-v2 .closer-who{gap:8px;margin-bottom:12px;font-size:16px;line-height:24px}.home-v2 .closer-who::before{width:6px;height:6px}.home-v2 .closer-line .setup{font-size:16px;line-height:24px}.home-v2 .closer-line .payoff{margin-top:4px;font-size:18px;line-height:27px}}
+@media(max-width:1199px){.home-v2 .closer-reader{padding:24px}}
+@media(max-width:1023px){.home-v2 .tenet-closer{margin-top:28px}.home-v2 .closer-head{margin-bottom:20px}.home-v2 .closer-readers{grid-template-columns:minmax(0,1fr)}.home-v2 .closer-reader{padding:24px 28px}.home-v2 .closer-reader+.closer-reader{border-left:0;border-top:1px solid var(--web-outline)}.home-v2 .closer-who{font-size:18px}.home-v2 .closer-line .payoff{font-size:20px;line-height:28px}}
+@media(max-width:600px){.home-v2 .tenet-closer{margin-top:24px}.home-v2 .closer-reader{padding:20px 24px}.home-v2 .closer-who{font-size:16px}.home-v2 .closer-line .payoff{font-size:18px;line-height:27px}}
+@media(forced-colors:active){.home-v2 .closer-readers{border:1px solid CanvasText}}
 
 /* Hero: the lituus flock (owner, 22 Oct 2026: the hero "looks awful and weird", make it "more fancy").
    FlockArt.astro draws the resting frame from hero-flock.ts; hero-flock-v2.js plays the 12 s loop on
@@ -119,6 +250,52 @@
 /* Forced colours: the glyphs' squares live in <use> copies, which page rules do not reach, but inherited
    custom properties do, so the flock redefines the tokens its fills, the answer square and the ring read. */
 @media(forced-colors:active){.home-v2 .flock{--mark-participant:CanvasText;--muted-foreground:CanvasText;--foreground:CanvasText;--primary:CanvasText}.home-v2 .flock svg,.home-v2 .flock-ripple{forced-color-adjust:none}}
+
+/* Roadmap (item 5, from the 25 Oct audit; Roadmap.astro is shared, so /2/'s polish is CSS only). The
+   evidence box fills the panel's height on every stop with its content centred, so switching stops no
+   longer moves its foot (its height ran 190–258 px). From 1024 to 1279 the evidence column is 360 wide:
+   at 480 the story column wrapped Now's two links onto two rows, and leaving Now moved the page below by
+   68 px at 1024. Every panel is 376 tall from 1024 up, the tallest stop's height with 14 px captions
+   (Launch's quote, measured 25 Oct), so no stop moves the page. One pulse: the Now stop keeps its ring
+   (AGENTS.md); the panel's status square rests.
+   Green stays on Now: the completed Moon Fork's bar is Paper. Labels and captions reach 14 px, and the
+   box's padding and label gap sit on the scale. */
+@media(min-width:1024px){.home-v2 .roadmap-panel{min-height:376px}.home-v2 .roadmap-evidence{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding:24px}}
+@media(min-width:1024px) and (max-width:1279px){.home-v2 .roadmap-panel{grid-template-columns:minmax(0,1fr) 360px}}
+.home-v2 .roadmap-status.is-now>span::after{animation:none}
+.home-v2 .roadmap-evidence[data-evidence="fork"] .evidence-bar>span.is-accent{background:var(--foreground)}
+.home-v2 .roadmap-evidence :is(.evidence-label,.evidence-caption){font-size:14px;line-height:20px}
+.home-v2 .roadmap-evidence .evidence-label{margin-bottom:24px}
+
+/* Learn more (item 6): "Keep going" under the questions, three equal cells in one outlined strip (no
+   tint), split by hairlines: the FAQ, the blog and the community (Discord). Each cell's link sits at its
+   foot, underlined at rest like a link (the bare "Read the blog" beside a bordered button didn't read as
+   one), so the three end level. Hover and focus only. */
+.home-v2 .keep-going{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:32px 0 0;padding:0;list-style:none;border:1px solid var(--web-outline)}
+.home-v2 .keep-cell{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:24px 32px}
+.home-v2 .keep-cell+.keep-cell{border-left:1px solid var(--web-outline)}
+.home-v2 .keep-title{margin:0;font:600 18px/26px var(--font-heading);letter-spacing:0;color:var(--foreground)}
+.home-v2 .keep-line{max-width:34em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
+.home-v2 .keep-link{display:inline-flex;align-items:center;gap:6px;margin-top:auto;padding-top:16px;font:600 16px/24px var(--font-heading);color:var(--foreground);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.home-v2 .keep-link:hover{text-decoration-thickness:2px}
+.home-v2 .keep-link .web-icon,.home-v2 .keep-link svg{width:14px;height:14px}
+@media(max-width:1200px){.home-v2 .keep-cell{padding:24px}}
+@media(max-width:1023px){.home-v2 .keep-going{grid-template-columns:minmax(0,1fr)}.home-v2 .keep-cell+.keep-cell{border-left:0;border-top:1px solid var(--web-outline)}}
+@media(forced-colors:active){.home-v2 .keep-going{border-color:CanvasText}.home-v2 .keep-cell+.keep-cell{border-color:CanvasText}}
+
+/* Footer (item 7, from the 25 Oct audit; /2/ only, since this sheet loads nowhere else). A hairline opens
+   the link directory, so the contact band and the links read as two groups (they shared one Navy with
+   48 px between them), and the funding line sits 16 under the logo instead of 130 px lower at the
+   column's foot. */
+.site-footer .directory{border-top:1px solid var(--web-outline)}
+.site-footer .identity{justify-content:flex-start;gap:16px}
+@media(forced-colors:active){.site-footer .directory{border-top-color:CanvasText}}
+
+/* Hero (item 24, first option from the 25 Oct audit): "decentralized" in Sora 400 against the headline's
+   600, so the word keeps its difference after the underline sweep has gone and under reduced motion,
+   print and no JavaScript. Sora 400 already loads, the word sits alone on its nowrap line, so nothing
+   rewraps; the sweep and the hover line stay as they are. */
+.home-v2 .hero-emphasis{font-weight:400}
 
 /* Hero background layer (owner, 22 Oct 2026: a full-screen hero video "like most websites", then a
    series of generated loops, then "Let's try live first"; the motion-rule exception is in
@@ -171,4 +348,86 @@
    browser update that skipped subtree: about 1 s of main-thread work per 4 s at the Why Augur cards. The
    dot rests while the example is closed and pulses again when it opens. (/3/ and /4/ share the issue.) */
 .home-v2 .how-it-works [data-how-demo][hidden] .status-dot{animation:none}
+
+/* How it works (item 4; owner, 25 Oct 2026: "needs a full redesign", then show "the whole process from
+   asking to getting a final answer and the middle stuff"). HowItWorks.astro renders the example
+   question's whole life in one Navy card: its status, a timeline of four stops (Asked, Reported,
+   Challenged, Final) with the reward and the two appeal periods running between them, what each stop
+   does in words and REP, then who was paid, each under the stop it belongs to. how-life-v2.js plays it
+   once. Four equal columns hold the track, the stops and the results, so every node sits over its words.
+   Green: "paid", the final node, Final answer and the one gain. Gaps on the scale: 4 8 12 16 24 32 48. */
+.home-v2 .life{padding:48px;background:var(--background)}
+.home-v2 .life-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.home-v2 .life-name{display:flex;align-items:center;gap:12px;font:600 14px/20px var(--font-heading);color:var(--foreground)}
+.home-v2 .life-tag{padding:2px 8px;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
+.home-v2 .life-status{display:inline-grid}
+.home-v2 .life-state{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 14px/20px var(--font-heading);color:var(--foreground);white-space:nowrap;opacity:0}
+.home-v2 .life-state i{width:8px;height:8px;background:var(--mark-participant,#71728A)}
+.home-v2 .life-state.is-final{opacity:1;background:var(--primary);box-shadow:none;color:var(--background)}
+.home-v2 .life-question{max-width:30em;margin-top:24px;font:600 24px/32px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
+.home-v2 .life-cutoff{margin-top:8px;font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .life-cutoff time{color:var(--foreground)}
+.home-v2 :is(.life-track,.life-stops,.life-paid){display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:32px}
+/* The track: a node at each stop's edge and, between nodes, a line over the base that runs out (the
+   reward rising, then each appeal period), its label centred above it. */
+.home-v2 .life-track{margin-top:48px}
+.home-v2 .life-leg{position:relative;height:44px}
+.home-v2 .life-leg b{position:absolute;left:12px;right:-32px;top:0;font:400 14px/20px var(--font-body);color:var(--muted-foreground);text-align:center}
+.home-v2 .life-leg:not(:last-child)::before{content:'';position:absolute;left:12px;right:-32px;top:37px;height:2px;background:var(--web-raised)}
+.home-v2 .life-line{position:absolute;left:12px;right:-32px;top:37px;height:2px;background:var(--foreground);transform-origin:left}
+.home-v2 .life-node{position:absolute;left:0;top:32px;width:12px;height:12px;box-shadow:inset 0 0 0 1px var(--web-outline)}
+.home-v2 .life-node i{position:absolute;inset:0;background:var(--foreground)}
+.home-v2 .life-node.is-final i{background:var(--primary)}
+.home-v2 .life-stops{margin:16px 0 0;padding:0;list-style:none}
+.home-v2 .life-stop{min-width:0}
+.home-v2 .life-title{margin:0;font:600 20px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
+.home-v2 .life-event{margin-top:4px;font:600 16px/24px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
+.home-v2 .life-text{margin-top:8px;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
+/* Paid out: the row's label under Asked, then the reporter, the challenger and what burns, each under the
+   stop it comes from (a subgrid of the same four columns). */
+.home-v2 .life-paid{margin-top:40px;padding-top:24px;border-top:1px solid var(--web-outline)}
+.home-v2 .life-paid-label{margin:0;font:600 20px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
+.home-v2 .life-results{grid-column:2/-1;display:grid;grid-template-columns:subgrid;margin:0}
+.home-v2 .life-result{min-width:0}
+.home-v2 .life-result dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .life-result dd{display:grid;row-gap:4px;margin:4px 0 0}
+.home-v2 .life-result strong{font:600 24px/32px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground)}
+.home-v2 .life-result.is-gain strong{color:var(--primary)}
+.home-v2 .life-result span{font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
+.home-v2 .life-note{max-width:68ch;margin-top:24px;font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
+/* Holding REP? The REP page's Hold column on the heading row's grid, under a hairline. */
+.home-v2 .hold{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:80px;align-items:start;margin-top:64px;padding-top:32px;border-top:1px solid var(--web-outline)}
+.home-v2 .hold-head{display:grid;justify-items:start;row-gap:8px}
+.home-v2 .hold-head .button.text{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+.home-v2 .hold-title{margin:0;font:600 24px/32px var(--font-heading);letter-spacing:-.01em}
+.home-v2 .hold-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:32px;margin:0}
+.home-v2 .hold-fact dt{font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .hold-fact dd{display:grid;row-gap:4px;margin:4px 0 0}
+.home-v2 .hold-fact strong{font:600 18px/26px var(--font-heading);color:var(--foreground)}
+.home-v2 .hold-fact span{font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:pretty}
+@media(max-width:1200px){
+.home-v2 .life{padding:32px}
+.home-v2 :is(.life-track,.life-stops,.life-paid){column-gap:24px}
+.home-v2 :is(.life-leg b,.life-leg:not(:last-child)::before,.life-line){right:-24px}
+.home-v2 .life-text{font-size:14px;line-height:20px}
+.home-v2 .hold{column-gap:48px}
+.home-v2 .hold-facts{column-gap:24px}
+}
+/* Below 1024 the stops stack and the track rests (phones come with the mobile pass). */
+@media(max-width:1023px){
+.home-v2 .life{padding:24px}
+.home-v2 .life-track{display:none}
+.home-v2 :is(.life-stops,.life-paid){grid-template-columns:minmax(0,1fr);row-gap:24px}
+.home-v2 .life-stops{margin-top:32px}
+.home-v2 .life-results{grid-column:auto;grid-template-columns:minmax(0,1fr);row-gap:16px}
+.home-v2 .hold{grid-template-columns:minmax(0,1fr);row-gap:24px;margin-top:48px}
+.home-v2 .hold-facts{grid-template-columns:minmax(0,1fr);row-gap:16px}
+}
+@media(forced-colors:active){
+.home-v2 .life,.home-v2 .life-tag{outline:1px solid CanvasText}
+.home-v2 .life-state.is-final{forced-color-adjust:none;background:Highlight;color:HighlightText}
+.home-v2 :is(.life-line,.life-node i){forced-color-adjust:none;background:CanvasText}
+.home-v2 .life-node.is-final i{background:Highlight}
+.home-v2 .life-leg:not(:last-child)::before{forced-color-adjust:none;background:GrayText}
+}
 

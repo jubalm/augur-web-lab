@@ -4,6 +4,7 @@ import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import CaseGraphic from './CaseGraphic.astro';
 import {homeCopy,ownerVersion,type HomeVariant} from '../../data/homepage-review';
+import {reviewInline} from './review-inline';
 // A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
 // "/" use, stays byte-identical.
 interface Props { variant?:HomeVariant; }
@@ -49,18 +50,38 @@ const builder=copy?('builder' in copy.applications?copy.applications.builder:und
 // The answer's check is the check glyph's own centreline drawn as a stroke, so it can draw in: Phosphor
 // Bold's, or on /2/ Augur's (assets/icons/augur/check.svg).
 const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
+// /2/'s right box (owner, 25 Oct 2026, from the item 3 mock): each case is a product card that waits, gets
+// its answer and acts, then a paragraph for builders (homepage-v2.ts `cards`, home-v2-only.css,
+// use-cases-v2.js). The question card, chips, picture and Insurance note give way to it, the sliding marker
+// and its hover copy aren't rendered, and arrow keys pick a tab (automatic activation). The section's
+// shared motion (home-interactions.ts) looks for data-applications, so /2/'s root carries data-use-cases
+// for its own script instead. Every other version renders the markup below unchanged.
+const cards=signals&&copy&&'cards' in copy.applications?copy.applications.cards:undefined;
 ---
 <section class="applications section" aria-labelledby="applications-heading">
  <div class="container">
   <div class="section-heading"><h2 id="applications-heading">What can Augur&nbsp;Lituus power?</h2>{copy?<p class="lead">{copy.applications.lead}</p>:<p class="lead">Any app that needs to know what happened in the world.<br/>It asks a question and acts on the answer.</p>}</div>
-  <div class="cases" data-tabs data-applications data-panel-swap data-activation="manual" data-active="0">
+  <div class="cases" data-tabs data-applications={cards?undefined:''} data-use-cases={cards?'':undefined} data-panel-swap data-activation={cards?'automatic':'manual'} data-active="0">
    <div class="case-tabs" role="tablist" aria-label="Use cases" aria-orientation="vertical" style={`--count:${cases.length}`}>
-    {cases.map((app,i)=><button type="button" role="tab" id={`application-tab-${app.id}`} aria-controls={`application-panel-${app.id}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1} class="case-tab">{signals?<span class="case-mark" aria-hidden="true"></span>:<span class="case-icon" aria-hidden="true"><Icon name={app.icon}/></span>}<span class="case-label"><span class="case-name">{app.title}</span><span class="case-blurb" aria-hidden="true">{app.summary}</span></span></button>)}
-    <span class="case-hover" aria-hidden="true"></span><span class="case-marker" aria-hidden="true"></span>
+    {cases.map((app,i)=><button type="button" role="tab" id={`application-tab-${app.id}`} aria-controls={`application-panel-${app.id}`} aria-selected={i===0?'true':'false'} tabindex={i===0?0:-1} class="case-tab">{signals?<span class="case-mark" aria-hidden="true">{cards&&<span class="case-link"></span>}</span>:<span class="case-icon" aria-hidden="true"><Icon name={app.icon}/></span>}<span class="case-label"><span class="case-name">{app.title}</span><span class="case-blurb" aria-hidden="true">{app.summary}</span></span></button>)}
+    {!cards&&<Fragment><span class="case-hover" aria-hidden="true"></span><span class="case-marker" aria-hidden="true"></span></Fragment>}
    </div>
    <div class="case-stage">
     {cases.map((app,i)=><div role="tabpanel" id={`application-panel-${app.id}`} aria-labelledby={`application-tab-${app.id}`} class="case-panel" tabindex="0" hidden={i!==0}>
      <p class="case-summary">{app.summary}</p>
+     {cards?<Fragment>{(card=>card&&<Fragment>
+      <div class="case-card" data-card-kind={'outcomes' in card?'market':'arrival' in card?'flight':'proposal'}>
+       <div class="card-head"><span class="card-label">{card.label}<span class="sr-only">.</span></span><span class="card-status"><span class="status-wait" data-card="status-wait" aria-hidden="true"><i></i>{card.pending}</span><span class="status-done" data-card="status-done">{card.resolved}</span></span></div>
+       <p class="card-title">{card.title}</p>
+       <div class="card-body">
+        {'outcomes' in card&&<div class="card-rows">{card.outcomes.map(outcome=>{const win=outcome.to>outcome.from;return <div class={win?'card-outcome is-win':'card-outcome'}><span class="card-name">{outcome.name}</span><span class="card-price"><span class="price-was" data-card="was" aria-hidden="true">{outcome.from}¢</span><span class="price-now" data-card="now">{outcome.to}¢{win&&<svg class="card-check" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><polyline points={check} pathLength="1"/></svg>}</span></span><span class="card-bar" aria-hidden="true"><i class="bar-was" data-card="bar-was" data-from={outcome.from/100} style={`transform:scaleX(${outcome.from/100})`}></i>{win&&<i class="bar-now" data-card="bar-now"></i>}</span></div>;})}</div>}
+        {'details' in card&&<dl class="card-details">{card.details.map(detail=><div class="card-detail"><dt>{detail.name}</dt><dd>{'pending' in detail?<Fragment><span class="value-was" data-card="was" aria-hidden="true">{detail.pending}</span><span class="value-now" data-card="now">{detail.value}</span></Fragment>:detail.value}</dd></div>)}</dl>}
+        {'arrival' in card&&<Fragment><dl class="card-details"><div class="card-detail"><dt>{card.arrival.name}</dt><dd><span class="value-was" data-card="was" aria-hidden="true">{card.arrival.pending}</span><span class="value-now" data-card="now">{card.arrival.value}</span></dd></div></dl><div class="card-flight"><div class="card-track" aria-hidden="true"><span class="track-base"></span><span class="track-done" data-card="line-done"></span><span class="track-late" data-card="line-late"></span><span class="track-tick"></span><span class="track-plane" data-card="plane"><span class="track-dot"></span></span></div><p class="track-labels"><span>{card.due}</span> <span class="track-limit">{card.limit}</span> <span class="track-landed" data-card="landed">{card.landed}</span></p></div></Fragment>}
+       </div>
+       <p class="card-foot" data-card="foot"><span class="card-by">{cards.answeredBy}<span class="sr-only">.</span></span> <span class="card-result" data-card="result">{card.result}</span></p>
+      </div>
+      <div class="case-builders"><p class="builders-cue">{cards.cue}</p><p class="builders-line">{card.builders}</p></div>
+     </Fragment>)(cards[app.id])}</Fragment>:<Fragment>
      <p class="case-question">{app.question}</p>
      <p class="case-answer"><span class="sr-only">Possible answers: {app.outcomes.join(' or ')}. Answer: {app.answer}.</span><span class="case-options" aria-hidden="true">{app.outcomes.map(outcome=>outcome===app.answer?<span class="case-option is-answer">{outcome}<span class="case-fill"></span><span class="case-pick">{outcome}<svg class="case-check" viewBox={signals?"0 0 20 20":"0 0 256 256"} focusable="false"><polyline points={check} pathLength="1"/></svg></span></span>:<span class="case-option is-other">{outcome}</span>)}</span></p>
      <p class="case-by">Decided in the open, not by {app.notBy}.</p>
@@ -70,6 +91,7 @@ const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
       <CaseGraphic kind={app.graphic} labels={'labels' in app?app.labels:undefined}/>
      </div>
      {'fallback' in app&&<p class="case-fallback">{!signals&&<Icon name="info"/>}<span>{app.fallback}</span></p>}
+     </Fragment>}
     </div>)}
    </div>
   </div>
@@ -79,7 +101,7 @@ const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
    <div class="builder-ask"><p><span class="ask-setup">{builder.ask[0]}</span> <span class="ask-payoff">{builder.ask[1]}</span></p><Button href="/contact/" variant="outline">Talk to us</Button></div>
   </div>}
  </div>
-</section>
+</section>{cards&&<script is:inline set:html={reviewInline.v2.scripts.useCases}></script>}
 <style>
  /* What can Augur Lituus power? (was "What could you build?"; owner, 18–19 Oct 2026). Written for
     traders first; the heading names the product and the cases answer it. Organized as a list beside an

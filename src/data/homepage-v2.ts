@@ -55,9 +55,9 @@ export const homeV2 = {
       // peer mesh (no centre, a relay running every link) shows why: there is no one point to corrupt.
       { title: 'Robust', diagram: 'mesh', claim: ['Hard to corrupt.', 'Lies get expensive fast.'], body: 'Designed to cost attackers more than almost any other oracle.' },
     ],
-    // The statement stays v1's: "The answer is nobody’s call." On /2/ it heads the closer, over the two
-    // readers (owner, 23 Oct 2026; Tenets.astro, home-v2-only.css), so each payoff says what it means for
-    // that reader instead of a fifth "no one". Both setups name the same risk, a wrong answer.
+    // The statement stays v1's: "The answer is nobody’s call." On /2/ it heads the closer, above a panel of
+    // the two readers (owner, 23 and 25 Oct 2026; Tenets.astro, home-v2-only.css), so each payoff says what
+    // it means for that reader instead of a fifth "no one". Both setups name the same risk, a wrong answer.
     paths: [
       // Ryan 7: say plainly that markets misresolve. A question, since nothing sources "many traders".
       // The payoff answers it with recourse: a report can be challenged while its window runs (whitepaper
@@ -69,8 +69,9 @@ export const homeV2 = {
       // beginners. v1's approved "Leave resolution to Augur Lituus." returns: it was dropped only for the
       // 323 px three-column cell, and it names a process where "Let Augur Lituus answer." cast the oracle
       // as the one who decides, beside "nobody’s call". "Resolution" moves out of the setup so it isn't
-      // said twice. Both setups and payoffs fit one line wherever the readers sit side by side (from
-      // 1024: 408 px at 18 px in a 416 px column, measured). v4 keeps the 21 Oct lines (homepage-v4.ts).
+      // said twice. Both setups and payoffs fit one line wherever the readers sit side by side: the
+      // closer steps their sizes down below 1280 (home-v2-only.css, measured 25 Oct). v4 keeps the 21 Oct
+      // lines (homepage-v4.ts).
       { who: 'For builders', line: ['A wrong answer can cost a platform its users.', 'Leave resolution to Augur Lituus.'] },
     ],
   },
@@ -119,6 +120,44 @@ export const homeV2 = {
         { title: 'Win user trust.', line: 'Users can check and challenge independent outcomes.' },
       ],
     },
+    // The right box, /2/ only (owner, 25 Oct 2026: the question card, answer chips and pictures were
+    // noisy, and the copy and layout may change; Augus's 18 Oct note for this section). Each case is a
+    // product running on Augur Lituus as its users would see it, then one paragraph for the people who
+    // build it: users see how many kinds of product it fits, builders what handing resolution over saves
+    // them (no one on the team decides, a challenged result isn't theirs to defend, no claims to review).
+    // Draft copy. Every card says "Example" and its values are illustrative. The three paragraphs keep
+    // three lines from 1024 to 1440 (measured 25 Oct), so the stage keeps one height with nothing left
+    // over. Insurance keeps the fallback use (owner, 6 Oct; awaiting the maintainers, launch checklist)
+    // as its paragraph's second sentence, without "on its own chain or L2" so it stays three lines at
+    // 1024. The DAO card keeps Ryan 10's point that changes within the constitution still go live.
+    // "Decided in the open, not by …" goes: the paragraphs say who doesn't decide.
+    cards: {
+      answeredBy: 'Answered by Augur Lituus',
+      cue: 'For builders',
+      prediction: {
+        label: 'Example market', pending: 'Live', resolved: 'Settled',
+        title: 'Will the home team win the final?',
+        outcomes: [{ name: 'Yes', from: 61, to: 100 }, { name: 'No', from: 39, to: 0 }],
+        result: 'Paid to the Yes side',
+        builders: 'Markets settle once the answer is final, and no one on the team has to decide who won. A challenged result is settled in the open, so it isn’t the team’s to defend.',
+      },
+      insurance: {
+        // A timeline to scale: due at its left edge, +2 hours at 60%, the landing 2 h 45 min in at 82.5%.
+        label: 'Example flight delay cover', pending: 'Covered', resolved: 'Paid',
+        title: 'Flight AB123',
+        arrival: { name: 'Arrival', pending: 'In the air', value: '2 h 45 min late' },
+        due: 'Due 14:05', limit: '+2 hours', landed: 'Landed 16:50',
+        result: 'Every covered passenger paid',
+        builders: 'Payouts run once the delay is confirmed, with no claims to review. An insurance app could also use a faster oracle and turn to Augur Lituus only when a claim is disputed.',
+      },
+      governance: {
+        label: 'Example proposal', pending: 'Queued', resolved: 'Blocked',
+        title: 'Upgrade the treasury contract',
+        details: [{ name: 'Proposed by', value: 'Core team' }, { name: 'Vote', value: 'Passed' }, { name: 'Constitution check', pending: 'Checking…', value: 'Breaks a rule' }],
+        result: 'Upgrade blocked',
+        builders: 'Every upgrade is checked against the DAO’s own rules by a process the core team doesn’t control. Changes within the constitution can still go live.',
+      },
+    },
   },
   howItWorks: {
     // Ryan 12: the detail goes behind a click. The heading (v1's, with its "paid" mark), this one-line
@@ -135,6 +174,33 @@ export const homeV2 = {
     close: 'Hide the example',
     // The strip's list name for screen readers; each step is a button that opens the example there.
     steps: 'Steps in the example',
+    // /2/ only (owner, 25 Oct 2026: "needs a full redesign", then "show the whole process from asking to
+    // getting a final answer and the middle stuff"). The example question's whole life on the main
+    // scroll, in one card: four stops on a timeline with the reward and the two appeal periods between
+    // them, then who was paid. HowItWorks.astro takes the amounts and answers from walkthrough.ts (one
+    // source) and the Hold row from the REP page's table (rep.ts). Draft copy. Facts: whitepaper §2,
+    // §4.0.2, §4.1, §4.3.1, §4.4.3 (the reward rises from 0 REP to the fee until someone reports) and
+    // §4.2 (the fork, said once in the note).
+    life: {
+      label: 'The life of a question',
+      tag: 'Example',
+      statuses: ['Awaiting report', 'Open to challenge', 'Challenge received', 'Final answer'],
+      stops: [
+        { title: 'Asked', text: 'Anyone can ask a multiple-choice question and pay a fee in REP. The fee funds a reward for the first right report.' },
+        { title: 'Reported', text: 'The first report stakes a bond equal to the fee. Anyone can challenge it until its appeal period ends.' },
+        { title: 'Challenged', text: 'Anyone who disagrees stakes double on another answer, and the appeal period starts again.' },
+        { title: 'Final', text: 'The appeal period ends with no new challenge. Winners are paid, and apps act on the answer.' },
+      ],
+      spans: ['Reward rises', 'Appeal period', 'Appeal period'],
+      // Who ends up with what in the example: the reporter's lost bond, the challenger's gain (80% of the
+      // losing bond; it was also first to back the final answer, so it takes the reward) and the 20%
+      // burned. `{bond}` is the challenge bond from walkthrough.ts.
+      paid: 'Paid out',
+      reporter: { label: 'Reporter', note: 'The whole bond. Most of it goes to the challenger.' },
+      challenger: { label: 'Challenger', note: 'And the reward, with the {bond} bond back.' },
+      burned: { label: 'Burned', note: 'The rest of the losing bond.' },
+      note: 'Figures follow the whitepaper’s own example, a 15 REP fee. If challenges keep doubling the bond, a fork is the last resort: REP holders choose the answer.',
+    },
   },
   holder: {
     // Ryan 13 + Augus 2: what REP can do, and that holding it is never passive. Each point keeps a
@@ -161,5 +227,16 @@ export const homeV2 = {
     // that continues on its own page; the blog is a second, lighter way on). PRODUCT.md: the homepage
     // points to writing and FAQs.
     blog: { label: 'Read the blog', href: '/blog/' },
+    // /2/ only (owner, 25 Oct 2026, item 6: send people on to the FAQ, the blog and the community). Three
+    // cells under the questions in place of the two links, each a line on what's there and its link at
+    // the foot. The community cell leads with Discord alone (navigation.community, one source), so it
+    // never repeats the footer's four-link column a screen lower. The links keep the site's wording:
+    // "View all questions", "Read the blog" and /contact/'s "Join the conversation". Draft copy.
+    keepGoing: {
+      label: 'Keep going',
+      faq: { title: 'All the questions', line: 'Short answers on Augur, Augur Lituus, REP and building on it.', link: 'View all questions', href: '/faq/' },
+      blog: { title: 'The blog', line: 'Project updates, research and design notes from the team.', link: 'Read the blog' },
+      community: { title: 'The community', line: 'Ask questions and follow the build with the people around Augur on Discord.', link: 'Join the conversation' },
+    },
   },
 } as const;

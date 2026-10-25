@@ -3,7 +3,9 @@ import {getCollection} from 'astro:content';
 import {faqEntries} from '../../data/faq';
 import FaqItem from '../content/FaqItem.astro';
 import BlogCover from '../content/BlogCover.astro';
-import {homeCopy,type HomeVariant} from '../../data/homepage-review';
+import {homeCopy,ownerVersion,type HomeVariant} from '../../data/homepage-review';
+import {navigation} from '../../data/navigation';
+import Icon from '../primitives/Icon.astro';
 // A review version (v2, v3, v4) renders its own copy (homepage-review.ts); 'v1', the default and every
 // "/" use, stays byte-identical.
 interface Props { variant?:HomeVariant; }
@@ -20,12 +22,19 @@ const [featured,next]=(await getCollection('blog')).sort((a,b)=>b.data.published
 // link. All questions start closed: the first was open only so that v1's two columns ended level.
 // Layout and spacing are in home-v2.css; v1's frame and answer rules below style both variants.
 const learn=homeCopy(variant)?.learnMore;
+// /2/ (item 6): "Keep going", three cells (the FAQ, the blog and Discord) in place of the two links.
+const keep=ownerVersion(variant)&&learn&&'keepGoing' in learn?learn.keepGoing:undefined;
+const discord=navigation.community.find(item=>item.linkKey==='discord')!;
 ---
 <section class="home-learn section" id="learn-more" aria-labelledby="learn-heading"><div class="container">
  {learn?<>
  <div class="section-heading"><h2 id="learn-heading">Learn more<br/>about Augur.</h2><p class="lead">{learn.lead}</p></div>
  <div class="faq-accordion">{questions.map(entry=><FaqItem entry={entry} name="home-faq"/>)}</div>
- <div class="learn-foot"><a class="button outline" href="/faq/">View all questions</a><a class="button text" href={learn.blog.href}><span class="button-label">{learn.blog.label}</span></a></div>
+ {keep?<ul class="keep-going" aria-label={keep.label}>
+  <li class="keep-cell"><h3 class="keep-title">{keep.faq.title}</h3><p class="keep-line">{keep.faq.line}</p><a class="keep-link" href={keep.faq.href}>{keep.faq.link}</a></li>
+  <li class="keep-cell"><h3 class="keep-title">{keep.blog.title}</h3><p class="keep-line">{keep.blog.line}</p><a class="keep-link" href={learn.blog.href}>{keep.blog.link}</a></li>
+  <li class="keep-cell"><h3 class="keep-title">{keep.community.title}</h3><p class="keep-line">{keep.community.line}</p><a class="keep-link" href={discord.href}>{keep.community.link}<Icon name="arrow-up-right"/></a></li>
+ </ul>:<div class="learn-foot"><a class="button outline" href="/faq/">View all questions</a><a class="button text" href={learn.blog.href}><span class="button-label">{learn.blog.label}</span></a></div>}
  </>:<>
  <h2 id="learn-heading" class="learn-title">Learn more about Augur.</h2>
  <div class="learn-grid">
