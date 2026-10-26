@@ -38,15 +38,19 @@ const builderCase={
 };
 // Review versions (/2/ to /4/) read their copy here. v2 (Ryan 8–11, Augus 1): the one-sentence lead, the DAO case spread over v1's (same id, icon,
 // title, outcomes and picture; its own question, Yes → "Block the upgrade." and the gate's labels) and
-// Augus's builder block, liability first, on the same markup and layout (title over three open columns,
-// the ask as the title's lead from 1024, after the reasons below). The lead's balance, the gate's wall
-// and the phone spacing are in home-v2.css. v1's lead stays a literal element, so "/" is unchanged.
+// Augus's builder block, liability first, on the same markup (title over the reasons; the ask closes the
+// reasons panel in home-v2-only.css, where v1 makes it the title's lead from 1024). The lead's balance,
+// the gate's wall and the phone spacing are in home-v2.css. v1's lead stays a literal element, so "/" is
+// unchanged.
 // v3 (Ryan 9–11) has the same lead, its own DAO case on the same picture, and no builder block. v4
 // keeps v2's case and its own builder copy.
 const cases=copy?applications.map(app=>app.id==='governance'?{...app,...copy.applications.governance}:app):applications;
 // v3 (Ryan 11) removes the builder block: its copy has no `builder`, so the block isn't rendered and the
 // section ends on the use-case example. v1's builderCase stays literal.
 const builder=copy?('builder' in copy.applications?copy.applications.builder:undefined):builderCase;
+// On the review copies the ask is the reasons panel's foot, and its "Talk to us" a text action, as Holding
+// REP's "Learn about REP" (home-v2-only.css). v1 keeps the outline button.
+const askVariant=signals?'text':'outline';
 // The answer's check is the check glyph's own centreline drawn as a stroke, so it can draw in: Phosphor
 // Bold's, or on /2/ Augur's (assets/icons/augur/check.svg).
 const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
@@ -98,7 +102,7 @@ const cards=signals&&copy&&'cards' in copy.applications?copy.applications.cards:
   {builder&&<div class="builder-case">
    <h3 class="builder-title" id="builder-title">{builder.title[0]}<br/>{builder.title[1]}</h3>
    <ul class="builder-reasons" aria-labelledby="builder-title">{builder.reasons.map(reason=><li>{!signals&&'icon' in reason&&<span class="builder-icon" aria-hidden="true"><Icon name={reason.icon}/></span>}<strong>{reason.title}</strong> <span class="builder-point">{reason.line}</span></li>)}</ul>
-   <div class="builder-ask"><p><span class="ask-setup">{builder.ask[0]}</span> <span class="ask-payoff">{builder.ask[1]}</span></p><Button href="/contact/" variant="outline">Talk to us</Button></div>
+   <div class="builder-ask"><p><span class="ask-setup">{builder.ask[0]}</span> <span class="ask-payoff">{builder.ask[1]}</span></p><Button href="/contact/" variant={askVariant}>Talk to us</Button></div>
   </div>}
  </div>
 </section>{cards&&<script is:inline set:html={reviewInline.v2.scripts.useCases}></script>}

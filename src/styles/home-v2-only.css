@@ -125,27 +125,33 @@
 .home-v2 .builders-cue::before{content:'';width:8px;height:8px;background:var(--primary)}
 .home-v2 .builders-line{max-width:34em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
 
-/* The builder block, on the Why Augur closer's pattern: the heading row (the title, then the ask and
-   "Talk to us" on the panel's top line), then one Dark 2 panel of three cells split by hairlines. Each claim
-   carries the 8 px Green square, as the closer's reader labels do; the points are Sora 18/28 from 1280,
-   16/24 below. No hover: nothing here is a control but the button. */
-.home-v2 .builder-case{row-gap:24px}
-.home-v2 .builder-case .builder-title{font-size:24px;line-height:32px}
-.home-v2 .builder-case .builder-ask{align-self:end}
+/* The builder block, on the Why Augur closer's pattern: the title on Navy, then one Dark 2 panel of three
+   cells split by hairlines. Each claim carries the 8 px Green square, as the closer's reader labels do; the
+   points are Sora 18/28 from 1280, 16/24 below. The ask closes the panel (owner, 26 Oct 2026: "this could be
+   in a better place"). Beside the title it asked before the reasons made the case and drew the eye from the
+   title; now it is the panel's foot under a hairline, its question on the cells' text edge and "Talk to us"
+   in the bottom-right corner, where reading the block ends. The DOM already put it last, so reading and
+   focus order are unchanged. "Talk to us" is a text action there (Applications.astro), as "Learn about
+   REP" is at the end of Holding REP's head: the 48 px outline box outweighed the two lines beside it (owner,
+   26 Oct 2026: "looks too big"). Its 48 px hit area stays, so the row keeps its height; stacked, it sits
+   8 under the question. No other hover: nothing here is a control but the link. */
+.home-v2 .builder-case{grid-template-areas:"title title" "reasons reasons" "ask ask";row-gap:0}
+.home-v2 .builder-case .builder-title{margin-bottom:24px;font-size:24px;line-height:32px}
+.home-v2 .builder-case .builder-ask{justify-content:space-between;row-gap:8px;margin:0;padding:24px 32px;border-top:1px solid var(--web-outline);background:var(--web-tile)}
 .home-v2 .builder-case .builder-ask p{font-size:16px;line-height:24px}
-.home-v2 .builder-case .builder-reasons{column-gap:0;background:var(--web-tile)}
+.home-v2 .builder-case .builder-reasons{gap:0;background:var(--web-tile)}
 .home-v2 .builder-case .builder-reasons li{padding:32px;font-size:16px;line-height:24px}
 .home-v2 .builder-case .builder-reasons li+li{border-left:1px solid var(--web-outline)}
 .home-v2 .builder-case .builder-reasons strong{display:flex;align-items:center;gap:12px;margin-bottom:8px;font-size:20px;line-height:26px}
 .home-v2 .builder-case .builder-reasons strong::before{content:'';flex:none;width:8px;height:8px;background:var(--primary)}
 @media(min-width:1280px){.home-v2 .builder-case .builder-title{font-size:28px;line-height:34px}.home-v2 .builder-case .builder-reasons li{font-size:18px;line-height:28px}}
-@media(max-width:1200px){.home-v2 .builder-case .builder-reasons li{padding:24px}}
+@media(max-width:1200px){.home-v2 .builder-case :is(.builder-reasons li,.builder-ask){padding:24px}}
 @media(max-width:1023px){.home-v2 .builder-case .builder-reasons li+li{border-left:0;border-top:1px solid var(--web-outline)}}
 @media(forced-colors:active){
 .home-v2 .case-tabs .case-tab::before{display:none}
 .home-v2 .case-tabs .case-tab{outline:1px solid CanvasText;outline-offset:-1px}
 .home-v2 :is(.case-link,.bar-now,.track-late),.home-v2 .card-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
-.home-v2 .case-card,.home-v2 .builder-case .builder-reasons{outline:1px solid CanvasText}
+.home-v2 .case-card,.home-v2 .builder-case :is(.builder-reasons,.builder-ask){outline:1px solid CanvasText}
 .home-v2 .status-done{forced-color-adjust:none;background:Highlight;color:HighlightText}
 .home-v2 :is(.track-done,.track-dot){forced-color-adjust:none;background:CanvasText}
 .home-v2 :is(.track-base,.track-tick,.card-bar){forced-color-adjust:none;background:GrayText}
