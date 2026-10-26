@@ -7,7 +7,7 @@ Paste everything below the line into a fresh Claude Code session in this project
 Review every word in the homepage section `#how-it-works` on `/2/` against Ryan's and Augus's notes, then propose better copy. This is a review: don't edit any file, don't commit, don't push. The owner approves the copy first, and another session applies it.
 
 **Setup**
-- **Repo:** `C:\Users\edu45\OneDrive\Documentos\augur-web-lab` (read only).
+- **Repo:** `C:\Users\edu45\Documents\augur-web-lab` (read only).
 - **Live:** https://augur-web-lab.vercel.app/2/#how-it-works shows the last pushed version. It may be behind the repo, so the repo wins.
 - **Time:** about 45 minutes. If you expect more, say so up front.
 - Follow `AGENTS.md` and the copy rules in `docs/plan.md`.

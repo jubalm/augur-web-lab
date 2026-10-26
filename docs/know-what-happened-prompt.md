@@ -9,8 +9,7 @@ Redesign the homepage section `#how-it-works`, “Know what happened? Get paid t
 - Where this brief and the item's older goal differ, this brief wins.
 
 **Setup**
-- **Repo:** `C:\Users\edu45\OneDrive\Documentos\augur-web-lab`. Edit there.
-- **Build and preview:** the mirror, `C:\Users\edu45\Documents\augur-web-lab`.
+- **Repo:** `C:\Users\edu45\Documents\augur-web-lab`. Edit, build and preview there.
 - **Before:** https://augur-web-lab.vercel.app/2/#how-it-works is what's deployed now. Look at it at 1440 before you start.
 - **Time:** about 2 hours, including the review. If you expect more, say so up front.
 

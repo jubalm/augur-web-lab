@@ -99,9 +99,8 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 ## Rules every chat follows
 
 **Setup**
-- **Repo:** `C:\Users\edu45\OneDrive\Documentos\augur-web-lab` (git, `main`). Edit there, and commit there when the owner asks.
-- **Build mirror:** `C:\Users\edu45\Documents\augur-web-lab`. It isn't a git repo, and it exists because OneDrive breaks Bun builds. After editing, copy each changed file into the mirror with `cp`. The robocopy mirror sync is blocked in auto mode.
-- **Dev server:** "augur-dev" (`.claude/launch.json` in the mirror) serves http://localhost:4321 from the mirror. If another chat holds 4321, build in the mirror and use "augur-build-preview" on :4330.
+- **Repo:** `C:\Users\edu45\Documents\augur-web-lab` (git, `main`). Edit, build and preview there, and commit there when the owner asks. Since 26 Oct it's the one working copy. The repo used to sit in OneDrive, which turns every folder into a sync placeholder that breaks Bun, and the hand-synced build mirror beside it drifted and stranded work. Don't move it back into OneDrive (Explorer's "Documents" is OneDrive's `Documentos`); GitHub is the backup.
+- **Dev server:** "augur-dev" (`.claude/launch.json`) serves http://localhost:4321. If another chat holds 4321, use "augur-dev-alt" on :4322, or build and use "augur-build-preview" on :4330.
 - **Check scripts in the build:** Astro's Content-Security-Policy is only emitted in built pages (`BaseLayout.astro` adds script hashes). A new or changed inline script can work on the dev server and be silently blocked in the build. Check every script change in the build preview (:4330) too.
 - **Commits:** identity `-c user.name=melo -c user.email=246712447+melodrd@users.noreply.github.com`, with no co-author or "Generated with" lines. Never push unless asked. Record why a change was made in its commit message: there is no decisions log any more, so don't create one.
 
@@ -260,7 +259,7 @@ Measure these; don't eyeball them. Every section review (step 4) and items 14, 1
   - No height jump when switching tabs.
   - A tighter builder block.
   - A phone layout that doesn't feel like a long stack.
-- **Note:** a 24 Oct attempt, "use cases as a Folder" (the tabs drawn as folder tabs), was never committed. Its script survives only in the build mirror, at `C:\Users\edu45\Documents\augur-web-lab\src\components\home\applications-folder-v2.js`. Read it before reinventing the idea; then reuse it or delete it.
+- **Note:** a 24 Oct attempt, "use cases as a Folder" (the tabs drawn as folder tabs), was kept in 3aedb91. Its script is `src/components/home/applications-folder-v2.js`. Read it before reinventing the idea; then reuse it or delete it.
 - **Motion:**
   - Each case picture plays once per tab session, starting about 360 ms after a switch, and settles on a switch, interaction, resize, print or reduced motion.
   - If panels change height, animate with FLIP or a same-document View Transition, with an instant fallback.

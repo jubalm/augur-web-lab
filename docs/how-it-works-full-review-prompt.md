@@ -16,8 +16,8 @@ Review the homepage section `#how-it-works` on `/2/`, “Know what happened? Get
 
 | What | Where |
 | --- | --- |
-| Repo (read only) | `C:\Users\edu45\OneDrive\Documentos\augur-web-lab` |
-| Build and preview | the mirror `C:\Users\edu45\Documents\augur-web-lab`. Build with `bun --bun astro build --outDir <your scratchpad>/dist` and serve that folder with a small `Bun.serve`. Don't touch the mirror's own `dist`, which other sessions preview. |
+| Repo (read only) | `C:\Users\edu45\Documents\augur-web-lab` |
+| Build and preview | the same folder. Build with `bun --bun astro build --outDir <your scratchpad>/dist` and serve that folder with a small `Bun.serve`. Don't touch the repo's own `dist`, which other sessions preview. |
 | Screenshots | headless Edge over CDP (the project memory has the recipe). Playwright doesn't run on this machine. |
 | Live (may be behind the repo) | https://augur-web-lab.vercel.app/2/#how-it-works |
 
