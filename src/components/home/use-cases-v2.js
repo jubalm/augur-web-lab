@@ -1,9 +1,10 @@
 // /2/ only (owner, 25 Oct 2026): the use cases' product cards (Applications.astro renders this right after
 // the section). Each card is rendered answered, so no JavaScript, reduced motion and print show the final
 // state; this plays each case's story once per tab session: its rows come in, the card waits, Augur Lituus
-// answers and the product acts. The first case plays once 60% of the stage is in view, any other on its first pick; a pick
-// also draws the 2 px Green line from the tab and fades the words. Seen cases follow seen.ts: a reload or a
-// history visit shows every case settled, and a fresh visit records a case once its play has started.
+// answers and the product acts. The first case plays once 60% of the stage is in view, after a fresh visit only
+// (seen.ts: a reload or a history visit shows it settled). Every pick plays the picked case again, and pressing
+// the case already shown restarts it (owner, 26 Oct 2026): a press is the reader asking for it. A pick also draws
+// the 2 px Green line from the tab and fades the words.
 // A press, focus or key in the stage, a resize, print, a hidden page or the stage leaving the screen
 // settles everything on the final frame. Transform and opacity only, plus the check's stroke. Timings and
 // easings come from timelines.ts (useCaseTimeline, easing), written in at build time (review-inline.ts).
@@ -19,9 +20,9 @@ const key = i => `${location.pathname}:use-case:${panels[i]?.id}`;
 const read = () => { try { return JSON.parse(sessionStorage.getItem(STORE) ?? '[]'); } catch { return []; } };
 const seen = i => revisit || read().includes(key(i));
 const mark = i => { try { const keys = read(); if (!keys.includes(key(i))) sessionStorage.setItem(STORE, JSON.stringify([...keys, key(i)])); } catch { /* Storage blocked: the case may play again. */ } };
-let motion = [], timer = 0, open = Math.max(0, tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true'));
+let motion = [], open = Math.max(0, tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true'));
 const animate = (el, keyframes, o = {}) => { if (!el) return; const a = el.animate(keyframes, { easing: E.reveal, fill: 'both', ...o }); motion.push(a); return a; };
-const settle = () => { clearTimeout(timer); motion.forEach(a => a.cancel()); motion = []; };
+const settle = () => { motion.forEach(a => a.cancel()); motion = []; };
 // One animation for an element that moves more than once, timed from now: it holds its first look until its
 // first moment and ends on the look the page already has, so two moves on one property never fight.
 const look = (el, frames, end) => { if (!el) return; motion.push(el.animate(frames.map(({ at, ...f }) => ({ ...f, offset: Math.min(1, at / end) })), { duration: end, easing: 'linear', fill: 'backwards' })); };
@@ -78,13 +79,20 @@ observer.observe(stage);
 root.addEventListener('tabsbeforechange', settle);
 root.addEventListener('tabschange', ({ detail: { index, previous } }) => {
 open = index;
+mark(index);
 if (reduced.matches) return;
 link(index);
 animate(panels[previous], [{ visibility: 'visible', opacity: 1 }, { visibility: 'visible', opacity: 0 }], { duration: U.out, easing: 'linear', fill: 'none' });
 animate(panels[index], [{ opacity: 0 }, { opacity: 1 }], { delay: U.at, duration: U.in, easing: E.reveal, fill: 'backwards' });
-// A case counts as seen once its play has started, so one arrowed past still plays when it's picked.
-if (!seen(index)) { play(index, U.pick); timer = setTimeout(() => { if (open === index) mark(index); }, U.pick); }
+play(index, U.pick);
 });
+// Pressing the case already shown changes nothing in the controller, so it fires no tabschange: the shown case
+// plays again from the start. Read in the capture phase, before the controller's own press handler runs.
+root.addEventListener('click', event => {
+const i = tabs.indexOf(event.target.closest?.('[role="tab"]'));
+if (i < 0 || i !== open || reduced.matches) return;
+settle(); link(i); play(i, U.entrance);
+}, true);
 ['pointerdown', 'focusin', 'keydown'].forEach(type => stage.addEventListener(type, settle));
 root.addEventListener('tabssettled', settle);
 reduced.addEventListener('change', settle);

@@ -66,15 +66,15 @@ export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640
  * fades in from `resultAt` over `result`. */
 export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, odds:560, answer:{market:900, proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
 /** How it works on /2/ (owner, 25 Oct 2026, item 4: "build A on /2", four steps over one stage; how-path-v2.js,
- * which gets this, `easing` and how-scenes.ts's acts written in). A fine pointer resting `intent` ms on a step
- * picks it. Once per tab session, after `threshold` of the stage is in view, the shown step's scene acts from
+ * which gets this, `easing` and how-scenes.ts's acts written in). Steps are picked by press or key, never hover
+ * (owner, 26 Oct 2026). Once per tab session, after `threshold` of the stage is in view, the shown step's scene acts from
  * `entrance` and the heading's "paid" draws from `underlineAt` over `underline` (draw). A pick swaps the stage:
  * the shown step fades out over `out` and the picked one fades in from `at` over `in`; on every pick its scene acts
  * from `pick`. Each act's own timing (the magnet, 26 Oct 2026) lives with its drawing in
  * how-scenes.ts. The words never move. Opening the example: its rows rise `rise` px and fade in over `row`
  * (settle), `stagger` apart, and the payout figure drops `rise` px into place from `figureAt` over `figure`, last
  * (0.9 s in all). Closing is instant. */
-export const howPathTimeline = { threshold:.5, intent:120, entrance:200, underlineAt:360, underline:560, out:160, at:160, in:320, pick:200, rise:8, row:320, stagger:110, figureAt:560, figure:320 } as const;
+export const howPathTimeline = { threshold:.5, entrance:200, underlineAt:360, underline:560, out:160, at:160, in:320, pick:200, rise:8, row:320, stagger:110, figureAt:560, figure:320 } as const;
 /** Sitewide field (owner, 19 Oct 2026): cells within `margin` px of text or an object stay empty; full-width
  * bands darker than `bandLuminance` count as background. A `density` share of the rest hold a 3 px square,
  * `green` of them Green, in `steps` opacity steps across `paperOpacity` / `greenOpacity`; redrawn `debounce`

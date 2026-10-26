@@ -1,7 +1,7 @@
 // /2/ only (owner, 25 Oct 2026, item 4: "build A on /2", sketch A of the item 4 board): How it works' four steps over
 // one stage, and "Walk through an example" (HowItWorks.astro renders this right after the section, so it runs while
 // the page parses). The steps are the shared tabs controller's (tabs.ts: press, arrows, Home/End, automatic
-// activation); this adds hover, the stage's swap and each scene's act. The markup is the rest state: without
+// activation); this adds the stage's swap and each scene's act. The markup is the rest state: without
 // JavaScript, or if the CSP blocked this, the first step shows with its scene drawn, the example stays open and the
 // button stays hidden; reduced motion and print show the same. Timings and easings come from timelines.ts
 // (howPathTimeline, easing) and each scene's act from how-scenes.ts (howActs), written in at build time
@@ -36,15 +36,8 @@ set(false);
 toggle.hidden = false;
 }
 if (!root) return;
+// A step is picked only by a press or a key, never by hover (owner, 26 Oct 2026).
 const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')], stage = root.querySelector('.how-path-stage');
-// Hover: a fine pointer resting `intent` ms on a step picks it, through the tab's own press, so the controller does
-// the rest; passing over a step on the way somewhere else picks nothing. Touch and pen pick with a press.
-const fine = matchMedia('(hover: hover) and (pointer: fine)');
-let rest = 0;
-tabs.forEach(tab => {
-tab.addEventListener('pointerenter', event => { clearTimeout(rest); if (event.pointerType === 'mouse' && fine.matches && tab.getAttribute('aria-selected') !== 'true') rest = setTimeout(() => tab.click(), L.intent); });
-tab.addEventListener('pointerleave', () => clearTimeout(rest));
-});
 if (!animates || !('IntersectionObserver' in window)) return;
 // The entrance follows seen.ts: a reload or a history visit skips it, and a fresh visit records it once it starts.
 const STORE = 'augur:motion-seen', nav = performance.getEntriesByType?.('navigation')[0];
