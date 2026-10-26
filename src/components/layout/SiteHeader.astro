@@ -59,27 +59,31 @@ const isCurrent=(href:string)=>within(href)&&!href.includes('#');
 .logo{justify-self:start}.header-actions{justify-self:end}
 .desktop-nav{position:relative;display:flex;gap:4px;align-items:center;font:400 16px/24px var(--font-heading)}
 .nav-item{position:relative;z-index:1;display:flex;gap:6px;align-items:center;height:40px;padding:0 14px;text-decoration:none;cursor:pointer;list-style:none;color:var(--foreground)}
-summary.nav-item{padding-right:10px}
+/* The caret sits 2 px inside its 14 px box, so 12 px here leaves 14 px of
+   space after it, as before the label: every item is centred on what it shows. */
+summary.nav-item{padding-right:12px}
 summary::-webkit-details-marker{display:none}
-/* Hover and the open item: a 2 px Green line under the label draws in from
-   the left and retracts back to it. */
-.nav-item-label{position:relative}
-.nav-item-label::after{content:'';position:absolute;left:0;right:0;top:100%;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform 240ms var(--ease-reveal)}
-.nav-item:hover .nav-item-label::after,.nav-disclosure[open]>.nav-item .nav-item-label::after{transform:none}
+/* Hover and the open item: a 2 px Green line on the item's bottom edge, from
+   the label's first stroke to the chevron's tip, draws in from the left and
+   retracts back to it. */
+.nav-item::after{content:'';position:absolute;left:14px;right:14px;bottom:0;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform 240ms var(--ease-reveal)}
+.nav-item:hover::after,.nav-disclosure[open]>.nav-item::after{transform:none}
 .nav-item:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
-.nav-chevron,.nav-chevron :global(svg){width:14px;height:14px}
-.nav-chevron{color:var(--muted-foreground);transition:transform 200ms var(--ease-reveal),color 180ms ease-out}
-.nav-item:hover .nav-chevron,.nav-disclosure[open] .nav-chevron{color:var(--foreground)}
-.nav-disclosure[open] .nav-chevron{transform:rotate(180deg)}
+/* Icon renders its own spans, which carry no scope attribute: the chevron is
+   reached through its item, and its inner span is sized too. */
+.nav-item :global(.nav-chevron),.nav-item :global(.nav-chevron > span),.nav-item :global(.nav-chevron svg){width:14px;height:14px}
+.nav-item :global(.nav-chevron){color:var(--muted-foreground);transition:transform 200ms var(--ease-reveal),color 180ms ease-out}
+.nav-item:hover :global(.nav-chevron),.nav-disclosure[open] :global(.nav-chevron){color:var(--foreground)}
+.nav-disclosure[open] :global(.nav-chevron){transform:rotate(180deg)}
 /* With the controller running, one line draws in, glides between items and
    retracts instead. */
 .nav-highlight{display:none}
 [data-nav-enhanced] .nav-highlight{display:block;position:absolute;left:0;top:0;width:100px;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;pointer-events:none;transition:transform 240ms var(--ease-reveal)}
 [data-nav-enhanced] .nav-highlight[data-instant]{transition:none}
-[data-nav-enhanced] .nav-item-label::after{content:none}
-/* Current section: a 2 px Green rule on the header's bottom edge under the item. */
-.nav-link[data-current]::after,.nav-disclosure[data-current]>.nav-item::after{content:'';position:absolute;left:14px;right:14px;bottom:-29px;height:2px;background:var(--primary)}
-.nav-disclosure[data-current]>.nav-item::after{right:30px}
+[data-nav-enhanced] .nav-item::after{content:none}
+/* Current section: the same line rests under its label. With the controller
+   running, the gliding line rests there instead and returns to it. */
+.nav-link[data-current]::after,.nav-disclosure[data-current]>.nav-item::after{transform:none}
 .nav-disclosure{position:relative}
 /* Panels hang from the header's bottom edge; the 28 px between belongs to the panel. */
 .nav-panel{position:absolute;top:calc(100% + 28px);left:0;width:248px;padding:8px;isolation:isolate;animation:nav-in 200ms var(--ease-reveal)}
@@ -92,7 +96,7 @@ summary::-webkit-details-marker{display:none}
   [data-nav-switching] .nav-disclosure::details-content{transition:none}
   .nav-panel{animation:none}
 }
-[data-nav-switching] .nav-panel{animation:none}[data-nav-switching] .nav-chevron{transition:none}
+[data-nav-switching] .nav-panel{animation:none}[data-nav-switching] :global(.nav-chevron){transition:none}
 ul{list-style:none;padding:0;margin:0}
 .nav-panel a{position:relative;min-height:48px;display:flex;align-items:center;gap:12px;padding:10px 12px;text-decoration:none;color:var(--foreground);transition:background-color 140ms ease-out}
 .nav-text{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
@@ -129,7 +133,7 @@ ul{list-style:none;padding:0;margin:0}
 .nav-panel .nav-feature .nav-cta:focus-visible{outline-offset:2px}
 .nav-feature:hover .nav-cta-arrow,.nav-cta:focus-visible .nav-cta-arrow{transform:translateX(3px)}
 .nav-feature:hover .nav-mark,.nav-feature:focus-within .nav-mark{transform:rotate(45deg) scale(.9)}
-@media(prefers-reduced-motion:reduce){.nav-item-label::after,.nav-chevron,.nav-panel a,.nav-glyph,.nav-mark,.nav-external,.nav-feature,.nav-cta-arrow,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
+@media(prefers-reduced-motion:reduce){.nav-item::after,.nav-item :global(.nav-chevron),.nav-panel a,.nav-glyph,.nav-mark,.nav-external,.nav-feature,.nav-cta-arrow,[data-nav-enhanced] .nav-highlight{transition:none}.nav-panel{animation:none}}
 .header-actions{display:flex;gap:16px;align-items:center}.mobile-open{display:none}
 .mobile-navigation{position:fixed;inset:0;margin:0;width:100%;max-width:none;height:100svh;max-height:none;padding:24px;background:var(--background);color:var(--foreground);border:0;overflow-y:auto}
 .mobile-navigation::backdrop{background:var(--background)}.mobile-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
@@ -141,5 +145,5 @@ ul{list-style:none;padding:0;margin:0}
 @keyframes nav-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 @media(max-width:1180px){.header-inner{grid-template-columns:auto 1fr auto;gap:24px}.desktop-nav{justify-self:center;gap:0}}
 @media(max-width:1023px){.header-inner{grid-template-columns:1fr auto}.desktop-nav{display:none}.mobile-open{display:flex}.header-actions :global(.button){display:none}.fallback-nav{display:flex;flex-wrap:wrap;background:var(--web-band)}.site-header:has(.fallback-nav){height:auto;min-height:96px}.site-header:has(.fallback-nav) .header-inner{height:96px}}
-@media(forced-colors:active){[data-nav-enhanced] .nav-highlight,.nav-item-label::after,.nav-link[data-current]::after,.nav-disclosure[data-current]>.nav-item::after{forced-color-adjust:none;background:CanvasText}.nav-panel::before{border-color:CanvasText}}
+@media(forced-colors:active){[data-nav-enhanced] .nav-highlight,.nav-item::after{forced-color-adjust:none;background:CanvasText}.nav-panel::before{border-color:CanvasText}}
 </style>
