@@ -427,15 +427,17 @@
 .home-v2 .example-result.is-you .example-figure{font-size:32px;line-height:40px;letter-spacing:-.01em;color:var(--primary)}
 .home-v2 .example-result.is-burned .example-figure{color:var(--muted-foreground)}
 .home-v2 .example-foot{margin:24px 0 0;padding-top:16px;border-top:1px solid var(--web-outline);font-size:14px;line-height:20px;color:var(--muted-foreground)}
-/* Holding REP? On the heading row's grid under a hairline: the question and "Learn about REP" (the section's one
-   link, underlined at rest) in the 500 column; in the 668 column the two points side by side, each a mark, its lead
-   in Paper on a line of its own and a Pewter line under it: a Pewter square for what you may do, the hollow Green
-   square of a move for the fork. */
-.home-v2 .holding{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:80px;align-items:start;margin-top:64px;padding-top:32px;border-top:1px solid var(--web-outline)}
-.home-v2 .holding-head{display:grid;justify-items:start;row-gap:8px}
+/* Holding REP? Under a hairline the question heads its two points, with "Learn about REP" (the section's one link,
+   underlined at rest) at the end of its row; the points sit on the heading row's grid, the first under the question,
+   the second on the lead's edge. The question alone in the 500 column left a 400 px hole beside two points squeezed
+   to 306 px, and a dead block under it once they stacked below 1280 (owner, 26 Oct 2026: "fix this"). Each point is
+   a mark, its lead in Paper on a line of its own and a Pewter line under it: a Pewter square for what you may do,
+   the hollow Green square of a move for the fork. */
+.home-v2 .holding{margin-top:64px;padding-top:24px;border-top:1px solid var(--web-outline)}
+.home-v2 .holding-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;column-gap:24px;margin-bottom:16px}
 .home-v2 .holding-head .button.text{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 .home-v2 .holding-title{margin:0;font:600 24px/32px var(--font-heading);letter-spacing:-.01em}
-.home-v2 .holding-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px;row-gap:24px;margin:0;padding:0;list-style:none}
+.home-v2 .holding-points{display:grid;grid-template-columns:minmax(0,500fr) minmax(0,668fr);column-gap:80px;row-gap:24px;margin:0;padding:0;list-style:none}
 .home-v2 .holding-point{display:grid;grid-template-columns:8px minmax(0,1fr);column-gap:16px;align-items:start}
 .home-v2 .holding-mark{width:8px;height:8px;margin-top:9px;background:var(--muted-foreground)}
 .home-v2 .holding-point.is-act .holding-mark{background:transparent;box-shadow:inset 0 0 0 1.5px var(--primary)}
@@ -443,13 +445,12 @@
 .home-v2 .holding-point strong{display:block;margin-bottom:4px;font:600 18px/26px var(--font-heading);color:var(--foreground)}
 /* At 1200 and under the stage tightens and the claim steps down to 28/36, so "No new stake in time?" keeps one line in
    the words column at 1024. */
-/* Under 1280 the card's padding steps down, and Holding REP's points stack in their column (side by side they ran
-   to five lines at 1024). */
-@media(max-width:1279px){.home-v2 .example{padding:24px}.home-v2 .example-story{padding-right:32px}.home-v2 .example-paid{padding-left:32px}.home-v2 .holding-points{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:1200px){.home-v2 .holding{column-gap:48px}.home-v2 .how-path-panel{column-gap:48px;padding:32px}.home-v2 .how-claim{font-size:28px;line-height:36px}}
+/* Under 1280 the card's padding steps down. */
+@media(max-width:1279px){.home-v2 .example{padding:24px}.home-v2 .example-story{padding-right:32px}.home-v2 .example-paid{padding-left:32px}}
+@media(max-width:1200px){.home-v2 .holding-points{column-gap:48px}.home-v2 .how-path-panel{column-gap:48px;padding:32px}.home-v2 .how-claim{font-size:28px;line-height:36px}}
 /* Below 1024 each panel stacks its scene (centred, at most 440 px) over its words, a step's note runs the tab's full
    width under its number (beside it, it broke into orphans and three-line notes), the example's Paid out goes under
-   What happened, and Holding REP's points go under its question. Below 768 the steps go two by two, a 4 px gap from
+   What happened, and Holding REP's points split the width evenly. Below 768 the steps go two by two, a 4 px gap from
    the stage, and the points stack. */
 @media(max-width:1023px){
 .home-v2 .how-path-tab{padding:16px;row-gap:8px}
@@ -459,7 +460,7 @@
 .home-v2 .example-body{grid-template-columns:minmax(0,1fr)}
 .home-v2 .example-story{padding-right:0}
 .home-v2 .example-paid{margin-top:24px;padding-left:0;border-left:0;border-top:1px solid var(--web-outline)}
-.home-v2 .holding{grid-template-columns:minmax(0,1fr);row-gap:24px;margin-top:48px}
+.home-v2 .holding{margin-top:48px}
 .home-v2 .holding-points{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:767px){
