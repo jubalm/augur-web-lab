@@ -187,11 +187,9 @@ export const homeV3 = {
       // v1's "Optional." gone the bar no longer says so (house rule: never imply holders must report).
       // The no-break spaces keep "once a month." together: from 1280 the balanced point then breaks
       // between its sentences (it broke "once a / month." at 1280–1440, 390 and 1024).
-      { lead: 'Never passive.', text: 'In the event of a fork, you have to check in at least once a month. Move your REP to the universe that reflects reality, or it loses its value.' },
+      { lead: 'Never passive.', text: 'In the event of a fork, you have to check in at least once a month. Move your REP to the universe that reflects reality, or it loses its value.', act: true },
     ],
   },
-  // Learn more (Ryan 15): the FAQ stays, and "Read the blog" replaces the "From the blog" column. v2's lead
-  // and link, without v2's later doors (`keepGoing`, the owner's own design), so the questions stay.
-  // The roadmap is unchanged (Ryan 14).
-  learnMore: { lead: homeV2.learnMore.lead, blog: homeV2.learnMore.blog },
+  // Learn more (Ryan 15: no "From the blog" column) reads v2's whole section, its Keep going included, as
+  // every version does (owner, 26 Oct 2026). The roadmap is unchanged (Ryan 14).
 } as const;

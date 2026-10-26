@@ -1,6 +1,6 @@
-/* Homepage v2 (owner, 21 Oct 2026), the UI system of /2/, /3/ and /4/. Loaded as a string (review-inline.ts) and rendered
-   inline on those pages alone, so none of it reaches "/" or /1/, not even as a CSP hash. Every rule starts with
-   .home-v2 (the review <main>; /3/ and /4/ add .home-v3 or .home-v4) and comes after the page's own styles, so it wins a specificity tie.
+/* Homepage v2 (owner, 21 Oct 2026), the UI system of every review version (/ryan/, /augus/, /ryan-augus/, /melo/). Loaded as a string (review-inline.ts) and rendered
+   inline on those pages alone, so none of it reaches "/", not even as a CSP hash. Every rule starts with
+   .home-v2 (the review <main>; Ryan's adds .home-v3) and comes after the page's own styles, so it wins a specificity tie.
    Astro adds one [data-astro-cid-…] to each compound of a component rule: `.tenet-card` ships as
    `.tenet-card[data-astro-cid-…]` and ties with `.home-v2 .tenet-card`, but `.answer-band p` ships as
    `.answer-band[…] p[…]` and beats `.home-v2 .answer-band p`. So override one-compound rules directly,

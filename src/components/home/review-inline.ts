@@ -1,4 +1,4 @@
-// Every inline <style> and <script> that only the homepage review copies (/1/ to /4/) render (owner,
+// Every inline <style> and <script> that only the homepage review copies (/ryan/ to /melo/) render (owner,
 // 21 Oct 2026). Astro writes one CSP hash list for the whole build into every page, so a component
 // <style>, a stylesheet import or a small processed <script> on a review copy would add its hash to "/"
 // as well. These are imported as strings instead (?inline is processed and minified CSS, ?raw is the
@@ -10,7 +10,6 @@ import switchStyle from './version-switch.css?inline';
 import v2Style from '../../styles/home-v2.css?inline';
 import v2OnlyStyle from '../../styles/home-v2-only.css?inline';
 import v3Style from '../../styles/home-v3.css?inline';
-import v4Style from '../../styles/home-v4.css?inline';
 import howScript from './how-it-works-v2.js?raw';
 import tipsScript from './tenet-tips-v3.js?raw';
 import headerScript from './header-v2.js?raw';
@@ -35,10 +34,9 @@ export const reviewScripts = { how: compact(howScript) } as Record<string, strin
 // The sheets render before the announcement bar, so their rules follow the page's own and win ties.
 // Every version loads the review UI (owner, 26 Oct 2026: every version shares v2's motion and structure):
 // home-v2.css, then home-v2-only.css (the owner's design: icons, header logo, scenes, cards, steps), and
-// the scripts below. The reviewers' versions add their own sheet last (every rule under .home-v3, or under
-// .home-v4 and .home-v5, the classes pageClass() adds): Ryan's (v3) for his hero links and "?" tips, and
-// one for Augus's verbatim words, which Ryan + Augus (v4) and Augus (v5) both use. An empty sheet renders
-// nothing. A script only one version renders goes in that version's `scripts` as well, so its page
+// the scripts below. Only Ryan's version (v3) adds a sheet, last, for his hero links and "?" tips, the UI
+// he asked for (every rule under .home-v3, the class pageClass() adds). The other versions set their
+// words in v2's layouts unchanged. A script only one version renders goes in that version's `scripts` as well, so its page
 // hashes it. `header` hides the header on the way down and brings it back on the way up (SiteHeader.astro
 // renders it after the header); `tenets` plays the isometric Why Augur scenes, with every scene's
 // keyframes from tenets-iso.ts written in (Tenets.astro renders it after the section); `flock` plays the
@@ -56,6 +54,6 @@ const ui = { styles: [v2Style, v2OnlyStyle], scripts: { ...reviewScripts, header
 export const reviewInline: Record<ReviewVariant, Inline> = {
   v2: { styles: ui.styles.filter(Boolean), scripts: ui.scripts },
   v3: { styles: [...ui.styles, v3Style].filter(Boolean), scripts: { ...ui.scripts, tips: compact(tipsScript) } },
-  v4: { styles: [...ui.styles, v4Style].filter(Boolean), scripts: ui.scripts },
-  v5: { styles: [...ui.styles, v4Style].filter(Boolean), scripts: ui.scripts },
+  v4: { styles: ui.styles.filter(Boolean), scripts: ui.scripts },
+  v5: { styles: ui.styles.filter(Boolean), scripts: ui.scripts },
 };

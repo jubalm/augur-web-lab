@@ -15,10 +15,10 @@
  * home-v2.css, home-v2-only.css and v2's scripts, so the comparison is about each reviewer's notes, not
  * polish. A component branches on the family: it asks `homeCopy(variant)` and renders the review markup
  * when that returns a copy (every version but v1), v1's literal markup otherwise, so "/" stays
- * byte-identical. A field only some versions have (Ryan's hero links and "?" tips, the builder block,
- * Learn more's doors) is tested where it is read: `'field' in copy.section`. `pageClass` gives <main>
- * its classes: every version keeps "home-v2" and the reviewers' versions add their own, which their
- * sheets (home-v3.css, home-v4.css) prefix every rule with. */
+ * byte-identical. A field only some versions have (Ryan's hero links and "?" tips, the builder block)
+ * is tested where it is read: `'field' in copy.section`. `pageClass` gives <main> its classes: every
+ * version has "home-v2", and Ryan's adds "home-v3", which his sheet (home-v3.css) prefixes every rule
+ * with. */
 import {homeV2} from './homepage-v2';
 import {homeV3} from './homepage-v3';
 import {homeV4} from './homepage-v4';
@@ -45,8 +45,7 @@ const copies = { v1: undefined, v2: homeV2, v3: homeV3, v4: homeV4, v5: homeV5 }
 /** The version's copy, or undefined for v1 (which keeps its copy in the components). */
 export const homeCopy = (variant: HomeVariant) => copies[variant];
 
-// Augus's version shares Ryan + Augus's sheet: the rules there fit Augus's verbatim words, which both use.
-const classes = { v1: undefined, v2: 'home-v2', v3: 'home-v2 home-v3', v4: 'home-v2 home-v4', v5: 'home-v2 home-v5' } as const;
+const classes = { v1: undefined, v2: 'home-v2', v3: 'home-v2 home-v3', v4: 'home-v2', v5: 'home-v2' } as const;
 /** <main>'s class: none on "/", so v1's markup is unchanged. */
 export const pageClass = (variant: HomeVariant) => classes[variant];
 

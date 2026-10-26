@@ -76,8 +76,7 @@ export const homeV4 = {
     // Ryan 11 (X: the block stays) + Augus 1, verbatim and in his order: trust, work, then liability (v2
     // puts liability first, after Ryan 8). The ask sits beside the v1 "Talk to us" button (/contact/);
     // Augus's "->" is the button itself, without an arrow, as an internal link (AGENTS.md).
-    // Icons keep their approved meanings and move with their reasons (19 Oct icon audit):
-    // eye (anyone can see, so users can verify), puzzle-piece (it slots in), scales (an impartial dispute).
+    // Set in v2's layout: three columns, each reason under Augur's square mark, with no icon tiles.
     builder: {
       title: ['Good for users.', 'Easier for projects.'],
       // FLAG: "Augur" for "Augur Lituus" (AGENTS.md), and "you" (AGENTS.md: traders and beginners first;
@@ -85,14 +84,14 @@ export const homeV4 = {
       ask: ['Want Augur in a platform you use?', 'Or one you’re building?'],
       reasons: [
         // FLAG: "Win user trust." reverses Augus's 18 Oct "no trust" in this section (v2 open question).
-        { icon: 'eye', title: 'Win user trust.', line: 'Give users independent outcomes they can verify and challenge themselves.' },
+        { title: 'Win user trust.', line: 'Give users independent outcomes they can verify and challenge themselves.' },
         // A fee per question (whitepaper §4.4.2 p7; fixed-price Query Tokens, §4.4.7 p9). Same as v2.
-        { icon: 'puzzle-piece', title: 'No team to hire.', line: 'Pay per question instead of running resolution in-house.' },
+        { title: 'No team to hire.', line: 'Pay per question instead of running resolution in-house.' },
         // FLAG: "Augur’s" for "Augur Lituus’s" (AGENTS.md); "not you" puts "you" in a traders-first line
         // (AGENTS.md: no "your call"); "makes the call" is the idiom the owner replaced on 19 Oct and sits
         // beside the closer's "The answer is nobody’s call."; "makes the call—not you" is an "X, not Y"
         // construction; the em dash breaks the house rule "no em dashes" (19 Oct).
-        { icon: 'scales', title: 'Stay out of the middle.', line: 'When outcomes get contentious, Augur’s dispute process makes the call—not you.' },
+        { title: 'Stay out of the middle.', line: 'When outcomes get contentious, Augur’s dispute process makes the call—not you.' },
       ],
     },
   },
@@ -108,10 +107,9 @@ export const homeV4 = {
     title: 'Holding REP?',
     points: [
       { lead: 'Utility:', text: 'Use REP to earn from participating in the oracle.' },
-      { lead: 'Non-Passivity:', text: 'Check actively for forks or risk losing the token.' },
+      { lead: 'Non-Passivity:', text: 'Check actively for forks or risk losing the token.', act: true },
     ],
   },
-  // Learn more (Ryan 15, dash): the FAQ stays, with "Read the blog". v2's lead and link, without v2's later
-  // doors (`keepGoing`, the owner's own design), so the questions stay.
-  learnMore: { lead: homeV2.learnMore.lead, blog: homeV2.learnMore.blog },
+  // Learn more (Ryan 15, dash) reads v2's whole section, its Keep going included, as every version does
+  // (owner, 26 Oct 2026).
 } as const;
