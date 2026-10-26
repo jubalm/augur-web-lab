@@ -1,11 +1,12 @@
 ---
-import {ownerVersion,variantAt} from '../../data/homepage-review';
+import {ownerChrome} from '../../data/homepage-review';
 interface Props { name: string; class?: string; }
 const { name, class: className } = Astro.props;
 const icons = import.meta.glob('../../assets/icons/phosphor/bold/*.svg', { query: '?raw', import: 'default', eager: true });
-// On /2/ only (ownerVersion), the signals are Augur's own square-cut glyphs; logos stay Phosphor.
+// On every page but "/" (ownerChrome, Melo's chrome), the signals are Augur's own square-cut glyphs; logos
+// stay Phosphor.
 const signals = import.meta.glob('../../assets/icons/augur/*.svg', { query: '?raw', import: 'default', eager: true });
-const signal = ownerVersion(variantAt(Astro.url.pathname)) ? signals[`../../assets/icons/augur/${name}.svg`] as string | undefined : undefined;
+const signal = ownerChrome(Astro.url.pathname) ? signals[`../../assets/icons/augur/${name}.svg`] as string | undefined : undefined;
 const markup = signal ?? icons[`../../assets/icons/phosphor/bold/${name}.svg`] as string | undefined;
 if (!markup) throw new Error(`Unknown Phosphor Bold icon: ${name}`);
 const weight = signal ? 'augur' : 'bold';

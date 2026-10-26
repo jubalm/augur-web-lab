@@ -3,12 +3,13 @@
    similar to v2"). Loaded as a string after home-v2.css on the review copies alone (review-inline.ts), so
    it never reaches "/" or the inner pages. It follows home-v2.css's specificity
    rules: a one-compound component rule is matched directly, a longer one is tied and wins on order. The
-   header sits outside <main>, so its rules start with .site-header.
+   header and footer rules are in chrome-v2.css, which every page but "/" loads.
 
    The icon trial (owner, 22 Oct 2026: the icons are "ugly, weird, generic"). Signals only: Augur's
    square-cut glyphs replace Phosphor's arrows, chevron, close, check and plus (Icon.astro); pictograms
    give way to Augur's square mark or to nothing; the phone menu buttons read "Menu" and "Close"; the
-   community logos stay. */
+   community logos stay. Since 26 Oct 2026 the trial's chrome, the header, the footer and the glyphs, is on
+   every page but "/" (chrome-v2.css). */
 
 /* Use cases: the 8 px square mark, the header's product-row mark, centred on the name's first line in
    place of the 44 px icon tile. Mist idle, Green picked (the selected state keeps its Green marker,
@@ -151,47 +152,6 @@
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .case-tabs .case-tab,.home-v2 .case-tabs .case-tab::before{transition:none}}
 
-/* Phone header: the words "Menu" and "Close" in the same outline box, in place of the hamburger and
-   the cross (a labelled "Menu" is found more readily than the bare glyph, NN/g). */
-.site-header .mobile-open,.site-header .mobile-navigation .mobile-top button{width:auto;min-width:44px;padding:0 16px;font:600 16px/24px var(--font-heading);cursor:pointer}
-
-/* Header logo, a brand exception (owner, 22 Oct 2026: "Make a brand exception: shrink the /2/ header
-   logo to about 128 px"). 128 × 43 px, 15% under the Brand Foundation's 150 px minimum for the
-   horizontal logo (02.6); the artwork itself is untouched. The phone menu's logo matches, so it keeps
-   its size when the menu opens; the footer keeps 150. DESIGN.md records the exception. */
-.site-header .brand,.site-header .brand svg{width:128px}
-
-/* Products menu (owner, 22 Oct 2026: the lead card's whole surface was the link, yet a button sat inside
-   it, so the hit area didn't match what it looked like; then "the augur lituus should have more space like
-   it was before"). The card keeps its place and size, the left column over both rows, and is itself the
-   one link: a Dark 1 surface at rest that lifts to Dark 3 under the pointer like every menu row, its mark
-   turning onto its corner. Its action is a text label at its foot, not a button: on hover a 2 px line
-   draws under it and the arrow nudges 3 px, as on the site's text actions. The label lines up with the
-   name, past the mark. */
-.site-header .nav-lead{grid-row:span 2}
-.site-header .nav-lead>a{flex-direction:column;justify-content:space-between;background:var(--web-quiet)}
-.site-header .nav-lead .nav-mark{margin:9px 0 0;background:var(--primary)}
-.site-header .nav-lead .nav-label{font:600 20px/26px var(--font-heading)}
-.site-header .nav-lead-action{display:inline-flex;align-items:center;gap:8px;margin-left:20px;font:600 16px/24px var(--font-heading);color:var(--foreground)}
-.site-header .nav-lead-label{position:relative}
-.site-header .nav-lead-label::after{content:'';position:absolute;left:0;right:0;top:100%;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform 240ms var(--ease-reveal)}
-.site-header .nav-lead>a:is(:hover,:focus-visible) .nav-lead-label::after{transform:none}
-.site-header .nav-lead-arrow,.site-header .nav-lead-arrow svg{width:16px;height:16px}
-.site-header .nav-lead-arrow{transition:transform 200ms var(--ease-reveal)}
-.site-header .nav-lead>a:is(:hover,:focus-visible) .nav-lead-arrow{transform:translateX(3px)}
-@media(prefers-reduced-motion:reduce){.site-header .nav-lead-label::after,.site-header .nav-lead-arrow{transition:none}}
-@media(forced-colors:active){.site-header .nav-lead>a{border:1px solid CanvasText}.site-header .nav-lead-label::after{forced-color-adjust:none;background:CanvasText}}
-
-/* Hide on the way down, back on the way up (owner, 22 Oct 2026; header-v2.js sets the attributes, so
-   without JavaScript the header stays in the flow). Sticky at the top; slid up by its own height, a
-   transform, when hidden. Once it has left its place under the announcement, a 1 px Outline line marks
-   its foot so the page doesn't run into it unseen (no shadows). Reduced motion swaps the slide for a cut. */
-.site-header[data-headroom]{position:sticky;top:0;transition:transform 280ms var(--ease-reveal)}
-.site-header[data-headroom][data-hidden]{transform:translateY(-100%)}
-.site-header[data-headroom][data-stuck]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--web-outline);pointer-events:none}
-@media(prefers-reduced-motion:reduce){.site-header[data-headroom]{transition:none}}
-@media print{.site-header[data-headroom]{position:relative;transform:none}}
-
 /* Why Augur cards: isometric scenes (owner, 22 Oct 2026: "isometric for all three"): Two roads, Middleman
    crumbles and the Catapult. IsoScene.astro draws each scene's resting frame from tenets-iso.ts;
    tenets-iso-v2.js plays the 12 s loop with transform and opacity only. Every moving part turns or scales
@@ -285,14 +245,6 @@
 @media(max-width:1200px){.home-v2 .keep-cell{padding:24px}}
 @media(max-width:1023px){.home-v2 .keep-going{grid-template-columns:minmax(0,1fr)}.home-v2 .keep-cell+.keep-cell{border-left:0;border-top:1px solid var(--web-outline)}}
 @media(forced-colors:active){.home-v2 .keep-going{border-color:CanvasText}.home-v2 .keep-cell+.keep-cell{border-color:CanvasText}}
-
-/* Footer (item 7, from the 25 Oct audit; the review copies only, since this sheet loads nowhere else). A hairline opens
-   the link directory, so the contact band and the links read as two groups (they shared one Navy with
-   48 px between them), and the funding line sits 16 under the logo instead of 130 px lower at the
-   column's foot. */
-.site-footer .directory{border-top:1px solid var(--web-outline)}
-.site-footer .identity{justify-content:flex-start;gap:16px}
-@media(forced-colors:active){.site-footer .directory{border-top-color:CanvasText}}
 
 /* Hero (item 24, first option from the 25 Oct audit): "decentralized" in Sora 400 against the headline's
    600, so the word keeps its difference after the underline sweep has gone and under reduced motion,

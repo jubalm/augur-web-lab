@@ -65,5 +65,8 @@ export const pageClass = (variant: HomeVariant) => classes[variant];
  * - The use cases as product cards, How it works as four steps over one stage, and Learn more's doors
  *   where a version's copy has them. */
 export const ownerVersion = (variant: HomeVariant) => variant !== 'v1';
+/** Melo's chrome, its header, footer and square-cut signals (owner, 26 Oct 2026: "Bring Melo's header and
+ * footer … to every inner page. Keep / as it is."): every page but the live homepage. */
+export const ownerChrome = (pathname: string) => pathname !== '/';
 /** The homepage version a path renders, for components without a variant prop (Icon, SiteHeader). */
 export const variantAt = (pathname: string): HomeVariant => reviewVersions.find(({ version }) => pathname === `/${version}/`)?.variant ?? 'v1';
