@@ -29,6 +29,7 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 - [ ] 9. About (1.5 h)
 - [ ] 10. REP (1.5 h)
 - [ ] 11. Talk to us (`/contact/`) (45 min)
+- [ ] 26. More alive visuals: find the dead spots, test images, build the owner's picks (2 h). Numbered last so the other numbers don't shift.
 
 **Polish passes** (after both lanes, across the whole site)
 - [ ] 12. Copy pass (45 min)
@@ -39,7 +40,7 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 - [ ] 25. Mobile pass: every page below 1024 px (2 h)
 
 **Monday morning**
-- [ ] 15. Suggestions sweep and talk track (30 min)
+- [ ] 15. Suggestions review against every Augus and Ryan note, old ones included, and the talk track (45 min)
 - [ ] 16. QA before sharing, including meta, performance and real phones (1.75 h)
 - [ ] 17. Share with the team (30 min)
 
@@ -56,14 +57,14 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 | When | Lane A | Lane B |
 | --- | --- | --- |
 | Sun 11:30–12:45 | 1 (alone) | |
-| Sun 12:45–18:30 | 2, 3, 4, 5, 6, 7, then 24 | 8, 9, 10, 11, then stretch 18 |
+| Sun 12:45–18:30 | 2, 3, 4, 5, 6, 7, then 24 | 8, 9, 10, 11, 26, then stretch 18 |
 | Sun 18:30–21:00 | 12, 13, 14 | Stretch 19, 20 |
 | Sun 21:00–23:00 | 25 (mobile pass) | Stretch 21, 22, 23 |
-| Mon 08:00–08:30 | 15 | |
+| Mon 07:45–08:30 | 15 (starts 15 min earlier for the wider review) | |
 | Mon 08:30–10:15 | 16 | |
 | Mon 10:15–11:00 | 17, plus last fixes from 16 | |
 
-- **Fit:** lane A (2–7 and 24) now adds up to about 7.5 h, more than its 12:45–18:30 slot, and item 25 takes what was the Sunday-night buffer. There's no slack left, so if lane A runs late, 12–14 and 25 slide toward Monday morning.
+- **Fit:** lane A (2–7 and 24) now adds up to about 7.5 h, more than its 12:45–18:30 slot, and item 25 takes what was the Sunday-night buffer. There's no slack left, so if lane A runs late, 12–14 and 25 slide toward Monday morning. Item 26 uses lane B's spare hour and pushes stretch 18 back by about another hour.
 - **Cutting:** if the day slips, cut stretch items from the bottom up. Then shrink item 25, following its own fallback order. Never cut 12–16: a consistent, checked site beats more redesigned pages.
 
 ### What can run in parallel
@@ -73,6 +74,7 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 - **Lane B items don't touch homepage files**, so they can run beside lane A, and beside each other in separate chats if the owner can review that fast.
   - Item 18 waits for 8.
   - Items 19 and 20 share one reading layout, so do them in one chat, or 19 first.
+  - Item 26 runs in lane B after 11 and builds inner-page visuals itself. Its homepage visuals wait until lane A is done with that section, because lane A's chats are the only ones writing the homepage files.
 - **Polish passes (12–14)** start only when both lanes are done, because they edit across all pages.
 - **Item 25** starts after 12–14 and edits every page's phone layout. A stretch item that finishes after it gets its phone check in item 16.
 
@@ -81,7 +83,7 @@ The work runs in two lanes after item 1, so the homepage and the pages move at t
 - **D1. Homepage work stays on `/2/`.** `/`, `/1/`, `/3/` and `/4/` stay byte-identical. Gate markup with `ownerVersion(variant)` from `src/data/homepage-review.ts`. Put styles in `src/styles/home-v2-only.css`, which only `/2/` loads, via `src/components/home/review-inline.ts`. Copy goes in `src/data/homepage-v2.ts`. To prove the scope, build before and after and diff the two `dist` folders.
 - **D2. Inner pages are redesigned in place.** There are no review copies of About, Products and the rest: every homepage version links to the same inner pages. The old versions stay in git.
 - **D3. Inner pages get `/2/`'s chrome.** That means the Augur square-cut icons, the 128 px header logo, Menu/Close, the hide-on-scroll header and the new footer. Otherwise the header changes when someone clicks from `/2/` to About (consistency, Jakob's law). `/`, `/1/`, `/3/` and `/4/` keep the baseline chrome. Item 1 builds this.
-- **D4. Suggestions are folded into each section as it's worked.** Each item names the notes that touch it. Item 15 checks nothing was missed and turns the result into a talk track for the meeting. Today's map:
+- **D4. Suggestions are folded into each section as it's worked.** Each item names the notes that touch it. Every note counts, the old 18–19 Oct ones as well as the 21 Oct review (owner, 25 Oct); the appendix holds them all. Each section review checks its notes (step 6). Item 15 then reviews the whole of `/2/` against all of them and turns the result into a talk track for the meeting. Today's map:
   - `/2/`: Ryan's notes as Augus marked them, plus the owner's own suggestions.
   - `/3/`: Ryan's notes alone, literal.
   - `/4/`: Augus's marks alone, literal.
@@ -177,7 +179,12 @@ Measure these; don't eyeball them. Every section review (step 4) and items 14, 1
    - Contrast.
    - Forced colours, with borders where shapes rely on fills.
    - No-JavaScript shows everything.
-6. **Proof:**
+6. **Suggestions:**
+   - Check the section against every note in the appendix that touches it: Ryan's and Augus's 21 Oct notes, and the older 18–19 Oct ones too.
+   - For each one, say whether it's applied, declined (with the reason) or still open. An open one joins the questions for Augus.
+   - Check that later work hasn't quietly undone an older note, for example the page growing long again or the use-case examples losing their "this opens" cue.
+   - Where a newer note replaces an older one (Augus's "Trustless" over his 18 Oct "keep trust out"), the newer one wins. Say so.
+7. **Proof:**
    - `bun run check` passes.
    - The owner has seen it at 1440. The 390 view waits for item 25.
    - No console errors.
@@ -348,7 +355,7 @@ Measure these; don't eyeball them. Every section review (step 4) and items 14, 1
 - **Visual (owner, 25 Oct): test a big "AUGUR" sign-off** under the link columns. Build a few options, show the owner each at 1440 × 900, and keep one or none. Switch between them with a constant in `SiteFooter.astro`; the page itself never shows a chooser.
   - **The official logo, large:** the horizontal logo from `public/brand/kit/horizontal/`, set wide across the 1248 content width. Keep it whole, with its clearspace. Cropping it at the page edge or tinting it changes the logo, which the brand rules don't allow.
   - **Just the letters:** "AUGUR" without the glyph. No official wordmark-only file exists, so this means either cutting the letters out of the horizontal SVG (splitting the lockup) or setting the word in Sora (which can read as a second, made-up logo). Check both against the Brand Foundation PDF and ask the owner before showing them.
-  - **An image:** a still or a short looping video on Navy behind or beside the logo, for example made with the Higgsfield connector. Record where it came from in `docs/image-provenance.json`.
+  - **An image:** a still or a short looping video on Navy behind or beside the logo, for example made with the Higgsfield connector. Record its source, prompt and model in a provenance file in `docs/`, like `hero-video-provenance.json`.
   - **Animation:** the logo rises or fades into place when the footer scrolls into view. Or its letters assemble and land on the exact artwork: `docs/source-material.md` already calls logo assembly motion an unapproved experiment that must end on the supplied artwork, so it stays flagged.
 - **Visual rules:**
   - "Talk to us" stays the footer's one clear next step. The visual sits below everything as a sign-off and never competes with it.
@@ -483,10 +490,19 @@ Every page and the homepage on `/2/`; `/`, `/1/`, `/3/` and `/4/` stay untouched
 - **Sizes across the site:** run `scripts/inspect-sizes.mjs` on every page at the desktop viewports (D9). Gaps that drifted off the scale between pages get fixed here, since each section was only checked on its own.
 - **Zoom:** 200% text zoom (WCAG 1.4.4) and text spacing (WCAG 1.4.12). The 400% reflow check is in item 25, because it lays the page out at 320 px.
 
-### 15. Suggestions sweep and talk track
+### 15. Suggestions review against every note, and the talk track
 
-- **Sweep:** go through the appendix note by note and confirm each is either applied on `/2/` or knowingly declined, with the reason.
-- **Talk track:** turn the sweep into one short table per section with three columns: what changed, which note asked for it, and why. Add the known launch blockers. The owner uses it in the meeting.
+- **Review:** walk `/2/` and the inner pages it links to in the browser, section by section, against every note in the appendix:
+  - Ryan's 17 notes with Augus's marks, and Augus's notes 1–3 (21 Oct)
+  - Augus's 18 Oct section notes, with their user and project readings
+  - his other 18–19 Oct asks
+  - the questions still open for Augus
+  - the owner's own `/2/` suggestions
+
+  Check what the page shows, not only the code.
+- **For each note, record one of four:** applied (where), declined (why), still open (the question to ask), or undone since (fix it, or say why it stays).
+- **Scope:** `/2/` and its inner pages only. `/3/` and `/4/` aren't reviewed.
+- **Talk track:** turn the review into one short table per section with three columns: what changed, which note asked for it, and why. Add the questions still open for Augus as one list, so the meeting can settle them, and the known launch blockers. The owner uses it in the meeting.
 
 ### 16. QA before sharing
 
@@ -631,6 +647,35 @@ Recommended: (a), for a team reviewing on their own time. Send the link with the
 - **Rule:** phone fixes never change the desktop. Check 1440 after each fix, or compare the desktop screenshots before and after.
 - **If time runs out:** do `/2/` first, then `/rep/` and `/products/`, the pages item 16 runs Lighthouse on at phone size. The share (item 17) names any page that wasn't checked on phones.
 
+### 26. More alive visuals: images and texture
+
+- **Why (owner, 25 Oct):** the site needs more alive visuals, maybe images. The worry is older: the owner's backlog already said the site "feels dead and too solid" and needs a direction for life and texture, not just more motion (`git show 801261c^:docs/backlog.md`).
+- **Now:** the drawn scenes are the Why Augur isometric cards, the use-case pictures, the REP rows, the About heritage art and the blog covers. The only images are the hero's, in `public/images/hero/` (the live floor's stills, and the generated loop the floor replaced). Most other sections are type on flat Navy.
+- **Step 1, find (30 min):** go through `/2/` and its inner pages at 1440 and list the dead spots: sections that are only text on flat Navy, big empty fields, cards that read like forms. For each, say what a visual would add: explaining an idea, giving the place texture, or answering a hover. Pick the few places where it helps most. Images everywhere become noise, and pretty only helps while the page stays clear (aesthetic-usability effect, lawsofux.com).
+- **Step 2, test (45 min):** make two options for each place and show the owner at 1440 × 900. Ways in:
+  - **Generated stills or short loops** with the Higgsfield "higgs" connector. What worked for the hero on 22 Oct:
+    - a 3D key frame from Nano Banana Pro at 4K, its colours fixed in the sandbox
+    - the same frame used as first and last, so the loop closes on itself
+    - near-Navy pixels flattened to exact Navy, then AV1 in 10 bits
+
+    Flat vector key frames were rejected. Price every job first with `get_cost: true`.
+  - **Texture in the site's own language:** square-cut tiles, the lituus mark, isometric blocks, Green on Navy.
+  - **Small interactions on what's already there:** a picture that answers the pointer, the way the hero's lens does.
+- **Step 3, build (45 min):** the owner's picks. Inner pages directly; homepage visuals once lane A has finished with that section.
+- **Keep:**
+  - Brand: Navy, Paper and Green, square corners, no shadows, and no glow (only Peer mesh has one). Logos only as supplied.
+  - Nothing invented: no people, partner logos, app screens or products that could pass as real. A picture of a proposed design must not look shipped.
+  - Images never carry text people need. Decorative ones get empty alt text and `aria-hidden`; ones that mean something get real alt text.
+  - Weight: AVIF or WebP at the sizes shown, with `width` and `height` set so nothing shifts. Lazy-loaded below the first screen, never touching LCP, and within `check:budgets`. Video is AV1 with an H.264 fallback, muted, with a poster.
+  - Provenance: record each image's source, prompt and model in a provenance file in `docs/`, like `hero-video-provenance.json`.
+- **Motion:**
+  - Prefer stills, once-per-session reveals and pointer answers over loops. Every new loop over 5 s without a pause control adds to the WCAG 2.2.2 launch blocker (item 13), so each one needs the owner's yes.
+  - Loops pause off-screen and in a hidden tab. Reduced motion, print and no-JavaScript show the poster. Measure each one.
+  - Transform and opacity only, with timings in `timelines.ts`.
+  - None of this is in the Figma choreography. Anything kept goes on the "update figma" pending list in `docs/figma-workflow.md`.
+- **Phones:** item 25 checks them (D9).
+- **Talk track:** item 15 lists what was added and why.
+
 ## Not before Monday 11:00
 
 These are listed so nobody starts them by accident:
@@ -647,7 +692,7 @@ These are listed so nobody starts them by accident:
 
 ## Appendix: the review notes
 
-These are quoted from the 21 Oct review setup, which is now in git history only (`git show 801261c:docs/decisions.md`, section "Homepage v1 and v2 for review").
+Every note from Ryan and Augus so far, old and new. The 21 Oct ones are quoted from the review setup, which is now in git history only (`git show 801261c:docs/decisions.md`, section "Homepage v1 and v2 for review"). The older ones and the open questions come from the same log's 18–21 Oct entries (`git show 9ddb25b^:docs/decisions.md`). Before 18 Oct the history holds no notes from either of them: the earlier "Ryan" mentions are the whitepaper's author, Ryan Garner.
 
 **Ryan's notes, as Augus marked them** (dash = do, X = don't, 1–3 = Augus rewrote it):
 
@@ -677,12 +722,47 @@ Augus's worry: v2 may become too technical.
 2. "Holding REP? Utility: Use REP to earn from participating in the oracle. Non-Passivity: Check actively for forks or risk losing the token."
 3. Use the first section (the three cards): Permissionless: "Any app can ask. Anyone can answer." / "Report, challenge, or build on Augur. No approvals, no gatekeepers." Trustless: "No governance. No multisigs. No admin keys." / "No company, committee, or even Augur's creators can override an outcome." Robust: "Harder to game. Costlier to manipulate." / "Designed with one of the highest economic barriers to attack among decentralized oracles."
 
-**Augus's section notes of 18 October** (direction, not approved copy):
+**Augus's section notes of 18 October** (direction, not approved copy). Each section gets one reading for users and one for projects, as the owner recorded them that day:
 
 - **Why Augur:** answer "why do I want the project I trade on to use this oracle?" Projects backed by Augur protect funds with economics rather than trust.
-- **What could you build?:** the business case. Resolution is handled outside the team (no hiring for it), Augur takes the blame in disputes instead of the project, with only a very light hint of legal liability.
-- **How it works:** the consumer case for taking part and holding REP: "how do I take part, how do I get rewarded".
+  - User: "safer for me to use product X; I want products backstopped by this design."
+  - Project: "users trust us to resolve things today; we don't want that responsibility."
+- **What could you build?:** the business case. Once users want a project to use Augur, why does the project want it too? Resolution is handled outside the team (no hiring for it), Augur takes the blame in disputes instead of the project, with only a very light hint of legal liability.
+  - User: "can be used for many products."
+  - Project: "outsourcing resolution is cheaper and less risky, and adds value for users: win-win."
+- **How it works:** the consumer case for taking part and holding REP: "how do I take part, how do I get rewarded". Maybe merge it with "What can you do with REP?" (merged on 19 Oct).
+  - User: "I can take part and get paid?"
+  - Project: "design looks serious; having their own UI makes it easier to integrate; credible."
 - **The road to Augur Lituus:** "Coming soon?"
+- **Before using any of these words:** "protect funds" and "backstopped" can't become promises, "get paid" and buying REP can't read as an investment pitch, and "Coming soon" and "their own UI" need a source.
+
+**Augus's other asks, 18–19 October:**
+
+- **The homepage is too long.** On 19 Oct the blog and the FAQ became one "Learn more about Augur." section, 783 px shorter at 1440. Item 14 measures the length again.
+- **Make it clear the use-case examples open** (18 Oct). The old "+" cue was too weak.
+- **Avoid broad wording** such as "The app…" (18 Oct). The fallback note now names "An insurance app".
+- **Keep "trust" out of Why Augur** (18 Oct). His own 21 Oct notes reverse this ("Trustless", "Win user trust."), and `/2/` follows the newer note.
+- **The "Why Augur" name and the answer band** "With Augur, users don't rely on parties to control answers." came from his notes (18 Oct).
+- **How it works and REP as one "take part" section** (owner and Augus, 19 Oct; brief in `docs/how-it-works-prompt.md`).
+- **Copy proposals sent to him** on 18 Oct sit in the homepage handoff Claude Doc, under "05 copy proposals for Augus". The owner approved them.
+
+**Questions still open for Augus** (21 Oct, about `/2/`):
+
+1. Is the whitepaper's own modelled estimate fine on the homepage as "Designed to cost attackers more than almost any other oracle." (Robust card)?
+2. Is "No admin keys" true for Lituus-CS? It stays out until it's sourced.
+3. Does "No governance" hold for the protocol as a whole, or only for deciding answers?
+4. Keep his "Trustless" over the 18 Oct "Bribery-resistant"? "Win user trust." also reverses his own 18 Oct "no trust".
+5. The hero keeps "the next generation" (the handoff rule said "one of the next versions").
+6. Is the DAO constitution check a fair oracle use case, and should "mission" stay in its summary?
+7. Is a second "Augur Lituus" in the use-case section (the builder's ask) fine?
+8. Does "Disputes settle in the open. The project never picks a side." carry Ryan's liability point strongly enough?
+9. Is "Users can check and challenge independent outcomes." plain enough, given that a challenge takes a bond within an appeal period?
+10. Print the fork's "two weeks" (the whitepaper's summary; its specification says "weeks")?
+11. Is "Stake it to report or challenge answers" plain enough for beginners?
+12. The payout figures now live only in the worked example. Fine?
+13. The `/faq/` lead in Learn more, all questions starting closed, and "Read the blog" as a text link: is that what Ryan meant?
+
+**Reviewer wording `/2/` set aside** (kept word for word only on `/3/` and `/4/`; reasons in `docs/sources.md`): Ryan's "check in at least once a month" (the paper gives no cadence, and a monthly check could miss a two-week window), "Many traders have already seen markets misresolve" (unsourced), and Augus's "No admin keys." (not in the paper) and "risk losing the token" (REP left behind loses its value; nothing takes it).
 
 **The owner's own `/2/` suggestions** (listed in `src/data/homepage-review.ts`):
 
