@@ -59,9 +59,10 @@ const go = (el, frames, delay, duration, easing = E.settle, fill = 'backwards') 
 const settle = () => { motion.forEach(a => a.cancel()); motion = []; };
 // One step's act, from `at`: how-scenes.ts's tracks for that step, each [part, delay, duration, keyframes] from the
 // state before it, eased per keyframe. The scene's markup is the state after it, so a settled act leaves it as drawn.
-// Ask: the reward drops onto the token. Report: their stake lands on YES, the token snaps over and YES's clock runs.
-// Challenge: your double lands on NO, the token comes over and NO's clock starts. Get paid: NO's clock goes all the way
-// round, and their stake flies over onto yours.
+// Ask: the answers' signs light in turn and the reward lands on the sled. Report: their block lands on Yes and the
+// reward rides over to it while the clock runs. Challenge: your two blocks land on No, the hand goes back to twelve
+// and the reward rides over. Get paid: the clock runs out, a fifth of their block burns, the rest flies onto yours
+// and the reward jumps on top.
 const act = (i, at) => {
 (ACTS[step(i)] || []).forEach(([name, delay, duration, frames]) => go(panels[i]?.querySelector(`[data-how-part="${name}"]`), frames, at + delay, duration, 'linear'));
 };

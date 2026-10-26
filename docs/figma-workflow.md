@@ -141,3 +141,15 @@ The list was synced on 7 October 2026, and the Brand assets page was built in Fi
     - 120 after it enters a card, that scene acts: the fee drops 28 into the tray (620); their block drops onto the first answer and its ring fades in; your block drops onto the other and a second appears on it and slides out (1060); the answer turns deep green with a pulse to 118% (900), their block hops 26 up and over to you, turning Green (980), the final ring fades in, and “paid” underlines (560, draw).
     - Opening the example: the rows rise 8 and fade in, 110 apart, the payout figure last.
   - Then re-extract `homepage-copy-source.json`.
+- **How it works as four steps over one stage, drawn as the magnet made literal (25–26 October 2026, item 4, chosen on the item 4 boards; `/2/` review copy, so it applies to `28:7` when v2's section is adopted; supersedes the cards, the Green line and the card scenes in the item above). Desktop first:**
+  - **Steps:** four outlined tabs, 4 apart, each a 24 px numbered square and the name (Sora 600 18/24) with a note 2 under it (14/20 Pewter): “Pay a fee in REP”, “Stake on an answer”, “Back another answer”, “If your answer holds”; the picked tab is Navy with its square Green. Under them one Navy stage, padding 48: the scene (2:1) in a 520 column, the words in a 568 column (claim 32/40, setup Pewter and payoff Paper; body 18/28 Pewter; a fact row over a hairline: “In the example” and its figure, Green “+12 REP” on Get paid).
+  - **Scene:** one wordless machine from the Why Augur kit (iso-kit.ts), the same in all four steps.
+    - Two pedestals 16 square and 14 high, joined by a slab rail with a sled on it. The left pedestal shows a ✓ and the right a ✗, on a dark panel on the face toward you.
+    - A clock on a post behind the rail's middle.
+    - Their stake is one Mist block 10 on a side; yours is two Green blocks of the same size. The reward is a small Paper block on the sled.
+    - At rest, Ask: both signs dim and the sled in the middle. Report: their block on ✓, ✓ Paper, the sled by ✓, the hand at eight. Challenge: your two blocks on ✗, ✗ Paper, ✓ dim, the sled by ✗, the hand at two. Get paid: ✓ empty; ✗ and the dial Green; on ✗ your two blocks, four fifths of theirs and the reward, all Green.
+  - **Motion, on Section details:** each pick plays its step's act (`howActs` in `how-scenes.ts`, ms). The entrance plays the shown step once per tab session, with the “paid” underline.
+    - Ask: ✓ then ✗ light and fade; the reward drops onto the sled and grows in two steps.
+    - Report: their block drops (460); ✓ lights; the sled slides over (650, snap); the hand runs to eight (1600).
+    - Challenge: your blocks drop one after the other; ✗ lights and ✓ dims; the hand goes back to twelve (300); the sled slides over (850); the hand runs to two.
+    - Get paid: the hand runs out (1400); ✗, the dial and a floor ring turn Green; the top fifth of their block heats and breaks into sparks; the rest hops onto yours (900), turning Green; the reward hops on top (650), turning Green.

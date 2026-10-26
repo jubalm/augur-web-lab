@@ -204,11 +204,16 @@ export const homeV2 = {
       // example below opens with). Get paid's figure is what you win of their stake, as in the example's Paid
       // out ("on top of" your stake back and the reward). Challenge says "double theirs": in the cold read,
       // "stake double" didn't say of what. `scene` names the step's drawing.
+      // `note` is the tab's line under its name (owner, 26 Oct 2026: "a tiny text below the 'Ask' 'Report' stuff"):
+      // read with the name it says what the step is in REP terms, so the row of tabs tells the whole process before
+      // any is picked. It never repeats the claim (the line the tabs had before did, and went as noise). Facts: a
+      // fee per question in REP (§4.4.2 p7), a report stakes on an outcome (§4.1 p5), a challenge stakes on another
+      // (§4.0.2 p4), rewards go to the outcome that becomes final (§4.3.1 p6). Short enough for one line from 1024.
       stops: [
-        { title: 'Ask', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.', fact: ['In the example', '{fee} fee'] },
-        { title: 'Report', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.', fact: ['In the example', '{bond} on {reported}'] },
-        { title: 'Challenge', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.', fact: ['In the example', '{challenge} on {challenged}'] },
-        { title: 'Get paid', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.', fact: ['In the example, you win', '+{share}'] },
+        { title: 'Ask', note: 'Pay a fee in REP', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.', fact: ['In the example', '{fee} fee'] },
+        { title: 'Report', note: 'Stake on an answer', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.', fact: ['In the example', '{bond} on {reported}'] },
+        { title: 'Challenge', note: 'Back another answer', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.', fact: ['In the example', '{challenge} on {challenged}'] },
+        { title: 'Get paid', note: 'If your answer holds', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.', fact: ['In the example, you win', '+{share}'] },
       ],
       // The example: walkthrough.ts's question and amounts, with "you" as the challenger who turns out
       // right, so the card ends on your payout (peak–end). HowItWorks.astro fills {fee}, {bond},

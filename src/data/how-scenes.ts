@@ -1,17 +1,21 @@
-/** How it works on /2/: the magnet (owner, 26 Oct 2026: "let's use the magnet", round 5 of the item 4 scenes
- * board). One machine for all four steps, drawn with iso-kit.ts.
- * - Two posts with a rail between them. A token on the rail carries the reward. A stake stands on its answer's post
- *   and charges the post's coil, and the token is pulled to the post with the bigger stake.
- * - Each post has a clock on its front. The post holding the token runs its clock. A challenge sends that hand back
- *   to twelve and starts the other post's clock. When a clock goes all the way round with no new stake, the answer
- *   is final: the token locks, and their stake flies over onto yours (owner: "going to right … above the right
- *   blocks"), dropping a shard on the way (the burned part) and landing smaller.
- * - Their stake is Mist and yours Green; the reward is Pewter until it is yours. No words in the drawing.
+/** How it works on /2/: the magnet made literal (owner, 26 Oct 2026, item 4 scenes board version 7: "make more
+ * explicit … that each side represents a possible answer", "each block means REP", no words; then "keep blocks" and
+ * "the small block should also jump!"). One machine for all four steps, drawn with iso-kit.ts.
+ * - Two pedestals, one per answer, each with its sign on the face toward you: ✓ is Yes, ✗ is No. A sign lights
+ *   (Paper) while its answer stands and turns Green when it is final.
+ * - Blocks are REP, sized as in the example (walkthrough.ts): their report is one block (the 15 REP bond), your
+ *   challenge two (30 REP). At the end the top fifth of theirs burns (3 REP, the 20%) and the rest flies over onto
+ *   yours (owner: "going to right … above the right blocks"), +12 REP, the 80%.
+ * - The reward, a small Paper block, rides a sled on the rail to whichever answer stands, and at the end jumps onto
+ *   your stack. Its size is no figure: the example gives none.
+ * - One clock on a post behind the rail: the time to challenge. Each new stake sends its hand back to twelve; when
+ *   it goes all the way round, the answer is final.
+ * - Their stake is Mist and yours Green. No words in the drawing.
  * - The steps are one story. State 0 is before Ask and state k is after step k. Each step's scene is drawn at its
  *   state (no JavaScript, reduced motion and print show it). Its act is a set of keyframe tracks from the state
  *   before, built here and played by how-path-v2.js with transform and opacity only.
- * One camera for all four, the drawing about seven tenths of the stage wide, as on the board. */
-import { M, E, P, block, quad, node, plane, pts, mix, shift, r2, card, navy, mist, paper, green, pewter, type Material, type SvgNode, type Keyframe, type Point } from './iso-kit';
+ * One camera for all four, the drawing about three quarters of the stage wide, as on the board. */
+import { M, E, P, block, quad, node, plane, mix, shift, r2, card, navy, mist, paper, green, pewter, type Material, type SvgNode, type Keyframe, type Point } from './iso-kit';
 
 export type HowKind = 'ask' | 'report' | 'challenge' | 'paid';
 // A part's state: its screen offset, opacity, turn in degrees and scale, the last two about its origin.
@@ -21,10 +25,11 @@ type Key = [number, Partial<State>, string?];
 type Act = { p: string; keys: Key[] }[];
 
 const tone = (c: string, l: number, r: number): Material => ({ top: c, left: mix(c, card, l), right: mix(c, card, r), rim: mix(paper, c, .38) });
-const pewterM = tone(pewter, .72, .5), paperM = tone(mix(paper, pewter, .6), .7, .5);
+// The reward, and the top of their block as it heats before it burns.
+const paperM = tone(mix(paper, pewter, .6), .7, .5), hotM = tone(mix(paper, mist, .82), .72, .5);
 const snap = 'cubic-bezier(.6,0,.1,1)';
 const range = (n: number) => Array.from({ length: n }, (_, i) => i);
-const face = (list: Point[], fill: string) => node('polygon', { points: pts(list), fill, stroke: fill, 'stroke-width': .6, 'stroke-linejoin': 'round' });
+const screen = mix(navy, card, .7), dim = mix(mist, card, .62);
 
 const parts: Record<string, { origin: Point; init: Partial<State> }> = {};
 const part = (name: string, opts: { o?: number; origin?: Point }, children: SvgNode[]) => {
@@ -32,63 +37,95 @@ const part = (name: string, opts: { o?: number; origin?: Point }, children: SvgN
   return node('g', { 'data-how-part': name }, children);
 };
 
-// A post's coil: three bands on its right face. Its clock sits on the left face: a dark dial with twelve ticks, and a
-// hand (Paper, with a Green twin for the end) that turns about the dial's centre.
-const coil = (x0: number, color: string) => range(3).map(i => { const z = 11 + i * 2.6; return face([P(x0 + 12, 3, z), P(x0 + 12, 19, z), P(x0 + 12, 19, z + 1.2), P(x0 + 12, 3, z + 1.2)], color); });
+// The clock: a dark dial with twelve ticks, and a hand (Paper, with a Green twin for the end) that turns about the
+// dial's centre.
 const clock = (id: string, cu: number, cv: number, R: number): SvgNode[] => {
   const hand = (fill: string) => node('rect', { x: r2(cu - .32), y: r2(cv - R + 1.4), width: .64, height: r2(R - 1.4), fill });
   return [
-    node('circle', { cx: cu, cy: cv, r: R, fill: mix(navy, card, .7), stroke: mix(mist, card, .8), 'stroke-width': .55 }),
+    node('circle', { cx: cu, cy: cv, r: R, fill: screen, stroke: mix(mist, card, .8), 'stroke-width': .55 }),
     ...range(12).map(i => { const a = i * Math.PI / 6, rr = R - .95; return node('rect', { x: r2(cu + Math.sin(a) * rr - .3), y: r2(cv - Math.cos(a) * rr - .3), width: .6, height: .6, fill: mix(pewter, card, .8) }); }),
     part(id, { origin: [cu, cv] }, [hand(paper), part(id + 'G', { o: 0 }, [hand(green)])]),
     node('circle', { cx: cu, cy: cv, r: .75, fill: paper }),
   ];
 };
-const token = { x: 51, y: 7, z: 9, w: 6, d: 8, h: 4 };
-const chip = (i: number, m: Material) => block({ x: 51.5, y: 8.5, z: 13 + i * 2.3, w: 5, d: 5, h: 1.8 }, m);
-const stake = (x: number, z: number, m: Material) => block({ x, y: 5, z, w: 12, d: 12, h: 12 }, m);
-const dim = mix(mist, card, .42);
+// An answer's sign on its pedestal's left face (local u runs right, v down): a dark panel with ✓ or ✗.
+const panel = node('rect', { x: 2, y: 2, width: 12, height: 10, fill: screen });
+const tick = (stroke: string) => node('polyline', { points: '4.7,7.1 7,9.4 11.3,4.6', fill: 'none', stroke, 'stroke-width': 1.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+const cross = (stroke: string) => node('path', { d: 'M5.2 4.2L10.8 9.8M10.8 4.2L5.2 9.8', fill: 'none', stroke, 'stroke-width': 1.5, 'stroke-linecap': 'round' });
 
-// Back to front: the YES post, the rail with the token, the NO post and your stake, then theirs, drawn last so it can
-// land on top of yours.
+// Pedestals (side, height), where No's starts, the rail's middle, the clock's x; a stake block's side, and the four
+// fifths of theirs that come to you.
+const PW = 16, PH = 14, XN = 76, MID = 46, CLX = 34, SB = 10, B4 = SB * .8;
+// Where the sled stops by each answer: far enough that, drawn in front, it never seems to touch the pedestal.
+const NEAR = { yes: PW + 19, no: XN - 17 };
+// The top of your stack once theirs has landed on it.
+const TOP = PH + 2 * SB + B4;
+// A stake block on its pedestal (x0 is the pedestal's), its base z0 above the pedestal's top.
+const cube = (x0: number, z0: number, h: number, m: Material) => block({ x: x0 + 3, y: 3, z: PH + z0, w: SB, d: SB, h }, m);
+const prize = { x: MID - 3, y: 5, z: 8, w: 6, d: 6, h: 4 };
+// The sparks of the burn, about the top of their block.
+const SPARK: Point[] = [[-5.2, -1.4], [-2.4, -3.6], [1.4, -4], [4.6, -1.8], [-3.4, 1.6], [3.6, 1.4]];
+const [sx, sy] = P(8, 8, PH + SB);
+
+// Back to front: the final ring under No, the clock, Yes, the rail and the sled, No, your blocks, then theirs and
+// the sparks, and the reward last, so each can fly over everything onto your stack.
 const world: SvgNode[] = [
-  part('ring', { o: 0, origin: P(102, 11) }, [quad(93, 0, 18, 22, { fill: 'none', stroke: green, 'stroke-width': 1, 'stroke-linejoin': 'round' })]),
-  block({ x: 0, y: 3, z: 0, w: 12, d: 16, h: 20 }, M.device), ...coil(0, dim), part('cY', { o: 0 }, coil(0, mix(paper, mist, .35))), plane('left', 0, 19, 20, clock('hY', 6, 9, 5.2)),
-  block({ x: 12, y: 5, z: 6, w: 84, d: 12, h: 3 }, M.slab),
-  part('pk', {}, [block(token, paperM), part('pkG', { o: 0 }, [block(token, M.green)]), ...range(3).map(i => part('r' + i, { o: 0 }, [chip(i, pewterM)])), part('rG', { o: 0 }, range(3).map(i => chip(i, M.green)))]),
-  block({ x: 96, y: 3, z: 0, w: 12, d: 16, h: 20 }, M.device), ...coil(96, dim), part('cN', { o: 0 }, coil(96, green)), plane('left', 96, 19, 20, clock('hN', 6, 9, 5.2)),
-  part('y1', { o: 0 }, [stake(96, 20, M.green)]), part('y2', { o: 0 }, [stake(96, 32.8, M.green)]),
-  part('th', { o: 0, origin: P(6, 11, 26) }, [part('thM', {}, [stake(0, 20, M.mist)]), part('thG', { o: 0 }, [stake(0, 20, M.green)])]),
-  part('sh', { o: 0 }, [block({ x: 9, y: 14, z: 29, w: 3, d: 3, h: 3 }, M.mist)]),
+  part('ring', { o: 0, origin: P(XN + 8, 8) }, [quad(XN - 3, -3, PW + 6, PW + 6, { fill: 'none', stroke: green, 'stroke-width': 1, 'stroke-linejoin': 'round' })]),
+  block({ x: CLX - 2, y: -15, z: 0, w: 4, d: 3, h: 12 }, M.slab), block({ x: CLX - 8, y: -12.6, z: 10, w: 16, d: 2, h: 16 }, M.device),
+  plane('left', CLX - 8, -10.6, 26, [...clock('hd', 8, 8, 6.6), part('dG', { o: 0 }, [node('circle', { cx: 8, cy: 8, r: 6.6, fill: 'none', stroke: green, 'stroke-width': .7 })])]),
+  block({ x: 0, y: 0, z: 0, w: PW, d: PW, h: PH }, M.device), plane('left', 0, PW, PH, [panel, tick(dim), part('sY', { o: 0 }, [tick(paper)])]),
+  block({ x: PW, y: 6, z: 3, w: XN - PW, d: 4, h: 2 }, M.slab),
+  part('sl', {}, [block({ x: MID - 6, y: 3, z: 5, w: 12, d: 10, h: 3 }, M.device)]),
+  block({ x: XN, y: 0, z: 0, w: PW, d: PW, h: PH }, M.device), plane('left', XN, PW, PH, [panel, cross(dim), part('sN', { o: 0 }, [cross(paper)]), part('sNG', { o: 0 }, [cross(green)])]),
+  part('y1', { o: 0 }, [cube(XN, 0, SB, M.green)]), part('y2', { o: 0 }, [cube(XN, SB, SB, M.green)]),
+  // Theirs drops whole; at the end it splits into the four fifths that fly and the fifth that burns.
+  part('th', { o: 0 }, [part('thW', {}, [cube(0, 0, SB, M.mist)]),
+    part('thS', { o: 0 }, [part('tg', {}, [part('tgM', {}, [cube(0, 0, B4, M.mist)]), part('tgG', { o: 0 }, [cube(0, 0, B4, M.green)])]),
+      part('t4', {}, [cube(0, B4, SB - B4, M.mist), part('t4H', { o: 0 }, [cube(0, B4, SB - B4, hotM)])])])]),
+  ...SPARK.map(([dx, dy], i) => part('f' + i, { o: 0 }, [node('rect', { x: r2(sx + dx - .7), y: r2(sy + dy - .7), width: 1.4, height: 1.4, fill: i % 2 ? paper : mix(paper, mist, .6), transform: `rotate(45 ${r2(sx + dx)} ${r2(sy + dy)})` })])),
+  part('rw', { o: 0, origin: P(MID, 8, 8) }, [block(prize, paperM), part('rwG', { o: 0 }, [block(prize, M.green)])]),
 ];
 
 const at = (t: number, v: Partial<State> = {}, e?: string): Key => [t, v, e];
 const drop = (t: number, H: number, dur = 460, bounce = 1.4): Key[] => [at(t, { y: -H, o: 0 }), at(t + 60, { o: 1 }, E.lin), at(t + dur, { y: 0 }, E.fall), ...(bounce ? [at(t + dur + 100, { y: -bounce }, E.out), at(t + dur + 210, { y: 0 }, E.in)] : [])];
 const fade = (t: number, d: number, o: number, e = E.reveal): Key[] => [at(t), at(t + d, { o }, e)];
+const move = (t: number, d: number, v: Partial<State>, e = E.cross): Key[] => [at(t), at(t + d, v, e)];
+const blink = (t: number, up = 200, hold = 300, down = 380): Key[] => [at(t), at(t + up, { o: 1 }, E.lin), at(t + up + hold), at(t + up + hold + down, { o: 0 })];
 const pulse = (t: number, d = 800, s = 1.25): Key[] => [at(t, { o: 0, s: 1 }), at(t + 40, { o: .9 }, E.lin), at(t + d, { o: 0, s }, E.reveal)];
 const off = (dx: number, dy: number, dz = 0) => { const { x, y } = shift(dx, dy, dz); return { x: r2(x), y: r2(y) }; };
-// An arc from one screen offset to another, `h` high at its top; `more(f)` adds values along the way.
+// An arc from one screen offset to another, `h` high at its top.
 const sine = (u: number) => (1 - Math.cos(Math.PI * u)) / 2;
-const hop = (t: number, d: number, from: [number, number], to: [number, number], h: number, n: number, more?: (f: number) => Partial<State>): Key[] =>
-  [at(t, { x: from[0], y: from[1] }), ...range(n).map(i => { const u = (i + 1) / n, f = sine(u); return at(r2(t + d * u), { x: r2(from[0] + (to[0] - from[0]) * f), y: r2(from[1] + (to[1] - from[1]) * f - 4 * h * f * (1 - f)), ...(more ? more(f) : {}) }, E.lin); })];
-// Where their stake lands: on top of yours, at .85 of its size (the burned part gone).
-const onYours = off(96, 0, 24.7);
+const hop = (t: number, d: number, from: [number, number], to: [number, number], h: number, n: number): Key[] =>
+  [at(t, { x: from[0], y: from[1] }), ...range(n).map(i => { const u = (i + 1) / n, f = sine(u); return at(r2(t + d * u), { x: r2(from[0] + (to[0] - from[0]) * f), y: r2(from[1] + (to[1] - from[1]) * f - 4 * h * f * (1 - f)) }, E.lin); })];
+// Where their four fifths land (on your two blocks), where the sled stops by Yes and by No, and where the reward
+// lands on top of your stack.
+const LAND = off(XN, 0, 2 * SB), BY_YES = off(NEAR.yes - MID, 0), BY_NO = off(NEAR.no - MID, 0), ON_TOP = off(XN + 8 - MID, 0, TOP - 8);
 
 const acts: Act[] = [
-  // Ask: the reward drops onto the token.
-  range(3).map(i => ({ p: 'r' + i, keys: drop(200 + i * 420, 12, 340, .6) })),
-  // Report: their stake lands on YES, its coil lights, the token snaps over and YES's clock runs most of the way.
-  [{ p: 'th', keys: drop(150, 22) }, { p: 'cY', keys: fade(650, 300, 1) }, { p: 'pk', keys: [at(850), at(1500, off(-25, 0), snap)] }, { p: 'hY', keys: [at(1550), at(3150, { r: 240 }, E.lin)] }],
-  // Challenge: your double lands on NO and outpulls it: YES's hand goes back to twelve, the token comes over, and
-  // NO's clock starts.
-  [{ p: 'y1', keys: drop(150, 22) }, { p: 'y2', keys: drop(600, 22) }, { p: 'cN', keys: fade(1100, 300, 1) }, { p: 'cY', keys: fade(1100, 300, 0) }, { p: 'hY', keys: [at(1100), at(1400, { r: 0 }, E.cross)] }, { p: 'pk', keys: [at(1300), at(2100, off(25, 0), snap)] }, { p: 'hN', keys: [at(2150), at(2550, { r: 60 }, E.lin)] }],
-  // Get paid: NO's clock goes all the way round. The token and the reward turn Green, and their stake flies over onto
-  // yours, dropping a shard.
-  [{ p: 'hN', keys: [at(100), at(1600, { r: 360 }, E.lin)] }, { p: 'hNG', keys: fade(1650, 300, 1) },
-   { p: 'ring', keys: pulse(1650) }, { p: 'pkG', keys: fade(1700, 400, 1) }, { p: 'rG', keys: fade(1700, 400, 1) },
-   { p: 'sh', keys: [at(2150), at(2200, { o: 1 }, E.lin), at(2800, { x: -8, y: -14, o: 0 }, E.out)] },
-   { p: 'th', keys: [...hop(2150, 1100, [0, 0], [onYours.x, onYours.y], 14, 16, f => ({ s: r2(1 - .15 * f) })), at(3370, { y: r2(onYours.y - 1.2) }, E.out), at(3490, { y: onYours.y }, E.in)] },
-   { p: 'thM', keys: fade(2900, 300, 0) }, { p: 'thG', keys: fade(2900, 300, 1) }],
+  // Ask: the two answers' signs light in turn, then the reward lands on the sled and grows.
+  [{ p: 'sY', keys: blink(150) }, { p: 'sN', keys: blink(520) },
+   { p: 'rw', keys: [at(1250, { y: -16, o: 0, s: .5 }), at(1310, { o: 1 }, E.lin), at(1640, { y: 0 }, E.fall), at(1730, { y: -.6 }, E.out), at(1820, { y: 0 }, E.in), at(2050), at(2350, { s: .78 }, E.out), at(2650), at(2950, { s: 1 }, E.out)] }],
+  // Report: their block lands on Yes, Yes lights, the reward rides over to it on the sled, and the clock runs most
+  // of the way.
+  [{ p: 'th', keys: drop(150, 18) }, { p: 'sY', keys: fade(700, 300, 1) },
+   { p: 'sl', keys: move(850, 650, BY_YES, snap) }, { p: 'rw', keys: move(850, 650, BY_YES, snap) }, { p: 'hd', keys: [at(1550), at(3150, { r: 240 }, E.lin)] }],
+  // Challenge: your first block, the same as theirs, lands on No, then a second on top (double theirs). No lights,
+  // Yes dims, the hand goes back to twelve, the reward rides over to No, and the clock runs again.
+  [{ p: 'y1', keys: drop(150, 18) }, { p: 'y2', keys: drop(700, 18) }, { p: 'sN', keys: fade(1250, 300, 1) }, { p: 'sY', keys: fade(1250, 300, 0) },
+   { p: 'hd', keys: [at(1250), at(1550, { r: 0 }, E.cross), at(2350), at(2750, { r: 60 }, E.lin)] },
+   { p: 'sl', keys: move(1450, 850, BY_NO, snap) }, { p: 'rw', keys: move(1450, 850, BY_NO, snap) }],
+  // Get paid: the hand goes all the way round. No is final: the dial and its sign turn Green and a ring pulses. The
+  // top fifth of their block heats and breaks into sparks, the rest flies over onto yours and turns Green, and the
+  // reward jumps on top, Green too.
+  [{ p: 'hd', keys: [at(100), at(1500, { r: 360 }, E.lin)] }, { p: 'hdG', keys: fade(1550, 300, 1) }, { p: 'dG', keys: fade(1550, 300, 1) },
+   { p: 'sNG', keys: fade(1550, 300, 1) }, { p: 'ring', keys: pulse(1600) },
+   { p: 'thW', keys: [at(1950), at(1951, { o: 0 }, E.lin)] }, { p: 'thS', keys: [at(1950), at(1951, { o: 1 }, E.lin)] },
+   { p: 't4H', keys: [at(1960), at(2080, { o: 1 }, E.lin)] }, { p: 't4', keys: [at(2120), at(2420, { o: 0 }, E.lin)] },
+   ...SPARK.map(([dx, dy], i) => ({ p: 'f' + i, keys: [at(2080 + i * 20, { o: 0 }), at(2120 + i * 20, { o: 1 }, E.lin), at(2720 + i * 20, { x: r2(dx * 1.4), y: r2(dy * 1.2 - 9), o: 0 }, E.out)] })),
+   { p: 'tg', keys: [...hop(2550, 900, [0, 0], [LAND.x, LAND.y], 16, 16), at(3550, { y: r2(LAND.y - 1) }, E.out), at(3660, { y: LAND.y }, E.in)] },
+   { p: 'tgM', keys: fade(3150, 300, 0) }, { p: 'tgG', keys: fade(3150, 300, 1) },
+   { p: 'rw', keys: [...hop(3700, 650, [BY_NO.x, BY_NO.y], [ON_TOP.x, ON_TOP.y], 14, 12), at(4450, { y: r2(ON_TOP.y - .8) }, E.out), at(4560, { y: ON_TOP.y }, E.in)] },
+   { p: 'rwG', keys: fade(4050, 300, 1) }],
 ];
 
 // The five states: each part's values after each act.
@@ -133,22 +170,24 @@ const tracks = (k: number) => acts[k - 1].map(({ p, keys }) => {
   return [p, t0, t1 - t0, frames] as const;
 });
 
-// The camera: everything at home, the drawing within seven tenths of the width and eight of the height.
-function camera(list: SvgNode[]) {
+// The camera: everything at home plus the end (your stack with theirs and the reward on top), within about three
+// quarters of the width and 86% of the height.
+function camera(list: SvgNode[], extra: Point[]) {
   let ax = Infinity, ay = Infinity, bx = -Infinity, by = -Infinity;
   type Matrix = [number, number, number, number, number, number];
+  const take = (px: number, py: number) => { ax = Math.min(ax, px); ay = Math.min(ay, py); bx = Math.max(bx, px); by = Math.max(by, py); };
   const times = (m: Matrix, n: Matrix): Matrix => [m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1], m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3], m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5]];
   const walk = (nodes: SvgNode[], m: Matrix) => nodes.forEach(nd => {
     const tf = typeof nd.attrs.transform === 'string' && nd.attrs.transform.startsWith('matrix') ? times(m, nd.attrs.transform.slice(7, -1).trim().split(/[\s,]+/).map(Number) as Matrix) : m;
-    const put = (x: number, y: number) => { const px = tf[0] * x + tf[2] * y + tf[4], py = tf[1] * x + tf[3] * y + tf[5]; ax = Math.min(ax, px); ay = Math.min(ay, py); bx = Math.max(bx, px); by = Math.max(by, py); };
-    if (typeof nd.attrs.points === 'string') nd.attrs.points.split(' ').forEach(p => { const [x, y] = p.split(',').map(Number); put(x, y); });
+    if (typeof nd.attrs.points === 'string') nd.attrs.points.split(' ').forEach(p => { const [x, y] = p.split(',').map(Number); take(tf[0] * x + tf[2] * y + tf[4], tf[1] * x + tf[3] * y + tf[5]); });
     if (nd.children) walk(nd.children, tf);
   });
   walk(list, [1, 0, 0, 1, 0, 0]);
-  const k = r2(Math.min(.7 * 336 / (bx - ax), .8 * 168 / (by - ay), 2.6) * 1e3) / 1e3;
+  extra.forEach(([x, y]) => take(x, y));
+  const k = r2(Math.min(.74 * 336 / (bx - ax), .86 * 168 / (by - ay), 2.6) * 1e3) / 1e3;
   return `matrix(${k} 0 0 ${k} ${r2(168 - (ax + bx) / 2 * k)} ${r2(84 - (ay + by) / 2 * k)})`;
 }
 
 const kinds: HowKind[] = ['ask', 'report', 'challenge', 'paid'];
-export const howScenes = { worlds: Object.fromEntries(kinds.map((kind, i) => [kind, drawn(i + 1)])) as Record<HowKind, SvgNode[]>, transform: camera(world) };
+export const howScenes = { worlds: Object.fromEntries(kinds.map((kind, i) => [kind, drawn(i + 1)])) as Record<HowKind, SvgNode[]>, transform: camera(world, [P(XN + 3, 3, TOP), P(XN + 3, 3 + SB, TOP), P(XN + 5, 5, TOP + 4)]) };
 export const howActs = Object.fromEntries(kinds.map((kind, i) => [kind, tracks(i + 1)])) as Record<HowKind, ReturnType<typeof tracks>>;

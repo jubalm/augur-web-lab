@@ -358,15 +358,18 @@
    swap and each scene's act, and runs the button. Gaps on the scale: 4 8 12 16 20 24 32 48 64. */
 /* The heading row has no action on /2/, so it drops home-v2.css's second row (24 px under a taller lead). */
 @media(min-width:1024px){.home-v2 .how-it-works .section-heading{grid-template-areas:"title lead";row-gap:0}}
-/* The steps: four tabs in a row, 4 px apart, each a numbered square (the step's place in the story) and the step's
-   name; the stage under them says the rest, so a tab never repeats its first line. The others are outlined like the
+/* The steps: four tabs in a row, 4 px apart, each a numbered square (the step's place in the story), the step's
+   name and under it a short note (owner, 26 Oct 2026), so the row tells the whole process before any step is picked;
+   the stage under them says the rest, and no tab repeats its first line. The others are outlined like the
    site's outline buttons, so they read as something to press (owner, 25 Oct 2026: it wasn't clear the other steps
    open); the shown one is Navy and runs into the stage, its square Green. Under a fine pointer another step lifts to
-   Dark 3 with the half-Green edge (the use cases' tab hover), and resting on it shows it. */
+   Dark 3 with the half-Green edge (the use cases' tab hover), and resting on it shows it. Rows pack to the top, so
+   where a note wraps (below 1024) the names still line up across the row. */
 .home-v2 .how-path-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:4px}
-.home-v2 .how-path-tab{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:12px;align-items:center;min-width:0;padding:16px 24px;border:0;background:none;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--foreground);text-align:left;cursor:pointer;transition:background-color 180ms ease-out}
+.home-v2 .how-path-tab{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:12px;row-gap:2px;align-items:center;align-content:start;min-width:0;padding:16px 24px;border:0;background:none;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--foreground);text-align:left;cursor:pointer;transition:background-color 180ms ease-out}
 .home-v2 .how-path-index{display:grid;place-items:center;width:24px;height:24px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 12px/1 var(--font-heading);font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
 .home-v2 .how-path-name{min-width:0;font:600 18px/24px var(--font-heading)}
+.home-v2 .how-path-note{grid-column:2;min-width:0;font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:balance}
 .home-v2 .how-path-tab[aria-selected="true"]{background:var(--background);box-shadow:none;cursor:default}
 .home-v2 .how-path-tab[aria-selected="true"] .how-path-index{background:var(--primary);box-shadow:none;color:var(--background)}
 .home-v2 .how-path-tab:not([aria-selected="true"]):hover{background:var(--web-raised)}
@@ -455,11 +458,13 @@
    to five lines at 1024). */
 @media(max-width:1279px){.home-v2 .example{padding:24px}.home-v2 .example-story{padding-right:32px}.home-v2 .example-paid{padding-left:32px}.home-v2 .holding-points{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:1200px){.home-v2 .holding{column-gap:48px}.home-v2 .how-path-panel{column-gap:48px;padding:32px}.home-v2 .how-claim{font-size:28px;line-height:36px}}
-/* Below 1024 each panel stacks its scene (centred, at most 440 px) over its words, the example's Paid out goes under
+/* Below 1024 each panel stacks its scene (centred, at most 440 px) over its words, a step's note runs the tab's full
+   width under its number (beside it, it broke into orphans and three-line notes), the example's Paid out goes under
    What happened, and Holding REP's points go under its question. Below 768 the steps go two by two, a 4 px gap from
    the stage, and the points stack. */
 @media(max-width:1023px){
-.home-v2 .how-path-tab{padding:16px}
+.home-v2 .how-path-tab{padding:16px;row-gap:8px}
+.home-v2 .how-path-note{grid-column:1/-1}
 .home-v2 .how-path-panel{grid-template-columns:minmax(0,1fr);row-gap:24px}
 .home-v2 .how-scene{max-width:440px;justify-self:center}
 .home-v2 .example-body{grid-template-columns:minmax(0,1fr)}
