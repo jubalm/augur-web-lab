@@ -1,4 +1,4 @@
-/** Homepage v4 copy, the /4/ review copy (owner, 21 Oct 2026): Augus's marks on Ryan's notes, literal.
+/** Homepage v4 copy, the /ryan-augus/ review copy (was /4/; owner, 21 Oct 2026): Augus's marks on Ryan's notes, literal.
  * A dash means do it (in Ryan's words where Ryan gave them), an X means don't, and Augus's notes 1–3
  * are used verbatim. Where neither gave exact words, v4 reuses v2's line.
  * Marks: no mark on 1 and 14; dash on 2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 15 and 17; X on 6, 11 and 16.
@@ -28,6 +28,8 @@ export const homeV4 = {
     // ("contingent upon the underlying assumptions"). "Designed to" keeps it a design aim. v2 says the
     // ranking once (Robust card); v4 says it here and again in Augus's Robust body.
     // The no-break space keeps "ever before." together: at 1440 the line otherwise left "before." alone.
+    // The review UI keeps the ending's last words on one line; two here, since five broke the line early.
+    keep: 2,
     bodyEnd: 'lying is designed to cost more than ever before.',
   },
   why: {
@@ -109,4 +111,7 @@ export const homeV4 = {
       { lead: 'Non-Passivity:', text: 'Check actively for forks or risk losing the token.' },
     ],
   },
+  // Learn more (Ryan 15, dash): the FAQ stays, with "Read the blog". v2's lead and link, without v2's later
+  // doors (`keepGoing`, the owner's own design), so the questions stay.
+  learnMore: { lead: homeV2.learnMore.lead, blog: homeV2.learnMore.blog },
 } as const;

@@ -2,9 +2,15 @@
 import { roadmap, roadmapHref, roadmapPaperSquares } from '../../data/roadmap';
 import { links } from '../../data/links';
 import Icon from '../primitives/Icon.astro';
+import {homeCopy,type HomeVariant} from '../../data/homepage-review';
+// A review version may set its own two-line heading (`roadmap.heading`; Augus's "Coming soon?",
+// homepage-v5.ts). Every other page keeps the literal one, so "/" is unchanged.
+interface Props { variant?:HomeVariant; }
+const {variant='v1'}=Astro.props;const copy=homeCopy(variant);
+const heading=copy&&'roadmap' in copy?copy.roadmap.heading:undefined;
 ---
 <section class="roadmap section" id="roadmap" aria-labelledby="roadmap-heading"><div class="container">
- <div class="section-heading"><h2 id="roadmap-heading">The road to<br/>Augur Lituus.</h2><p class="lead">The research is published and the build is underway.</p></div>
+ <div class="section-heading"><h2 id="roadmap-heading">{heading?<>{heading[0]}<br/>{heading[1]}</>:<>The road to<br/>Augur Lituus.</>}</h2><p class="lead">The research is published and the build is underway.</p></div>
  <div class="roadmap-track" data-tabs data-roadmap data-activation="manual" data-active="3" style="--selected:3">
   <div class="roadmap-phases" aria-hidden="true"><span>Completed</span><span>In progress</span><span>Up next</span></div>
   <div class="roadmap-tabs" role="tablist" aria-label="Augur roadmap">

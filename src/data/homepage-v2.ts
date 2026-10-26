@@ -63,9 +63,12 @@ export const homeV2 = {
     paths: [
       // Ryan 7: say plainly that markets misresolve. A question, since nothing sources "many traders".
       // The payoff answers it with recourse: a report can be challenged while its window runs (whitepaper
-      // §2.1 p2, §4.1 p5). "Can", not "any answer", since the window closes. "Anyone" echoes the
-      // Permissionless claim; it never says REP holders must challenge. Was "Here, no one decides alone."
-      { who: 'For traders', line: ['Seen a market settle the wrong way?', 'Here, anyone can challenge a wrong answer.'] },
+      // §2.1 p2, §4.1 p5). "Anyone" echoes the Permissionless claim; it never says REP holders must
+      // challenge. Since 26 Oct 2026 (owner: the team's notes where they fit) it also carries Augus's 18 Oct
+      // point, why a trader wants the market they use on this oracle: "Trade where …" makes the recourse a
+      // reason to choose that market, without promising anything ("it" is the wrong settlement). Was "Here,
+      // anyone can challenge a wrong answer." and before that "Here, no one decides alone."
+      { who: 'For traders', line: ['Seen a market settle the wrong way?', 'Trade where anyone can challenge it.'] },
       // Ryan 8 + Augus 1: liability first, then hand it off. "For builders" (was "For integrators"): the
       // site's name for them (the For builders guides, the footer's "Building on it?"), and plain for
       // beginners. v1's approved "Leave resolution to Augur Lituus." returns: it was dropped only for the

@@ -1,4 +1,4 @@
-/** Homepage v3 copy, the /3/ review copy (owner, 21 Oct 2026): Ryan's 17 notes only, all applied
+/** Homepage v3 copy, the /ryan/ review copy (was /3/; owner, 21 Oct 2026): Ryan's 17 notes only, all applied
  * literally, ignoring Augus's marks and notes. Where Ryan gave exact words they are used verbatim;
  * where he gave only a direction, the line says it the most direct way in his spirit (explicit, even
  * radical; jargon is fine for him: "a general audience will follow along").
@@ -20,6 +20,8 @@ export const homeV3 = {
     // "unprecedented security"; §7.5 p20, 46% more costly to attack than Augur's previous design; §3 p3
     // ("contingent upon the underlying assumptions"). "Designed to" keeps it a design aim. The no-break
     // space keeps "ever before." together (at 1440 the line otherwise left "before." alone, as on /4/).
+    // The review UI keeps the ending's last words on one line; two here, since five broke the line early.
+    keep: 2,
     bodyEnd: 'lying is designed to cost more than ever before.',
     // Ryan 16: the page's main fork, in the hero's action area (Hero.astro), so it is on the first screen
     // at every width, phones included, where the page is longest. Three plain in-page links, one per
@@ -52,8 +54,10 @@ export const homeV3 = {
     // jargon and "intermediaries" or "third parties" are no plainer. Nothing else changes; the apostrophe
     // is curly, as in every review string. The ribbon (initAnswerRibbon) splits it into ten words.
     answer: 'With Augur, users don’t rely on middlemen to control answers.',
-    // Ryan 5, 6 and 17. v1's titles, order and pictures (Cross anywhere, Peer mesh, No authority), each
-    // title with a "?" that opens a one- or two-sentence definition (`tip`, Tenets.astro). The claims
+    // Ryan 5, 6 and 17. v1's titles and order, each title with a "?" that opens a one- or two-sentence
+    // definition (`tip`, Tenets.astro). `diagram` picks each card's isometric scene (the review UI, 26 Oct
+    // 2026) by what the card says: the two roads for Permissionless, the middleman who falls away for
+    // Decentralized (no one in charge), the catapult for Bribery-resistant (the cost of an attack). The claims
     // carry the differentiators in his words; a body Ryan didn't touch stays v1's. Both claim lines are
     // Paper, as in v2 (every line is a differentiator). `tip.id` names the popover and its anchor,
     // `tip.label` is the button's accessible name, and `tip.text` follows the title in the box.
@@ -73,7 +77,7 @@ export const homeV3 = {
       // "no-holds-barred". No "Augur's creators": that is Augus's line, only implied by "or anyone else".
       // Tip: v1's own claim ("No one in charge. No one to pressure."), then where answers come from
       // (dispersed knowledge, §1; anyone can report, §2).
-      { title: 'Decentralized', diagram: 'mesh', claim: ['No governance.', 'No multisigs.'], body: 'Fully trustless: no one holds a veto over any answer.',
+      { title: 'Decentralized', diagram: 'authority', claim: ['No governance.', 'No multisigs.'], body: 'Fully trustless: no one holds a veto over any answer.',
         tip: { id: 'tip-decentralized', label: 'What does decentralized mean?', text: 'No one is in charge, so there is no one to pressure. Answers come from many independent people.' } },
       // Claim: Ryan 17's "attack cost higher than ever before", in his hero words ("more than ever before",
       // Ryan 2), hedged as v1 hedged this card ("Lying is built to lose."): "built to" is "designed to".
@@ -89,7 +93,7 @@ export const homeV3 = {
       // this section (house rule, as in v2: nothing may suggest money buys the answer).
       // Tip: v1's approved body for this card, verbatim (it moves here, so the fact keeps one home).
       // The no-break space keeps "ever before." on one line.
-      { title: 'Bribery-resistant', diagram: 'authority', claim: ['Built to cost attackers', 'more than ever before.'], body: 'Every challenge doubles the cost of defending a lie.',
+      { title: 'Bribery-resistant', diagram: 'mesh', claim: ['Built to cost attackers', 'more than ever before.'], body: 'Every challenge doubles the cost of defending a lie.',
         tip: { id: 'tip-bribery-resistant', label: 'What does bribery-resistant mean?', text: 'Paying for a false answer is designed to cost more than it brings in.' } },
     ],
     // The closer statement stays v1's: "The answer is nobody’s call."
@@ -141,6 +145,20 @@ export const homeV3 = {
       explanation: 'Developers can’t rug the DAO. Changes that fit its mission still go live.',
       labels: { lanes: ['This change', 'Another change'], at: 'Mission check' },
     },
+    // The review UI's product cards (owner, 26 Oct 2026: every version shares v2's structure). The market
+    // and insurance cards are v2's; the DAO card carries Ryan 10: a change checked against the mission
+    // statement, his "developers can't rug" in the paragraph.
+    // FLAG: "can’t" is a guarantee (house rule: "designed to"), as in `explanation` above.
+    cards: {
+      ...homeV2.applications.cards,
+      governance: {
+        label: 'Example proposal', pending: 'Queued', resolved: 'Blocked',
+        title: 'Upgrade the treasury contract',
+        details: [{ name: 'Proposed by', value: 'Core developers' }, { name: 'Vote', value: 'Passed' }, { name: 'Mission check', pending: 'Checking…', value: 'Conflicts' }],
+        result: 'Change blocked',
+        builders: 'Developers can’t rug the DAO: every change is checked against its mission statement. Changes that fit its mission still go live.',
+      },
+    },
     // Ryan 11: the builder block ("Good for users. Easier on the project.", its reasons, its ask and its
     // "Talk to us") is removed, with no `builder` field (Applications.astro renders it only when the copy
     // has one). Its details live where they started: the integrators' liability point in the Why Augur
@@ -172,6 +190,8 @@ export const homeV3 = {
       { lead: 'Never passive.', text: 'In the event of a fork, you have to check in at least once a month. Move your REP to the universe that reflects reality, or it loses its value.' },
     ],
   },
-  // Learn more (Ryan 15): v2's, read from homeV2.learnMore (the FAQ stays, "Read the blog" replaces the
-  // "From the blog" column). The roadmap is unchanged (Ryan 14).
+  // Learn more (Ryan 15): the FAQ stays, and "Read the blog" replaces the "From the blog" column. v2's lead
+  // and link, without v2's later doors (`keepGoing`, the owner's own design), so the questions stay.
+  // The roadmap is unchanged (Ryan 14).
+  learnMore: { lead: homeV2.learnMore.lead, blog: homeV2.learnMore.blog },
 } as const;

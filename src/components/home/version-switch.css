@@ -1,25 +1,52 @@
-/* Homepage review switch, /1/ to /4/ only (owner, 21 Oct 2026: quiet, small, out of the way).
-   A fixed pill in the bottom-right corner on the raised surface, four 44 px cells; the current version
-   in Paper over a 2 px Green rule, the others muted. The dots between the cells take no width (each
-   sits on the seam between two cells, centred, and lets taps through), so four versions fit in 178 px,
-   the 44 px minimum per target and nothing more (Fitts's law, WCAG 2.5.5). 24 px in from the corner,
-   so on phones its edge lines up with the page gutter (the menu button, the text column). It stays in
-   view at all times (owner, 22 Oct 2026: it no longer slides out on scroll down or over the hero's
-   actions); it steps aside only while a focused control lies under it (version-switch.js sets
-   data-cover), unless it holds focus. The mobile menu is a modal in the top layer that covers it; it
-   is hidden then anyway. It holds still through the crossfade between versions.
-   Focus scrolling keeps a focused control above it: the page's bottom scroll padding is the pill's
-   46 px, its 24 px edge and 18 px clear (WCAG 2.4.12; review fix, 21 Oct 2026). Anchors land by their
-   top, so the padding never moves an anchor landing. */
-html:has(.version-switch){scroll-padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
-.version-switch{--edge:24px;position:fixed;right:calc(var(--edge) + env(safe-area-inset-right,0px));bottom:calc(var(--edge) + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;background:var(--web-raised);border:1px solid var(--web-outline);font:600 14px/20px var(--font-heading);view-transition-name:version-switch;transition:transform 240ms var(--ease-reveal),opacity 200ms ease-out}
-.version-switch a{position:relative;display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 12px;color:var(--muted-foreground);text-decoration:none;transition:color 180ms ease-out}
-.version-switch a:hover,.version-switch a[aria-current]{color:var(--foreground)}
-.version-switch a[aria-current]::after{content:'';position:absolute;left:12px;right:12px;bottom:9px;height:2px;background:var(--primary)}
-.version-switch a:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
-.version-switch span{display:flex;justify-content:center;width:0;min-width:0;color:var(--muted-foreground);pointer-events:none}
-.version-switch[data-cover]:not(:focus-within){transform:translateY(calc(100% + var(--edge) + env(safe-area-inset-bottom,0px)));opacity:0}
+/* Homepage version switch (owner, 21 Oct 2026: quiet, small, out of the way; 26 Oct 2026: a list, and clear
+   about which version this is). A fixed pill in the bottom-right corner on the raised surface, 52 px tall:
+   a 44 px step on each side and, between them, the current version: a Green square (the site's "you are
+   here"), its place in the list over its name, and a chevron. The list opens above the pill, its right
+   edge on the pill's: each version a row with a numbered square (the How it works steps' square, Green
+   for the current one, on Navy as the shown step's tab is) and its name over one line on whose notes it
+   shows; the live homepage last, quieter. 24 px in from the corner, so on phones its edge lines up with
+   the page gutter; at 360 the list keeps 24 px from the left edge too. It stays in view at all times
+   (owner, 22 Oct 2026); it steps aside only while a focused control lies under it (version-switch.js sets
+   data-cover), unless it holds focus or its list is open. The mobile menu is a modal in the top layer
+   that covers it; it is hidden then anyway. It holds still through the crossfade between versions.
+   Focus scrolling keeps a focused control above it: the page's bottom scroll padding is the pill's 52 px,
+   its 24 px edge and 16 px clear (WCAG 2.4.12). Anchors land by their top, so the padding never moves an
+   anchor landing. */
+html:has(.version-switch){scroll-padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.version-switch{--edge:24px;position:fixed;right:calc(var(--edge) + env(safe-area-inset-right,0px));bottom:calc(var(--edge) + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:stretch;height:52px;background:var(--web-raised);box-shadow:inset 0 0 0 1px var(--web-outline);font:600 14px/20px var(--font-heading);color:var(--foreground);view-transition-name:version-switch;transition:transform 240ms var(--ease-reveal),opacity 200ms ease-out}
+.version-switch svg{display:block;width:16px;height:16px}
+.vs-step{display:grid;place-items:center;flex:none;width:44px;color:var(--muted-foreground);text-decoration:none;transition:color 180ms ease-out,background-color 180ms ease-out}
+.vs-step.is-off{opacity:.35}
+a.vs-step:hover{color:var(--foreground);background:var(--background)}
+.vs-menu{display:flex}
+.vs-now{display:flex;align-items:center;gap:12px;min-width:176px;padding:0 14px;box-shadow:inset 1px 0 0 var(--web-outline),inset -1px 0 0 var(--web-outline);list-style:none;cursor:pointer;user-select:none;transition:background-color 180ms ease-out}
+.version-switch>.vs-menu:first-child .vs-now{box-shadow:none}
+.vs-now::-webkit-details-marker{display:none}
+.vs-now:hover,.vs-menu[open] .vs-now{background:var(--background)}
+.vs-mark{flex:none;width:8px;height:8px;background:var(--primary)}
+.vs-text{display:grid;flex:1;min-width:0}
+.vs-kicker{font-size:11px;line-height:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground);white-space:nowrap}
+.vs-name{font-size:15px;line-height:20px;white-space:nowrap}
+.vs-chev{display:grid;color:var(--muted-foreground);transition:transform 180ms ease-out}
+.vs-menu[open] .vs-chev{transform:rotate(180deg)}
+.vs-panel{position:absolute;right:0;bottom:calc(100% + 8px);width:min(344px,calc(100vw - 2 * var(--edge) - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));padding:8px;background:var(--web-raised);box-shadow:inset 0 0 0 1px var(--web-outline)}
+.vs-heading{margin:8px 12px 10px;font-size:11px;line-height:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground)}
+.vs-list{display:grid;gap:2px;margin:0;padding:0;list-style:none}
+.vs-list a{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:14px;align-items:center;padding:10px 12px;color:var(--foreground);text-decoration:none;transition:background-color 180ms ease-out}
+.vs-list a:hover{background:color-mix(in srgb,var(--background) 60%,transparent)}
+.vs-list a[aria-current]{background:var(--background)}
+.vs-index{display:grid;place-items:center;width:24px;height:24px;box-shadow:inset 0 0 0 1px var(--web-outline);font-size:12px;line-height:1;font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
+.vs-list a:hover .vs-index{color:var(--foreground);box-shadow:inset 0 0 0 1px var(--web-hover-edge)}
+.vs-list a[aria-current] .vs-index{background:var(--primary);box-shadow:none;color:var(--background)}
+.vs-item{display:grid;min-width:0}
+.vs-item-name{font-size:15px;line-height:20px}
+.vs-item-blurb{font:400 13px/18px var(--font-body);color:var(--muted-foreground)}
+.vs-live{display:block;margin:6px 0 0;padding:12px 12px 6px;box-shadow:inset 0 1px 0 var(--web-outline);font-size:13px;line-height:18px;color:var(--muted-foreground);text-decoration:none}
+.vs-live:hover,.vs-live[aria-current]{color:var(--foreground)}
+.version-switch :is(a,summary):focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
+.version-switch[data-cover]:not(:focus-within):not(:has([open])){transform:translateY(calc(100% + var(--edge) + env(safe-area-inset-bottom,0px)));opacity:0}
 html:has(#mobile-navigation[open]) .version-switch{display:none}
-@media(prefers-reduced-motion:reduce){.version-switch,.version-switch a{transition:none}}
-@media(forced-colors:active){.version-switch{border-color:CanvasText}.version-switch a[aria-current]::after{forced-color-adjust:none;background:CanvasText}}
+@media(max-width:400px){.vs-now{min-width:0}}
+@media(prefers-reduced-motion:reduce){.version-switch,.vs-step,.vs-now,.vs-chev,.vs-list a{transition:none}}
+@media(forced-colors:active){.version-switch,.vs-panel{border:1px solid CanvasText}.vs-mark,.vs-list a[aria-current] .vs-index{forced-color-adjust:none;background:Highlight;color:HighlightText}}
 @media print{.version-switch{display:none}}

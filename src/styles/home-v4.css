@@ -1,11 +1,12 @@
-/* Homepage v4, /4/ only (owner, 21 Oct 2026): Augus's marks on Ryan's notes, literal. Loaded as a
-   string (review-inline.ts) and rendered inline on /4/ alone, after home-v2.css: /4/'s <main> is
-   "home-v2 home-v4", so v2's rhythm and components apply and this sheet only adds or overrides.
-   Every rule starts with .home-v4, so none of it can reach /2/ or /3/ even if the sheet were shared.
-   The specificity notes at the top of home-v2.css apply here too: this sheet comes after v2's, so a
-   .home-v4 rule ties a .home-v2 rule of the same shape and wins. While it holds no rules it renders
-   nothing and adds no CSP hash.
-   These rules only fit Augus's verbatim words (homepage-v4.ts); none of them changes a word. */
+/* Augus's verbatim words (owner, 21 Oct 2026; shared 26 Oct 2026): Ryan + Augus (/ryan-augus/, v4) and
+   Augus (/augus/, v5) both set his notes 1 and 3 word for word, and these rules only fit those words;
+   none of them changes a word. Loaded as a string (review-inline.ts) and rendered inline on those two
+   pages alone, after home-v2.css and home-v2-only.css: their <main> is "home-v2 home-v4" or "home-v2
+   home-v5", so the review UI applies and this sheet only adds or overrides. Every rule starts with
+   :is(.home-v4,.home-v5) (one class's weight), so none of it can reach another version even if the sheet
+   were shared. The specificity notes at the top of home-v2.css apply here too: this sheet comes last, so
+   a rule here ties a .home-v2 rule of the same shape and wins. While it holds no rules it renders nothing
+   and adds no CSP hash. */
 
 /* Why Augur cards from 1024, three in a row (Augus 3). His copy can't end level: Trustless's three
    sentences take three claim lines, Robust's body three lines (672 px at 16 px against a 245–336 px
@@ -20,8 +21,8 @@
    pictures are aria-hidden, so the reading order is unchanged. Tablet and phones keep v2's layout:
    one card per row, where no card stands beside a shorter one. */
 @media(min-width:1024px){
- .home-v4 .tenet-copy{flex:none;border-top:0;padding-bottom:0}
- .home-v4 .tenet-visual{order:1;flex:1;display:flex;align-items:flex-end;padding-top:16px}
+ :is(.home-v4,.home-v5) .tenet-copy{flex:none;border-top:0;padding-bottom:0}
+ :is(.home-v4,.home-v5) .tenet-visual{order:1;flex:1;display:flex;align-items:flex-end;padding-top:16px}
 }
 
 /* The builder's reasons (Augus 1, his order and words). From 1280 they sit on the page's three-up
@@ -31,9 +32,9 @@
    beside two). Below 1280 no column width keeps them level (3 / 2 / 3 lines at 1100–1279, 3 / 2 / 4 at
    1024), so from 1024 to 1279 each reason is a row, as below 1024: its icon tile beside its claim and
    point, every point on one line. The title and the ask keep their heading row above. */
-@media(min-width:1280px){.home-v4 .builder-reasons{column-gap:24px}}
+@media(min-width:1280px){:is(.home-v4,.home-v5) .builder-reasons{column-gap:24px}}
 @media(min-width:1024px) and (max-width:1279px){
- .home-v4 .builder-reasons{grid-template-columns:minmax(0,1fr);row-gap:28px}
- .home-v4 .builder-case .builder-reasons li{grid-template-columns:44px minmax(0,1fr);column-gap:20px}
- .home-v4 .builder-icon{grid-row:span 2;margin:0}
+ :is(.home-v4,.home-v5) .builder-reasons{grid-template-columns:minmax(0,1fr);row-gap:28px}
+ :is(.home-v4,.home-v5) .builder-case .builder-reasons li{grid-template-columns:44px minmax(0,1fr);column-gap:20px}
+ :is(.home-v4,.home-v5) .builder-icon{grid-row:span 2;margin:0}
 }
