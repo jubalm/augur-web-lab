@@ -270,16 +270,18 @@ export const homeV2 = {
     // that continues on its own page; the blog is a second, lighter way on). PRODUCT.md: the homepage
     // points to writing and FAQs.
     blog: { label: 'Read the blog', href: '/blog/' },
-    // /2/ only (owner, 25 Oct 2026, item 6: send people on to the FAQ, the blog and the community). Three
-    // cells under the questions in place of the two links, each a line on what's there and its link at
-    // the foot. The community cell leads with Discord alone (navigation.community, one source), so it
-    // never repeats the footer's four-link column a screen lower. The links keep the site's wording:
-    // "View all questions", "Read the blog" and /contact/'s "Join the conversation". Draft copy.
+    // /2/ only (owner, 25 Oct 2026, item 6: send people on to the FAQ, the blog and the community; 26 Oct:
+    // sketch A, the questions go and three doors are the section). The lead names the doors in order
+    // (answers, updates, people) and each door's line says what's behind it, all about the same length,
+    // so the three wrap alike. The community door leads with Discord alone (navigation.community, one
+    // source), so it never repeats the footer's four-link column a screen lower; the blog's line stays
+    // clear of the newsletter's "Research, development and product updates" just below. Draft copy.
     keepGoing: {
-      label: 'Keep going',
-      faq: { title: 'All the questions', line: 'Short answers on Augur, Augur Lituus, REP and building on it.', link: 'View all questions', href: '/faq/' },
-      blog: { title: 'The blog', line: 'Project updates, research and design notes from the team.', link: 'Read the blog' },
-      community: { title: 'The community', line: 'Ask questions and follow the build with the people around Augur on Discord.', link: 'Join the conversation' },
+      heading: 'Keep going.',
+      lead: 'Answers, updates and the people around Augur.',
+      faq: { title: 'FAQ', line: 'Plain answers on markets, REP and how questions get settled.' },
+      blog: { title: 'Blog', line: 'Progress reports, research and design notes from the team.' },
+      community: { title: 'Community', line: 'Ask questions, share ideas and follow the build on Discord.' },
     },
   },
 } as const;

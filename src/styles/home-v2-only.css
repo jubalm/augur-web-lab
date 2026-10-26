@@ -230,21 +230,57 @@
 .home-v2 .roadmap-evidence :is(.evidence-label,.evidence-caption){font-size:14px;line-height:20px}
 .home-v2 .roadmap-evidence .evidence-label{margin-bottom:24px}
 
-/* Learn more (item 6): "Keep going" under the questions, three equal cells in one outlined strip (no
-   tint), split by hairlines: the FAQ, the blog and the community (Discord). Each cell's link sits at its
-   foot, underlined at rest like a link (the bare "Read the blog" beside a bordered button didn't read as
-   one), so the three end level. Hover and focus only. */
-.home-v2 .keep-going{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:32px 0 0;padding:0;list-style:none;border:1px solid var(--web-outline)}
-.home-v2 .keep-cell{display:flex;flex-direction:column;align-items:flex-start;min-width:0;padding:24px 32px}
-.home-v2 .keep-cell+.keep-cell{border-left:1px solid var(--web-outline)}
-.home-v2 .keep-title{margin:0;font:600 18px/26px var(--font-heading);letter-spacing:0;color:var(--foreground)}
-.home-v2 .keep-line{max-width:34em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
-.home-v2 .keep-link{display:inline-flex;align-items:center;gap:6px;margin-top:auto;padding-top:16px;font:600 16px/24px var(--font-heading);color:var(--foreground);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
-.home-v2 .keep-link:hover{text-decoration-thickness:2px}
-.home-v2 .keep-link .web-icon,.home-v2 .keep-link svg{width:14px;height:14px}
-@media(max-width:1200px){.home-v2 .keep-cell{padding:24px}}
-@media(max-width:1023px){.home-v2 .keep-going{grid-template-columns:minmax(0,1fr)}.home-v2 .keep-cell+.keep-cell{border-left:0;border-top:1px solid var(--web-outline)}}
-@media(forced-colors:active){.home-v2 .keep-going{border-color:CanvasText}.home-v2 .keep-cell+.keep-cell{border-color:CanvasText}}
+/* Learn more (item 6; owner, 26 Oct 2026: sketch A, polished): three doors, the FAQ, the blog and
+   Discord, and nothing else. Each door is a Navy well on the Dark 2 band, the three tiles' 400 / 24 grid
+   at 1440, so they read as openings in the band rather than the hairline-split panel the Applications
+   closer already uses. One link fills each tile (its ::after), so the whole door is the target. Top
+   row: the door's object from the iso kit (door-scenes.ts; no generic icons, owner), 104 × 64 on its
+   foot, and the way out, → or ↗ for Discord; then the title (H3 24/32) and one Pewter line, all three
+   lines wrapping alike. Hover lifts the tile one tonal step to Dark 1 with a Mist edge, draws a 2 px
+   Green line along its foot from the left, nudges the arrow 4 px on its way and plays the object's
+   one move: the FAQ's ? gives way to a ✓, the latest post lifts off the pile, you hop (transform and
+   opacity only). Keyboard focus gets the same look and the 2 px Pewter ring, 3 px out, around the
+   whole door. Pressed: Dark 3. Below 1024 the doors stack 12 apart: as rows (object, words, arrow) down to
+   768, and as small tiles on phones, where a row would squeeze the line to four lines. */
+.home-v2 .doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:0;padding:0;list-style:none}
+.home-v2 .door{position:relative;display:grid;grid-template-columns:104px minmax(0,1fr) 20px;grid-template-areas:"art . arrow" "title title title" "line line line";align-content:start;min-width:0;padding:32px;background:var(--web-well);border:1px solid var(--web-outline);transition:background-color 180ms ease-out,border-color 180ms ease-out}
+.home-v2 .door::before{content:"";position:absolute;inset:auto -1px -1px;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform 240ms ease-out}
+.home-v2 .door-art{grid-area:art;display:block;width:104px;height:64px;overflow:visible}
+.home-v2 .door-art [data-door-part]{transition:transform 280ms cubic-bezier(.22,.61,.36,1),opacity 200ms ease-out}
+.home-v2 .door-arrow{grid-area:arrow;align-self:start;color:var(--muted-foreground);transition:transform 180ms ease-out,color 180ms ease-out}
+.home-v2 .door-title{grid-area:title;margin:24px 0 0;font:600 24px/32px var(--font-heading);letter-spacing:0}
+.home-v2 .door-link{color:var(--foreground);text-decoration:none}
+.home-v2 .door-link::after{content:"";position:absolute;inset:-1px}
+.home-v2 .door-line{grid-area:line;max-width:30em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
+.home-v2 .door-link:focus-visible{outline:none}
+.home-v2 .door-link:focus-visible::after{outline:2px solid var(--ring);outline-offset:3px}
+.home-v2 .door:has(.door-link:focus-visible){background:var(--web-quiet);border-color:var(--border)}
+.home-v2 .door:has(.door-link:focus-visible)::before{transform:none}
+.home-v2 .door:has(.door-link:focus-visible) .door-arrow{color:var(--foreground)}
+.home-v2 .door:has(.door-link:focus-visible) [data-door-part=ask]{opacity:0}
+.home-v2 .door:has(.door-link:focus-visible) [data-door-part=answer]{opacity:1}
+@media(hover:hover){
+ .home-v2 .door:hover{background:var(--web-quiet);border-color:var(--border)}
+ .home-v2 .door:hover::before{transform:none}
+ .home-v2 .door:hover .door-arrow{color:var(--foreground)}
+ .home-v2 .door:hover [data-door-part=ask]{opacity:0}
+ .home-v2 .door:hover [data-door-part=answer]{opacity:1}
+}
+@media(prefers-reduced-motion:no-preference){.home-v2 .door:has(.door-link:focus-visible) [data-door-part=lift]{transform:translateY(-3px)}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.home-v2 .door:hover .door-arrow{transform:translateX(4px)}.home-v2 .door[data-external]:hover .door-arrow{transform:translate(3px,-3px)}.home-v2 .door:hover [data-door-part=lift]{transform:translateY(-3px)}}
+.home-v2 .door:active{background:var(--web-raised)}
+@media(max-width:1200px){.home-v2 .door{padding:24px}}
+@media(max-width:1023px){.home-v2 .doors{grid-template-columns:minmax(0,1fr);gap:12px}}
+@media(min-width:768px) and (max-width:1023px){
+ .home-v2 .door{grid-template-columns:78px minmax(0,1fr) 20px;grid-template-areas:"art title arrow" "art line arrow";column-gap:24px;align-items:center}
+ .home-v2 .door-art{width:78px;height:48px}
+ .home-v2 .door-arrow{align-self:center}
+ .home-v2 .door-title{margin:0}
+ .home-v2 .door-line{margin-top:4px}
+}
+@media(max-width:767px){.home-v2 .door{grid-template-columns:78px minmax(0,1fr) 20px;padding:20px}.home-v2 .door-art{width:78px;height:48px}.home-v2 .door-title{margin-top:16px;font-size:20px;line-height:28px}}
+@media(prefers-reduced-motion:reduce){.home-v2 :is(.door,.door::before,.door-arrow,.door-art [data-door-part]){transition:none}}
+@media(forced-colors:active){.home-v2 .door{border-color:CanvasText}.home-v2 .door::before{display:none}.home-v2 .door:hover{border-color:Highlight}.home-v2 .door-link:focus-visible::after{outline-color:Highlight}}
 
 /* Hero (item 24, first option from the 25 Oct audit): "decentralized" in Sora 400 against the headline's
    600, so the word keeps its difference after the underline sweep has gone and under reduced motion,
