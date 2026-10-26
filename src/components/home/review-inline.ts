@@ -19,11 +19,11 @@ import flockScript from './hero-flock-v2.js?raw';
 import videoScript from './hero-video-v2.js?raw';
 import floorScript from './hero-floor-v2.js?raw';
 import useCasesScript from './use-cases-v2.js?raw';
-import howCardsScript from './how-cards-v2.js?raw';
+import howPathScript from './how-path-v2.js?raw';
 import {flockMotion} from '../../data/hero-flock';
 import {isoTracks} from '../../data/tenets-iso';
-import {howSceneMoves} from '../../data/how-scenes';
-import {easing,useCaseTimeline,howCardsTimeline} from '../../motion/timelines';
+import {howActs} from '../../data/how-scenes';
+import {easing,useCaseTimeline,howPathTimeline} from '../../motion/timelines';
 // Comment lines and indentation are dropped; the line breaks stay, so the script parses as written.
 const compact = (js: string) => js.replace(/^\s*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '').trim();
 export const switchInline = { style: switchStyle, script: compact(switchScript) };
@@ -46,13 +46,13 @@ export const reviewScripts = { how: compact(howScript) } as Record<string, strin
 // `floor` draws the hero's live floor and `video` plays its generated loop, from 1024 px (Hero.astro renders
 // the one its `layer` picks after the flock's); its `useCases` plays the use cases' product cards, with the
 // timings from timelines.ts written in (Applications.astro renders it after the section on /2/); its
-// `howCards` plays How it works' four cards once, with how-scenes.ts's moves written in, and opens its example
-// (HowItWorks.astro renders it after the section on /2/, in place of the review versions' `how`).
+// `howPath` adds hover to How it works' four steps and plays its stage, with how-scenes.ts's acts written in, and
+// opens its example (HowItWorks.astro renders it after the section on /2/, in place of the review versions' `how`).
 // v3's `tips` adds hover and focus to the Why Augur "?" toggletips (Tenets.astro renders it after the
 // section).
 type Inline = { styles: string[]; scripts: Record<string, string> };
 export const reviewInline: Record<ReviewVariant, Inline> = {
-  v2: { styles: [v2Style, v2OnlyStyle].filter(Boolean), scripts: { ...reviewScripts, header: compact(headerScript), tenets: compact(tenetsIsoScript).replace('__SCENES__', JSON.stringify(isoTracks)), flock: compact(flockScript).replace('__FLOCK__', JSON.stringify(flockMotion)), video: compact(videoScript), floor: compact(floorScript), useCases: compact(useCasesScript).replace('__USE_CASES__', JSON.stringify({ easing, timeline: useCaseTimeline })), howCards: compact(howCardsScript).replace('__HOW_CARDS__', JSON.stringify({ easing, timeline: howCardsTimeline, moves: howSceneMoves })) } },
+  v2: { styles: [v2Style, v2OnlyStyle].filter(Boolean), scripts: { ...reviewScripts, header: compact(headerScript), tenets: compact(tenetsIsoScript).replace('__SCENES__', JSON.stringify(isoTracks)), flock: compact(flockScript).replace('__FLOCK__', JSON.stringify(flockMotion)), video: compact(videoScript), floor: compact(floorScript), useCases: compact(useCasesScript).replace('__USE_CASES__', JSON.stringify({ easing, timeline: useCaseTimeline })), howPath: compact(howPathScript).replace('__HOW_PATH__', JSON.stringify({ easing, timeline: howPathTimeline, acts: howActs })) } },
   v3: { styles: [v2Style, v3Style].filter(Boolean), scripts: { ...reviewScripts, tips: compact(tipsScript) } },
   v4: { styles: [v2Style, v4Style].filter(Boolean), scripts: { ...reviewScripts } },
 };

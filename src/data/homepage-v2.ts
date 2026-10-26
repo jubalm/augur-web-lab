@@ -197,16 +197,18 @@ export const homeV2 = {
       // breaks between its first two sentences (balanced, it left "Be" at the end of line one at 1440).
       lead: `${stakedBehind}. Be right and you’re paid. Be wrong and you lose your stake.`,
       label: 'How taking part works',
-      // Each card: the step's name on its tab, a scene (how-scenes.ts), then a claim in the Why Augur cards'
-      // two lines (setup in Pewter, payoff in Paper) and one body line, which carries the wait that follows.
-      // Each claim line fits one line from 1360 at 20 px and from 1200 at 18 px (measured 25 Oct); below 1200
-      // the cards go two by two. Challenge says "double theirs": in the cold read, "stake double" didn't say of
-      // what. `scene` names the card's drawing.
+      // Each step (sketch A of the item 4 board; owner, 25 Oct 2026: "build A on /2"): a tab with its number and
+      // name, and a stage with its scene (how-scenes.ts), the claim in two lines (setup in
+      // Pewter, payoff in Paper), one body line, which carries the wait that follows, and the example's figure
+      // for that step (`fact`: a label and a figure HowItWorks.astro fills from walkthrough.ts, the numbers the
+      // example below opens with). Get paid's figure is what you win of their stake, as in the example's Paid
+      // out ("on top of" your stake back and the reward). Challenge says "double theirs": in the cold read,
+      // "stake double" didn't say of what. `scene` names the step's drawing.
       stops: [
-        { title: 'Ask', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.' },
-        { title: 'Report', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.' },
-        { title: 'Challenge', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.' },
-        { title: 'Get paid', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.' },
+        { title: 'Ask', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.', fact: ['In the example', '{fee} fee'] },
+        { title: 'Report', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.', fact: ['In the example', '{bond} on {reported}'] },
+        { title: 'Challenge', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.', fact: ['In the example', '{challenge} on {challenged}'] },
+        { title: 'Get paid', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.', fact: ['In the example, you win', '+{share}'] },
       ],
       // The example: walkthrough.ts's question and amounts, with "you" as the challenger who turns out
       // right, so the card ends on your payout (peak–end). HowItWorks.astro fills {fee}, {bond},
@@ -214,14 +216,16 @@ export const homeV2 = {
       // gives the Paid out figures. The reward's amount for an overturned report isn't in §4.4.3, so the
       // card names it without a figure, "on top of" the +12 (cold read, 25 Oct: "with your 30 REP back and
       // the reward" left the reward looking like part of it); the reporter "lost" theirs, so Paid out never
-      // reads as paying them.
+      // reads as paying them. `story` labels the rows (the four steps above, numbered the same), and `you`
+      // marks the row that is your move.
       example: {
         tag: 'Example',
         status: 'Final answer',
+        story: 'What happened',
         rows: [
           { event: 'The question is asked', note: 'The reward, Reporter Pay, starts at 0 REP and rises toward the fee.', amount: '{fee} fee' },
           { event: 'Someone reports {reported}', note: 'The first stake, called a bond, always equals the fee.', amount: '{bond}' },
-          { event: 'You challenge with {challenged}', note: 'Double their stake. The time to challenge (the appeal period) starts again.', amount: '{challenge}' },
+          { event: 'You challenge with {challenged}', note: 'Double their stake. The time to challenge (the appeal period) starts again.', amount: '{challenge}', you: true },
           { event: '{final} is final', note: 'The time to challenge ends with no new stake.' },
         ],
         paid: 'Paid out',
