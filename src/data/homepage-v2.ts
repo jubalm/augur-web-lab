@@ -139,11 +139,20 @@ export const homeV2 = {
     cards: {
       answeredBy: 'Answered by Augur Lituus',
       cue: 'For builders',
+      // The market card is a query split in two (owner, 26 Oct 2026, design D of the use-case motion board:
+      // "Split it is"): the market's price beside Augur Lituus's answer. A price near 100 is the market's
+      // consensus, not settlement, so the market pays only once the answer is Final. The statuses are How it
+      // works' (walkthrough.ts: a report is "open to challenge"); this query isn't challenged, so it goes
+      // Asked, Reported, Final, in the whitepaper's order (§4.5's example: the market creator pays the Query
+      // Fee when making the market, people bet, a report comes 12 hours into the reporter pay's clock auction,
+      // and a day with no appeal makes it final). The question, picked from ten, is information that
+      // benefits everyone (owner: "adjacent to what Augur really means"). The label is "Query" (owner, 26 Oct
+      // 2026); prices and the answer are illustrative.
       prediction: {
-        label: 'Example market', pending: 'Live', resolved: 'Settled',
-        title: 'Will the home team win the final?',
-        outcomes: [{ name: 'Yes', from: 61, to: 100 }, { name: 'No', from: 39, to: 0 }],
-        result: 'Paid to the Yes side',
+        label: 'Query',
+        title: 'Will this year be the hottest on record?',
+        market: { name: 'Market', prices: [64, 71, 86, 99], paid: '$1', pending: 'Yes price', resolved: 'Paid per Yes share' },
+        oracle: { name: 'Augur Lituus', answer: 'Yes', statuses: ['Asked', 'Reported', 'Final'], notes: ['Waiting for a report', 'Open to challenge', 'Final answer'] },
         builders: 'Markets settle once the answer is final, and no one on the team has to decide who won. A challenged result is settled in the open, so it isn’t the team’s to defend.',
       },
       insurance: {

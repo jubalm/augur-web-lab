@@ -53,18 +53,26 @@ export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640
  * (use-cases-v2.js, which gets this and `easing` written in). A pick draws the 2 px Green line from the tab
  * over `link`, fades the shown case out over `out` and the picked one in from `at` over `in`. A case plays
  * once per tab session, `pick` after its first pick, or `entrance` after `threshold` of the stage is in view.
- * Its rows come in first (owner, 25 Oct 2026: the Yes/No options first, subtle and low-noise), `rowStagger`
- * apart, each rising `rise` px over `row`; as a market row arrives, its Mist bar fills to the live odds over
- * `odds`. Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady pace,
- * then eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); the
+ * Its rows come in first (owner, 25 Oct 2026: subtle and low-noise), `rowStagger` apart, each rising `rise` px
+ * over `row`. Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady
+ * pace, then eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); the
  * +2 hours tick stretches to `tickScale` and back over `tick` as the dot crosses it, and "Landed" rises
  * `landedLead` before the answer, over `landed`. While the proposal is checked, a Mist line runs under its
  * pending check from `scanAt` over `scan`. At the answer every pending word and that line go over `swapOut`,
  * and each answer comes in from `swapIn` over `swap` (a value rising `rise` px, the status from `statusFrom`
- * scale); the market's bars run over `bar`, the Green one fading in over `barFade`, and the check draws
- * from `checkAt` over `checkDraw`. The footer rises `footRise` px from `footAt` over `foot`, and the result
- * fades in from `resultAt` over `result`. */
-export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, odds:560, answer:{market:900, proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, bar:640, barFade:200, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320 } as const;
+ * scale), and the check draws from `checkAt` over `checkDraw`. The footer rises `footRise` px from `footAt`
+ * over `foot`, and the result fades in from `resultAt` over `result`.
+ * The market card is a query split in two (owner, 26 Oct 2026, "Split it is"), one change at a time, in the
+ * whitepaper's order (§4.5), timed by `query`. The query is asked as the market opens: the Asked chip in the
+ * corner scales from `statusFrom` over `swap` and a Paper ring lights it over `glow`, while both cells wait at
+ * `dim`. From `focus` the market comes up and its price's digits climb a step at each of `ticks` (to 99¢:
+ * consensus, not settlement). The report lands at `reported` (the chip, a Paper Yes, "Open to challenge"): the
+ * focus moves to Augur Lituus, the market steps back to `past`, and a 2 px line fills under the note, fading in
+ * over `waitIn`, until the answer is Final at `final` (the chip turns Green, the Yes turns Green, its seal grows
+ * in over `seal` and its check draws from `checkAt`). The market comes back up and pays at `paid`. A price
+ * slides `slide` percent up as it rises (down as it falls); a word swaps in place, the old one gone over `out`
+ * before the new one comes in by `in`. */
+export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, answer:{proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320, query:{ glow:1400, dim:.35, past:.5, focus:900, ticks:[1300, 2100, 2900], reported:3700, final:6100, paid:6900, slide:55, out:200, in:520, waitIn:280, seal:420 } } as const;
 /** How it works on /2/ (owner, 25 Oct 2026, item 4: "build A on /2", four steps over one stage; how-path-v2.js,
  * which gets this, `easing` and how-scenes.ts's acts written in). Steps are picked by press or key, never hover
  * (owner, 26 Oct 2026). Once per tab session, after `threshold` of the stage is in view, the shown step's scene acts from

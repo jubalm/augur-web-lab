@@ -60,8 +60,8 @@
    product's own data and a footer saying who answered and what the product did. Green shows only the
    answer and what it changed. Each card is rendered answered; the pending words and Mist bars sit under
    it at opacity 0 for the play. */
-.home-v2 .case-card{align-self:stretch;padding:24px;background:var(--background)}
-.home-v2 .card-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.home-v2 .case-card{align-self:stretch;margin-bottom:16px;padding:24px;background:var(--background)}
+.home-v2 .card-head{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:28px}
 .home-v2 .card-label{font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
 .home-v2 .card-status{display:inline-grid}
 .home-v2 .card-status>span{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 10px;font:600 13px/16px var(--font-heading);white-space:nowrap}
@@ -70,21 +70,64 @@
 .home-v2 .status-done{background:var(--primary);color:var(--background)}
 .home-v2 .card-title{margin:16px 0 0;font:600 22px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
 .home-v2 .card-body{margin-top:24px}
-/* Market: each outcome's price over its bar; the answer runs Yes to 100 and No to 0. */
-.home-v2 .card-rows{display:grid;row-gap:16px}
-.home-v2 .card-outcome{display:grid;grid-template-columns:1fr auto;align-items:center;row-gap:8px}
-.home-v2 :is(.card-name,.card-price){font:600 14px/20px var(--font-heading);font-variant-numeric:tabular-nums}
-.home-v2 .card-outcome:not(.is-win) :is(.card-name,.card-price){color:var(--muted-foreground)}
-.home-v2 .card-price{display:inline-grid}
-.home-v2 .card-price>span{grid-area:1/1;justify-self:end;display:inline-flex;align-items:center;gap:6px}
-.home-v2 .price-was{opacity:0}
-.home-v2 .is-win .price-now{color:var(--primary)}
+/* Market: a query split in two (owner, 26 Oct 2026, design D of the use-case motion board: "Split it is").
+   The query's status in the card's corner (How it works' words); the market's price on the left; Augur
+   Lituus on the right, its answer and what the status means. The right cell is the wider (1 : 1.4), so the answer leads and both
+   cells sit side by side down to 1024; below a 340 px card they stack. A price near 100 is the market's
+   consensus, not settlement: the left cell pays only once the right one is Final. While a report is open to
+   challenge, a 2 px line fills under its note. Values are 40/48, so the card is 285 tall like the others.
+   Every changing value keeps its states in one cell, the resting one last. */
+.home-v2 [data-card-kind="query"]{container:query/inline-size}
+.home-v2 .card-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);margin-top:32px}
+.home-v2 .split-cell{display:grid;align-content:start;gap:8px;min-width:0;padding-right:24px}
+.home-v2 .split-cell.is-oracle{padding:0 0 0 24px;border-left:1px solid var(--web-outline)}
+.home-v2 .split-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:28px;margin:0 0 4px}
+.home-v2 .split-name{font:600 13px/16px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .split-by{display:inline-flex;align-items:center;gap:8px;font:600 13px/16px var(--font-heading);color:var(--foreground);white-space:nowrap}
+.home-v2 .split-by::before{content:'';flex:none;width:8px;height:8px;background:var(--primary)}
+.home-v2 .split-value{margin:0;font:600 40px/48px var(--font-heading);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.home-v2 .split-note{margin:0;font-size:15px;line-height:22px;color:var(--muted-foreground)}
+.home-v2 .split-states{display:inline-grid}
+.home-v2 .split-states>span{grid-area:1/1;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;opacity:0}
+.home-v2 .split-states>span:last-child{opacity:1}
+.home-v2 .split-win{color:var(--primary)}
+.home-v2 .split-mute{color:var(--mark-participant,#71728A)}
 .home-v2 .card-check{width:14px;height:14px;overflow:visible}
 .home-v2 .card-check polyline{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:1 3}
-.home-v2 .card-bar{grid-column:1/-1;position:relative;height:6px;overflow:hidden;background:var(--web-raised)}
-.home-v2 .card-bar i{position:absolute;inset:0;transform-origin:left}
-.home-v2 .bar-was{background:var(--augur-color-surface-dark-mist);opacity:0}
-.home-v2 .bar-now{background:var(--primary)}
+/* Final's mark is a drawn seal, not a glyph (owner, 26 Oct 2026: "polished instead of a character"): a 26 px
+   Green square, the brand's square, holding the check in Navy at a weight that matches the 40 px word. */
+.home-v2 .split-seal{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;background:var(--primary);color:var(--background)}
+.home-v2 .split-seal .card-check{width:18px;height:18px}
+.home-v2 .split-seal .card-check polyline{stroke-width:2.6}
+/* Only the price's digits change (owner, 26 Oct 2026); the ¢ stays where it is. */
+.home-v2 .split-states>.split-price{gap:0}
+/* The status sits in the card's top right corner, where the other cards keep theirs (owner, 26 Oct 2026):
+   a 28 px square-cornered chip (Asked outlined and quiet, Reported in Pewter and Paper, Final Green with
+   Navy text). Asked is lit for a moment as the query is asked. */
+.home-v2 .split-status>span{justify-self:end;gap:8px;height:28px;padding:0 10px;font:600 13px/16px var(--font-heading)}
+.home-v2 .split-status i{flex:none;width:6px;height:6px}
+.home-v2 .st-ask{position:relative;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--muted-foreground)}
+.home-v2 .st-glow{position:absolute;inset:0;box-shadow:inset 0 0 0 1px var(--foreground);opacity:0;pointer-events:none}
+.home-v2 .st-ask i{background:var(--mark-participant,#71728A)}
+.home-v2 .st-rep{box-shadow:inset 0 0 0 1px var(--muted-foreground);color:var(--foreground)}
+.home-v2 .st-rep i{background:var(--foreground)}
+.home-v2 .st-fin{background:var(--primary);color:var(--background)}
+.home-v2 .st-fin i{background:var(--background)}
+.home-v2 .split-wait{position:relative;display:block;height:2px;margin-top:4px;background:var(--web-outline);opacity:0}
+.home-v2 .split-wait i{position:absolute;inset:0;background:var(--muted-foreground);transform-origin:left}
+/* A narrow card (1024–1100), where the question takes two lines: the split tightens so the card stays near
+   the others' 285. */
+@container query (width < 440px){
+.home-v2 .card-split{margin-top:24px}
+.home-v2 .split-top{margin-bottom:0}
+.home-v2 .split-value{font-size:36px;line-height:44px}
+.home-v2 .split-note{font-size:14px;line-height:20px}
+}
+@container query (width < 340px){
+.home-v2 .card-split{grid-template-columns:minmax(0,1fr);row-gap:20px}
+.home-v2 .split-cell{padding:0}
+.home-v2 .split-cell.is-oracle{padding:20px 0 0;border-left:0;border-top:1px solid var(--web-outline)}
+}
 /* Details (the proposal's three rows, the flight's arrival): label left, value right. A pending value
    ("Checking…", "In the air") settles into its answer in Green. While the proposal is checked, a 2 px Mist
    line runs 5 px under its row; it shows only during the play. */
@@ -116,11 +159,13 @@
 .home-v2 .card-by{display:inline-flex;align-items:center;gap:8px;font:600 13px/16px var(--font-heading);color:var(--foreground)}
 .home-v2 .card-by::before{content:'';width:8px;height:8px;background:var(--primary)}
 .home-v2 .card-result{font:400 13px/16px var(--font-body);color:var(--muted-foreground);text-align:right}
-/* For builders, under the card: the cue as the Why Augur closer's labels, then one paragraph. The three
-   paragraphs keep three lines from 1024 to 1440 and the cards match, so every tab has the same content
-   height. From 1280 the panel ends level with the tab column, 32 under the card; at 1024 the taller tab
-   column leaves room, and the paragraph sits on the panel's foot, at the same place on every tab. */
-.home-v2 .case-builders{align-self:stretch;margin-top:auto;padding-top:32px}
+/* For builders, in its own element (owner, 26 Oct 2026: "the 'for builders' should be inside an element"):
+   a 1 px outlined box, lighter than the Navy card so the example stays the hero, its boundary marking it as
+   a second message for a second audience (the Law of Common Region). The cue as the Why Augur closer's
+   labels, then one paragraph. The box sits on the panel's foot, at the same place on every tab, at least
+   16 under the card. The three paragraphs keep three lines from 1024 to 1440 and the cards match. */
+.home-v2 .case-builders{align-self:stretch;margin-top:auto;padding:20px 28px 24px;border:1px solid var(--web-outline)}
+@media(max-width:1200px){.home-v2 .case-builders{padding:18px 24px 20px}}
 .home-v2 .builders-cue{display:flex;align-items:center;gap:12px;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
 .home-v2 .builders-cue::before{content:'';width:8px;height:8px;background:var(--primary)}
 .home-v2 .builders-line{max-width:34em;margin:8px 0 0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
@@ -150,11 +195,15 @@
 @media(forced-colors:active){
 .home-v2 .case-tabs .case-tab::before{display:none}
 .home-v2 .case-tabs .case-tab{outline:1px solid CanvasText;outline-offset:-1px}
-.home-v2 :is(.case-link,.bar-now,.track-late),.home-v2 .card-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
+.home-v2 :is(.case-link,.track-late),.home-v2 .card-by::before,.home-v2 .split-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
+.home-v2 .st-fin{forced-color-adjust:none;background:Highlight;color:HighlightText}
+.home-v2 :is(.st-ask,.st-rep){outline:1px solid CanvasText;outline-offset:-1px}
+.home-v2 .split-wait{forced-color-adjust:none;background:GrayText}
+.home-v2 .split-wait i{forced-color-adjust:none;background:CanvasText}
 .home-v2 .case-card,.home-v2 .builder-case :is(.builder-reasons,.builder-ask){outline:1px solid CanvasText}
 .home-v2 .status-done{forced-color-adjust:none;background:Highlight;color:HighlightText}
 .home-v2 :is(.track-done,.track-dot){forced-color-adjust:none;background:CanvasText}
-.home-v2 :is(.track-base,.track-tick,.card-bar){forced-color-adjust:none;background:GrayText}
+.home-v2 :is(.track-base,.track-tick){forced-color-adjust:none;background:GrayText}
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .case-tabs .case-tab,.home-v2 .case-tabs .case-tab::before{transition:none}}
 
