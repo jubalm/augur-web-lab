@@ -9,7 +9,7 @@
 // change at a time: Asked while the market's price climbs to 99¢, then the report, open to challenge while a
 // line fills, then Final, then the market pays.
 // A press, focus or key in the stage, a resize, print, a hidden page or the stage leaving the screen
-// settles everything on the final frame. Transform and opacity only, plus the check's stroke. Timings and
+// settles everything on the final frame. Transform and opacity only. Timings and
 // easings come from timelines.ts (useCaseTimeline, easing), written in at build time (review-inline.ts).
 (() => {
 const T = __USE_CASES__, E = T.easing, U = T.timeline;
@@ -46,7 +46,7 @@ look(el, f, f[f.length - 1].at);
 // The market card, in the whitepaper's order (§4.5): the query is asked as the market opens, so Asked is lit for
 // a moment while both cells wait; then the focus goes to the market, whose price climbs to 99¢ (consensus, not
 // settlement); the report lands, Yes open to challenge, and the focus moves to Augur Lituus while a line fills
-// under it; the answer is Final, the Yes turns Green and its seal draws; then the market pays. Only the price's
+// under it; the answer is Final and the Yes turns Green; then the market pays. Only the price's
 // digits change until it pays.
 const query = (card, at) => {
 const Y = U.query, q = name => card.querySelector(`[data-card="${name}"]`), t = ms => at + ms;
@@ -61,12 +61,10 @@ states(q('price'), [0, ...Y.ticks.map(t)]);
 states(q('price-value'), [0, t(Y.paid)], () => true);
 states(q('price-note'), [0, t(Y.paid)], () => true);
 states(q('answer'), [0, t(Y.reported), t(Y.final)], k => k === 2);
-animate(card.querySelector('.split-seal'), [{ opacity: 0, transform: 'scale(.5)' }, { opacity: 1, transform: 'none' }], { delay: t(Y.final) + U.swapIn, duration: Y.seal, easing: E.settle, fill: 'backwards' });
 states(q('answer-note'), [0, t(Y.reported), t(Y.final)], () => true);
 const wait = q('wait');
 look(wait, [{ opacity: 0, at: 0 }, { opacity: 0, at: t(Y.reported) + Y.waitIn, easing: E.settle }, { opacity: 1, at: t(Y.reported) + 2 * Y.waitIn }, { opacity: 1, at: t(Y.final) }, { opacity: 0, at: t(Y.final) + Y.out }], t(Y.final) + Y.out);
 animate(wait?.firstElementChild, [{ transform: 'scaleX(0)' }, { transform: 'none' }], { delay: t(Y.reported) + Y.waitIn, duration: Y.final - Y.reported - Y.waitIn, easing: 'linear', fill: 'backwards' });
-card.querySelectorAll('.card-check polyline').forEach(line => animate(line, [{ strokeDashoffset: 1.05 }, { strokeDashoffset: 0 }], { delay: t(Y.final) + U.checkAt, duration: U.checkDraw, easing: E.settle, fill: 'backwards' }));
 };
 // One case's story: the rows come in, the card waits, the answer lands, the product acts.
 const play = (i, at) => {
@@ -97,7 +95,6 @@ qa('was').forEach(el => animate(el, [{ opacity: 1 }, { opacity: 0 }], { delay: a
 qa('now').forEach(el => animate(el, [{ opacity: 0, transform: `translateY(${U.rise}px)` }, { opacity: 1, transform: 'none' }], { delay: answer + U.swapIn, duration: U.swap, easing: E.settle, fill: 'backwards' }));
 // The proposal: a Mist line runs under the pending check while it's checked, and goes as the answer comes in.
 look(q('scan'), [{ opacity: 1, transform: 'scaleX(0)', at: 0 }, { opacity: 1, transform: 'scaleX(0)', at: at + U.scanAt, easing: E.travel }, { opacity: 1, transform: 'none', at: at + U.scanAt + U.scan }, { opacity: 1, transform: 'none', at: answer }, { opacity: 0, transform: 'none', at: answer + U.swapOut }], answer + U.swapOut);
-card.querySelectorAll('.card-check polyline').forEach(line => animate(line, [{ strokeDashoffset: 1.05 }, { strokeDashoffset: 0 }], { delay: answer + U.checkAt, duration: U.checkDraw, easing: E.settle, fill: 'backwards' }));
 // Then the footer: who answered, and what the product did.
 animate(q('foot'), [{ opacity: 0, transform: `translateY(${U.footRise}px)` }, { opacity: 1, transform: 'none' }], { delay: answer + U.footAt, duration: U.foot, easing: E.settle, fill: 'backwards' });
 animate(q('result'), [{ opacity: 0 }, { opacity: 1 }], { delay: answer + U.resultAt, duration: U.result, easing: 'linear', fill: 'backwards' });
