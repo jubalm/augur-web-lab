@@ -88,8 +88,8 @@ const cards=signals&&copy&&'cards' in copy.applications?copy.applications.cards:
         </div>
         <div class="split-cell is-oracle" data-card="oracle">
          <p class="split-top"><span class="split-by">{card.oracle.name}<span class="sr-only">:</span></span></p>
-         <p class="split-value"><span class="split-states" data-card="answer"><span class="split-mute" aria-hidden="true">–</span><span aria-hidden="true">{card.oracle.answer}</span><span class="split-win">{card.oracle.answer}</span></span></p>
-         <p class="split-note"><span class="split-states" data-card="answer-note">{card.oracle.notes.map((note,n)=><span aria-hidden={n<card.oracle.notes.length-1?'true':undefined}>{note}</span>)}</span></p>
+         <p class="split-value"><span class="split-states" data-card="answer"><span class="split-mute" aria-hidden="true">–</span><span aria-hidden="true">{card.oracle.answer}</span><span class="split-win">{card.oracle.answer}<span class="split-seal" aria-hidden="true"><svg class="card-check" viewBox="0 0 20 20" focusable="false"><polyline points={check} pathLength="1"/></svg></span></span></span></p>
+         <p class="split-note"><span class="split-states" data-card="answer-note">{card.oracle.notes.map(note=><span aria-hidden="true">{note}</span>)}<span></span></span></p>
          <span class="split-wait" data-card="wait" aria-hidden="true"><i></i></span>
         </div>
        </div>

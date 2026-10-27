@@ -68,11 +68,11 @@ export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640
  * `dim`. From `focus` the market comes up and its price's digits climb a step at each of `ticks` (to 99¢:
  * consensus, not settlement). The report lands at `reported` (the chip, a Paper Yes, "Open to challenge"): the
  * focus moves to Augur Lituus, the market steps back to `past`, and a 2 px line fills under the note, fading in
- * over `waitIn`, until the answer is Final at `final` (the chip turns Green and the Yes turns Green; no check,
- * which repeated the chip). The market comes back up and pays at `paid`. A price
- * slides `slide` percent up as it rises (down as it falls); a word swaps in place, the old one gone over `out`
- * before the new one comes in by `in`. */
-export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, answer:{proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, footAt:160, foot:420, footRise:6, resultAt:520, result:320, query:{ glow:1400, dim:.35, past:.5, focus:900, ticks:[1300, 2100, 2900], reported:3700, final:6100, paid:6900, slide:55, out:200, in:520, waitIn:280 } } as const;
+ * over `waitIn`, until the answer is Final at `final`: the chip turns Green, the Yes turns Green, its seal grows
+ * in over `seal` and its check draws from `checkAt` over `checkDraw`, and the note goes. The market comes back
+ * up and pays at `paid`. A price slides `slide` percent up as it rises (down as it falls); a word swaps in place,
+ * the old one gone over `out` before the new one comes in by `in`. */
+export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, answer:{proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320, query:{ glow:1400, dim:.35, past:.5, focus:900, ticks:[1300, 2100, 2900], reported:3700, final:6100, paid:6900, slide:55, out:200, in:520, waitIn:280, seal:420 } } as const;
 /** How it works on /2/ (owner, 25 Oct 2026, item 4: "build A on /2", four steps over one stage; how-path-v2.js,
  * which gets this, `easing` and how-scenes.ts's acts written in). Steps are picked by press or key, never hover
  * (owner, 26 Oct 2026). Once per tab session, after `threshold` of the stage is in view, the shown step's scene acts from

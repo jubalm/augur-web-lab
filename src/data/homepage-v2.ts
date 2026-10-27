@@ -152,10 +152,11 @@ export const homeV2 = {
         label: 'Query',
         title: 'Will this year be the hottest on record?',
         market: { name: 'Market', prices: [64, 71, 86, 99], paid: '$1', pending: 'Yes price', resolved: 'Paid per Yes share' },
-        // Each note says why the chip reads as it does, never the chip again (owner, 26 Oct 2026: "Final" and
-        // "Final answer" duplicated): a report is awaited, then open to challenge, then final because no
-        // challenge came in time (§4.5: a day passes with no appeal bond and Yes is final).
-        oracle: { name: 'Augur Lituus', answer: 'Yes', statuses: ['Asked', 'Reported', 'Final'], notes: ['Waiting for a report', 'Open to challenge', 'No challenge in time'] },
+        // The note explains the two waiting steps only: a report is awaited, then it's open to challenge. At
+        // Final the check beside the Yes says it, and the note goes (owner, 26 Oct 2026: "Final answer"
+        // repeated the chip and "No challenge in time" was confusing; "we really need something that reads
+        // as final or a check mark … then remove the text").
+        oracle: { name: 'Augur Lituus', answer: 'Yes', statuses: ['Asked', 'Reported', 'Final'], notes: ['Waiting for a report', 'Open to challenge'] },
         builders: 'Markets settle once the answer is final, and no one on the team has to decide who won. A challenged result is settled in the open, so it isn’t the team’s to defend.',
       },
       insurance: {
