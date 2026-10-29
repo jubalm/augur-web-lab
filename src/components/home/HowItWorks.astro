@@ -34,8 +34,9 @@ const path=ownerVersion(variant)&&how&&'path' in how?how.path:undefined;
 const [,reported,challenged]=ledger,finalAnswer=walkthrough[walkthrough.length-1]!.outcome;
 const reps=(value:number)=>`${value} REP`;
 const values:Record<string,string>={fee:reps(rep.fee),bond:reps(rep.bond),challenge:reps(rep.challenge),share:reps(rep.share),burned:reps(rep.burned),reported:reported!.stake!,challenged:challenged!.stake!,final:finalAnswer!,question:query.title};
-// The example's sentences (homepage-v2.ts): {name} is bold, {-name} plain and {+name} bold in Green.
-const story=(text:string)=>text.split(/(\{[-+]?\w+\})/).filter(Boolean).map(part=>{const token=part.match(/^\{([-+]?)(\w+)\}$/);if(!token)return part;const value=values[token[2]!]??part;return token[1]==='-'?value:{value,win:token[1]==='+'};});
+// The example's sentences (homepage-v2.ts): {name} is the value, **…** bold and {+name} the value bold in Green.
+const value=(text:string)=>text.replace(/\{(\w+)\}/g,(token,name:string)=>values[name]??token);
+const story=(text:string)=>text.split(/(\*\*.+?\*\*|\{\+\w+\})/).filter(Boolean).map(part=>part.startsWith('**')?{value:value(part.slice(2,-2)),win:false}:part.startsWith('{+')?{value:value(`{${part.slice(2)}`),win:true}:value(part));
 ---
 <section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading" data-how-v2={review?'':undefined}><div class="container">
  {path?<Fragment>
@@ -50,7 +51,7 @@ const story=(text:string)=>text.split(/(\{[-+]?\w+\})/).filter(Boolean).map(part
    <ol class="example-story">{path.example.story.map((text,i,all)=><li class:list={['example-step',{'is-you':i===all.length-1}]} data-example-row><span class="example-name">{path.stops[i]!.title}</span><p class="example-line">{story(text).map(part=>typeof part==='string'?part:<strong class:list={{'is-win':part.win}}>{part.value}</strong>)}</p></li>)}</ol>
   </div>
  </div>
- <div class="holding"><div class="holding-head"><h3 class="holding-title">{holderCopy.title}</h3><Button href="/rep/" variant="text">Learn about REP</Button></div><ul class="holding-points">{holderCopy.points.map(point=><li class:list={['holding-point',{'is-act':'act' in point}]}><i class="holding-mark" aria-hidden="true"></i><p><strong>{point.lead}</strong> {point.text}</p></li>)}</ul></div>
+ <div class:list={['holding',{'has-labels':holderCopy.points.some(point=>'label' in point)}]}><div class="holding-head"><h3 class="holding-title">{holderCopy.title}</h3><Button href="/rep/" variant="text">Learn about REP</Button></div><ul class="holding-points">{holderCopy.points.map(point=><li class:list={['holding-point',{'is-act':'act' in point,'is-earn':'earn' in point}]}>{'label' in point?<span class="holding-label">{point.label}</span>:<i class="holding-mark" aria-hidden="true"></i>}<p><strong>{point.lead}</strong> {point.text}</p></li>)}</ul></div>
  </Fragment>:<Fragment>
  <div class="section-heading"><h2 id="how-heading" data-paid-heading>Know what happened?<br/>Get <span class="paid">paid<span class="paid-mark" aria-hidden="true"></span></span> to report it.</h2>{how?<p class="lead">{how.lead}</p>:<p class="lead">Every Augur Lituus answer comes from someone with REP at stake. Report the right outcome first to earn the reward, or challenge a wrong one to win 80% of its bond. A wrong call costs your bond.</p>}{how&&<button type="button" class="button outline how-toggle" aria-expanded="false" aria-controls="how-demo" data-how-toggle hidden><span class="how-toggle-open">{how.open}</span><span class="how-toggle-close">{how.close}</span><Icon name="chevron-down"/></button>}</div>{how&&<ol class="how-strip" aria-label={how.steps} data-how-strip hidden>{walkthrough.map((step,i)=><li><button type="button" class="how-step" aria-controls="how-demo" aria-expanded="false" data-how-step={i}><span class="how-step-index" aria-hidden="true">{i+1}</span><span class="how-step-title">{step.title}</span></button></li>)}</ol>}
  <div class="walkthrough-track" data-walkthrough-track={review?undefined:''} id={review?'how-demo':undefined} data-how-demo={review?'':undefined}>

@@ -589,6 +589,14 @@
 .home-v2 .holding-point.is-act .holding-mark{background:transparent;box-shadow:inset 0 0 0 1.5px var(--primary)}
 .home-v2 .holding-point p{margin:0;font-size:16px;line-height:24px;color:var(--muted-foreground);text-wrap:pretty}
 .home-v2 .holding-point strong{display:block;margin-bottom:4px;font:600 18px/26px var(--font-heading);color:var(--foreground)}
+/* Labels, not squares (owner, 29 Oct 2026, sketch A of the Holding REP board), where a version's points carry a
+   `label` (Melo's): the two points become equal outlined tiles, 16 apart, each led by its label in a small outlined
+   tag, Earn's outlined Green, so what each point is about reads before its words. Versions without labels keep
+   the squares. */
+.home-v2 .holding.has-labels .holding-points{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.home-v2 .holding.has-labels .holding-point{grid-template-columns:minmax(0,1fr);align-content:start;row-gap:14px;padding:24px;box-shadow:inset 0 0 0 1px var(--web-outline)}
+.home-v2 .holding-label{width:fit-content;padding:3px 10px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 12px/16px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .holding-point.is-earn .holding-label{box-shadow:inset 0 0 0 1px var(--primary);color:var(--foreground)}
 /* Under 1280 the card's padding steps down. At 1200 and under the heading row's gap is 48, so the steps reach across
    48 to the stage, and the stage tightens. */
 @media(max-width:1279px){.home-v2 .example{padding:24px}}
@@ -618,6 +626,8 @@
 .home-v2 .example-name{line-height:24px}
 .home-v2 .example-line{font-size:16px;line-height:24px}
 .home-v2 .holding-points{grid-template-columns:minmax(0,1fr)}
+.home-v2 .holding.has-labels .holding-points{grid-template-columns:minmax(0,1fr);gap:12px}
+.home-v2 .holding.has-labels .holding-point{padding:20px}
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .how-path-tab{transition:none}}
 @media(forced-colors:active){
@@ -631,6 +641,8 @@
 .home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
 .home-v2 .example{outline:1px solid CanvasText}
 .home-v2 .holding-point.is-act .holding-mark{background:Canvas;box-shadow:inset 0 0 0 1.5px Highlight}
+.home-v2 .holding.has-labels .holding-point,.home-v2 .holding-label{box-shadow:none;outline:1px solid CanvasText;outline-offset:-1px}
+.home-v2 .holding-point.is-earn .holding-label{outline-color:Highlight}
 .home-v2 .paid-mark{forced-color-adjust:none;background:Highlight}
 }
 /* On paper every step prints, one after another, and the scenes keep their colours (backgrounds don't print by

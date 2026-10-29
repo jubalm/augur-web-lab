@@ -254,17 +254,25 @@ export const homeV2 = {
       // walkthrough.ts's question and amounts in four plain sentences, one per step above, each under that step's
       // name, with "you" as the challenger who turns out right, so it ends on your payout (peak–end). No jargon:
       // the scroll never says bond, appeal period or Reporter Pay, so the story doesn't either. HowItWorks.astro
-      // fills each {token} from walkthrough.ts: {name} in bold (what's new in that sentence), {-name} plain (a
-      // figure said before) and {+name} bold in Green (your win). The reward's amount for an overturned report
-      // isn't in §4.4.3, so it has no figure; it goes to the first to back the final answer, you here. The
-      // reporter "loses" theirs, and the burned part is the rest of it. `label` names the card for screen readers.
+      // fills each {name} from walkthrough.ts. Emphasis is marked, never automatic (owner, 29 Oct 2026: "fix the
+      // bold and green"): **…** is bold, Sora 600 in Paper, and {+name} is your win, bold in Green. Bold carries
+      // the story on its own: the fee, each side's answer and stake, said the same way in Report and Challenge,
+      // and the final answer; your own stake coming back stays plain, since it isn't a gain. The reward's amount
+      // for an overturned report isn't in §4.4.3, so it has no figure; it goes to the first to back the final
+      // answer, you here. The reporter's 15 REP splits into your 12 and 3 burned. `label` names the card for
+      // screen readers.
+      // Facts behind the wording: a question comes with rules for judging it (walkthrough.ts's fields); the fee
+      // isn't fixed, so 15 REP is "in this example" (the whitepaper's §4.5 figure; who sets its size isn't
+      // claimed); anyone can report (§2, rep.ts), so the reporter never reads as the team; a report stakes the
+      // fee (§2, §4.1); a challenge restarts the time to challenge, now on the new answer (§4.0.2). Get paid
+      // names the final answer, then your payoff, then the burned rest (option B of the copy review).
       example: {
         label: 'An example, step by step',
         story: [
-          'Someone asks, “{-question}” They pay a {fee} fee, which funds the reward.',
-          'A reporter says the answer is {reported} and stakes {bond} on it.',
-          'You think that’s wrong, so you stake {challenge} on {challenged}, double theirs. The time to challenge starts again.',
-          'No one stakes again in time, so {final} is final. You get your {-challenge} back, plus {+share} of theirs and the reward. The reporter loses their {-bond}, and {-burned} of it is burned.',
+          'Say someone asks, “{question}” They set the rules for judging it and pay a fee in REP, which funds a reward for the right answer. In this example, the fee is **{fee}**.',
+          'Anyone can report. Here, someone reports **{reported}** and stakes **{bond}** on it, the same as the fee.',
+          'You think the reporter is wrong, so you challenge with **{challenged}** and stake **{challenge}** on it, double theirs. The time to challenge starts again, and now anyone can challenge you.',
+          'No one challenges you in time, so the final answer is **{final}**. You get your {challenge} back, plus {+share} of the reporter’s stake and the reward. The other {burned} of theirs is burned.',
         ],
       },
     },
@@ -279,11 +287,16 @@ export const homeV2 = {
     //   window"; Lituus-CS forking isn't built, docs/sources.md), hence "is designed to". Unmoved REP
     //   loses its value (§4.2.2 p5): Augus's "risk losing the token" is reworded, since nothing takes it.
     //   Ryan's "check in at least once a month" is declined: the paper sets no cadence, and a monthly
-    //   check could miss a two-week window. `act` gives the point the hollow Green square of a move.
+    //   check could miss a two-week window.
+    // Labels, not squares (owner, 29 Oct 2026, sketch A of the Holding REP board: "Earn", then Ryan's
+    // "Non-passivity" in plain words): each point is a tile led by its `label`, and `earn` gives Earn's the
+    // Green outline. Earn is incisive (REP earns REP, like work that pays, "paid in REP", never money, price or
+    // yield) and stays conditional and optional; the fork point is calm: a last resort (rep.ts), then what to
+    // do, then the one fact, plainly (moving doesn't promise value, so it says only what unmoved REP loses).
     title: 'Holding REP?',
     points: [
-      { lead: 'Put it to work, if you want.', text: 'Stake it to report or challenge, and earn when your answer holds.' },
-      { lead: 'Watch for forks.', text: 'If one starts, Augur Lituus is designed to give you two weeks to move your REP. REP left behind loses its value.', act: true },
+      { label: 'Earn', lead: 'Get paid for being right.', text: 'Stake REP to report what happened or challenge a wrong answer. When your answer holds, you’re paid in REP. Taking part is always up to you.', earn: true },
+      { label: 'Stay in the loop', lead: 'Keep an eye on forks.', text: 'A fork is the last resort. If one starts, Augur Lituus is designed to give you two weeks to move your REP to the answer you believe in. REP you don’t move loses its value.' },
     ],
   },
   learnMore: {
