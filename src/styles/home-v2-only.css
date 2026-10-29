@@ -90,12 +90,14 @@
 .home-v2 .split-states{display:inline-grid}
 .home-v2 .split-states>span{grid-area:1/1;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;opacity:0}
 .home-v2 .split-states>span:last-child{opacity:1}
+/* An empty state (Augur Lituus before its report, the cover before it pays) still holds the line's baseline,
+   so its cell sits where a word would and the rows under it stay level (owner, 28 Oct 2026: no dash). */
+.home-v2 .split-states>span:empty::before{content:'\200b'}
 .home-v2 .split-win{color:var(--primary)}
-.home-v2 .split-mute{color:var(--mark-participant,#71728A)}
 /* Final reads as final at a glance: a drawn seal beside the Green Yes, not a glyph (owner, 26 Oct 2026:
    "polished instead of a character", then "something that reads as final or a check mark"). A 26 px Green
    square, the brand's square, holds the check in Navy at a weight that matches the 40 px word; the note
-   under the answer goes at Final. */
+   under the answer says no one challenged it, level with the market's (owner, 28 Oct 2026: symmetry). */
 .home-v2 .card-check{width:14px;height:14px;overflow:visible}
 .home-v2 .card-check polyline{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:1 3}
 .home-v2 .split-seal{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;background:var(--primary);color:var(--background)}
@@ -130,9 +132,108 @@
 .home-v2 .split-cell{padding:0}
 .home-v2 .split-cell.is-oracle{padding:20px 0 0;border-left:0;border-top:1px solid var(--web-outline)}
 }
-/* Details (the proposal's three rows, the flight's arrival): label left, value right. A pending value
-   ("Checking…", "In the air") settles into its answer in Green. While the proposal is checked, a 2 px Mist
-   line runs 5 px under its row; it shows only during the play. */
+/* Insurance: a relay (owner, 28 Oct 2026, "Relay it is", concept 3 of the Insurance sketch board). One 2 px
+   line through three stops, over three steps in equal columns: the flight, Augur Lituus and the cover. Each
+   step reads from the left edge of its column, under its own stop, as the other cards read from their left
+   edges (owner, 28 Oct 2026: "not aligned at all"), so names, values and notes share three level rows. The
+   line is Outline at rest; its first stretch runs Paper while the flight is in the air, the second fills
+   Pewter while the report is open to challenge, then runs Green to the cover as it pays. The middle stop
+   becomes the seal at Final, the card's one check; the cover's outlined stop fills Green. Values 28/36, so
+   the three read as one sentence (Landed, Yes, Paid); line and steps are the split's 132, so the card is 284
+   like the market card, and from 440 down both tighten alike (122), the notes to 13 px so the longest fits
+   its column. Below a 360 card the steps stack, each on its square, and the line is drawn at rest. */
+.home-v2 [data-card-kind="relay"]{container:relay/inline-size}
+/* A leg is one column and its gap, so each stop sits on its column's left edge. */
+.home-v2 .card-relay{--relay-gap:16px;--leg:calc((100% + var(--relay-gap)) / 3);margin-top:32px}
+.home-v2 .relay-line{position:relative;height:12px}
+.home-v2 .relay-line>span{position:absolute}
+.home-v2 :is(.relay-run,.relay-done,.relay-wait,.relay-paid){top:5px;height:2px;transform-origin:left}
+.home-v2 .relay-run{left:6px;width:calc(2 * var(--leg));background:var(--web-outline)}
+.home-v2 .relay-done{left:6px;width:var(--leg);background:var(--foreground)}
+.home-v2 :is(.relay-wait,.relay-paid){left:calc(var(--leg) + 6px);width:var(--leg)}
+.home-v2 .relay-wait{background:var(--muted-foreground);opacity:0}
+.home-v2 .relay-paid{background:var(--primary)}
+.home-v2 .relay-stop{top:0;width:12px;height:12px;background:var(--foreground)}
+.home-v2 .relay-stop.is-flight{left:0}
+.home-v2 .relay-stop.is-oracle{left:var(--leg);opacity:0}
+.home-v2 .relay-stop:is(.is-cover,.is-paid){left:calc(2 * var(--leg))}
+.home-v2 .relay-stop.is-cover{background:none;box-shadow:inset 0 0 0 2px var(--mark-participant,#71728A)}
+.home-v2 .relay-stop.is-paid{background:var(--primary)}
+.home-v2 .relay-seal{left:calc(var(--leg) - 3px);top:-3px;display:grid;place-items:center;width:18px;height:18px;background:var(--primary);color:var(--background)}
+.home-v2 .relay-seal .card-check{width:12px;height:12px}
+.home-v2 .relay-seal .card-check polyline{stroke-width:2.6}
+.home-v2 .relay-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--relay-gap);margin:32px 0 0;padding:0;list-style:none}
+.home-v2 .relay-step{display:grid;align-content:start;justify-items:start;row-gap:8px;min-width:0}
+.home-v2 .relay-name{font:600 13px/16px var(--font-heading);color:var(--muted-foreground);white-space:nowrap}
+.home-v2 .relay-name.split-by{color:var(--foreground)}
+.home-v2 .relay-value{font:600 28px/36px var(--font-heading);letter-spacing:-.02em}
+.home-v2 .relay-note{font-size:14px;line-height:20px;color:var(--muted-foreground)}
+@container relay (width < 440px){
+.home-v2 .card-relay{--relay-gap:12px;margin-top:24px}
+.home-v2 .relay-steps{margin-top:28px}
+.home-v2 .relay-step{row-gap:6px}
+.home-v2 .relay-value{font-size:24px;line-height:34px}
+.home-v2 .relay-note{font-size:13px}
+}
+@container relay (width < 360px){
+.home-v2 .relay-line{display:none}
+.home-v2 .relay-steps{grid-template-columns:minmax(0,1fr);row-gap:16px;margin-top:0}
+.home-v2 .relay-step{position:relative;padding-left:24px}
+.home-v2 .relay-step::before{content:'';position:absolute;left:0;top:2px;width:12px;height:12px;background:var(--foreground)}
+.home-v2 .relay-step:not(.is-flight)::before{background:var(--primary)}
+.home-v2 .relay-step:not(:last-child)::after{content:'';position:absolute;left:5px;top:20px;bottom:-14px;width:2px;background:var(--foreground)}
+.home-v2 .relay-step.is-oracle::after{background:var(--primary)}
+.home-v2 .relay-name.split-by::before{display:none}
+}
+/* DAOs: a vote bar (owner, 28 Oct 2026, "polish vote bar", concept 2 of the DAO sketch board's second round).
+   The DAO's vote as DAO apps draw it: one 12 px bar, For in Paper from the left and Against in Mist from the
+   right over a Dark 3 track, a 2 px Pewter tick at the majority, and For, Majority and Against under it. The
+   status sits top right: Voting; Passed over "Goes live in 2 days"; then Blocked in Green over "It won't go
+   live". Augur Lituus's answer is one line under the bar and the waiting line under it. Until the report its
+   note ("Waiting for a report") stands in the answer's own place, so the line never shows a gap or a dash
+   (owner, 28 Oct 2026); then the Yes with "Open to challenge" beside it, then the Green Yes and its seal.
+   Once the answer is final the DAO acts and the passed vote steps back to half, as it rests. Head, bar, scale
+   and answer are the split's 132, so the card is 284 like the others, and from 440 down they tighten alike
+   (122). Below 360 the notes can't fit the line, so they go and the answer's place stays empty until the
+   report; the waiting line still shows the challenge window. */
+.home-v2 [data-card-kind="vote"]{container:vote/inline-size}
+.home-v2 .card-vote{margin-top:32px}
+.home-v2 .vote-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;min-height:44px}
+.home-v2 .vote-name{padding-top:5px;font:600 13px/16px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .vote-status{display:grid;justify-items:end;row-gap:2px;text-align:right}
+.home-v2 :is(.vote-status,.vote-scale) .split-states>span{justify-self:end}
+.home-v2 .vote-scale>.split-states:first-child>span{justify-self:start}
+.home-v2 .vote-word{font:600 20px/26px var(--font-heading);letter-spacing:-.01em}
+.home-v2 .vote-note{min-height:16px;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
+.home-v2 :is(.vote-word,.vote-note)>.split-states{display:grid}
+.home-v2 .vote-bar{position:relative;height:12px;margin-top:12px;opacity:.5}
+.home-v2 .vote-bar>span{position:absolute;top:0;height:12px}
+.home-v2 .vote-track{left:0;right:0;background:var(--web-raised)}
+.home-v2 .vote-for{left:0;width:var(--for);background:var(--foreground);transform-origin:left}
+.home-v2 .vote-against{right:0;width:calc(100% - var(--for));background:var(--mark-participant,#71728A);transform-origin:right}
+.home-v2 .vote-tick{left:50%;top:-8px;width:2px;height:28px;margin-left:-1px;background:var(--muted-foreground)}
+.home-v2 .vote-scale{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:12px;margin:12px 0 0;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
+.home-v2 .vote-scale>.split-states:last-child{justify-self:end}
+.home-v2 .vote-answer{display:flex;align-items:center;gap:12px;min-height:22px;margin:10px 0 0}
+.home-v2 .vote-yes{font:600 17px/22px var(--font-heading);letter-spacing:-.01em}
+.home-v2 .vote-yes .split-states>span{gap:12px}
+.home-v2 .vote-yes .split-states>.split-win{gap:8px}
+.home-v2 .vote-yes .split-win>.vote-why{margin-left:4px}
+.home-v2 .vote-why{font:400 14px/20px var(--font-body);letter-spacing:0;color:var(--muted-foreground)}
+.home-v2 .split-seal.vote-seal{width:16px;height:16px}
+.home-v2 .vote-seal .card-check{width:11px;height:11px}
+.home-v2 .split-wait.vote-wait{width:50%;margin-top:2px}
+@container vote (width < 440px){
+.home-v2 .card-vote{margin-top:24px}
+.home-v2 :is(.vote-bar,.vote-scale,.vote-answer){margin-top:8px}
+}
+@container vote (width < 360px){
+.home-v2 .vote-why,.home-v2 .split-states>.vote-why{display:none}
+.home-v2 .split-wait.vote-wait{width:100%}
+}
+/* Details (the proposal's three rows): label left, value right. A pending value ("Checking…") settles into
+   its answer in Green. While the proposal is checked, a 2 px Mist line runs 5 px under its row; it shows only
+   during the play. */
 .home-v2 .card-details{display:grid;row-gap:12px;margin:0}
 .home-v2 .card-detail{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
 .home-v2 .detail-scan{position:absolute;left:0;right:0;bottom:-7px;height:2px;background:var(--augur-color-surface-dark-mist);transform-origin:left;opacity:0}
@@ -141,21 +242,6 @@
 .home-v2 .card-detail dd>span{grid-area:1/1;justify-self:end}
 .home-v2 .value-was{color:var(--muted-foreground);opacity:0}
 .home-v2 .value-now{color:var(--primary)}
-/* Flight: a timeline to scale from the due time. The on-time stretch is Paper, the stretch past the
-   +2 hours tick is Green, and the dot is the plane, down at the landing. */
-.home-v2 .card-flight{--limit:60%;--landed:82.5%;margin-top:12px}
-.home-v2 .card-track{position:relative;height:24px}
-.home-v2 .card-track>span{position:absolute}
-.home-v2 .track-base{left:0;right:0;top:11px;height:2px;background:var(--web-raised)}
-.home-v2 .track-done{left:0;width:var(--limit);top:11px;height:2px;background:var(--foreground);transform-origin:left}
-.home-v2 .track-late{left:var(--limit);width:calc(var(--landed) - var(--limit));top:11px;height:2px;background:var(--primary);transform-origin:left}
-.home-v2 .track-tick{left:var(--limit);top:4px;width:2px;height:16px;margin-left:-1px;background:var(--muted-foreground)}
-.home-v2 .track-plane{inset:0}
-.home-v2 .track-dot{position:absolute;left:var(--landed);top:6px;width:12px;height:12px;margin-left:-6px;background:var(--foreground)}
-.home-v2 .track-labels{position:relative;height:16px;margin:12px 0 0;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
-.home-v2 .track-labels span{position:absolute;white-space:nowrap}
-.home-v2 .track-limit{left:var(--limit);transform:translateX(-50%)}
-.home-v2 .track-labels .track-landed{left:var(--landed);transform:translateX(-50%);color:var(--foreground)}
 /* The footer: who answered, and what the product did. */
 .home-v2 .card-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 0;padding-top:16px;border-top:1px solid var(--web-outline)}
 .home-v2 .card-by{display:inline-flex;align-items:center;gap:8px;font:600 13px/16px var(--font-heading);color:var(--foreground)}
@@ -197,15 +283,20 @@
 @media(forced-colors:active){
 .home-v2 .case-tabs .case-tab::before{display:none}
 .home-v2 .case-tabs .case-tab{outline:1px solid CanvasText;outline-offset:-1px}
-.home-v2 :is(.case-link,.track-late),.home-v2 .card-by::before,.home-v2 .split-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
+.home-v2 .case-link,.home-v2 .card-by::before,.home-v2 .split-by::before,.home-v2 .builders-cue::before,.home-v2 .builder-reasons strong::before{forced-color-adjust:none;background:Highlight}
 .home-v2 .st-fin{forced-color-adjust:none;background:Highlight;color:HighlightText}
 .home-v2 :is(.st-ask,.st-rep){outline:1px solid CanvasText;outline-offset:-1px}
 .home-v2 .split-wait{forced-color-adjust:none;background:GrayText}
 .home-v2 .split-wait i{forced-color-adjust:none;background:CanvasText}
 .home-v2 .case-card,.home-v2 .builder-case :is(.builder-reasons,.builder-ask){outline:1px solid CanvasText}
 .home-v2 .status-done{forced-color-adjust:none;background:Highlight;color:HighlightText}
-.home-v2 :is(.track-done,.track-dot){forced-color-adjust:none;background:CanvasText}
-.home-v2 :is(.track-base,.track-tick){forced-color-adjust:none;background:GrayText}
+.home-v2 :is(.relay-done,.relay-wait,.relay-stop.is-flight,.relay-stop.is-oracle){forced-color-adjust:none;background:CanvasText}
+.home-v2 .relay-run{forced-color-adjust:none;background:GrayText}
+.home-v2 :is(.relay-paid,.relay-stop.is-paid,.relay-seal),.home-v2 .relay-step::before,.home-v2 .relay-step.is-oracle::after{forced-color-adjust:none;background:Highlight;color:HighlightText}
+.home-v2 .relay-stop.is-cover{forced-color-adjust:none;box-shadow:inset 0 0 0 2px CanvasText}
+.home-v2 :is(.vote-for,.vote-tick){forced-color-adjust:none;background:CanvasText}
+.home-v2 :is(.vote-against,.vote-track){forced-color-adjust:none;background:GrayText}
+.home-v2 .vote-seal{forced-color-adjust:none;background:Highlight;color:HighlightText}
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .case-tabs .case-tab,.home-v2 .case-tabs .case-tab::before{transition:none}}
 

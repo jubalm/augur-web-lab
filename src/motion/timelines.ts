@@ -49,30 +49,42 @@ export const roadmapTimeline = {track:1000,stopStagger:110,stopDuration:320,evid
  * over `checkDraw`; the other chip steps back to `dim` opacity over `dimFade`. The picture
  * starts at `graphic`. Prediction markets first plays once `threshold` of it is in view. */
 export const applicationTimeline = { threshold:.6, out:160, start:120, enter:640, rise:14, summary:0, question:40, options:140, optionStagger:70, optionEnter:520, decide:760, fill:520, press:[80,420], label:120, check:190, checkDraw:380, dim:.4, dimFade:420, by:920, action:1040, explanation:1100, graphic:1200, fallback:1320 } as const;
-/** Use cases on /2/ (owner, 25 Oct 2026): each case is a product card that waits, gets its answer and acts
- * (use-cases-v2.js, which gets this and `easing` written in). A pick draws the 2 px Green line from the tab
- * over `link`, fades the shown case out over `out` and the picked one in from `at` over `in`. A case plays
- * once per tab session, `pick` after its first pick, or `entrance` after `threshold` of the stage is in view.
- * Its rows come in first (owner, 25 Oct 2026: subtle and low-noise), `rowStagger` apart, each rising `rise` px
- * over `row`. Its answer lands `answer[kind]` into the play. The flight's dot travels until then at a steady
- * pace, then eases onto the landing on `land` (linear at first, so the two stretches meet without a jolt); the
- * +2 hours tick stretches to `tickScale` and back over `tick` as the dot crosses it, and "Landed" rises
- * `landedLead` before the answer, over `landed`. While the proposal is checked, a Mist line runs under its
- * pending check from `scanAt` over `scan`. At the answer every pending word and that line go over `swapOut`,
- * and each answer comes in from `swapIn` over `swap` (a value rising `rise` px, the status from `statusFrom`
- * scale). The footer rises `footRise` px from `footAt`
- * over `foot`, and the result fades in from `resultAt` over `result`.
- * The market card is a query split in two (owner, 26 Oct 2026, "Split it is"), one change at a time, in the
- * whitepaper's order (§4.5), timed by `query`. The query is asked as the market opens: the Asked chip in the
- * corner scales from `statusFrom` over `swap` and a Paper ring lights it over `glow`, while both cells wait at
- * `dim`. From `focus` the market comes up and its price's digits climb a step at each of `ticks` (to 99¢:
- * consensus, not settlement). The report lands at `reported` (the chip, a Paper Yes, "Open to challenge"): the
- * focus moves to Augur Lituus, the market steps back to `past`, and a 2 px line fills under the note, fading in
- * over `waitIn`, until the answer is Final at `final`: the chip turns Green, the Yes turns Green, its seal grows
- * in over `seal` and its check draws from `checkAt` over `checkDraw`, and the note goes. The market comes back
- * up and pays at `paid`. A price slides `slide` percent up as it rises (down as it falls); a word swaps in place,
- * the old one gone over `out` before the new one comes in by `in`. */
-export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, entrance:200, pick:360, rowStagger:70, row:420, answer:{proposal:1000, flight:1100}, land:'cubic-bezier(.4,.4,.6,1)', tick:360, tickScale:1.5, landedLead:120, landed:360, scanAt:280, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, checkAt:260, checkDraw:380, footAt:160, foot:420, footRise:6, resultAt:520, result:320, query:{ glow:1400, dim:.35, past:.5, focus:900, ticks:[1300, 2100, 2900], reported:3700, final:6100, paid:6900, slide:55, out:200, in:520, waitIn:280, seal:420 } } as const;
+/** Use cases on the review copies (owner, 25 Oct 2026): each case is a product card that waits, gets its answer
+ * and acts (use-cases-v2.js, which gets this and `easing` written in). A pick draws the 2 px Green line from the
+ * tab over `link`, fades the shown case out over `out` and the picked one in from `at` over `in`.
+ * Each card loops (owner, 28 Oct 2026: "all animations should be going in a loop"), keyed by `loop` on one
+ * `cycle` that opens and closes on the finished card, from when `threshold` of the stage is in view. The reset
+ * is soft, never a cut (owner, 28 Oct 2026): every part but the status chip dims to `dim` over `fade`; from
+ * `reset` each finished value fades out over `resetOut`, and the first state fades in over `resetIn`, where
+ * Asked grows in from `statusFrom` scale and a Paper ring lights it over `glow`, `swapIn` later. A
+ * pick, or a press on the case shown, starts the case where its finished values are gone (`reset` +
+ * `resetOut`); a press dips its card out over `out` and back in over `in` first.
+ * Then one part is lit at a time (owner, 28 Oct 2026: "our eyes are not going to where it should be going"),
+ * each change of light over `light`, centred on its moment: at `focus` the app's part lights and the chip
+ * steps back to `past`, and the app's part plays; at `reported` the light moves to Augur Lituus, the app's part
+ * steps back to `past`, and a 2 px line fades in over `waitIn`, `waitIn` after the report, and fills until
+ * `final`; at `final` the Yes turns Green and its seal grows in, with its check, from `swapIn` over `seal`; at
+ * `paid` the app's part lights again and acts; from `rest` everything is back up, and the finished card holds
+ * to the end of the cycle (3.3 s). A rising price slides `slide` percent up as it rises; a word swaps in place,
+ * the old one gone over `out` before the new one is in by `in`. Transform and opacity only, so the loop runs
+ * off the main thread (the check's stroke no longer draws: drawn on every cycle, it restyled every frame).
+ * The market card (owner, 26 Oct 2026, "Split it is") plays the whitepaper's order (§4.5): the price's digits
+ * climb a step at each of `ticks` (to 99¢: consensus, not settlement), and it pays at `paid`. The insurance card,
+ * a relay (owner, 28 Oct 2026, "Relay it is"), adds `relay`: the flight's leg lights and its stop comes in at
+ * `depart`, and its stretch of line runs Paper from `focus` to the last of `ticks`, when it lands; at `reported`
+ * Augur Lituus's stop comes in with a Paper Yes, and the next stretch fills Pewter until `final`, when the stop
+ * becomes the seal; from `paid` the line runs Green to the cover over `pay` (travel easing), and `arrive` after
+ * `paid` the cover's stop fills and "Paid" comes in. The DAO card, a vote bar (owner, 28 Oct 2026, "polish vote
+ * bar"), adds `vote`: from `focus` to `close` For and Against fill in steadily from their ends and the majority
+ * tick stretches to `tickScale` and back over `tick` as For passes it; at `close` the tallies show and, `status`
+ * later, the vote has Passed (`close` comes before the market's last tick, so Passed is read before the light
+ * moves on); at `paid` the bar steps back to `past` and the status turns to Blocked.
+ * Ryan's and Augus's DAO card, a proposal, loops on the same cycle: its pending words show from the reset, and
+ * from `focus` a Mist line runs under its pending check over `scan`. At `reported` each pending word and that
+ * line go over `swapOut`, and each answer comes in from `swapIn` over `swap` (a value rising `rise` px, the
+ * status from `statusFrom` scale); the footer rises `footRise` px from `footAt` over `foot`, and the result
+ * fades in from `resultAt` over `result`. */
+export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320, scan:600, swapOut:140, swapIn:120, swap:320, rise:4, statusFrom:.92, footAt:160, foot:420, footRise:6, resultAt:520, result:320, loop:{ cycle:12000, fade:600, reset:400, resetOut:300, resetIn:400, out:200, in:520, light:400, dim:.35, past:.5, slide:55, glow:1400, focus:1400, ticks:[1800, 2400, 3000], reported:4400, waitIn:280, final:6400, seal:420, paid:7200, rest:8300 }, relay:{ depart:1200, pay:640, arrive:560 }, vote:{ close:2600, status:200, tick:420, tickScale:1.4, past:.5 } } as const;
 /** How it works on /2/ (owner, 25 Oct 2026, item 4: "build A on /2", four steps over one stage; how-path-v2.js,
  * which gets this, `easing` and how-scenes.ts's acts written in). Steps are picked by press or key, never hover
  * (owner, 26 Oct 2026). Once per tab session, after `threshold` of the stage is in view, the shown step's scene acts from

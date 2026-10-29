@@ -61,8 +61,15 @@ const check=signals?'4.5 10.5 8.25 14.25 15.5 7':'40 144 96 200 224 72';
 // shared motion (home-interactions.ts) looks for data-applications, so /2/'s root carries data-use-cases
 // for its own script instead. Every other version renders the markup below unchanged.
 // The market card is a query split in two (owner, 26 Oct 2026, "Split it is"): the market's price beside
-// Augur Lituus's status and answer. Each value that changes keeps every state in one cell, the resting one
-// last and the others hidden from screen readers, so no JavaScript, reduced motion and print show the end.
+// Augur Lituus's status and answer. The insurance card is the same query as a relay (owner, 28 Oct 2026,
+// "Relay it is"): one line through the flight, Augur Lituus and the cover, an ordered list of three steps
+// under it. The DAO card is the same query as a vote bar (owner, 28 Oct 2026, "polish vote bar"): the DAO's
+// vote passes the majority, then Augur Lituus's answer on its written rules holds it. Copies whose DAO card
+// still has the proposal rows (Ryan's and Augus's) keep that card. All three share the head and Augur Lituus's
+// words (`cards.query`). Each value that changes keeps every
+// state in one cell, the resting one last and the others hidden from screen readers, so no JavaScript,
+// reduced motion and print show the end. Before the report Augur Lituus's value is empty, never a dash (owner,
+// 28 Oct 2026); on the DAO card the note "Waiting for a report" stands in its place.
 const cards=signals&&copy&&'cards' in copy.applications?copy.applications.cards:undefined;
 ---
 <section class="applications section" aria-labelledby="applications-heading">
@@ -77,28 +84,42 @@ const cards=signals&&copy&&'cards' in copy.applications?copy.applications.cards:
     {cases.map((app,i)=><div role="tabpanel" id={`application-panel-${app.id}`} aria-labelledby={`application-tab-${app.id}`} class="case-panel" tabindex="0" hidden={i!==0}>
      <p class="case-summary">{app.summary}</p>
      {cards?<Fragment>{(card=>card&&<Fragment>
-      {'oracle' in card?<div class="case-card" data-card-kind="query">
-       <div class="card-head"><span class="card-label">{card.label}<span class="sr-only">.</span></span><span class="split-states split-status" data-card="status"><span class="st-ask" aria-hidden="true"><i></i>{card.oracle.statuses[0]}<b class="st-glow"></b></span><span class="st-rep" aria-hidden="true"><i></i>{card.oracle.statuses[1]}</span><span class="st-fin"><span class="sr-only">Status: </span><i></i>{card.oracle.statuses[2]}<span class="sr-only">.</span></span></span></div>
+      {'oracle' in card?<div class="case-card" data-card-kind={'market' in card?'query':'flight' in card?'relay':'vote'}>
+       <div class="card-head"><span class="card-label">{card.label}<span class="sr-only">.</span></span><span class="split-states split-status" data-card="status"><span class="st-ask" aria-hidden="true"><i></i>{cards.query.statuses[0]}<b class="st-glow"></b></span><span class="st-rep" aria-hidden="true"><i></i>{cards.query.statuses[1]}</span><span class="st-fin"><span class="sr-only">Status: </span><i></i>{cards.query.statuses[2]}<span class="sr-only">.</span></span></span></div>
        <p class="card-title">{card.title}</p>
-       <div class="card-split">
+       {'market' in card?<div class="card-split">
         <div class="split-cell" data-card="market">
          <p class="split-top"><span class="split-name">{card.market.name}<span class="sr-only">:</span></span></p>
          <p class="split-value"><span class="split-states" data-card="price-value"><span class="split-price" aria-hidden="true"><span class="split-states" data-card="price">{card.market.prices.map(price=><span>{price}</span>)}</span>¢</span><span class="split-win">{card.market.paid}</span></span></p>
          <p class="split-note"><span class="split-states" data-card="price-note"><span aria-hidden="true">{card.market.pending}</span><span>{card.market.resolved}</span></span></p>
         </div>
         <div class="split-cell is-oracle" data-card="oracle">
-         <p class="split-top"><span class="split-by">{card.oracle.name}<span class="sr-only">:</span></span></p>
-         <p class="split-value"><span class="split-states" data-card="answer"><span class="split-mute" aria-hidden="true">–</span><span aria-hidden="true">{card.oracle.answer}</span><span class="split-win">{card.oracle.answer}<span class="split-seal" aria-hidden="true"><svg class="card-check" viewBox="0 0 20 20" focusable="false"><polyline points={check} pathLength="1"/></svg></span></span></span></p>
-         <p class="split-note"><span class="split-states" data-card="answer-note">{card.oracle.notes.map(note=><span aria-hidden="true">{note}</span>)}<span></span></span></p>
+         <p class="split-top"><span class="split-by">{cards.query.name}<span class="sr-only">:</span></span></p>
+         <p class="split-value"><span class="split-states" data-card="answer"><span aria-hidden="true"></span><span aria-hidden="true">{card.oracle.answer}</span><span class="split-win">{card.oracle.answer}<span class="split-seal" aria-hidden="true"><svg class="card-check" viewBox="0 0 20 20" focusable="false"><polyline points={check} pathLength="1"/></svg></span></span></span></p>
+         <p class="split-note"><span class="split-states" data-card="answer-note"><span aria-hidden="true">{cards.query.notes[0]}</span><span aria-hidden="true">{cards.query.notes[1]}</span><span>{cards.query.notes[2]}<span class="sr-only">.</span></span></span></p>
          <span class="split-wait" data-card="wait" aria-hidden="true"><i></i></span>
         </div>
-       </div>
-      </div>:<div class="case-card" data-card-kind={'arrival' in card?'flight':'proposal'}>
+       </div>:'flight' in card?<div class="card-relay">
+        <div class="relay-line" aria-hidden="true"><span class="relay-run"></span><span class="relay-done" data-card="run"></span><span class="relay-wait" data-card="wait"></span><span class="relay-paid" data-card="paid"></span><span class="relay-stop is-flight" data-card="stop-flight"></span><span class="relay-stop is-oracle" data-card="stop-oracle"></span><span class="relay-seal" data-card="seal"><svg class="card-check" viewBox="0 0 20 20" focusable="false"><polyline points={check} pathLength="1"/></svg></span><span class="relay-stop is-cover"></span><span class="relay-stop is-paid" data-card="stop-paid"></span></div>
+        <ol class="relay-steps">
+         <li class="relay-step is-flight" data-card="leg-flight"><span class="relay-name">{card.flight.name}<span class="sr-only">:</span></span> <span class="relay-value"><span class="split-states" data-card="flight"><span aria-hidden="true">{card.flight.states[0]}</span><span>{card.flight.states[1]}<span class="sr-only">,</span></span></span></span> <span class="relay-note"><span class="split-states" data-card="flight-note"><span aria-hidden="true">{card.flight.notes[0]}</span><span>{card.flight.notes[1]}<span class="sr-only">.</span></span></span></span></li>
+         <li class="relay-step is-oracle" data-card="oracle"><span class="relay-name split-by">{cards.query.name}<span class="sr-only">:</span></span> <span class="relay-value"><span class="split-states" data-card="answer"><span aria-hidden="true"></span><span aria-hidden="true">{card.oracle.answer}</span><span class="split-win">{card.oracle.answer}<span class="sr-only">.</span></span></span></span> <span class="relay-note"><span class="split-states" data-card="answer-note"><span aria-hidden="true">{cards.query.notes[0]}</span><span aria-hidden="true">{cards.query.notes[1]}</span><span>{cards.query.notes[2]}<span class="sr-only">.</span></span></span></span></li>
+         <li class="relay-step is-cover" data-card="leg-cover"><span class="relay-name">{card.cover.name}<span class="sr-only">:</span></span> <span class="relay-value"><span class="split-states" data-card="cover"><span aria-hidden="true"></span><span class="split-win">{card.cover.paid}<span class="sr-only">,</span></span></span></span> <span class="relay-note"><span class="split-states" data-card="cover-note"><span aria-hidden="true">{card.cover.notes[0]}</span><span>{card.cover.notes[1]}<span class="sr-only">.</span></span></span></span></li>
+        </ol>
+       </div>:<div class="card-vote">
+        <div class="vote-poll" data-card="poll">
+        <div class="vote-head"><span class="vote-name">{card.vote.name}<span class="sr-only">:</span></span><span class="vote-status"><span class="vote-word"><span class="split-states" data-card="status-word"><span aria-hidden="true">{card.vote.states[0]}</span><span aria-hidden="true">{card.vote.states[1]}</span><span class="split-win">{card.outcome.status}<span class="sr-only">,</span></span></span></span> <span class="vote-note"><span class="split-states" data-card="status-note"><span aria-hidden="true"></span><span aria-hidden="true">{card.vote.live}</span><span>{card.outcome.note}<span class="sr-only">.</span></span></span></span></span></div>
+        <div class="vote-bar" data-card="bar" data-share={card.vote.share} style={`--for:${card.vote.share}%`} aria-hidden="true"><span class="vote-track"></span><span class="vote-for" data-card="for"></span><span class="vote-against" data-card="against"></span><span class="vote-tick" data-card="tick"></span></div>
+        <p class="vote-scale"><span class="split-states" data-card="for-label"><span aria-hidden="true">{card.vote.for}</span><span>{card.vote.for} {card.vote.share}%<span class="sr-only">,</span></span></span> <span class="vote-majority">{card.vote.majority}<span class="sr-only"> 50%,</span></span> <span class="split-states" data-card="against-label"><span aria-hidden="true">{card.vote.against}</span><span>{card.vote.against} {100-card.vote.share}%<span class="sr-only">.</span></span></span></p>
+        </div>
+        <p class="vote-answer" data-card="oracle"><span class="split-by">{cards.query.name}<span class="sr-only">:</span></span> <span class="vote-yes"><span class="split-states" data-card="answer"><span class="vote-why" aria-hidden="true">{cards.query.notes[0]}</span><span aria-hidden="true">{card.oracle.answer}<span class="vote-why">{cards.query.notes[1]}</span></span><span class="split-win">{card.oracle.answer}<span class="split-seal vote-seal" aria-hidden="true"><svg class="card-check" viewBox="0 0 20 20" focusable="false"><polyline points={check} pathLength="1"/></svg></span><span class="sr-only">.</span><span class="vote-why">{cards.query.notes[2]}<span class="sr-only">.</span></span></span></span></span></p>
+        <span class="split-wait vote-wait" data-card="wait" aria-hidden="true"><i></i></span>
+       </div>}
+      </div>:<div class="case-card" data-card-kind="proposal">
        <div class="card-head"><span class="card-label">{card.label}<span class="sr-only">.</span></span><span class="card-status"><span class="status-wait" data-card="status-wait" aria-hidden="true"><i></i>{card.pending}</span><span class="status-done" data-card="status-done">{card.resolved}</span></span></div>
        <p class="card-title">{card.title}</p>
        <div class="card-body">
         {'details' in card&&<dl class="card-details">{card.details.map(detail=><div class="card-detail"><dt>{detail.name}</dt><dd>{'pending' in detail?<Fragment><span class="value-was" data-card="was" aria-hidden="true">{detail.pending}</span><span class="value-now" data-card="now">{detail.value}</span><span class="detail-scan" data-card="scan" aria-hidden="true"></span></Fragment>:detail.value}</dd></div>)}</dl>}
-        {'arrival' in card&&<Fragment><dl class="card-details"><div class="card-detail"><dt>{card.arrival.name}</dt><dd><span class="value-was" data-card="was" aria-hidden="true">{card.arrival.pending}</span><span class="value-now" data-card="now">{card.arrival.value}</span></dd></div></dl><div class="card-flight"><div class="card-track" aria-hidden="true"><span class="track-base"></span><span class="track-done" data-card="line-done"></span><span class="track-late" data-card="line-late"></span><span class="track-tick" data-card="tick"></span><span class="track-plane" data-card="plane"><span class="track-dot"></span></span></div><p class="track-labels"><span>{card.due}</span> <span class="track-limit">{card.limit}</span> <span class="track-landed" data-card="landed">{card.landed}</span></p></div></Fragment>}
        </div>
        <p class="card-foot" data-card="foot"><span class="card-by">{cards.answeredBy}<span class="sr-only">.</span></span> <span class="card-result" data-card="result">{card.result}</span></p>
       </div>}

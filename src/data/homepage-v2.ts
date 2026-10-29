@@ -139,6 +139,12 @@ export const homeV2 = {
     cards: {
       answeredBy: 'Answered by Augur Lituus',
       cue: 'For builders',
+      // What the query cards share, one source: Augur Lituus's name, How it works' statuses (walkthrough.ts: a
+      // report is "open to challenge") and a note for each step. At Final the check says it's final (owner,
+      // 26 Oct 2026: "something that reads as final or a check mark … then remove the text"), and the note
+      // says why, so the answer keeps a line under it as the market's $1 does (owner, 28 Oct 2026: "add a
+      // tiny short text under 'Yes' to keep the symmetry").
+      query: { name: 'Augur Lituus', statuses: ['Asked', 'Reported', 'Final'], notes: ['Waiting for a report', 'Open to challenge', 'Not challenged'] },
       // The market card is a query split in two (owner, 26 Oct 2026, design D of the use-case motion board:
       // "Split it is"): the market's price beside Augur Lituus's answer. A price near 100 is the market's
       // consensus, not settlement, so the market pays only once the answer is Final. The statuses are How it
@@ -152,27 +158,39 @@ export const homeV2 = {
         label: 'Query',
         title: 'Will this year be the hottest on record?',
         market: { name: 'Market', prices: [64, 71, 86, 99], paid: '$1', pending: 'Yes price', resolved: 'Paid per Yes share' },
-        // The note explains the two waiting steps only: a report is awaited, then it's open to challenge. At
-        // Final the check beside the Yes says it, and the note goes (owner, 26 Oct 2026: "Final answer"
-        // repeated the chip and "No challenge in time" was confusing; "we really need something that reads
-        // as final or a check mark … then remove the text").
-        oracle: { name: 'Augur Lituus', answer: 'Yes', statuses: ['Asked', 'Reported', 'Final'], notes: ['Waiting for a report', 'Open to challenge'] },
+        // The notes under the answer are `query.notes`: the two waiting steps, then at Final, beside the check,
+        // why it's final.
+        oracle: { answer: 'Yes' },
         builders: 'Markets settle once the answer is final, and no one on the team has to decide who won. A challenged result is settled in the open, so it isn’t the team’s to defend.',
       },
+      // The insurance card is a relay (owner, 28 Oct 2026, "Relay it is", concept 3 of the Insurance sketch
+      // board): one line through three stops, the flight, Augur Lituus and the cover, under the query's
+      // question. It is a parametric cover, as real delay covers are: it asks whether the flight was late, not
+      // what it cost, and pays a fixed amount with no claim once the answer is final. The values read as one
+      // sentence (Landed, Yes, Paid); the notes carry the detail. Due 14:05, landed 16:50: 2 h 45 min late,
+      // over the cover's 2 hours. The question is 430 px at 22 px, the market's 426, so both cards wrap at the
+      // same width and keep one height. Values are illustrative.
       insurance: {
-        // A timeline to scale: due at its left edge, +2 hours at 60%, the landing 2 h 45 min in at 82.5%.
-        label: 'Example flight delay cover', pending: 'Covered', resolved: 'Paid',
-        title: 'Flight AB123',
-        arrival: { name: 'Arrival', pending: 'In the air', value: '2 h 45 min late' },
-        due: 'Due 14:05', limit: '+2 hours', landed: 'Landed 16:50',
-        result: 'Every covered passenger paid',
+        label: 'Query',
+        title: 'Will flight AB123 land over 2 hours late?',
+        flight: { name: 'Flight AB123', states: ['In the air', 'Landed'], notes: ['Due 14:05', '2 h 45 min late'] },
+        oracle: { answer: 'Yes' },
+        cover: { name: 'Delay cover', paid: 'Paid', notes: ['If over 2 h late', 'Every policyholder'] },
         builders: 'Payouts run once the delay is confirmed, with no claims to review. An insurance app could also use a faster oracle and turn to Augur Lituus only when a claim is disputed.',
       },
+      // The DAO card is a vote bar (owner, 28 Oct 2026, "polish vote bar then implement on melo", concept 2 of the
+      // DAO sketch board's second round, after the first round was "too similar" to the other two cards): the
+      // DAO's vote drawn as DAO apps draw it, For from the left and Against from the right, passing the majority,
+      // then the query on the DAO's written rules outranks it. Real DAOs queue a passed vote behind a timelock,
+      // often two days, before it runs; here Augur Lituus's Yes holds it there, so the vote alone doesn't decide
+      // (Ryan 10: a change that breaks the DAO's rules can't be pushed through). The question is 402 px at 22 px,
+      // under the market's 426, so the three cards keep one height. Values are illustrative.
       governance: {
-        label: 'Example proposal', pending: 'Queued', resolved: 'Blocked',
-        title: 'Upgrade the treasury contract',
-        details: [{ name: 'Proposed by', value: 'Core team' }, { name: 'Vote', value: 'Passed' }, { name: 'Constitution check', pending: 'Checking…', value: 'Breaks a rule' }],
-        result: 'Upgrade blocked',
+        label: 'Query',
+        title: 'Does this upgrade break a DAO rule?',
+        vote: { name: 'Vote on the treasury upgrade', share: 71, for: 'For', against: 'Against', majority: 'Majority', states: ['Voting', 'Passed'], live: 'Goes live in 2 days' },
+        oracle: { answer: 'Yes' },
+        outcome: { status: 'Blocked', note: 'It won’t go live' },
         builders: 'Every upgrade is checked against the DAO’s own rules by a process the core team doesn’t control. Changes within the constitution can still go live.',
       },
     },
