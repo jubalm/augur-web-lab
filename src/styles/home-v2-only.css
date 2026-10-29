@@ -548,18 +548,15 @@
 .home-v2 .how-path-panel:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
 .home-v2 .how-art{display:grid;row-gap:8px;justify-items:center;min-width:0}
 .home-v2 .how-scene{display:block;width:100%;height:auto;aspect-ratio:2/1;overflow:visible}
-/* The scene's caption (owner, 29 Oct 2026: in place of the "In the example" row under the words): centred under the
-   drawing, a swatch of the block that moves in this step, drawn in the scene's own colours (the reward a small Paper
-   square, their stake Mist, your stake two Green squares, the double, your win Green), and one 15/22 Pewter sentence
-   whose figures are Sora 600 in Paper, your win in Green. It names what the reader just watched move, with its REP.
-   The swatch sits in the line, so where the sentence wraps (phones) it stays with its first words. */
-.home-v2 .how-key{margin:0;font-size:15px;line-height:22px;color:var(--muted-foreground);text-align:center;text-wrap:balance}
-.home-v2 .how-key strong{font-family:var(--font-heading);font-size:.94em;font-weight:600;font-variant-numeric:tabular-nums;color:var(--foreground);white-space:nowrap}
-.home-v2 .how-key .is-win{color:var(--primary)}
-.home-v2 .how-key-mark{display:inline-block;width:12px;height:12px;margin-right:10px;vertical-align:-1px;background:var(--mark-participant)}
-.home-v2 .how-key-mark.is-reward{width:8px;height:8px;vertical-align:1px;background:var(--foreground)}
-.home-v2 .how-key-mark:is(.is-yours,.is-won){background:var(--primary)}
-.home-v2 .how-key-mark.is-yours{margin-right:25px;box-shadow:15px 0 0 var(--primary)}
+/* The scene's legend (owner, 29 Oct 2026: a caption per step only repeated the claim and took the eye from it): what
+   the drawing's blocks are, the same in every step, centred under the drawing: their stake (Mist), your stake (Green)
+   and the reward (a smaller Paper square), each a swatch in the scene's own colour and a 13/18 Pewter word, 20 apart.
+   It is the quietest text on the stage, so the claim leads. */
+.home-v2 .how-key{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 20px;margin:0;padding:0;list-style:none;font-size:13px;line-height:18px;color:var(--muted-foreground)}
+.home-v2 .how-key li{display:inline-flex;align-items:center;gap:8px}
+.home-v2 .how-key-mark{flex:none;width:10px;height:10px;background:var(--mark-participant)}
+.home-v2 .how-key-mark.is-yours{background:var(--primary)}
+.home-v2 .how-key-mark.is-reward{width:6px;height:6px;background:var(--foreground)}
 /* A part of the magnet turns and scales about the origin how-scenes.ts writes into its transform, so its own origin
    stays at 0 0 (as the tenet scenes' pinned parts). */
 .home-v2 .how-scene [data-how-part]{transform-box:view-box;transform-origin:0 0}
@@ -642,8 +639,7 @@
 .home-v2 .how-path-rail{forced-color-adjust:none;background:Highlight}
 .home-v2 .how-path-tab:not(:last-child)::before{forced-color-adjust:none;background:CanvasText}
 .home-v2 .how-key-mark{forced-color-adjust:none;background:CanvasText}
-.home-v2 .how-key-mark:is(.is-yours,.is-won){background:Highlight}
-.home-v2 .how-key-mark.is-yours{box-shadow:15px 0 0 Highlight}
+.home-v2 .how-key-mark.is-yours{background:Highlight}
 .home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
 .home-v2 .example{outline:1px solid CanvasText}
 .home-v2 .holding-point.is-act .holding-mark{background:Canvas;box-shadow:inset 0 0 0 1.5px Highlight}

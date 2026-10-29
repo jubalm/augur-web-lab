@@ -236,23 +236,22 @@ export const homeV2 = {
       label: 'How taking part works',
       // Each step (sketch A of the item 4 board; owner, 25 Oct 2026: "build A on /2"): a tab with its number and
       // name, and a stage with its scene (how-scenes.ts), the claim in two lines (setup in
-      // Pewter, payoff in Paper) and one body line, which carries the wait that follows. Under the scene, `key` is its
-      // caption (owner, 29 Oct 2026: replace the "In the example" row): a swatch of the block that moves in that step
-      // (`mark`: the reward, their stake, your two blocks, your win) and one sentence with the example's figure for
-      // it, which HowItWorks.astro fills from walkthrough.ts like the example's story ({name} bold, {+name} Green).
-      // "In the example" keeps the figures illustrative. Get paid's is what you win of their stake, as in the
-      // example's last sentence (on top of your stake back and the reward). Challenge says "double theirs": in the cold read,
-      // "stake double" didn't say of what. `scene` names the step's drawing.
+      // Pewter, payoff in Paper) and one body line, which carries the wait that follows. Under every scene, `key` is
+      // its legend (owner, 29 Oct 2026: the per-step captions only repeated the claims and took the eye from them):
+      // what the drawing's blocks are, the same in all four steps, small and Pewter, so it explains without
+      // competing. Challenge says "double theirs": in the cold read, "stake double" didn't say of what. `scene`
+      // names the step's drawing.
       // `note` is the tab's line under its name (owner, 26 Oct 2026: "a tiny text below the 'Ask' 'Report' stuff"):
       // read with the name it says what the step is in REP terms, so the row of tabs tells the whole process before
       // any is picked. It never repeats the claim (the line the tabs had before did, and went as noise). Facts: a
       // fee per question in REP (§4.4.2 p7), a report stakes on an outcome (§4.1 p5), a challenge stakes on another
       // (§4.0.2 p4), rewards go to the outcome that becomes final (§4.3.1 p6). Short enough for one line from 1024.
+      key: [{ mark: 'theirs', label: 'Their stake' }, { mark: 'yours', label: 'Your stake' }, { mark: 'reward', label: 'The reward' }],
       stops: [
-        { title: 'Ask', note: 'Pay a fee in REP', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.', key: { mark: 'reward', text: 'In the example, the reward grows toward the {fee} fee.' } },
-        { title: 'Report', note: 'Stake on an answer', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.', key: { mark: 'theirs', text: 'In the example, a reporter stakes {bond} on {reported}.' } },
-        { title: 'Challenge', note: 'Back another answer', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.', key: { mark: 'yours', text: 'In the example, you stake {challenge} on {challenged}.' } },
-        { title: 'Get paid', note: 'If your answer holds', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.', key: { mark: 'won', text: 'In the example, you win {+share} of theirs.' } },
+        { title: 'Ask', note: 'Pay a fee in REP', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.' },
+        { title: 'Report', note: 'Stake on an answer', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.' },
+        { title: 'Challenge', note: 'Back another answer', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.' },
+        { title: 'Get paid', note: 'If your answer holds', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.' },
       ],
       // The example as a story (owner, 29 Oct 2026: "I love the story in words", sketch D of the example board):
       // walkthrough.ts's question and amounts in four plain sentences, one per step above, each under that step's

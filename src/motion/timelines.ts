@@ -94,10 +94,11 @@ export const useCaseTimeline = { threshold:.6, link:240, out:160, at:160, in:320
  * the shown step fades out over `out` and the picked one fades in from `at` over `in`; on every pick its scene acts
  * from `pick`. Each act's own timing (the magnet, 26 Oct 2026) lives with its drawing in
  * how-scenes.ts. The links between the two steps draw in order (29 Oct 2026), each over `rail` (draw),
- * `railStagger` apart: forward top to bottom, back bottom to top. The words never move. Opening the example: its
+ * `railStagger` apart, one run: forward top to bottom, each square lighting (opacity .3 and 60% to full, newcomer)
+ * over `light` from `lightAt` into the link that reaches it; back bottom to top, the picked square lighting at once. The words never move. Opening the example: its
  * four sentences rise `rise` px and fade in over `row` (settle), `stagger` apart (0.65 s in all). Closing is
  * instant. */
-export const howPathTimeline = { threshold:.5, entrance:200, underlineAt:360, underline:560, out:160, at:160, in:320, pick:200, rail:280, railStagger:160, rise:8, row:320, stagger:110 } as const;
+export const howPathTimeline = { threshold:.5, entrance:200, underlineAt:360, underline:560, out:160, at:160, in:320, pick:200, rail:360, railStagger:360, lightAt:300, light:280, rise:8, row:320, stagger:110 } as const;
 /** Sitewide field (owner, 19 Oct 2026): cells within `margin` px of text or an object stay empty; full-width
  * bands darker than `bandLuminance` count as background. A `density` share of the rest hold a 3 px square,
  * `green` of them Green, in `steps` opacity steps across `paperOpacity` / `greenOpacity`; redrawn `debounce`

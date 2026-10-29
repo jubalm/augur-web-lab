@@ -36,7 +36,7 @@ toggle.hidden = false;
 if (!root) return;
 // A step is picked only by a press or a key, never by hover (owner, 26 Oct 2026).
 const tabs = [...root.querySelectorAll('[role="tab"]')], panels = [...root.querySelectorAll('[role="tabpanel"]')], stage = root.querySelector('.how-path-stage');
-const rails = tabs.map(tab => tab.querySelector('[data-how-rail]'));
+const rails = tabs.map(tab => tab.querySelector('[data-how-rail]')), squares = tabs.map(tab => tab.querySelector('.how-path-index'));
 if (!animates || !('IntersectionObserver' in window)) return;
 // The entrance follows seen.ts: a reload or a history visit skips it, and a fresh visit records it once it starts.
 const STORE = 'augur:motion-seen', nav = performance.getEntriesByType?.('navigation')[0];
@@ -77,19 +77,24 @@ observer.observe(stage);
 // A pick swaps the stage: the shown step fades out while it still holds the shared cell (a hidden panel there is
 // only invisible), then the picked one fades in and its scene acts. Every pick plays it, after a reload too
 // (owner, 26 Oct 2026: changing steps "doesn't show any motion"): a pick is the reader asking for that step.
-// The links between the two steps draw in order with it (a step's rail is its link down to the next step): forward
-// they fill top to bottom, back they empty bottom to top. Each holds where it was until its turn, so a pick while
-// they draw carries on from there, and the CSS (aria-selected) is the state after.
+// The links between the two steps draw in order with it (a step's rail is its link down to the next step), one run
+// down the timeline (owner, 29 Oct 2026: the green line going down): forward they fill top to bottom, each square
+// lighting as the line reaches it, the picked one last; back they empty bottom to top and the picked square lights
+// at once. Each link holds where it was until its turn, so a pick while they draw carries on from there, and the CSS
+// (aria-selected) is the state after. Where a link was is read as its scale, never its matrix: an empty link's
+// matrix is singular, and browsers step between singular matrices at the halfway mark instead of drawing.
 let drawn = [];
-root.addEventListener('tabsbeforechange', () => { drawn = rails.map(rail => rail && getComputedStyle(rail).transform); settle(); });
+root.addEventListener('tabsbeforechange', () => { drawn = rails.map(rail => { const m = rail ? getComputedStyle(rail).transform : 'none'; return m === 'none' ? 1 : new DOMMatrix(m).d; }); settle(); });
 root.addEventListener('tabschange', ({ detail: { index, previous } }) => {
 open = index;
 if (state === 'waiting') done();
 if (reduced.matches) return;
 go(panels[previous], [{ visibility: 'visible', opacity: 1 }, { visibility: 'visible', opacity: 0 }], 0, L.out, 'linear', 'none');
 go(panels[index], [{ opacity: 0 }, { opacity: 1 }], L.at, L.in, E.reveal);
-const forward = index > previous;
-for (let k = Math.min(index, previous), last = Math.max(index, previous); k < last; k++) go(rails[k], [{ transform: drawn[k] }, { transform: forward ? 'none' : 'scaleY(0)' }], (forward ? k - previous : previous - 1 - k) * L.railStagger, L.rail, E.draw);
+const forward = index > previous, light = [{ opacity: .3, transform: 'scale(.6)' }, { opacity: 1, transform: 'none' }];
+for (let k = Math.min(index, previous), last = Math.max(index, previous); k < last; k++) go(rails[k], [{ transform: `scaleY(${drawn[k]})` }, { transform: `scaleY(${forward ? 1 : 0})` }], (forward ? k - previous : previous - 1 - k) * L.railStagger, L.rail, E.draw);
+if (forward) for (let k = previous + 1; k <= index; k++) go(squares[k], light, (k - 1 - previous) * L.railStagger + L.lightAt, L.light, E.newcomer);
+else go(squares[index], light, 0, L.light, E.newcomer);
 act(index, L.pick);
 });
 // A press, focus or key in the stage, a resize or print (the controller's tabssettled), a hidden page, reduced
