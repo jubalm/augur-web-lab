@@ -512,9 +512,14 @@
    site's outline buttons, so they read as something to press (owner, 25 Oct 2026: it wasn't clear the other steps
    open); the shown one is Navy and runs into the stage, its square Green. Under a fine pointer another step lifts to
    Dark 3 with the half-Green edge (the use cases' tab hover), and resting on it shows it. Rows pack to the top, so
-   where a note wraps (below 1024) the names still line up across the row. */
+   where a note wraps (below 1024) the names still line up across the row. Along the top of each tab runs a 2 px
+   rail, Green on the picked step and every step before it, so the row reads as progress through one question's life
+   (owner, 29 Oct 2026: "it doesn't make it clear the progress"). It is a state, never a timer: nothing advances on
+   its own, and a pick draws the rails between the two steps in order (how-path-v2.js). */
 .home-v2 .how-path-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:4px}
-.home-v2 .how-path-tab{display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:12px;row-gap:2px;align-items:center;align-content:start;min-width:0;padding:16px 24px;border:0;background:none;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--foreground);text-align:left;cursor:pointer;transition:background-color 180ms ease-out}
+.home-v2 .how-path-rail{position:absolute;top:0;left:0;right:0;height:2px;background:var(--primary);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.home-v2 .how-path-tab:is([aria-selected="true"],:has(~[aria-selected="true"])) .how-path-rail{transform:none}
+.home-v2 .how-path-tab{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:12px;row-gap:2px;align-items:center;align-content:start;min-width:0;padding:16px 24px;border:0;background:none;box-shadow:inset 0 0 0 1px var(--web-outline);color:var(--foreground);text-align:left;cursor:pointer;transition:background-color 180ms ease-out}
 .home-v2 .how-path-index{display:grid;place-items:center;width:24px;height:24px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 12px/1 var(--font-heading);font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
 .home-v2 .how-path-name{min-width:0;font:600 18px/24px var(--font-heading)}
 .home-v2 .how-path-note{grid-column:2;min-width:0;font-size:14px;line-height:20px;color:var(--muted-foreground);text-wrap:balance}
@@ -638,6 +643,7 @@
 .home-v2 .how-path-stage{outline:1px solid CanvasText}
 .home-v2 .how-path-index{box-shadow:none;outline:1px solid CanvasText;outline-offset:-1px}
 .home-v2 .how-path-tab[aria-selected="true"] .how-path-index{forced-color-adjust:none;outline:0;background:Highlight;color:HighlightText}
+.home-v2 .how-path-rail{forced-color-adjust:none;background:Highlight}
 .home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
 .home-v2 .example{outline:1px solid CanvasText}
 .home-v2 :is(.example-tag,.example-status,.example-step){box-shadow:none;outline:1px solid CanvasText;outline-offset:-1px}
