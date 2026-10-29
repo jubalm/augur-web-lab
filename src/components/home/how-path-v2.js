@@ -18,8 +18,8 @@ const root = section.querySelector('[data-how-path]'), toggle = section.querySel
 const reduced = matchMedia('(prefers-reduced-motion: reduce)'), animates = typeof Element.prototype.animate === 'function';
 // The example. Closed, it is hidden="until-found", so find in page can still open it (plainly hidden where
 // that isn't supported); aria-expanded follows, and the button's words say what a press does next. Opening
-// moves what follows down at once (no height animation) while the card's rows rise in, `stagger` apart, and
-// the payout figure lands last. Closing is instant, and focus stays on the button.
+// moves what follows down at once (no height animation) while the story's sentences rise in, `stagger` apart,
+// in the order they happened. Closing is instant, and focus stays on the button.
 if (toggle && example) {
 let rows = [];
 const still = () => { rows.forEach(a => a.cancel()); rows = []; };
@@ -27,8 +27,6 @@ const set = open => { example.hidden = !open && 'until-found'; toggle.setAttribu
 const enter = () => {
 if (reduced.matches || !animates) return;
 example.querySelectorAll('[data-example-row]').forEach((row, i) => rows.push(row.animate([{ opacity: 0, transform: `translateY(${L.rise}px)` }, { opacity: 1, transform: 'none' }], { duration: L.row, delay: i * L.stagger, easing: E.settle, fill: 'backwards' })));
-const figure = example.querySelector('[data-example-figure]');
-if (figure) rows.push(figure.animate([{ opacity: 0, transform: `translateY(-${L.rise}px)` }, { opacity: 1, transform: 'none' }], { duration: L.figure, delay: L.figureAt, easing: E.settle, fill: 'backwards' }));
 };
 toggle.addEventListener('click', () => { const open = !!example.hidden; still(); set(open); if (open) enter(); });
 example.addEventListener('beforematch', () => toggle.setAttribute('aria-expanded', 'true'));

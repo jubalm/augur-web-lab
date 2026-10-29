@@ -220,8 +220,8 @@ export const homeV2 = {
     // `steps`). The owner's "the whole process from asking to getting a final answer and the middle stuff"
     // stays on the scroll: the four steps, the waits in the scenes and the bodies. Augus, 18 Oct: the consumer
     // case, so the moves speak to "you" and every gain keeps its condition beside the risk. Augus's worry:
-    // plain words on the scroll; "bond", "appeal period" and "Reporter Pay" appear once each, explained,
-    // inside the example. Draft copy.
+    // plain words, so "bond", "appeal period" and "Reporter Pay" appear nowhere, the example included (29 Oct
+    // 2026). Draft copy.
     // Facts (January 2026 whitepaper): anyone asks for a fee in REP (§2 p2, §4.4.2 p7); the reward rises
     // from 0 REP toward the fee until someone reports, and goes to the first to back the final answer
     // (§4.4.3 p7, §4.3.1 p6); a report stakes the fee, a challenge stakes double on another answer and
@@ -238,8 +238,8 @@ export const homeV2 = {
       // name, and a stage with its scene (how-scenes.ts), the claim in two lines (setup in
       // Pewter, payoff in Paper), one body line, which carries the wait that follows, and the example's figure
       // for that step (`fact`: a label and a figure HowItWorks.astro fills from walkthrough.ts, the numbers the
-      // example below opens with). Get paid's figure is what you win of their stake, as in the example's Paid
-      // out ("on top of" your stake back and the reward). Challenge says "double theirs": in the cold read,
+      // example below tells). Get paid's figure is what you win of their stake, as in the example's last sentence
+      // (on top of your stake back and the reward). Challenge says "double theirs": in the cold read,
       // "stake double" didn't say of what. `scene` names the step's drawing.
       // `note` is the tab's line under its name (owner, 26 Oct 2026: "a tiny text below the 'Ask' 'Report' stuff"):
       // read with the name it says what the step is in REP terms, so the row of tabs tells the whole process before
@@ -252,28 +252,22 @@ export const homeV2 = {
         { title: 'Challenge', note: 'Back another answer', scene: 'challenge', claim: ['Think it’s wrong?', 'Stake double theirs.'], body: 'The time to challenge starts again on your answer.', fact: ['In the example', '{challenge} on {challenged}'] },
         { title: 'Get paid', note: 'If your answer holds', scene: 'paid', claim: ['No new stake in time?', 'The answer is final.'], body: 'Whoever backed it wins most of the losing stake.', fact: ['In the example, you win', '+{share}'] },
       ],
-      // The example: walkthrough.ts's question and amounts, with "you" as the challenger who turns out
-      // right, so the card ends on your payout (peak–end). HowItWorks.astro fills {fee}, {bond},
-      // {challenge} and the answers ({reported}, {challenged}, {final}) from walkthrough.ts, which also
-      // gives the Paid out figures. The reward's amount for an overturned report isn't in §4.4.3, so the
-      // card names it without a figure, "on top of" the +12 (cold read, 25 Oct: "with your 30 REP back and
-      // the reward" left the reward looking like part of it); the reporter "lost" theirs, so Paid out never
-      // reads as paying them. `story` labels the rows (the four steps above, numbered the same), and `you`
-      // marks the row that is your move.
+      // The example as a story (owner, 29 Oct 2026: "I love the story in words", sketch D of the example board):
+      // walkthrough.ts's question and amounts in four plain sentences, one per step above, each under that step's
+      // name, with "you" as the challenger who turns out right, so it ends on your payout (peak–end). No jargon:
+      // the scroll never says bond, appeal period or Reporter Pay, so the story doesn't either. HowItWorks.astro
+      // fills each {token} from walkthrough.ts: {name} in bold (what's new in that sentence), {-name} plain (a
+      // figure said before) and {+name} bold in Green (your win). The reward's amount for an overturned report
+      // isn't in §4.4.3, so it has no figure; it goes to the first to back the final answer, you here. The
+      // reporter "loses" theirs, and the burned part is the rest of it. `label` names the card for screen readers.
       example: {
-        tag: 'Example',
-        status: 'Final answer',
-        story: 'What happened',
-        rows: [
-          { event: 'The question is asked', note: 'The reward, Reporter Pay, starts at 0 REP and rises toward the fee.', amount: '{fee} fee' },
-          { event: 'Someone reports {reported}', note: 'The first stake, called a bond, always equals the fee.', amount: '{bond}' },
-          { event: 'You challenge with {challenged}', note: 'Double their stake. The time to challenge (the appeal period) starts again.', amount: '{challenge}', you: true },
-          { event: '{final} is final', note: 'The time to challenge ends with no new stake.' },
+        label: 'An example, step by step',
+        story: [
+          'Someone asks, “{-question}” They pay a {fee} fee, which funds the reward.',
+          'A reporter says the answer is {reported} and stakes {bond} on it.',
+          'You think that’s wrong, so you stake {challenge} on {challenged}, double theirs. The time to challenge starts again.',
+          'No one stakes again in time, so {final} is final. You get your {-challenge} back, plus {+share} of theirs and the reward. The reporter loses their {-bond}, and {-burned} of it is burned.',
         ],
-        paid: 'Paid out',
-        you: { who: 'You', note: 'Most of their stake, on top of your {challenge} back and the reward.' },
-        reporter: { who: 'The reporter', note: 'Lost their whole stake.' },
-        burned: { who: 'Burned', note: 'The rest of their stake.' },
       },
     },
   },

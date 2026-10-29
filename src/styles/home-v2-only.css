@@ -560,46 +560,21 @@
 .home-v2 .how-fact.is-you strong{color:var(--primary)}/* The section's one control, the site's outline button (hover, focus and press from base.css), under the stage.
    The example opens below it, so it never moves; its chevron turns with it (home-v2.css). */
 .home-v2 .how-more{display:flex;width:fit-content;margin-top:32px}
-/* The example (owner, 25 Oct 2026: "make this professional"): one Navy card, like the stage, laid out as a
-   settlement record. The head holds the "Example" tag, Augur Lituus and the status; then the question and its
-   cutoff; then, under a hairline, two columns. What happened is the four steps above with the whitepaper's
-   figures: each row has the same numbered square as its step, joined by a hairline, the event in Paper with its
-   REP in one right-hand column of tabular figures, and a Pewter note under it. Your move, the challenge, has the
-   hollow Green square of a move. Paid out sits beside it, you first with the card's one large figure in Green,
-   then the reporter and the burned rest. The foot, under its own hairline, says where the figures come from. */
+/* The example (owner, 29 Oct 2026: "I love the story in words", sketch D of the example board): one Navy card, like
+   the stage, holding one question's story in four plain sentences, one per step, each under that step's name in a
+   left column, so the card reads with the steps above it. The sentences are Pewter; what's new in each is Sora 600
+   in Paper (the site's figures), your win in Green, and the last row's name is Paper, since it ends on your payout.
+   Hairlines part the rows; the foot, under its own, says where the figures come from. */
 .home-v2 .example{margin-top:24px;padding:32px;background:var(--background)}
-.home-v2 .example-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
-.home-v2 .example-name{display:flex;align-items:center;gap:12px;margin:0;font:600 14px/20px var(--font-heading);color:var(--foreground)}
-.home-v2 :is(.example-tag,.example-status){display:inline-flex;align-items:center;gap:6px;height:28px;margin:0;padding:0 10px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 13px/16px var(--font-heading);white-space:nowrap}
-.home-v2 .example-tag{color:var(--muted-foreground)}
-.home-v2 .example-status{color:var(--foreground)}
-.home-v2 .example-status :is(.web-icon,.web-icon>span,svg){width:16px;height:16px}
-.home-v2 .example-title{max-width:34em;margin:20px 0 0;font:600 22px/30px var(--font-heading);letter-spacing:-.01em;color:var(--foreground);text-wrap:balance}
-.home-v2 .example-cutoff{margin:8px 0 0;font-size:14px;line-height:20px;color:var(--muted-foreground)}
-.home-v2 .example-cutoff time{margin-left:4px;color:var(--foreground)}
-.home-v2 .example-body{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);margin-top:24px;border-top:1px solid var(--web-outline)}
-.home-v2 .example-story{min-width:0;padding:24px 48px 0 0}
-.home-v2 .example-paid{min-width:0;padding:24px 0 0 48px;border-left:1px solid var(--web-outline)}
-.home-v2 .example-label{margin:0;font:600 14px/20px var(--font-heading);color:var(--muted-foreground)}
-.home-v2 .example-rows{display:grid;row-gap:20px;margin:16px 0 0;padding:0;list-style:none}
-.home-v2 .example-row{position:relative;display:grid;grid-template-columns:24px minmax(0,1fr) auto;column-gap:16px;row-gap:4px;align-items:start}
-/* The hairline runs from each square to the next one, 4 px clear of both. */
-.home-v2 .example-row:not(:last-child)::before{content:'';position:absolute;left:11.5px;top:28px;bottom:-16px;width:1px;background:var(--web-outline)}
-.home-v2 .example-step{display:grid;place-items:center;width:24px;height:24px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 12px/1 var(--font-heading);font-variant-numeric:tabular-nums;color:var(--muted-foreground)}
-.home-v2 .example-row.is-you .example-step{box-shadow:inset 0 0 0 1.5px var(--primary);color:var(--primary)}
-.home-v2 .example-event{min-width:0;font:600 16px/24px var(--font-heading);color:var(--foreground)}
-.home-v2 :is(.example-amount,.example-figure){margin:0;font:600 16px/24px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground);text-align:right;white-space:nowrap}
-.home-v2 .example-note{margin:0;font-size:15px;line-height:22px;color:var(--muted-foreground);text-wrap:pretty}
-.home-v2 .example-row .example-note{grid-column:2/-1}
-.home-v2 .example-results{display:grid;row-gap:16px;margin:16px 0 0}
-.home-v2 .example-result{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;row-gap:4px;align-items:baseline}
-.home-v2 .example-result dt{font:600 16px/24px var(--font-heading);color:var(--foreground)}
-.home-v2 .example-result .example-note{grid-column:1/-1}
-.home-v2 .example-figure{font-size:20px;line-height:28px}
-.home-v2 .example-result.is-you{padding-bottom:16px;border-bottom:1px solid var(--web-outline)}
-.home-v2 .example-result.is-you .example-figure{font-size:32px;line-height:40px;letter-spacing:-.01em;color:var(--primary)}
-.home-v2 .example-result.is-burned .example-figure{color:var(--muted-foreground)}
-.home-v2 .example-foot{margin:24px 0 0;padding-top:16px;border-top:1px solid var(--web-outline);font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .example-story{display:grid;margin:0;padding:0;list-style:none}
+.home-v2 .example-step{display:grid;grid-template-columns:160px minmax(0,1fr);column-gap:32px;align-items:baseline;padding:20px 0;border-top:1px solid var(--web-outline)}
+.home-v2 .example-step:first-child{padding-top:0;border-top:0}
+.home-v2 .example-name{font:600 16px/28px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .example-step.is-you .example-name{color:var(--foreground)}
+.home-v2 .example-line{max-width:44em;margin:0;font-size:18px;line-height:28px;color:var(--muted-foreground);text-wrap:pretty}
+.home-v2 .example-line strong{font-family:var(--font-heading);font-size:.94em;font-weight:600;font-variant-numeric:tabular-nums;color:var(--foreground)}
+.home-v2 .example-line .is-win{color:var(--primary)}
+.home-v2 .example-foot{margin:4px 0 0;padding-top:16px;border-top:1px solid var(--web-outline);font-size:14px;line-height:20px;color:var(--muted-foreground)}
 /* Holding REP? Under a hairline the question heads its two points, with "Learn about REP" (the section's one link,
    underlined at rest) at the end of its row; the points sit on the heading row's grid, the first under the question,
    the second on the lead's edge. The question alone in the 500 column left a 400 px hole beside two points squeezed
@@ -618,11 +593,11 @@
 .home-v2 .holding-point strong{display:block;margin-bottom:4px;font:600 18px/26px var(--font-heading);color:var(--foreground)}
 /* Under 1280 the card's padding steps down. At 1200 and under the heading row's gap is 48, so the steps reach across
    48 to the stage, and the stage tightens. */
-@media(max-width:1279px){.home-v2 .example{padding:24px}.home-v2 .example-story{padding-right:32px}.home-v2 .example-paid{padding-left:32px}}
+@media(max-width:1279px){.home-v2 .example{padding:24px}}
 @media(max-width:1200px){.home-v2 .holding-points{column-gap:48px}.home-v2 .how-path{grid-template-columns:minmax(0,500fr) 48px minmax(0,668fr)}.home-v2 .how-path-panel{padding:32px}}
 /* Below 1024 the steps stand over the stage, 4 px above it, each row as tall as its words; the scene is centred, at
-   most 440 px; the example's Paid out goes under What happened, and Holding REP's points split the width evenly.
-   Below 768 the points stack. */
+   most 440 px; the example's step names narrow to 120, and Holding REP's points split the width evenly. Below 768
+   the example's names stand over their sentences and the points stack. */
 @media(max-width:1023px){
 .home-v2 .how-path{grid-template-columns:minmax(0,1fr);row-gap:4px}
 .home-v2 :is(.how-path-tabs,.how-path-stage){grid-column:auto}
@@ -631,9 +606,7 @@
 .home-v2 .how-path-note{font-size:15px;line-height:22px}
 .home-v2 .how-path-panel{row-gap:24px}
 .home-v2 .how-scene{max-width:440px;justify-self:center}
-.home-v2 .example-body{grid-template-columns:minmax(0,1fr)}
-.home-v2 .example-story{padding-right:0}
-.home-v2 .example-paid{margin-top:24px;padding-left:0;border-left:0;border-top:1px solid var(--web-outline)}
+.home-v2 .example-step{grid-template-columns:120px minmax(0,1fr);column-gap:24px}
 .home-v2 .holding{margin-top:48px}
 .home-v2 .holding-points{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -642,7 +615,10 @@
 .home-v2 .how-claim{font-size:22px;line-height:30px}
 .home-v2 .how-body{font-size:16px;line-height:24px}
 .home-v2 .example{padding:24px 20px}
-.home-v2 .example-title{font-size:20px;line-height:28px}
+.home-v2 .example-step{grid-template-columns:minmax(0,1fr);row-gap:4px;padding:16px 0}
+.home-v2 .example-step:first-child{padding-top:0}
+.home-v2 .example-name{line-height:24px}
+.home-v2 .example-line{font-size:16px;line-height:24px}
 .home-v2 .holding-points{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .how-path-tab{transition:none}}
@@ -656,9 +632,6 @@
 .home-v2 .how-path-tab:not(:last-child)::before{forced-color-adjust:none;background:CanvasText}
 .home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
 .home-v2 .example{outline:1px solid CanvasText}
-.home-v2 :is(.example-tag,.example-status,.example-step){box-shadow:none;outline:1px solid CanvasText;outline-offset:-1px}
-.home-v2 .example-row.is-you .example-step{outline:2px solid Highlight;outline-offset:-2px}
-.home-v2 .example-row:not(:last-child)::before{forced-color-adjust:none;background:CanvasText}
 .home-v2 .holding-point.is-act .holding-mark{background:Canvas;box-shadow:inset 0 0 0 1.5px Highlight}
 .home-v2 .paid-mark{forced-color-adjust:none;background:Highlight}
 }
