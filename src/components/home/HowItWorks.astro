@@ -4,7 +4,6 @@ import Icon from '../primitives/Icon.astro';
 import Button from '../primitives/Button.astro';
 import RepFlow from '../art/RepFlow.astro';
 import {homeCopy,ownerVersion,type HomeVariant} from '../../data/homepage-review';
-import {exampleFigures,proposedRules} from '../../data/rep';
 import {howScenes} from '../../data/how-scenes';
 import type {SvgNode} from '../../data/iso-kit';
 import {reviewScripts,reviewInline} from './review-inline';
@@ -29,7 +28,8 @@ const bondSquares = (step: number, outcome: string) => ledger.slice(0, step + 1)
 // for that step; then the section's one button, which opens one question's story in a Navy card (four sentences,
 // each under its step's name), then Holding REP. how-path-v2.js adds hover and the stage's motion, and runs the
 // button. The example's question, amounts and answers come from walkthrough.ts (one source), with a no-break space
-// before "REP", and its foot from the REP page's note (rep.ts). Every other version renders the markup further down.
+// before "REP"; it has no foot (owner, 29 Oct 2026: the whitepaper note went). Every other version renders the
+// markup further down.
 const path=ownerVersion(variant)&&how&&'path' in how?how.path:undefined;
 const [,reported,challenged]=ledger,finalAnswer=walkthrough[walkthrough.length-1]!.outcome;
 const reps=(value:number)=>`${value} REP`;
@@ -37,7 +37,6 @@ const values:Record<string,string>={fee:reps(rep.fee),bond:reps(rep.bond),challe
 const fill=(text:string)=>text.replace(/\{(\w+)\}/g,(token,name:string)=>values[name]??token);
 // The example's sentences (homepage-v2.ts): {name} is bold, {-name} plain and {+name} bold in Green.
 const story=(text:string)=>text.split(/(\{[-+]?\w+\})/).filter(Boolean).map(part=>{const token=part.match(/^\{([-+]?)(\w+)\}$/);if(!token)return part;const value=values[token[2]!]??part;return token[1]==='-'?value:{value,win:token[1]==='+'};});
-const foot=`${exampleFigures} ${proposedRules}`.replace(/(\d+) REP/g,(_,figure:string)=>reps(Number(figure)));
 ---
 <section class="how-it-works section" id="how-it-works" aria-labelledby="how-heading" data-how-v2={review?'':undefined}><div class="container">
  {path?<Fragment>
@@ -50,7 +49,6 @@ const foot=`${exampleFigures} ${proposedRules}`.replace(/(\d+) REP/g,(_,figure:s
  <div class="path-example" id="how-example" data-how-demo>
   <div class="example" role="region" aria-label={path.example.label}>
    <ol class="example-story">{path.example.story.map((text,i,all)=><li class:list={['example-step',{'is-you':i===all.length-1}]} data-example-row><span class="example-name">{path.stops[i]!.title}</span><p class="example-line">{story(text).map(part=>typeof part==='string'?part:<strong class:list={{'is-win':part.win}}>{part.value}</strong>)}</p></li>)}</ol>
-   <p class="example-foot">{foot}</p>
   </div>
  </div>
  <div class="holding"><div class="holding-head"><h3 class="holding-title">{holderCopy.title}</h3><Button href="/rep/" variant="text">Learn about REP</Button></div><ul class="holding-points">{holderCopy.points.map(point=><li class:list={['holding-point',{'is-act':'act' in point}]}><i class="holding-mark" aria-hidden="true"></i><p><strong>{point.lead}</strong> {point.text}</p></li>)}</ul></div>

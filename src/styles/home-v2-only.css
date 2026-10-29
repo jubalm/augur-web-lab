@@ -562,19 +562,19 @@
 .home-v2 .how-more{display:flex;width:fit-content;margin-top:32px}
 /* The example (owner, 29 Oct 2026: "I love the story in words", sketch D of the example board): one Navy card, like
    the stage, holding one question's story in four plain sentences, one per step, each under that step's name in a
-   left column, so the card reads with the steps above it. The sentences are Pewter; what's new in each is Sora 600
-   in Paper (the site's figures), your win in Green, and the last row's name is Paper, since it ends on your payout.
-   Hairlines part the rows; the foot, under its own, says where the figures come from. */
+   left column, so the card reads with the steps above it. Each name is Sora 600 18 in Paper (owner, 29 Oct 2026:
+   the names wanted more emphasis), the step a reader scans for; the sentences are Pewter, what's new in each is
+   Sora 600 in Paper (the site's figures) and your win is the one Green. Hairlines part the rows, and the card ends
+   on the last sentence (the whitepaper note under it went the same day). */
 .home-v2 .example{margin-top:24px;padding:32px;background:var(--background)}
 .home-v2 .example-story{display:grid;margin:0;padding:0;list-style:none}
 .home-v2 .example-step{display:grid;grid-template-columns:160px minmax(0,1fr);column-gap:32px;align-items:baseline;padding:20px 0;border-top:1px solid var(--web-outline)}
 .home-v2 .example-step:first-child{padding-top:0;border-top:0}
-.home-v2 .example-name{font:600 16px/28px var(--font-heading);color:var(--muted-foreground)}
-.home-v2 .example-step.is-you .example-name{color:var(--foreground)}
+.home-v2 .example-step:last-child{padding-bottom:0}
+.home-v2 .example-name{font:600 18px/28px var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
 .home-v2 .example-line{max-width:44em;margin:0;font-size:18px;line-height:28px;color:var(--muted-foreground);text-wrap:pretty}
 .home-v2 .example-line strong{font-family:var(--font-heading);font-size:.94em;font-weight:600;font-variant-numeric:tabular-nums;color:var(--foreground)}
 .home-v2 .example-line .is-win{color:var(--primary)}
-.home-v2 .example-foot{margin:4px 0 0;padding-top:16px;border-top:1px solid var(--web-outline);font-size:14px;line-height:20px;color:var(--muted-foreground)}
 /* Holding REP? Under a hairline the question heads its two points, with "Learn about REP" (the section's one link,
    underlined at rest) at the end of its row; the points sit on the heading row's grid, the first under the question,
    the second on the lead's edge. The question alone in the 500 column left a 400 px hole beside two points squeezed
