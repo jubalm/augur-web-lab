@@ -79,9 +79,9 @@ observer.observe(stage);
 // A pick swaps the stage: the shown step fades out while it still holds the shared cell (a hidden panel there is
 // only invisible), then the picked one fades in and its scene acts. Every pick plays it, after a reload too
 // (owner, 26 Oct 2026: changing steps "doesn't show any motion"): a pick is the reader asking for that step.
-// The progress rails between the two steps draw in order with it: forward they fill left to right, back they empty
-// right to left. Each holds where it was until its turn, so a pick while they draw carries on from there, and the
-// CSS (aria-selected) is the state after.
+// The links between the two steps draw in order with it (a step's rail is its link down to the next step): forward
+// they fill top to bottom, back they empty bottom to top. Each holds where it was until its turn, so a pick while
+// they draw carries on from there, and the CSS (aria-selected) is the state after.
 let drawn = [];
 root.addEventListener('tabsbeforechange', () => { drawn = rails.map(rail => rail && getComputedStyle(rail).transform); settle(); });
 root.addEventListener('tabschange', ({ detail: { index, previous } }) => {
@@ -91,7 +91,7 @@ if (reduced.matches) return;
 go(panels[previous], [{ visibility: 'visible', opacity: 1 }, { visibility: 'visible', opacity: 0 }], 0, L.out, 'linear', 'none');
 go(panels[index], [{ opacity: 0 }, { opacity: 1 }], L.at, L.in, E.reveal);
 const forward = index > previous;
-for (let k = Math.min(index, previous) + 1, last = Math.max(index, previous); k <= last; k++) go(rails[k], [{ transform: drawn[k] }, { transform: forward ? 'none' : 'scaleX(0)' }], (forward ? k - previous - 1 : previous - k) * L.railStagger, L.rail, E.draw);
+for (let k = Math.min(index, previous), last = Math.max(index, previous); k < last; k++) go(rails[k], [{ transform: drawn[k] }, { transform: forward ? 'none' : 'scaleY(0)' }], (forward ? k - previous : previous - 1 - k) * L.railStagger, L.rail, E.draw);
 act(index, L.pick);
 });
 // A press, focus or key in the stage, a resize or print (the controller's tabssettled), a hidden page, reduced
