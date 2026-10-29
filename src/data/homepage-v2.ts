@@ -178,18 +178,21 @@ export const homeV2 = {
         cover: { name: 'Delay cover', paid: 'Paid', notes: ['If over 2 h late', 'Every policyholder'] },
         builders: 'Payouts run once the delay is confirmed, with no claims to review. An insurance app could also use a faster oracle and turn to Augur Lituus only when a claim is disputed.',
       },
-      // The DAO card is a vote bar (owner, 28 Oct 2026, "polish vote bar then implement on melo", concept 2 of the
-      // DAO sketch board's second round, after the first round was "too similar" to the other two cards): the
-      // DAO's vote drawn as DAO apps draw it, For from the left and Against from the right, passing the majority,
-      // then the query on the DAO's written rules outranks it. Real DAOs queue a passed vote behind a timelock,
-      // often two days, before it runs; here Augur Lituus's Yes holds it there, so the vote alone doesn't decide
-      // (Ryan 10: a change that breaks the DAO's rules can't be pushed through). The question is 402 px at 22 px,
-      // under the market's 426, so the three cards keep one height. Values are illustrative.
+      // The DAO card is a switch (owner, 29 Oct 2026, "Polish, review then implement the Switch into /melo",
+      // concept 1 of the DAO board's round 5, after the vote bar and three rounds of other pictures). The DAO's
+      // part is one row: the treasury upgrade's go-live switch, which the vote turns on and the block turns off.
+      // Augur Lituus's part is the larger (owner, 29 Oct 2026: "None of them give enough importance to the Augur
+      // Lituus process"): both answers, so it reads as a yes/no, the report on Yes, the day it's open to
+      // challenge, then Final. Real DAOs queue a passed vote behind a timelock, often two days, before it runs;
+      // here Augur Lituus's Yes holds it there, so the vote alone doesn't decide (Ryan 10: a change that breaks
+      // the DAO's rules can't be pushed through). The question is 402 px at 22 px, under the market's 426:
+      // between about 1030 and 1095 px it keeps one line while the other two wrap, so the card is 28 px shorter
+      // there. Values are illustrative.
       governance: {
         label: 'Query',
         title: 'Does this upgrade break a DAO rule?',
-        vote: { name: 'Vote on the treasury upgrade', share: 71, for: 'For', against: 'Against', majority: 'Majority', states: ['Voting', 'Passed'], live: 'Goes live in 2 days' },
-        oracle: { answer: 'Yes' },
+        upgrade: { name: 'Treasury upgrade', states: ['Voting', 'Passed'], notes: ['Open to members', 'Goes live in 2 days'] },
+        oracle: { answer: 'Yes', other: 'No' },
         outcome: { status: 'Blocked', note: 'It won’t go live' },
         builders: 'Every upgrade is checked against the DAO’s own rules by a process the core team doesn’t control. Changes within the constitution can still go live.',
       },

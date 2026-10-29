@@ -185,51 +185,56 @@
 .home-v2 .relay-step.is-oracle::after{background:var(--primary)}
 .home-v2 .relay-name.split-by::before{display:none}
 }
-/* DAOs: a vote bar (owner, 28 Oct 2026, "polish vote bar", concept 2 of the DAO sketch board's second round).
-   The DAO's vote as DAO apps draw it: one 12 px bar, For in Paper from the left and Against in Mist from the
-   right over a Dark 3 track, a 2 px Pewter tick at the majority, and For, Majority and Against under it. The
-   status sits top right: Voting; Passed over "Goes live in 2 days"; then Blocked in Green over "It won't go
-   live". Augur Lituus's answer is one line under the bar and the waiting line under it. Until the report its
-   note ("Waiting for a report") stands in the answer's own place, so the line never shows a gap or a dash
-   (owner, 28 Oct 2026); then the Yes with "Open to challenge" beside it, then the Green Yes and its seal.
-   Once the answer is final the DAO acts and the passed vote steps back to half, as it rests. Head, bar, scale
-   and answer are the split's 132, so the card is 284 like the others, and from 440 down they tighten alike
-   (122). Below 360 the notes can't fit the line, so they go and the answer's place stays empty until the
-   report; the waiting line still shows the challenge window. */
-.home-v2 [data-card-kind="vote"]{container:vote/inline-size}
-.home-v2 .card-vote{margin-top:32px}
-.home-v2 .vote-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;min-height:44px}
-.home-v2 .vote-name{padding-top:5px;font:600 13px/16px var(--font-heading);color:var(--muted-foreground)}
-.home-v2 .vote-status{display:grid;justify-items:end;row-gap:2px;text-align:right}
-.home-v2 :is(.vote-status,.vote-scale) .split-states>span{justify-self:end}
-.home-v2 .vote-scale>.split-states:first-child>span{justify-self:start}
-.home-v2 .vote-word{font:600 20px/26px var(--font-heading);letter-spacing:-.01em}
-.home-v2 .vote-note{min-height:16px;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
-.home-v2 :is(.vote-word,.vote-note)>.split-states{display:grid}
-.home-v2 .vote-bar{position:relative;height:12px;margin-top:12px;opacity:.5}
-.home-v2 .vote-bar>span{position:absolute;top:0;height:12px}
-.home-v2 .vote-track{left:0;right:0;background:var(--web-raised)}
-.home-v2 .vote-for{left:0;width:var(--for);background:var(--foreground);transform-origin:left}
-.home-v2 .vote-against{right:0;width:calc(100% - var(--for));background:var(--mark-participant,#71728A);transform-origin:right}
-.home-v2 .vote-tick{left:50%;top:-8px;width:2px;height:28px;margin-left:-1px;background:var(--muted-foreground)}
-.home-v2 .vote-scale{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:12px;margin:12px 0 0;font:400 13px/16px var(--font-body);color:var(--muted-foreground)}
-.home-v2 .vote-scale>.split-states:last-child{justify-self:end}
-.home-v2 .vote-answer{display:flex;align-items:center;gap:12px;min-height:22px;margin:10px 0 0}
-.home-v2 .vote-yes{font:600 17px/22px var(--font-heading);letter-spacing:-.01em}
-.home-v2 .vote-yes .split-states>span{gap:12px}
-.home-v2 .vote-yes .split-states>.split-win{gap:8px}
-.home-v2 .vote-yes .split-win>.vote-why{margin-left:4px}
-.home-v2 .vote-why{font:400 14px/20px var(--font-body);letter-spacing:0;color:var(--muted-foreground)}
-.home-v2 .split-seal.vote-seal{width:16px;height:16px}
-.home-v2 .vote-seal .card-check{width:11px;height:11px}
-.home-v2 .split-wait.vote-wait{width:50%;margin-top:2px}
-@container vote (width < 440px){
-.home-v2 .card-vote{margin-top:24px}
-.home-v2 :is(.vote-bar,.vote-scale,.vote-answer){margin-top:8px}
+/* DAOs: a switch (owner, 29 Oct 2026, "Polish, review then implement the Switch into /melo", concept 1 of the
+   DAO board's round 5). The DAO's part is one 44 px row: the treasury upgrade's go-live switch (a 64 × 32 track
+   with a 2 px Outline ring and the brand's square, 22 px, as its knob) beside the upgrade's name, its status at
+   20/26 and a note. Augur Lituus's part is the larger (owner, 29 Oct 2026: "None of them give enough importance
+   to the Augur Lituus process"), 16 below: its name, both answers as 80 × 36 chips like the site's answer chips
+   (so it reads as a yes/no), the note on where the query stands, and the line for the day it's open to
+   challenge, across the card. The vote turns the switch on (the knob slides right and turns Paper, the track's
+   ring lights); the report rings Yes; Final sweeps Yes Green with its check and No steps back to .4; then the
+   switch slides back off and its knob turns Green: Blocked. Row, gap and Augur Lituus's part are the split's 132,
+   so the card is 284 like the others, and from 440 down they tighten alike (122). Below 360 each note wraps under
+   its line. `--travel` is how far the knob slides (track, less its insets, less the knob), read by
+   use-cases-v2.js. */
+.home-v2 [data-card-kind="switch"]{container:switch/inline-size}
+.home-v2 .card-switch{margin-top:32px}
+.home-v2 .switch-row{display:flex;align-items:center;gap:16px;min-height:44px}
+.home-v2 .switch-track{--travel:32px;position:relative;flex:none;width:64px;height:32px;box-shadow:inset 0 0 0 2px var(--web-outline)}
+.home-v2 .switch-track>i{position:absolute}
+.home-v2 .switch-on{inset:0;box-shadow:inset 0 0 0 2px var(--foreground);opacity:0}
+.home-v2 .switch-knob{left:5px;top:5px;width:22px;height:22px}
+.home-v2 .switch-knob>b{position:absolute;inset:0;background:var(--mark-participant,#71728A)}
+.home-v2 .switch-knob>b:nth-child(2){background:var(--foreground);opacity:0}
+.home-v2 .switch-knob>b:nth-child(3){background:var(--primary)}
+.home-v2 .switch-text{display:grid;row-gap:2px;min-width:0}
+.home-v2 .switch-name{font:600 13px/16px var(--font-heading);color:var(--muted-foreground)}
+.home-v2 .switch-line{display:flex;align-items:baseline;gap:12px}
+.home-v2 .switch-value{font:600 20px/26px var(--font-heading);letter-spacing:-.01em}
+.home-v2 .switch-note{font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 :is(.switch-value,.switch-note,.choice-note)>.split-states{display:grid}
+.home-v2 .choice{margin-top:16px}
+.home-v2 .choice-by{display:flex;min-height:16px;margin:0}
+.home-v2 .choice-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.home-v2 .choice-opt{position:relative;display:inline-grid;place-items:center;flex:none;min-width:80px;height:36px;padding:0 16px;box-shadow:inset 0 0 0 1px var(--web-outline);font:600 18px/1 var(--font-heading);letter-spacing:-.01em;color:var(--foreground)}
+.home-v2 .choice-opt>i,.home-v2 .choice-pick{position:absolute;inset:0}
+.home-v2 .choice-ring{box-shadow:inset 0 0 0 1px var(--foreground)}
+.home-v2 .choice-fill{background:var(--primary);transform-origin:left}
+.home-v2 .choice-pick{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--background)}
+.home-v2 .choice-pick .card-check{width:14px;height:14px}
+.home-v2 .choice-pick .card-check polyline{stroke-width:2.6}
+.home-v2 .choice-opt.is-other{opacity:.4}
+.home-v2 .choice-note{margin-left:8px;font-size:14px;line-height:20px;color:var(--muted-foreground)}
+.home-v2 .split-wait.choice-wait{margin-top:10px}
+@container switch (width < 440px){
+.home-v2 .card-switch{margin-top:24px}
+.home-v2 .choice{margin-top:12px}
+.home-v2 .choice-row{margin-top:6px}
+.home-v2 .choice-opt{height:32px}
 }
-@container vote (width < 360px){
-.home-v2 .vote-why,.home-v2 .split-states>.vote-why{display:none}
-.home-v2 .split-wait.vote-wait{width:100%}
+@container switch (width < 360px){
+.home-v2 :is(.switch-line,.choice-row){flex-wrap:wrap;row-gap:0}
+.home-v2 .choice-note{flex-basis:100%;margin:4px 0 0}
 }
 /* Details (the proposal's three rows): label left, value right. A pending value ("Checking…") settles into
    its answer in Green. While the proposal is checked, a 2 px Mist line runs 5 px under its row; it shows only
@@ -294,9 +299,15 @@
 .home-v2 .relay-run{forced-color-adjust:none;background:GrayText}
 .home-v2 :is(.relay-paid,.relay-stop.is-paid,.relay-seal),.home-v2 .relay-step::before,.home-v2 .relay-step.is-oracle::after{forced-color-adjust:none;background:Highlight;color:HighlightText}
 .home-v2 .relay-stop.is-cover{forced-color-adjust:none;box-shadow:inset 0 0 0 2px CanvasText}
-.home-v2 :is(.vote-for,.vote-tick){forced-color-adjust:none;background:CanvasText}
-.home-v2 :is(.vote-against,.vote-track){forced-color-adjust:none;background:GrayText}
-.home-v2 .vote-seal{forced-color-adjust:none;background:Highlight;color:HighlightText}
+.home-v2 .switch-track{forced-color-adjust:none;box-shadow:inset 0 0 0 2px GrayText}
+.home-v2 .switch-on{forced-color-adjust:none;box-shadow:inset 0 0 0 2px CanvasText}
+.home-v2 .switch-knob>b{forced-color-adjust:none;background:GrayText}
+.home-v2 .switch-knob>b:nth-child(2){background:CanvasText}
+.home-v2 .switch-knob>b:nth-child(3){background:Highlight}
+.home-v2 .choice-opt{forced-color-adjust:none;box-shadow:inset 0 0 0 1px GrayText;color:CanvasText}
+.home-v2 .choice-ring{forced-color-adjust:none;box-shadow:inset 0 0 0 1px CanvasText}
+.home-v2 .choice-fill{forced-color-adjust:none;background:Highlight}
+.home-v2 .choice-pick{forced-color-adjust:none;color:HighlightText}
 }
 @media(prefers-reduced-motion:reduce){.home-v2 .case-tabs .case-tab,.home-v2 .case-tabs .case-tab::before{transition:none}}
 
