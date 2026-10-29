@@ -540,13 +540,26 @@
 .home-v2 .how-path-tab:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
 /* The stage: one panel per step, the four sharing one grid cell (a hidden one keeps its place but is invisible, as
    the use cases' cases do), so the stage is as tall as its tallest step and a pick never moves the page. A panel is
-   the step's scene (how-scenes.ts) over its words: the claim (setup Pewter, payoff Paper), one body line and, under a
-   divider, the example's figure for that step, Green only for your payout. */
+   the step's scene (how-scenes.ts) and its caption over its words: the claim (setup Pewter, payoff Paper) and one
+   body line. */
 .home-v2 .how-path-stage{display:grid;background:var(--background)}
 .home-v2 .how-path-panel{grid-area:1/1;display:grid;grid-template-columns:minmax(0,1fr);row-gap:28px;align-content:start;min-width:0;padding:40px 48px 44px}
 .home-v2 .how-path-panel[hidden]{display:grid!important;visibility:hidden}
 .home-v2 .how-path-panel:focus-visible{outline:2px solid var(--ring);outline-offset:-2px}
+.home-v2 .how-art{display:grid;row-gap:8px;justify-items:center;min-width:0}
 .home-v2 .how-scene{display:block;width:100%;height:auto;aspect-ratio:2/1;overflow:visible}
+/* The scene's caption (owner, 29 Oct 2026: in place of the "In the example" row under the words): centred under the
+   drawing, a swatch of the block that moves in this step, drawn in the scene's own colours (the reward a small Paper
+   square, their stake Mist, your stake two Green squares, the double, your win Green), and one 15/22 Pewter sentence
+   whose figures are Sora 600 in Paper, your win in Green. It names what the reader just watched move, with its REP.
+   The swatch sits in the line, so where the sentence wraps (phones) it stays with its first words. */
+.home-v2 .how-key{margin:0;font-size:15px;line-height:22px;color:var(--muted-foreground);text-align:center;text-wrap:balance}
+.home-v2 .how-key strong{font-family:var(--font-heading);font-size:.94em;font-weight:600;font-variant-numeric:tabular-nums;color:var(--foreground);white-space:nowrap}
+.home-v2 .how-key .is-win{color:var(--primary)}
+.home-v2 .how-key-mark{display:inline-block;width:12px;height:12px;margin-right:10px;vertical-align:-1px;background:var(--mark-participant)}
+.home-v2 .how-key-mark.is-reward{width:8px;height:8px;vertical-align:1px;background:var(--foreground)}
+.home-v2 .how-key-mark:is(.is-yours,.is-won){background:var(--primary)}
+.home-v2 .how-key-mark.is-yours{margin-right:25px;box-shadow:15px 0 0 var(--primary)}
 /* A part of the magnet turns and scales about the origin how-scenes.ts writes into its transform, so its own origin
    stays at 0 0 (as the tenet scenes' pinned parts). */
 .home-v2 .how-scene [data-how-part]{transform-box:view-box;transform-origin:0 0}
@@ -555,9 +568,7 @@
 .home-v2 .how-claim span{display:block;text-wrap:balance}
 .home-v2 .how-claim .setup{color:var(--muted-foreground)}
 .home-v2 .how-body{max-width:30em;margin:16px 0 0;font-size:18px;line-height:28px;color:var(--muted-foreground);text-wrap:pretty}
-.home-v2 .how-fact{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 24px;margin:24px 0 0;padding-top:16px;border-top:1px solid var(--web-outline);font-size:14px;line-height:20px;color:var(--muted-foreground)}
-.home-v2 .how-fact strong{font:600 20px/28px var(--font-heading);font-variant-numeric:tabular-nums;color:var(--foreground);white-space:nowrap}
-.home-v2 .how-fact.is-you strong{color:var(--primary)}/* The section's one control, the site's outline button (hover, focus and press from base.css), under the stage.
+/* The section's one control, the site's outline button (hover, focus and press from base.css), under the stage.
    The example opens below it, so it never moves; its chevron turns with it (home-v2.css). */
 .home-v2 .how-more{display:flex;width:fit-content;margin-top:32px}
 /* The example (owner, 29 Oct 2026: "I love the story in words", sketch D of the example board): one Navy card, like
@@ -605,7 +616,7 @@
 .home-v2 .how-path-name{font-size:20px;line-height:28px}
 .home-v2 .how-path-note{font-size:15px;line-height:22px}
 .home-v2 .how-path-panel{row-gap:24px}
-.home-v2 .how-scene{max-width:440px;justify-self:center}
+.home-v2 .how-scene{max-width:440px}
 .home-v2 .example-step{grid-template-columns:120px minmax(0,1fr);column-gap:24px}
 .home-v2 .holding{margin-top:48px}
 .home-v2 .holding-points{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -630,6 +641,9 @@
 .home-v2 .how-path-tab[aria-selected="true"] .how-path-index{forced-color-adjust:none;outline:0;background:Highlight;color:HighlightText}
 .home-v2 .how-path-rail{forced-color-adjust:none;background:Highlight}
 .home-v2 .how-path-tab:not(:last-child)::before{forced-color-adjust:none;background:CanvasText}
+.home-v2 .how-key-mark{forced-color-adjust:none;background:CanvasText}
+.home-v2 .how-key-mark:is(.is-yours,.is-won){background:Highlight}
+.home-v2 .how-key-mark.is-yours{box-shadow:15px 0 0 Highlight}
 .home-v2 .holding-mark{forced-color-adjust:none;background:CanvasText}
 .home-v2 .example{outline:1px solid CanvasText}
 .home-v2 .holding-point.is-act .holding-mark{background:Canvas;box-shadow:inset 0 0 0 1.5px Highlight}
@@ -637,4 +651,4 @@
 }
 /* On paper every step prints, one after another, and the scenes keep their colours (backgrounds don't print by
    default). */
-@media print{.home-v2 .how-path-stage{display:block}.home-v2 .how-path-panel[hidden]{visibility:visible}.home-v2 .how-path-panel{break-inside:avoid}.home-v2 :is(.how-scene,.holding-mark){-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{.home-v2 .how-path-stage{display:block}.home-v2 .how-path-panel[hidden]{visibility:visible}.home-v2 .how-path-panel{break-inside:avoid}.home-v2 :is(.how-scene,.how-key-mark,.holding-mark){-webkit-print-color-adjust:exact;print-color-adjust:exact}}
