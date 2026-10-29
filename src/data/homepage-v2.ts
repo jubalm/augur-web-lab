@@ -293,10 +293,18 @@ export const homeV2 = {
     // Green outline. Earn is incisive (REP earns REP, like work that pays, "paid in REP", never money, price or
     // yield) and stays conditional and optional; the fork point is calm: a last resort (rep.ts), then what to
     // do, then the one fact, plainly (moving doesn't promise value, so it says only what unmoved REP loses).
+    // Smaller (owner, same day: "occupying too much space"), then one full-width Navy card with the points as spec
+    // rows (round 5 of the Holding REP board: "just text floating around looks weird"): each `label` is the row's
+    // term. Earn echoes the heading ("Know what happened?"); "when you know" keeps taking part a choice. The fork
+    // row is about not being fully passive, never a duty or a threat (owner: "do not scare people away"): holding
+    // is mostly hands-off, and a fork opens a window to move (the two-week window is a proposed design, so it
+    // stays unnamed; what unmoved REP loses is on the REP page). `link` names the REP page by what it gives you
+    // ("Learn more" says nothing), an outline button in the card.
     title: 'Holding REP?',
+    link: 'How REP works',
     points: [
-      { label: 'Earn', lead: 'Get paid for being right.', text: 'Stake REP to report what happened or challenge a wrong answer. When your answer holds, you’re paid in REP. Taking part is always up to you.', earn: true },
-      { label: 'Stay in the loop', lead: 'Keep an eye on forks.', text: 'A fork is the last resort. If one starts, Augur Lituus is designed to give you two weeks to move your REP to the answer you believe in. REP you don’t move loses its value.' },
+      { label: 'Earn REP', text: 'Report or challenge when you know what happened, and get paid in REP when your answer holds.', earn: true },
+      { label: 'Stay in the loop', text: 'Holding is mostly hands-off. If a fork ever starts, there’s a window to move your REP to the answer you believe in.' },
     ],
   },
   learnMore: {
