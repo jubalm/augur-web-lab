@@ -236,17 +236,14 @@ export const homeV2 = {
       label: 'How taking part works',
       // Each step (sketch A of the item 4 board; owner, 25 Oct 2026: "build A on /2"): a tab with its number and
       // name, and a stage with its scene (how-scenes.ts), the claim in two lines (setup in
-      // Pewter, payoff in Paper) and one body line, which carries the wait that follows. Under every scene, `key` is
-      // its legend (owner, 29 Oct 2026: the per-step captions only repeated the claims and took the eye from them):
-      // what the drawing's blocks are, the same in all four steps, small and Pewter, so it explains without
-      // competing. Challenge says "double theirs": in the cold read, "stake double" didn't say of what. `scene`
+      // Pewter, payoff in Paper) and one body line, which carries the wait that follows. Nothing sits under the scene (owner, 29 Oct
+      // 2026: a figure row, then captions, then a legend there each took the eye from the claim). Challenge says "double theirs": in the cold read, "stake double" didn't say of what. `scene`
       // names the step's drawing.
       // `note` is the tab's line under its name (owner, 26 Oct 2026: "a tiny text below the 'Ask' 'Report' stuff"):
       // read with the name it says what the step is in REP terms, so the row of tabs tells the whole process before
       // any is picked. It never repeats the claim (the line the tabs had before did, and went as noise). Facts: a
       // fee per question in REP (§4.4.2 p7), a report stakes on an outcome (§4.1 p5), a challenge stakes on another
       // (§4.0.2 p4), rewards go to the outcome that becomes final (§4.3.1 p6). Short enough for one line from 1024.
-      key: [{ mark: 'theirs', label: 'Their stake' }, { mark: 'yours', label: 'Your stake' }, { mark: 'reward', label: 'The reward' }],
       stops: [
         { title: 'Ask', note: 'Pay a fee in REP', scene: 'ask', claim: ['Anyone can ask.', 'A fee funds the reward.'], body: 'The reward grows until someone reports what happened.' },
         { title: 'Report', note: 'Stake on an answer', scene: 'report', claim: ['Report what you saw.', 'Stake REP on it.'], body: 'No challenge in time? Your stake comes back with the reward.' },
